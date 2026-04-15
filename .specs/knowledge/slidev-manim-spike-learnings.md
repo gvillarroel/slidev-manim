@@ -19,6 +19,12 @@ This repository should treat Slidev delivery assets and review assets as separat
 6. Local media in Slidev should be imported through Vite instead of referenced as raw `/videos/...` paths, otherwise the dev server can return HTML instead of the actual asset.
 7. Slide-local `script setup` scope matters. If a later slide needs its own assets or state, define them in that slide instead of assuming an earlier block will cover it.
 8. A fallback image should be hidden once the video emits `loadeddata`, otherwise both poster and video may render at the same time.
+9. Small corner overlays, split-screen panels, and multi-slide narrative sequences are all viable integration patterns, but each one benefits from its own render framing instead of forcing one universal asset.
+10. Reusing one Manim asset across multiple slide compositions is practical for layout testing; reusing a related family of assets is better for narrative sequence testing.
+11. For review and debugging, verify media in three layers:
+   standalone browser playback,
+   Slidev asset resolution,
+   visible slide composition.
 
 # Practical Rule
 
@@ -26,3 +32,4 @@ This repository should treat Slidev delivery assets and review assets as separat
   - transparent `.webm` for the actual deck,
   - white `.png` poster for visual review and fallback,
   - optional alternate framing outputs when different slide compositions need different source videos.
+- Prefer creating a dedicated spike whenever a new Slidev composition pattern changes the video framing, narrative role, or fallback behavior.

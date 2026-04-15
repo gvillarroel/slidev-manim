@@ -4,7 +4,13 @@
   "version": "0.1.0",
   "scripts": {
     "dev:circle-left-to-right": "slidev spikes/circle-left-to-right/slides.md",
-    "build:circle-left-to-right": "slidev build spikes/circle-left-to-right/slides.md"
+    "build:circle-left-to-right": "slidev build spikes/circle-left-to-right/slides.md",
+    "dev:overlay-corner-callout": "slidev spikes/overlay-corner-callout/slides.md",
+    "build:overlay-corner-callout": "slidev build spikes/overlay-corner-callout/slides.md",
+    "dev:split-screen-sync": "slidev spikes/split-screen-sync/slides.md",
+    "build:split-screen-sync": "slidev build spikes/split-screen-sync/slides.md",
+    "dev:step-reveal-sequence": "slidev spikes/step-reveal-sequence/slides.md",
+    "build:step-reveal-sequence": "slidev build spikes/step-reveal-sequence/slides.md"
   },
   "devDependencies": {
     "@slidev/cli": "^52.3.0",
