@@ -1,0 +1,28 @@
+---
+id: KNOW-0002
+title: Slidev plus Manim spike learnings
+status: active
+date: 2026-04-14
+---
+
+# Summary
+
+This repository should treat Slidev delivery assets and review assets as separate concerns when working with Manim.
+
+# Learned Patterns
+
+1. Transparent Manim output is appropriate for real Slidev integration, especially when the slide background should show through.
+2. A spike may need multiple video variants with different framing or aspect-ratio assumptions, such as a full-slide version and a content-area version.
+3. Review screenshots from Playwright are not always reliable for video rendering, even when the browser successfully fetches the asset.
+4. White-background poster images are a practical review surrogate for transparent video during iteration.
+5. Keeping Slidev decks inside each spike prevents the repository root from becoming a mix of unrelated experiments.
+6. Local media in Slidev should be imported through Vite instead of referenced as raw `/videos/...` paths, otherwise the dev server can return HTML instead of the actual asset.
+7. Slide-local `script setup` scope matters. If a later slide needs its own assets or state, define them in that slide instead of assuming an earlier block will cover it.
+8. A fallback image should be hidden once the video emits `loadeddata`, otherwise both poster and video may render at the same time.
+
+# Practical Rule
+
+- For spike review, prefer this asset set:
+  - transparent `.webm` for the actual deck,
+  - white `.png` poster for visual review and fallback,
+  - optional alternate framing outputs when different slide compositions need different source videos.

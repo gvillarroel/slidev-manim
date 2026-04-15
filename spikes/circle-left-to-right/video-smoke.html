@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Video Smoke Test</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: white;
+      }
+
+      video {
+        width: min(90vw, 1200px);
+        height: auto;
+        display: block;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="smoke-video" autoplay muted loop playsinline poster="../../videos/circle-left-to-right/circle-left-to-right-full.png">
+      <source src="../../videos/circle-left-to-right/circle-left-to-right-full.webm" type="video/webm" />
+    </video>
+  </body>
+</html>

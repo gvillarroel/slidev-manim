@@ -1,0 +1,14 @@
+{
+  "name": "slidev-manim",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev:circle-left-to-right": "slidev spikes/circle-left-to-right/slides.md",
+    "build:circle-left-to-right": "slidev build spikes/circle-left-to-right/slides.md"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^52.3.0",
+    "@slidev/theme-default": "^0.25.0",
+    "playwright": "^1.59.1"
+  }
+}
