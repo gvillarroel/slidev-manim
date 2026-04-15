@@ -25,6 +25,16 @@ This repository should treat Slidev delivery assets and review assets as separat
    standalone browser playback,
    Slidev asset resolution,
    visible slide composition.
+12. Multi-video layouts are viable, but each tile or panel should keep its own local asset import and readiness state.
+13. Wide and tall variants of the same concept are worth rendering separately when the surrounding slide composition changes significantly.
+14. Timeline-style or stacked narrative layouts work better when the Manim asset is designed as a dedicated lane, not treated as a generic embedded rectangle.
+15. Ambient background loops are viable when the motion stays low-contrast and the readable content sits on a solid or translucent foreground layer.
+16. Inset annotation layouts work better when the inset asset is clearly subordinate in size and uses a framing designed specifically for that zoomed role.
+17. A hero-plus-support pattern works when the hero owns the composition and the secondary loop behaves as reinforcement instead of a second focal point.
+18. When authoring Slidev spike decks, simpler HTML structures are more robust than overly intricate nested layouts; if the Vue parser becomes unstable, reduce the slide markup first and then rebuild complexity incrementally.
+19. Step-based narration across consecutive slides can reuse the same Manim asset successfully when each slide changes emphasis, framing, or annotation rather than replacing the motion language.
+20. Device or browser frame embeds work better when the frame chrome is authored in Slidev and the Manim asset remains a reusable transparent payload inside that shell.
+21. Side-by-side comparison slides benefit from separate assets for each approach and from keeping each panel visually balanced rather than forcing symmetric visual density.
 
 # Practical Rule
 
@@ -33,3 +43,4 @@ This repository should treat Slidev delivery assets and review assets as separat
   - white `.png` poster for visual review and fallback,
   - optional alternate framing outputs when different slide compositions need different source videos.
 - Prefer creating a dedicated spike whenever a new Slidev composition pattern changes the video framing, narrative role, or fallback behavior.
+- If a slide needs multiple concurrent videos, give each one isolated imports, poster fallbacks, and explicit layout ownership instead of sharing a single global media state.
