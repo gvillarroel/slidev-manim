@@ -505,16 +505,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Slot Docking
 
 - **Hypothesis**: A visible receiving slot can make a landing feel authored if the dominant form briefly compresses into it before the final resolve.
-- **Result**: Confirmed after changing the slot from a closed shell into open rails and pushing the green form deeper into the receiver.
+- **Result**: Confirmed again after expanding the draft into a 28.8-second slide-integration scene with visible opening structure, a held constrained slot proof, and a centered final hold.
 - **What worked**:
   - an open receiving slot that reads as a real target instead of a decorative frame,
-  - a hold frame where the green form is visibly docked while the blue form remains outside the entrance,
+  - a hold frame where the green form is visibly docked while the blue and purple supports remain below or outside the entrance,
   - a short guide that leads into the receiver without overpowering the scene,
-  - full removal of the docking rails before the resolved landing.
+  - red pressure ticks at the slot mouth, which make the constrained phase read before the resolve,
+  - full removal of the docking rails before the resolved landing,
+  - recentering the resolved local stage after the source zone disappears, which prevents the final hold from feeling stranded in the old right-side target zone.
 - **What failed first**:
+  - the draft was only 3.096 seconds and opened on a blank sampled frame,
   - the original slot looked too closed and generic,
   - the first dock state did not separate the receiver from the support forms strongly enough,
-  - the mechanism needed a more obvious entrance to read in still frames.
+  - the mechanism needed a more obvious entrance to read in still frames,
+  - strict crowding audits treat a hollow receiver as one bounding box around the docked actor, so the overlay must be inspected full size before counting the slot as actor-to-outline collision.
 
 ## Quality Bridge Span
 

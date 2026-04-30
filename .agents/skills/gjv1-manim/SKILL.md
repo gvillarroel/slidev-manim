@@ -358,6 +358,7 @@ Do not add text before exhausting those fixes.
 - separate leader and supports more decisively,
 - preserve a readable entrance, bridge, slot, or crossing,
 - split one path into explicit legs when the handoff must be staged.
+- for slot-docking scenes, hold one proof frame where the dominant form is visibly compressed inside an open receiver while support forms sit outside the entrance. Remove the slot before the resolved landing, and recenter the final stage if the source zone disappears.
 - for bridge-span scenes, keep rails visible above and below the dominant form in the proof frame. After removing the source zone, recenter the target stage and resolved cluster so the final hold does not stay in the old transfer layout.
 - for arc handoffs, let the dominant form visibly ride the curve before support forms move. Use faint destination slots during the opening breath, then retire the source zone and recenter the resolved cluster after cleanup.
 - for sequence diagrams, let the target receiver cue exist before the pulse arrives and fade that cue in the cleanup beat once the route or activation bar records the message.

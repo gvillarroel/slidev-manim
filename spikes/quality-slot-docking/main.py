@@ -23,7 +23,7 @@ from manim import (
     FadeIn,
     FadeOut,
     Line,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
@@ -98,68 +98,104 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=1)
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=1)
 
 
 class QualitySlotDockingScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        source_zone = RoundedRectangle(width=3.95, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.22).move_to(LEFT * 3.15)
-        target_zone = RoundedRectangle(width=4.2, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.95)
+        frame = Rectangle(width=12.9, height=5.8, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
+        source_zone = Rectangle(width=3.95, height=4.1, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.2).move_to(LEFT * 3.15)
+        target_zone = Rectangle(width=4.2, height=4.1, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.26).move_to(RIGHT * 2.95)
 
-        rail_top = Line(RIGHT * 1.16 + UP * 0.68, RIGHT * 2.96 + UP * 0.68, color=GRAY_600, stroke_width=4)
-        rail_bottom = Line(RIGHT * 1.16 + DOWN * 0.44, RIGHT * 2.96 + DOWN * 0.44, color=GRAY_600, stroke_width=4)
-        rail_back = Line(RIGHT * 2.96 + DOWN * 0.44, RIGHT * 2.96 + UP * 0.68, color=GRAY_600, stroke_width=4)
+        rail_top = Line(RIGHT * 1.54 + UP * 0.62, RIGHT * 3.28 + UP * 0.62, color=GRAY_600, stroke_width=5)
+        rail_bottom = Line(RIGHT * 1.54 + DOWN * 0.48, RIGHT * 3.28 + DOWN * 0.48, color=GRAY_600, stroke_width=5)
+        rail_back = Line(RIGHT * 3.28 + DOWN * 0.48, RIGHT * 3.28 + UP * 0.62, color=GRAY_600, stroke_width=5)
         slot_shell = VGroup(rail_top, rail_bottom, rail_back)
 
-        green = slab(PRIMARY_GREEN, 2.64, 0.92).move_to(LEFT * 3.26 + UP * 0.76)
-        blue = slab(PRIMARY_BLUE, 1.88, 0.82).move_to(LEFT * 2.1 + DOWN * 0.02)
-        purple = slab(PRIMARY_PURPLE, 1.28, 0.62).move_to(LEFT * 1.56 + DOWN * 0.98)
+        green = slab(PRIMARY_GREEN, 2.72, 0.92).move_to(LEFT * 3.28 + UP * 0.76)
+        blue = slab(PRIMARY_BLUE, 1.78, 0.72).move_to(LEFT * 2.18 + DOWN * 0.04)
+        purple = slab(PRIMARY_PURPLE, 1.12, 0.54).move_to(LEFT * 1.68 + DOWN * 0.92)
         source = VGroup(green, blue, purple)
 
-        guide = Line(LEFT * 0.88 + DOWN * 0.04, RIGHT * 0.76 + DOWN * 0.04, color=PRIMARY_ORANGE, stroke_width=6)
+        guide = Line(LEFT * 0.72 + UP * 0.02, RIGHT * 1.52 + UP * 0.02, color=PRIMARY_ORANGE, stroke_width=5).set_stroke(opacity=0.45)
         accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(guide.get_start())
 
-        green_dock = slab(PRIMARY_GREEN, 1.48, 0.5).move_to(RIGHT * 2.18 + UP * 0.12)
-        blue_hold = slab(PRIMARY_BLUE, 1.56, 0.7).move_to(RIGHT * 1.12 + DOWN * 0.08)
-        purple_hold = slab(PRIMARY_PURPLE, 0.92, 0.48).move_to(RIGHT * 2.08 + DOWN * 0.88)
+        green_approach = slab(PRIMARY_GREEN, 2.0, 0.72).move_to(RIGHT * 1.56 + UP * 0.08)
+        blue_approach = slab(PRIMARY_BLUE, 1.28, 0.6).move_to(RIGHT * 0.42 + DOWN * 0.66)
+        purple_approach = slab(PRIMARY_PURPLE, 0.84, 0.46).move_to(RIGHT * 0.92 + UP * 0.84)
 
-        final_green = Circle(radius=0.84, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.54 + UP * 0.42)
-        final_blue = Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.72 + DOWN * 0.02)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 2.98 + DOWN * 1.0)
+        pressure_top = Line(RIGHT * 1.48 + UP * 0.38, RIGHT * 1.48 + UP * 0.7, color=PRIMARY_RED, stroke_width=6)
+        pressure_bottom = Line(RIGHT * 1.48 + DOWN * 0.56, RIGHT * 1.48 + DOWN * 0.24, color=PRIMARY_RED, stroke_width=6)
+        pressure = VGroup(pressure_top, pressure_bottom)
 
-        self.add(frame, source_zone, target_zone)
-        self.play(FadeIn(source, lag_ratio=0.08), run_time=0.68)
-        self.play(FadeIn(slot_shell), FadeIn(guide), run_time=0.16)
-        self.play(accent.animate.move_to(RIGHT * 0.22 + DOWN * 0.04), run_time=0.18, rate_func=smooth)
+        green_dock = slab(PRIMARY_GREEN, 1.34, 0.46).move_to(RIGHT * 2.42 + UP * 0.07)
+        blue_hold = slab(PRIMARY_BLUE, 1.32, 0.54).move_to(RIGHT * 1.52 + DOWN * 0.82)
+        purple_hold = slab(PRIMARY_PURPLE, 0.82, 0.42).move_to(RIGHT * 3.08 + DOWN * 0.86)
+
+        final_green = Circle(radius=0.84, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 1.04 + UP * 0.42)
+        final_blue = Circle(radius=0.48, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 2.16 + DOWN * 0.08)
+        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 1.36 + DOWN * 1.02)
+
+        self.add(frame, source_zone, target_zone, guide, slot_shell, source, accent)
+        self.wait(2.6)
+        self.play(
+            guide.animate.set_stroke(width=7, opacity=1),
+            accent.animate.scale(1.18),
+            slot_shell.animate.set_stroke(width=6),
+            run_time=1.2,
+            rate_func=smooth,
+        )
+        self.play(accent.animate.move_to(RIGHT * 1.24 + UP * 0.02), run_time=2.0, rate_func=smooth)
+        self.play(
+            AnimationGroup(
+                Transform(green, green_approach.copy()),
+                Transform(blue, blue_approach.copy()),
+                Transform(purple, purple_approach.copy()),
+                lag_ratio=0.12,
+            ),
+            run_time=3.2,
+            rate_func=smooth,
+        )
+        self.wait(1.2)
+        self.play(FadeIn(pressure), run_time=0.8)
         self.play(
             AnimationGroup(
                 Transform(green, green_dock.copy()),
                 Transform(blue, blue_hold.copy()),
                 Transform(purple, purple_hold.copy()),
-                lag_ratio=0.08,
+                accent.animate.move_to(RIGHT * 2.42 + UP * 0.07).set_fill(PRIMARY_RED, opacity=1),
+                lag_ratio=0.1,
             ),
-            run_time=0.48,
+            run_time=3.2,
             rate_func=smooth,
         )
-        self.play(accent.animate.move_to(RIGHT * 1.56 + UP * 0.12), run_time=0.16, rate_func=smooth)
-        self.play(FadeOut(guide), FadeOut(slot_shell), run_time=0.14)
+        self.wait(2.4)
         self.play(
+            FadeOut(guide),
+            FadeOut(pressure),
+            slot_shell.animate.set_stroke(opacity=0.35, width=4),
+            run_time=1.2,
+            rate_func=smooth,
+        )
+        self.play(
+            FadeOut(source_zone),
+            FadeOut(slot_shell),
+            target_zone.animate.move_to(RIGHT * 1.25).scale(0.9).set_fill(GRAY_100, opacity=0.22),
             AnimationGroup(
                 Transform(green, final_green.copy()),
                 Transform(blue, final_blue.copy()),
                 Transform(purple, final_purple.copy()),
                 lag_ratio=0.08,
             ),
-            run_time=0.62,
+            accent.animate.move_to(RIGHT * 1.6 + DOWN * 0.14).scale(0.82),
+            run_time=3.8,
             rate_func=smooth,
         )
-        self.play(accent.animate.move_to(RIGHT * 2.86 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=0.16)
-        self.play(FadeOut(accent), run_time=0.14)
-        self.wait(0.25)
+        self.play(FadeOut(accent), run_time=0.8)
+        self.wait(6.4)
 
 
 def render_variant(args: _Args) -> None:
