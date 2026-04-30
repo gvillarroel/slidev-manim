@@ -1,0 +1,209 @@
+schemaVersion: 1
+benchmark:
+  id: gjv1-manim-compare-generated
+  description: Compare Codex mini on Manim video quality tasks in this repository with and without the repo-local gjv1-manim skill.
+  tags:
+    - compare
+    - manim
+    - mermaid
+    - skill
+    - video
+task:
+  prompts:
+    - id: mermaid-left-right-spike
+      description: Create a Mermaid-driven sequence spike with palette discipline and rendered proof artifacts.
+      prompt: >-
+        Create a new spike at `spikes/eval-mermaid-sequence-left-to-right`.
+        The spike must include `README.md` and an executable `main.py`.
+        Render `videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-to-right.webm`
+        and `videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-to-right.png`.
+        Extract at least one proof frame into
+        `videos/eval-mermaid-sequence-left-to-right/review-frames/`.
+        Append a section titled `## Eval Mermaid Sequence Left To Right` to
+        `.specs/knowledge/gjv1-manim-video-quality.md`.
+        Use the project primary palette, keep text near zero, use a white review
+        background, and animate this Mermaid sequence idea so the request
+        visibly travels from left to right and the response returns:
+        `sequenceDiagram; participant Alice; participant Bob; Alice->>Bob: Request; Bob->>Alice: Response`.
+        Return only a brief completion note after the files are written.
+      evaluation:
+        assertions:
+          - type: file-contains
+            path: spikes/eval-mermaid-sequence-left-to-right/README.md
+            value: Eval Mermaid Sequence Left To Right
+          - type: file-contains
+            path: spikes/eval-mermaid-sequence-left-to-right/main.py
+            value: PRIMARY_GREEN
+          - type: file-contains
+            path: spikes/eval-mermaid-sequence-left-to-right/main.py
+            value: background_color = WHITE
+          - type: file-contains
+            path: .specs/knowledge/gjv1-manim-video-quality.md
+            value: "## Eval Mermaid Sequence Left To Right"
+          - type: javascript
+            value: |
+              const fs = process.getBuiltinModule("node:fs");
+              const path = process.getBuiltinModule("node:path");
+              const frameDir = path.resolve(process.cwd(), "videos/eval-mermaid-sequence-left-to-right/review-frames");
+              return [
+                "spikes/eval-mermaid-sequence-left-to-right/README.md",
+                "spikes/eval-mermaid-sequence-left-to-right/main.py",
+                "videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-to-right.webm",
+                "videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-to-right.png",
+              ].every((relativePath) => fs.existsSync(path.resolve(process.cwd(), relativePath)))
+                && fs.existsSync(frameDir)
+                && fs.readdirSync(frameDir).some((name) => name.endsWith(".png"));
+    - id: merge-funnel-spike
+      description: Create a mechanism-first merge funnel spike with rendered proof artifacts and documented learnings.
+      prompt: >-
+        Create a new spike at `spikes/eval-merge-funnel-quality`.
+        The spike must include `README.md` and an executable `main.py`.
+        Render `videos/eval-merge-funnel-quality/eval-merge-funnel-quality.webm`
+        and `videos/eval-merge-funnel-quality/eval-merge-funnel-quality.png`.
+        Extract at least one proof frame into
+        `videos/eval-merge-funnel-quality/review-frames/`.
+        Append a section titled `## Eval Merge Funnel Quality` to
+        `.specs/knowledge/gjv1-manim-video-quality.md`.
+        Keep text near zero, use the project primary palette, use a white review
+        background, and make the video show three colored inputs compressing
+        through a visible orange funnel before resolving into one dominant
+        landing. Return only a brief completion note after the files are written.
+      evaluation:
+        assertions:
+          - type: file-contains
+            path: spikes/eval-merge-funnel-quality/README.md
+            value: Eval Merge Funnel Quality
+          - type: file-contains
+            path: spikes/eval-merge-funnel-quality/main.py
+            value: PRIMARY_ORANGE
+          - type: file-contains
+            path: spikes/eval-merge-funnel-quality/main.py
+            value: background_color = WHITE
+          - type: file-contains
+            path: .specs/knowledge/gjv1-manim-video-quality.md
+            value: "## Eval Merge Funnel Quality"
+          - type: javascript
+            value: |
+              const fs = process.getBuiltinModule("node:fs");
+              const path = process.getBuiltinModule("node:path");
+              const frameDir = path.resolve(process.cwd(), "videos/eval-merge-funnel-quality/review-frames");
+              return [
+                "spikes/eval-merge-funnel-quality/README.md",
+                "spikes/eval-merge-funnel-quality/main.py",
+                "videos/eval-merge-funnel-quality/eval-merge-funnel-quality.webm",
+                "videos/eval-merge-funnel-quality/eval-merge-funnel-quality.png",
+              ].every((relativePath) => fs.existsSync(path.resolve(process.cwd(), relativePath)))
+                && fs.existsSync(frameDir)
+                && fs.readdirSync(frameDir).some((name) => name.endsWith(".png"));
+    - id: repair-sleeve-reveal
+      description: Improve an existing spike so the sleeve mechanism is clearer in proof frames.
+      prompt: >-
+        Refine `spikes/quality-sleeve-reveal/main.py` so the covered pass-through
+        frame is easier to read in stills while keeping text near zero and
+        preserving the project palette.
+        Rerender `videos/quality-sleeve-reveal/quality-sleeve-reveal.webm`
+        and `videos/quality-sleeve-reveal/quality-sleeve-reveal.png`.
+        Extract at least one proof frame into
+        `videos/quality-sleeve-reveal/review-frames/`.
+        Append a section titled `## Eval Sleeve Reveal Repair` to
+        `.specs/knowledge/gjv1-manim-video-quality.md`.
+        Return only a brief completion note after the files are written.
+      evaluation:
+        assertions:
+          - type: file-contains
+            path: spikes/quality-sleeve-reveal/main.py
+            value: sleeve_left
+          - type: file-contains
+            path: spikes/quality-sleeve-reveal/main.py
+            value: background_color = WHITE
+          - type: file-contains
+            path: .specs/knowledge/gjv1-manim-video-quality.md
+            value: "## Eval Sleeve Reveal Repair"
+          - type: javascript
+            value: |
+              const fs = process.getBuiltinModule("node:fs");
+              const path = process.getBuiltinModule("node:path");
+              const frameDir = path.resolve(process.cwd(), "videos/quality-sleeve-reveal/review-frames");
+              return [
+                "spikes/quality-sleeve-reveal/main.py",
+                "videos/quality-sleeve-reveal/quality-sleeve-reveal.webm",
+                "videos/quality-sleeve-reveal/quality-sleeve-reveal.png",
+              ].every((relativePath) => fs.existsSync(path.resolve(process.cwd(), relativePath)))
+                && fs.existsSync(frameDir)
+                && fs.readdirSync(frameDir).some((name) => name.endsWith(".png"));
+workspace:
+  sources:
+    - id: base
+      type: local-path
+      path: .
+      target: /
+  setup:
+    initializeGit: true
+evaluation:
+  assertions:
+    - type: llm-rubric
+      provider: skill-arena:judge:codex
+      value: >-
+        Score 1.0 only if the agent follows the repository workflow for
+        high-quality Manim video iteration: it creates or refines the requested
+        spikes, keeps text minimal, uses the project palette, renders real video
+        artifacts, produces proof frames, and updates the reusable knowledge note
+        with concise experiment-specific learnings.
+    - type: javascript
+      value: |
+        const fs = process.getBuiltinModule("node:fs");
+        const path = process.getBuiltinModule("node:path");
+        return fs.existsSync(path.resolve(process.cwd(), ".specs/knowledge/gjv1-manim-video-quality.md"));
+  requests: 2
+  timeoutMs: 1800000
+  tracing: false
+  maxConcurrency: 1
+  noCache: true
+comparison:
+  profiles:
+    - id: no-skill
+      description: Fully isolated baseline without the gjv1-manim skill.
+      isolation:
+        inheritSystem: false
+      capabilities: {}
+      output:
+        tags:
+          - baseline
+        labels:
+          skill_state: off
+    - id: skill
+      description: Workspace overlay with the repo-local gjv1-manim skill enabled.
+      isolation:
+        inheritSystem: false
+      capabilities:
+        skills:
+          - source:
+              type: local-path
+              path: C:/Users/villa/dev/slidev-manim/.agents/skills/gjv1-manim
+              skillId: gjv1-manim
+            install:
+              strategy: workspace-overlay
+      output:
+        tags:
+          - skill
+        labels:
+          skill_state: on
+  variants:
+    - id: codex-mini
+      description: Codex mini video-authoring variant.
+      agent:
+        adapter: codex
+        model: gpt-5.1-codex-mini
+        executionMethod: command
+        commandPath: codex
+        sandboxMode: workspace-write
+        approvalPolicy: never
+        webSearchEnabled: false
+        networkAccessEnabled: false
+        reasoningEffort: low
+        additionalDirectories: []
+        cliEnv: {}
+        config: {}
+      output:
+        labels:
+          variantDisplayName: codex mini

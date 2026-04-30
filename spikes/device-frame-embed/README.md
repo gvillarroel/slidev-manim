@@ -50,3 +50,4 @@ npx @slidev/cli build spikes/device-frame-embed/slides.md
 - Separate wide and tall renders when the frame shape changes; the framing is easier to control than relying on one crop.
 - Transparent WebM plus a white PNG poster remains the most practical delivery pair for review and playback.
 - Local Vite imports and per-slide readiness state make embedded media more reliable in Slidev.
+- Keep the Slidev template simple when combining raw HTML with embedded media; fewer wrappers means fewer parser issues.
