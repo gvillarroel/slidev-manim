@@ -21,12 +21,15 @@ from manim import (
     UP,
     AnimationGroup,
     Arc,
+    ArcBetweenPoints,
     Circle,
+    Dot,
     FadeIn,
     FadeOut,
     MoveAlongPath,
     RoundedRectangle,
     Scene,
+    Transform,
     VGroup,
     WHITE,
     linear,
@@ -108,39 +111,126 @@ class QualityAnchoredOrbitScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        zone = Circle(radius=1.65, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.34).move_to(RIGHT * 2.15)
+        anchor_center = RIGHT * 1.05
 
-        anchor = Circle(radius=0.82, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.15)
-        satellite_1 = chip(PRIMARY_BLUE, 1.95, 0.82).move_to(LEFT * 3.55 + UP * 0.4)
-        satellite_2 = chip(PRIMARY_PURPLE, 1.75, 0.76).move_to(LEFT * 1.2 + DOWN * 0.8)
-        orbit_target_1 = chip(PRIMARY_BLUE, 1.75, 0.74).move_to(RIGHT * 3.65 + UP * 0.55)
-        orbit_target_2 = chip(PRIMARY_PURPLE, 1.55, 0.68).move_to(RIGHT * 1.2 + DOWN * 1.3)
-        arc_1 = Arc(radius=1.55, start_angle=PI, angle=-0.9 * PI, arc_center=anchor.get_center(), color=PRIMARY_ORANGE, stroke_width=6)
-        arc_2 = Arc(radius=1.4, start_angle=PI + 0.2, angle=-0.95 * PI, arc_center=anchor.get_center(), color=PRIMARY_ORANGE, stroke_width=6)
-        accent = Circle(radius=0.14, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(anchor.get_center() + LEFT * 1.55)
+        frame = RoundedRectangle(
+            width=12.15,
+            height=5.95,
+            corner_radius=0.34,
+            stroke_color=GRAY_200,
+            stroke_width=2,
+            fill_color=WHITE,
+            fill_opacity=0,
+        )
+        source_stage = RoundedRectangle(
+            width=3.15,
+            height=3.55,
+            corner_radius=0.28,
+            stroke_color=GRAY_200,
+            stroke_width=2,
+            fill_color=GRAY_100,
+            fill_opacity=0.24,
+        ).move_to(LEFT * 3.55)
+        orbit_zone = Circle(radius=2.0, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.34).move_to(anchor_center)
 
-        self.add(frame, zone)
-        self.play(FadeIn(anchor), FadeIn(VGroup(satellite_1, satellite_2)), run_time=0.7)
-        self.play(FadeIn(VGroup(arc_1, arc_2)), run_time=0.22)
-        self.play(MoveAlongPath(accent, arc_1), run_time=0.48, rate_func=linear)
-        self.play(MoveAlongPath(satellite_1, arc_1), run_time=0.72, rate_func=smooth)
-        self.play(MoveAlongPath(accent, arc_2), run_time=0.4, rate_func=linear)
-        self.play(MoveAlongPath(satellite_2, arc_2), run_time=0.66, rate_func=smooth)
+        anchor = Circle(radius=0.78, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(anchor_center)
+        blue_start = LEFT * 3.85 + UP * 0.85
+        purple_start = LEFT * 3.35 + DOWN * 0.88
+        satellite_1 = chip(PRIMARY_BLUE, 1.72, 0.72).move_to(blue_start)
+        satellite_2 = chip(PRIMARY_PURPLE, 1.5, 0.66).move_to(purple_start)
+
+        blue_slot = chip(PRIMARY_BLUE, 1.58, 0.62).set_opacity(0.2).move_to(anchor_center + RIGHT * 1.55 + UP * 0.62)
+        purple_slot = chip(PRIMARY_PURPLE, 1.36, 0.56).set_opacity(0.2).move_to(anchor_center + LEFT * 0.9 + DOWN * 1.5)
+        slot_group = VGroup(blue_slot, purple_slot)
+
+        approach_1 = Arc(radius=2.08, start_angle=PI * 0.98, angle=-0.58 * PI, arc_center=anchor_center, color=PRIMARY_ORANGE, stroke_width=5)
+        approach_2 = ArcBetweenPoints(
+            purple_start,
+            purple_slot.get_center(),
+            angle=0.82 * PI,
+            color=PRIMARY_ORANGE,
+            stroke_width=5,
+        )
+        inner_echo = Arc(radius=1.24, start_angle=PI * 0.08, angle=0.34 * PI, arc_center=anchor_center, color=PRIMARY_ORANGE, stroke_width=3).set_opacity(0.42)
+        orbit_guides = VGroup(approach_1, approach_2, inner_echo)
+        accent_1 = Dot(anchor_center + LEFT * 2.08, radius=0.08, color=PRIMARY_YELLOW)
+        accent_2 = Dot(anchor_center + LEFT * 1.74 + DOWN * 0.15, radius=0.08, color=PRIMARY_YELLOW)
+        final_pulse = Circle(radius=0.96, stroke_color=PRIMARY_YELLOW, stroke_width=4, fill_opacity=0).move_to(anchor_center)
+
+        self.add(frame, source_stage, orbit_zone, anchor, satellite_1, satellite_2, slot_group)
+        self.wait(2.6)
+
+        self.play(
+            source_stage.animate.set_fill(GRAY_100, opacity=0.16),
+            FadeIn(orbit_guides),
+            slot_group.animate.set_opacity(0.34),
+            run_time=2.0,
+        )
+        self.wait(1.1)
+
+        self.play(
+            MoveAlongPath(accent_1, approach_1),
+            anchor.animate.scale(1.06),
+            run_time=1.8,
+            rate_func=linear,
+        )
+        self.play(anchor.animate.scale(1 / 1.06), run_time=0.45, rate_func=smooth)
         self.play(
             AnimationGroup(
-                satellite_1.animate.move_to(orbit_target_1).scale(0.98),
-                satellite_2.animate.move_to(orbit_target_2).scale(0.96),
-                lag_ratio=0.06,
+                MoveAlongPath(satellite_1, approach_1),
+                blue_slot.animate.set_opacity(0.46),
+                lag_ratio=0.0,
             ),
-            run_time=0.35,
+            run_time=3.1,
+            rate_func=smooth,
         )
-        self.play(FadeOut(VGroup(arc_1, arc_2)), run_time=0.16)
-        self.play(anchor.animate.scale(1.08), run_time=0.18, rate_func=there_and_back)
-        self.play(satellite_1.animate.scale(1.05), satellite_2.animate.scale(1.05), run_time=0.16, rate_func=there_and_back)
-        self.play(accent.animate.move_to(anchor.get_center() + DOWN * 1.05).set_fill(PRIMARY_RED, opacity=1), run_time=0.18)
-        self.play(FadeOut(accent), run_time=0.14)
-        self.wait(0.25)
+        self.play(blue_slot.animate.set_opacity(0.08), run_time=0.45, rate_func=smooth)
+        self.wait(0.55)
+
+        self.play(
+            FadeOut(accent_1),
+            MoveAlongPath(accent_2, approach_2),
+            purple_slot.animate.set_opacity(0.42),
+            run_time=1.7,
+            rate_func=linear,
+        )
+        self.play(
+            AnimationGroup(
+                MoveAlongPath(satellite_2, approach_2),
+                anchor.animate.scale(1.05),
+                lag_ratio=0.0,
+            ),
+            run_time=3.0,
+            rate_func=smooth,
+        )
+        self.play(anchor.animate.scale(1 / 1.05), purple_slot.animate.set_opacity(0.08), run_time=0.45, rate_func=smooth)
+        self.wait(0.9)
+
+        self.play(
+            Transform(satellite_1, chip(PRIMARY_BLUE, 1.58, 0.62).move_to(blue_slot)),
+            Transform(satellite_2, chip(PRIMARY_PURPLE, 1.36, 0.56).move_to(purple_slot)),
+            FadeOut(accent_2),
+            run_time=1.8,
+            rate_func=smooth,
+        )
+        self.play(
+            FadeOut(orbit_guides),
+            FadeOut(slot_group),
+            source_stage.animate.set_opacity(0),
+            run_time=1.25,
+        )
+        resolved_cluster = VGroup(orbit_zone, anchor, satellite_1, satellite_2)
+        self.play(resolved_cluster.animate.shift(LEFT * 0.62), run_time=1.15, rate_func=smooth)
+        final_pulse.move_to(anchor.get_center())
+        self.play(final_pulse.animate.scale(1.35).set_stroke(opacity=0), run_time=1.1, rate_func=smooth)
+        self.play(
+            anchor.animate.scale(1.04),
+            satellite_1.animate.scale(1.025),
+            satellite_2.animate.scale(1.025),
+            run_time=0.45,
+            rate_func=there_and_back,
+        )
+        self.wait(6.8)
 
 
 def render_variant(args: _Args) -> None:

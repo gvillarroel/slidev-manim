@@ -151,9 +151,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Result**: Confirmed.
 - **What worked**:
   - one stable green anchor,
+  - a visible source stage and faint target slots during the opening breath, so the destination zone reads as reserved structure instead of dead space,
   - orbit arcs used only during motion and removed afterward,
+  - separating upper and lower orbit paths enough that the second satellite does not crowd the first at the proof frame,
   - satellites landing in positions that still respect the anchor,
   - a final frame with anchor plus orbit residue implied by placement rather than by visible guides.
+- **Validation note**:
+  - targeted crowding audits can flag intentional actor-on-path contact in orbit scenes; inspect those frames full size and reserve blocking status for actor-to-actor crowding, actor-to-outline collisions, or guides that hide the actor.
 - **What to keep**:
   - orbital scaffolding should disappear before the ending frame so the destination state stays clean.
 
@@ -755,6 +759,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 15. Counter-motion works best when the two opposing groups keep distinct roles and do not collapse into one ambiguous mass.
 16. Strong scale hierarchy improves clarity when the size differences are obvious, not subtle.
 17. Orbit-like motion feels premium when one anchor remains stable and the orbital guides disappear before the landing frame.
+17a. Anchored-orbit scenes need distinct lanes for each satellite; a second orbit that crosses the first satellite's proof position reads as collision even if the final layout is clean.
+17b. In orbit scenes, a low-clearance crowding audit can be a false positive when the actor is intentionally riding its path guide. Confirm full-size frames and fix only if the guide hides the actor, collides with an outline, or causes actor-to-actor crowding.
 18. Compression beats work best when the squeeze is visibly tighter than the source layout and the release lands into a simpler, stronger cluster.
 19. Edge tension only reads when the dominant form is pushed close enough to the boundary to create pressure, but still far enough to avoid accidental clipping.
 20. A short overshoot can make a boundary landing feel authored, but the final settle still has to look clean and stable.

@@ -353,6 +353,8 @@ Do not add text before exhausting those fixes.
 
 - make size contrast more obvious,
 - increase angular spacing in fan layouts,
+- for anchored orbit scenes, reserve target slots during the opening breath and keep each satellite on a distinct lane. If the second orbit crosses the first satellite's proof position, the still frame reads as collision even when the final layout is clean.
+- for orbit-guided motion, treat crowding audit findings as blocking only after full-size review confirms actor-to-actor, actor-to-outline, or guide-over-actor interference. Actor-on-path contact can be intentional when the guide is the track being followed.
 - when tightening a fan-out camera for hierarchy, audit the whole fan transition cadence and recenter for the earliest proof frames, not only the resolved hold,
 - push edge landings closer to the boundary if tension is the point,
 - let the lead form arrive first when the scene depends on delayed settle,
