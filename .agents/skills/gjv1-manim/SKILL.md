@@ -364,6 +364,7 @@ Do not add text before exhausting those fixes.
 - reveal keypoints progressively with one row per beat,
 - for short task-list rows, inspect full-size frames for collapsed word spacing. If `Text` or `MarkupText` makes spaces ambiguous, compose the label from per-word mobjects arranged with a fixed gap.
 - keep the fork or branch geometry visible while each block becomes populated,
+- after the output pulse, soften fork or branch guides below mechanism strength unless they are still causing motion. The final hold should preserve the source-to-block relationship without looking mid-transition.
 - update the poster composition to the new terminal state when the final hold changes.
 
 ### Imported SVG and component remaps
@@ -374,6 +375,8 @@ Do not add text before exhausting those fixes.
 - treat closed filled shapes to open stroked paths as semantic handoffs, not geometric morphs,
 - establish the new primary body before moving smaller child roles so they do not appear to float,
 - use `FadeOut` plus `Create` for incompatible primary-body handoffs,
+- scale native Manim labels to the current imported SVG body when they are attached to an icon. A fixed label minimum can overpower compact document or badge icons after the icon becomes part of a source cluster.
+- when an SVG cluster becomes a compact input for a continuation scene, tighten the terminal fan or stack before shrinking it. Loose source clusters become harder to read once framed inside a small panel.
 - inspect half-second transition frames full size before changing the code; thumbnails can make intentional child roles look like residue.
 
 # Quality Checklist

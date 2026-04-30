@@ -623,7 +623,10 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - fading placeholder scaffolds out while fading the real text-bearing project blocks in kept the activation readable at 0.3-second sampling,
   - moving the compact source label into a small filled header made the left input read as a deliberate source card and removed bottom-label crowding,
   - keeping the lower placeholder scaffold visible until the real lower block had enough opacity prevented one-frame vertical off-center regressions during the handoff,
-  - lowering the final fan-out cluster slightly cleared a vertical off-center audit finding without changing the continuation layout.
+  - lowering the final fan-out cluster slightly cleared a vertical off-center audit finding without changing the continuation layout,
+  - scaling the native Manim document badge to the compact SVG body kept `RAW`/`VIDEO` readable without letting the label overpower the imported document icon,
+  - tightening the final fan-out positions before the continuation made the compact input source read as one resolved object instead of a tall stack of loose icons,
+  - softening continuation fork guides after the output pulse kept the final hold cleaner while preserving the source-to-block relationship.
 - **What failed first**:
   - some plausible SVG Repo ids returned a Vercel challenge even through `show` URLs, so the downloader needs payload validation and a fallback,
   - treating every imported SVG as a direct morph target is risky because topology varies wildly between downloaded icons,
@@ -631,7 +634,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - fading in the initial raw icons left the first sampled frame structurally blank,
   - `ReplacementTransform` from placeholder scaffolds into blocks with title text created unreadable mid-frame glyph noise,
   - a fan-out can be technically unclipped but still fail composition because the active bbox sits too high,
-  - very faint placeholder panels can look acceptable to a human but be ignored by the composition audit, leaving the source column flagged as off-center until the scaffold has enough stroke or header contrast.
+  - very faint placeholder panels can look acceptable to a human but be ignored by the composition audit, leaving the source column flagged as off-center until the scaffold has enough stroke or header contrast,
+  - a fixed minimum width for text attached to a small imported SVG can make the label become the focal object instead of the SVG body,
+  - terminal fork guides that remain at mechanism strength after the pulse can make the final hold feel like it is still mid-transition.
 
 ## SVG Repo Continuation Blocks
 
@@ -826,6 +831,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 115. Compact source panels in continuation scenes read cleaner when their label is a small header band instead of a footer that competes with the compressed source cluster.
 116. When a placeholder scaffold is carrying balance, keep it visible until the replacement block is visibly established; otherwise a single transition sample can become vertically off-center.
 117. Phase scaffolds such as dashed rails, setup guides, or source-zone hints should fade in the same cleanup beat as the mechanism they support. If they linger into the next mechanism, 0.3-second contact sheets can make them read as accidental residue even when audits do not block.
+118. Native Manim labels attached to imported SVGs should scale to the current SVG body, not to a fixed label minimum. Compact icons need subordinate labels so the imported shape remains the actor.
+119. In continuation scenes, soften fork or branch guides after the output pulse unless the guide is still causing motion. The final hold should preserve the relationship without looking mid-transition.
 
 # Reusable Process
 

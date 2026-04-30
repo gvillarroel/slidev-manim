@@ -413,7 +413,7 @@ def svg_icon(path: Path, height: float, position=ORIGIN, opacity: float = 1.0) -
 
 def document_label(text: str, target: SVGMobject, color: str = PRIMARY_PURPLE) -> Text:
     label = Text(text, font="Arial", weight=BOLD, color=color)
-    label.scale_to_fit_width(max(0.9, min(1.55, target.width * 0.48)))
+    label.scale_to_fit_width(max(0.72, min(1.35, target.width * 0.5)))
     label.move_to(target.get_center() + UP * (target.height * 0.04))
     label.set_z_index(6)
     return label
@@ -443,11 +443,11 @@ COLOR_POSITIONS = {
 
 FINAL_CLUSTER_SHIFT = DOWN * 0.22
 FINAL_POSITIONS = {
-    "robot": RIGHT * 1.6 + UP * 1.66 + FINAL_CLUSTER_SHIFT,
-    "chart": RIGHT * 0.82 + UP * 0.42 + FINAL_CLUSTER_SHIFT,
-    "bulb": RIGHT * 2.35 + UP * 0.28 + FINAL_CLUSTER_SHIFT,
-    "text-document": RIGHT * 1.14 + DOWN * 1.5 + FINAL_CLUSTER_SHIFT,
-    "code-window": RIGHT * 2.36 + DOWN * 1.3 + FINAL_CLUSTER_SHIFT,
+    "robot": RIGHT * 1.58 + UP * 1.4 + FINAL_CLUSTER_SHIFT,
+    "chart": RIGHT * 0.78 + UP * 0.42 + FINAL_CLUSTER_SHIFT,
+    "bulb": RIGHT * 2.34 + UP * 0.22 + FINAL_CLUSTER_SHIFT,
+    "text-document": RIGHT * 1.0 + DOWN * 1.28 + FINAL_CLUSTER_SHIFT,
+    "code-window": RIGHT * 2.32 + DOWN * 1.12 + FINAL_CLUSTER_SHIFT,
 }
 
 
@@ -651,9 +651,9 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.play(FadeIn(output_pulse, scale=0.7), run_time=0.25)
         self.play(
             output_pulse.animate.scale(2.4).set_fill(PRIMARY_ORANGE, opacity=0),
-            trunk.animate.set_opacity(0.34),
-            top_branch.animate.set_opacity(0.34),
-            bottom_branch.animate.set_opacity(0.34),
+            trunk.animate.set_opacity(0.22),
+            top_branch.animate.set_opacity(0.22),
+            bottom_branch.animate.set_opacity(0.22),
             run_time=0.85,
             rate_func=smooth,
         )
@@ -943,7 +943,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         input_group = VGroup(*final.values(), core, label).scale(0.6).move_to(LEFT * 3.82 + DOWN * 0.12)
         input_panel = self.subproject_input_panel()
         guides = self.subproject_guides()
-        guides.set_opacity(0.34)
+        guides.set_opacity(0.22)
         top_block, top_items = self.project_block(
             "SVG Asset Pipeline",
             PRIMARY_BLUE,
