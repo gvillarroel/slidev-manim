@@ -28,7 +28,13 @@
     "dev:device-frame-embed": "slidev spikes/device-frame-embed/slides.md",
     "build:device-frame-embed": "slidev build spikes/device-frame-embed/slides.md",
     "dev:compare-two-approaches": "slidev spikes/compare-two-approaches/slides.md",
-    "build:compare-two-approaches": "slidev build spikes/compare-two-approaches/slides.md"
+    "build:compare-two-approaches": "slidev build spikes/compare-two-approaches/slides.md",
+    "dev:mermaid-diagram-side-by-side": "slidev spikes/mermaid-diagram-side-by-side/slides.md",
+    "build:mermaid-diagram-side-by-side": "slidev build spikes/mermaid-diagram-side-by-side/slides.md",
+    "dev:mermaid-sequence-boundary": "slidev spikes/mermaid-sequence-boundary/slides.md",
+    "build:mermaid-sequence-boundary": "slidev build spikes/mermaid-sequence-boundary/slides.md",
+    "dev:mermaid-layout-gallery": "slidev spikes/mermaid-layout-gallery/slides.md",
+    "build:mermaid-layout-gallery": "slidev build spikes/mermaid-layout-gallery/slides.md"
   },
   "devDependencies": {
     "@slidev/cli": "^52.3.0",

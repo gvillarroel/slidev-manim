@@ -1,0 +1,629 @@
+---
+id: KNOW-0004
+title: GJV1 Manim video quality learnings
+status: active
+date: 2026-04-15
+---
+
+# Summary
+
+Higher-quality Manim videos in this repository come from hypothesis-driven iteration, sparse compositions, and frame review. The strongest results rely on shape relationships, timing, and color hierarchy more than on text.
+
+# Experiments
+
+## Quality Deformation Flow
+
+- **Hypothesis**: Shape deformation with stable colors will read better than text-heavy explanation cards.
+- **Result**: Confirmed.
+- **What worked**:
+  - three large source capsules with clear spacing,
+  - one warm pulse to cue movement,
+  - a vertical destination stack that stayed simple,
+  - almost no text.
+- **What failed first**:
+  - the destination stack was too far to the right,
+  - the mid-transition overlap looked muddy until the landing positions were adjusted.
+
+## Quality Pulse Routing
+
+- **Hypothesis**: One moving accent through mostly calm structure feels more premium than having all elements animate at once.
+- **Result**: Confirmed.
+- **What worked**:
+  - one yellow pulse moving through gray infrastructure,
+  - station colors from the primary palette,
+  - rings and light shadows for depth without visual noise,
+  - a final highlight on the destination node.
+- **What to keep**:
+  - keep the path calm and let the accent motion do the storytelling.
+
+## Quality Layered Reveal
+
+- **Hypothesis**: Asymmetry and layered depth make the result feel more intentional than a centered generic diagram.
+- **Result**: Confirmed after one revision.
+- **What worked**:
+  - a soft background strip behind the active panel,
+  - faint ghost history instead of strong duplicated shapes,
+  - diagonal source cards transforming into smaller orbit-like targets,
+  - orange guide lines kept long enough to read direction but short enough to avoid clutter.
+- **What failed first**:
+  - the first version was too top-left heavy,
+  - ghost shapes were too visible,
+  - the target cluster was not balanced.
+
+## Quality Negative Space Focus
+
+- **Hypothesis**: Premium-looking motion can come from controlling where nothing happens, not only where motion happens.
+- **Result**: Confirmed after enlarging the landing zone.
+- **What worked**:
+  - one soft active window on the left for the source state,
+  - a delayed transfer to a second active window on the right,
+  - a landing cluster that stayed compact but not timid,
+  - large negative space that remained intentional instead of empty.
+- **What failed first**:
+  - the first landing cluster was too small,
+  - the active zone was too weak to justify the empty space around it.
+
+## Quality Mask Transfer
+
+- **Hypothesis**: A traveling mask band can make a reveal feel more authored than plain fade-ins.
+- **Result**: Confirmed after simplifying the final cluster.
+- **What worked**:
+  - a neutral vertical band that acts as a reveal device,
+  - top-row chips as a source state and circles as a distilled target state,
+  - top-row ghosts kept very faint in the final frame,
+  - diagonal compact landing with clear size hierarchy.
+- **What failed first**:
+  - the band was too wide,
+  - the first compact cluster felt muddy,
+  - ghost chips were too visible and competed with the landing state.
+
+## Quality Rhythm Gating
+
+- **Hypothesis**: Timed gates can make a simple transform feel choreographed instead of merely sequential.
+- **Result**: Confirmed after reducing gate dominance.
+- **What worked**:
+  - three beat markers that stage the motion,
+  - one accent pulse moving through each gate,
+  - a final landing that is cleaner than the gated buildup,
+  - gate opacity low enough that structure wins over decoration.
+- **What failed first**:
+  - the gates were too visually heavy,
+  - the final cluster needed to be stronger so the beat structure felt justified.
+
+## Quality Counterweight Balance
+
+- **Hypothesis**: Opposing transforms can add tension and control without increasing scene complexity.
+- **Result**: Confirmed.
+- **What worked**:
+  - left shapes and right shapes changing category in opposite directions,
+  - two soft fields to hold each side of the composition,
+  - one accent moving between the fields to connect the exchange,
+  - a final frame where both sides still feel distinct.
+- **What to keep**:
+  - counter-motion is useful when both sides keep different visual roles instead of converging into one cluster.
+
+## Quality Scale Hierarchy
+
+- **Hypothesis**: A premium frame can become clearer when one element owns the composition by size and the rest become supporting marks.
+- **Result**: Confirmed.
+- **What worked**:
+  - one dominant green circle that immediately establishes the focal point,
+  - secondary blue and purple shapes that stay clearly subordinate,
+  - a large soft zone that reinforces the destination hierarchy,
+  - a final frame that reads in one glance.
+- **What to keep**:
+  - make the main shape clearly larger, not just slightly larger, when testing hierarchy.
+
+## Quality Anchored Orbit
+
+- **Hypothesis**: Orbit-like paths around a stable anchor feel more designed than direct linear rearrangement.
+- **Result**: Confirmed.
+- **What worked**:
+  - one stable green anchor,
+  - orbit arcs used only during motion and removed afterward,
+  - satellites landing in positions that still respect the anchor,
+  - a final frame with anchor plus orbit residue implied by placement rather than by visible guides.
+- **What to keep**:
+  - orbital scaffolding should disappear before the ending frame so the destination state stays clean.
+
+## Quality Compression Release
+
+- **Hypothesis**: A scene that visibly compresses before it resolves will feel more intentional than a direct source-to-target transform.
+- **Result**: Confirmed after tightening the compression cluster and simplifying the landing.
+- **What worked**:
+  - a short compression beat before the release,
+  - a final cluster with clear size hierarchy inside one soft destination zone,
+  - one yellow accent that arrives before the structural release instead of competing with it,
+  - a long orange guide that is still simple enough to read as directional pressure.
+- **What failed first**:
+  - the compression phase was too loose,
+  - the release cluster was not decisive enough,
+  - the early guide path felt more like a leftover line than a staging device.
+
+## Quality Edge Tension
+
+- **Hypothesis**: A landing composition pushed near the boundary can feel more dynamic than a comfortable centered landing, as long as clipping never becomes accidental.
+- **Result**: Confirmed after moving the target mass closer to the boundary and adding a brief overshoot.
+- **What worked**:
+  - a dominant green landing shape very near the right edge,
+  - a small overshoot before the settle so the edge pressure feels earned,
+  - a narrower destination zone that makes the right boundary matter,
+  - minimal supporting shapes that still keep the cluster legible.
+- **What failed first**:
+  - the first version ended on the right side without real tension,
+  - the destination cluster was too timid,
+  - the wide soft zone weakened the sense of pressure.
+
+## Quality Occlusion Peel
+
+- **Hypothesis**: Temporary overlap can make a transform feel richer if one layer clearly peels away and the landing frame removes that overlap completely.
+- **Result**: Confirmed after making the peel phase more pronounced and removing guide residue from the landing.
+- **What worked**:
+  - a front layer that briefly dominates and then exposes the rear layer,
+  - overlap that is readable because the color roles remain distinct,
+  - an early guide that disappears before the resolved frame,
+  - a final cluster that is compact and fully separated.
+- **What failed first**:
+  - the peel was too subtle,
+  - the first landing still carried too much guide residue,
+  - the occlusion read as generic stacking instead of deliberate reveal.
+
+## Quality Hinge Pivot
+
+- **Hypothesis**: Rotation around a believable anchor can feel more designed than direct translation when the anchored motion is visible long enough to register.
+- **Result**: Confirmed after shortening the guide and removing the anchor before the final landing.
+- **What worked**:
+  - one dominant green arm that rotates through the center of the stage,
+  - a visible hinge point during motion and no hinge residue afterward,
+  - supporting blue and purple elements that follow the pivot rather than competing with it,
+  - a resolved final cluster that still hints at the earlier rotation.
+- **What failed first**:
+  - the first guide was too long,
+  - the hinge marker stayed visible too late,
+  - the motion risked reading as normal repositioning instead of pivot-driven choreography.
+
+## Quality Echo Settle
+
+- **Hypothesis**: A scene can feel more authored if the dominant form lands first and the secondary forms settle a beat later instead of stopping all at once.
+- **Result**: Confirmed after increasing the secondary overshoot and simplifying the guide usage.
+- **What worked**:
+  - the green dominant form landing first,
+  - blue and purple supports overshooting and then settling back,
+  - guide removal before the delayed settle so the timing difference becomes the main idea,
+  - a final cluster that still looks resolved instead of staggered.
+- **What failed first**:
+  - the initial landing looked too much like a normal cluster,
+  - the delayed settle was too subtle,
+  - the guide lingered long enough to compete with the timing idea.
+
+## Quality Fan Splay
+
+- **Hypothesis**: A landing that opens into a controlled angled fan can feel more premium than a compact circular cluster.
+- **Result**: Confirmed after increasing the separation and angle clarity of the final forms.
+- **What worked**:
+  - a narrow approach before the opening move,
+  - three final forms that keep clear directional differences,
+  - enough spacing that the fan shape reads immediately,
+  - a landing that stays structured even with minimal text and no extra labels.
+- **What failed first**:
+  - the first fan arrangement was too close to a generic tilted stack,
+  - the final spacing was too timid,
+  - the ending needed a clearer top-to-bottom sweep.
+
+## Quality Shear Resolve
+
+- **Hypothesis**: A brief sheared intermediate state can make a transform feel more designed than a clean direct handoff.
+- **Result**: Confirmed after increasing the diagonal angle and compressing the final landing.
+- **What worked**:
+  - one clear shared diagonal across all forms during the stressed intermediate frame,
+  - stronger angle contrast between the source and the sheared state,
+  - guide removal before the final resolve so the diagonal beat becomes the main idea,
+  - a simpler circular landing that contrasts clearly with the sheared geometry.
+- **What failed first**:
+  - the first shear was too polite,
+  - the diagonal relationship between forms was not strong enough,
+  - the motion risked reading as a normal transform with minor tilt.
+
+## Quality Aperture Open
+
+- **Hypothesis**: A neutral aperture opening can make a reveal feel authored if the shutters disappear before the resolved frame.
+- **Result**: Confirmed after tightening the shutter spacing and restoring a cleaner circular landing.
+- **What worked**:
+  - neutral shutters that create a clear before-and-after reveal state,
+  - a compact reveal stage inside the aperture before the final transform,
+  - full shutter removal before the resolved frame,
+  - a final landing that stays cleaner than the reveal mechanics.
+- **What failed first**:
+  - the first reveal still looked like a normal transition with extra props,
+  - the reveal shapes stayed too close to the final state,
+  - the aperture needed stronger opening separation to feel intentional.
+
+## Quality Snap Recoil
+
+- **Hypothesis**: A decisive arrival followed by a short recoil can feel sharper and more intentional than a perfectly smooth settle.
+- **Result**: Confirmed after increasing the overshoot distance of the dominant form.
+- **What worked**:
+  - the dominant green form arriving first with a visible overshoot,
+  - a quick recoil into the final landing position,
+  - support forms resolving afterward so the snap remains the main beat,
+  - a final frame that still feels stable despite the sharper motion.
+- **What failed first**:
+  - the first overshoot was too small,
+  - the snap risked reading like a normal arrival,
+  - the recoil needed more contrast against the final settled position.
+
+## Quality Bumper Deflect
+
+- **Hypothesis**: A visible bumper should make a redirection feel more authored if the leader clearly compresses against it before the landing.
+- **Result**: Confirmed after forcing the leader to arrive first and delaying the supports.
+- **What worked**:
+  - the green leader reaching the bumper before the blue and purple supports move,
+  - a long enough orange bumper that the deflection surface remains legible in still frames,
+  - a compressed, slightly tilted contact shape for the leader,
+  - support forms arriving later so the contact frame stays uncluttered.
+- **What failed first**:
+  - the first version spread the support forms too early,
+  - the contact frame did not show enough compression,
+  - the bumper existed but did not yet feel like the cause of the turn.
+
+## Quality Counterlift Balance
+
+- **Hypothesis**: A counterlift should feel more deliberate if a visible beam tilts while one side rises and the other drops.
+- **Result**: Confirmed after turning the balance line into an actual tilted mechanism.
+- **What worked**:
+  - the orange beam tilting enough to read as load transfer instead of decoration,
+  - the green leader rising on one end while the blue support drops on the other,
+  - a yellow pivot that stays visible through the proof frame,
+  - a simpler final cluster after the mechanism disappears.
+- **What failed first**:
+  - the first version kept the beam too static,
+  - the opposing motions looked like regrouping instead of weighted exchange,
+  - the support roles were too close together to read as separate ends of a mechanism.
+
+## Quality Fork Diverge
+
+- **Hypothesis**: A split should feel authored if the leader reaches a visible fork before the branches separate.
+- **Result**: Confirmed after increasing branch separation and keeping the trunk stable through the proof frame.
+- **What worked**:
+  - one clear trunk feeding two visibly different branch angles,
+  - a shorter green leader that stays attached to the fork while the children separate,
+  - upper and lower branch forms far enough apart to read as divergence rather than staggering,
+  - a proof frame where the fork geometry is still visible around all three forms.
+- **What failed first**:
+  - the first branch spacing was too timid,
+  - the split looked too much like a regroup around one central shape,
+  - the fork geometry needed to remain visible longer during the separation.
+
+## Quality Magnet Capture
+
+- **Hypothesis**: A receiver should feel like it captures if the pocket stays visible while the leader stretches into it.
+- **Result**: Confirmed after rebuilding the receiver as a right-side pocket and delaying the support forms.
+- **What worked**:
+  - a receiver pocket that clearly opens toward the arriving form,
+  - a stretched green leader that is partly inside the pocket before the landing,
+  - a yellow core that stays near the entrance during the capture frame,
+  - support forms arriving after the main pull so the mechanism stays readable.
+- **What failed first**:
+  - the first receiver looked decorative instead of causal,
+  - the leader crossed the receiver too completely and lost the sense of being pulled inward,
+  - support forms arrived too early and diluted the capture beat.
+
+## Quality Merge Funnel
+
+- **Hypothesis**: A merge should feel authored if multiple inputs visibly compress through a narrowing funnel before resolving into one dominant output.
+- **Result**: Confirmed after tightening the funnel neck and compressing the intermediate stack.
+- **What worked**:
+  - a visibly narrowing orange funnel with a small outlet,
+  - three compressed mid-state forms stacked tightly enough to read as forced convergence,
+  - a proof frame where the funnel still surrounds the stacked inputs,
+  - a dominant green landing that feels like the outlet result rather than a new unrelated shape.
+- **What failed first**:
+  - the first neck was too wide,
+  - the intermediate stack was too relaxed to feel squeezed,
+  - the outlet pressure was not obvious enough in still frames.
+
+## Quality Sleeve Reveal
+
+- **Hypothesis**: A reveal should feel controlled if the dominant form slides through a visible sleeve and emerges cleaner on the far side.
+- **Result**: Confirmed after moving the sleeve deeper over the leader and tightening the mid-state form.
+- **What worked**:
+  - a sleeve shape that remains visible around the leader during the proof frame,
+  - a narrower green mid-state that feels contained instead of simply translated,
+  - a yellow core that stays inside the sleeve while the reveal happens,
+  - support forms arriving later so the covered-pass-through remains the main beat.
+- **What failed first**:
+  - the first sleeve sat too far from the leader,
+  - the leader was too wide and made the sleeve feel decorative,
+  - the reveal beat was too close to a normal slide-in.
+
+## Quality Staged Convergence
+
+- **Hypothesis**: Converging through a narrow shared lane can feel more choreographed than collapsing directly into the final cluster.
+- **Result**: Confirmed after tightening the lane and making the staging phase more compact.
+- **What worked**:
+  - a visible narrow lane that all forms pass through,
+  - strong contrast between the staged lane and the circular landing,
+  - enough compression in the lane to make the second release feel earned,
+  - guide removal before the final convergence so the staging geometry owns the intermediate beat.
+- **What failed first**:
+  - the first lane was too loose,
+  - the convergence looked too close to a direct transfer,
+  - the intermediate stage needed stronger compression to justify its existence.
+
+## Quality Arc Handoff
+
+- **Hypothesis**: A dominant form can feel more authored if it transfers along a visible curve before the rest of the composition catches up.
+- **Result**: Confirmed after keeping the arc visible through the handoff moment.
+- **What worked**:
+  - one strong orange arc that survives long enough to be legible,
+  - the dominant green form arriving along that curve before the support forms resolve,
+  - a final cluster that contrasts with the earlier curved path,
+  - minimal supporting motion so the handoff remains the main beat.
+- **What failed first**:
+  - the first arc disappeared too soon,
+  - the motion looked like a normal transfer with curved decoration,
+  - the intermediate handoff position needed to be more distinct from the final landing.
+
+## Quality Corridor Squeeze
+
+- **Hypothesis**: Passing through a constrained corridor can create a stronger sense of authored compression than a normal free-space approach.
+- **Result**: Confirmed after narrowing the squeeze phase and keeping the compressed state more explicit.
+- **What worked**:
+  - a visibly compressed three-form stack inside one narrow corridor,
+  - enough contrast between the squeezed phase and the later circular landing,
+  - neutral corridor geometry that supports the compression without competing for attention,
+  - a final release that feels earned because the squeeze stage is real.
+- **What failed first**:
+  - the first corridor was too loose,
+  - the squeeze looked too close to an ordinary intermediate cluster,
+  - the constrained phase needed stronger reduction in height to register in still frames.
+
+## Quality Weave Crossing
+
+- **Hypothesis**: A controlled foreground crossing can feel more authored than parallel lateral movement if one form clearly owns the weave moment.
+- **Result**: Confirmed after keeping the curved path visible through the transfer and separating the support forms more clearly.
+- **What worked**:
+  - one orange path that remains visible during the actual crossing beat,
+  - a dominant green form landing above the blue support so the hierarchy stays readable,
+  - a smaller purple support kept low enough to avoid muddy overlap,
+  - a final circular cluster that is calmer than the weave moment.
+- **What failed first**:
+  - the first crossing read too much like a normal transfer with decoration,
+  - the support forms were too close together,
+  - the path was not present long enough to justify the weave idea in still frames.
+
+## Quality Latched Anchor
+
+- **Hypothesis**: A visible latch point can make a transfer feel more intentional if the dominant form briefly locks to it before the rest of the cluster resolves.
+- **Result**: Confirmed after moving the latch out of the overlap zone and sampling the hold frame where the anchor is still visible.
+- **What worked**:
+  - a distinct orange latch marker separated from the dominant form instead of hidden under it,
+  - one short guide that points into the latch without becoming the main subject,
+  - a hold state where the green form sits visibly latched before the final circular landing,
+  - full removal of the latch before the resolved frame so the ending remains clean.
+- **What failed first**:
+  - the latch was swallowed by the green and blue forms,
+  - the anchor was present in motion but not legible in the sampled stills,
+  - the composition needed a clearer point of contact instead of just proximity.
+
+## Quality Parallax Transfer
+
+- **Hypothesis**: Shallow parallax can make a transfer feel more premium if the dominant form advances earlier and farther than the supporting forms.
+- **Result**: Confirmed after increasing the lead distance of the green form and holding the support forms farther back.
+- **What worked**:
+  - a dominant green form that claims the forward position first,
+  - blue and purple supports kept clearly behind that lead move instead of traveling in lockstep,
+  - one curved orange route that stays visible through the depth beat,
+  - a final landing that simplifies the earlier stagger into one coherent cluster.
+- **What failed first**:
+  - the first parallax pass was too polite and read like a normal regroup,
+  - the support forms traveled too neatly with the leader,
+  - the depth beat needed more separation to survive still review.
+
+## Quality Slot Docking
+
+- **Hypothesis**: A visible receiving slot can make a landing feel authored if the dominant form briefly compresses into it before the final resolve.
+- **Result**: Confirmed after changing the slot from a closed shell into open rails and pushing the green form deeper into the receiver.
+- **What worked**:
+  - an open receiving slot that reads as a real target instead of a decorative frame,
+  - a hold frame where the green form is visibly docked while the blue form remains outside the entrance,
+  - a short guide that leads into the receiver without overpowering the scene,
+  - full removal of the docking rails before the resolved landing.
+- **What failed first**:
+  - the original slot looked too closed and generic,
+  - the first dock state did not separate the receiver from the support forms strongly enough,
+  - the mechanism needed a more obvious entrance to read in still frames.
+
+## Quality Bridge Span
+
+- **Hypothesis**: A temporary bridge can make a transfer feel more intentional if the dominant form clearly crosses a supported passage instead of drifting through empty space.
+- **Result**: Confirmed after turning the bridge into a visible passage and shrinking the green form so the span remains readable around it.
+- **What worked**:
+  - a horizontal bridge that stays visible on both sides of the crossing form,
+  - a hold frame where the green form is clearly on the bridge rather than merely near it,
+  - blue and purple supports kept lower so they do not compete with the crossing beat,
+  - bridge removal before the final cluster so the ending stays clean.
+- **What failed first**:
+  - the first bridge read like an orange bar instead of a supported crossing,
+  - the green form was too large and swallowed the mechanism,
+  - the passage needed visible separation above and below the crossing form.
+
+## Quality Keystone Lock
+
+- **Hypothesis**: A support-built pocket can make a landing feel more designed if the dominant form visibly enters that notch before the final resolve.
+- **Result**: Confirmed after turning the purple support into a vertical side wall and sampling the later hold frame where the green form is visibly nested into the pocket.
+- **What worked**:
+  - a blue base plus purple side wall that clearly assemble the receiving pocket,
+  - a smaller green form that can visibly enter the notch without hiding it,
+  - a guide that points into the pocket without becoming the main subject,
+  - a final landing that removes the assembly logic after the lock has been established.
+- **What failed first**:
+  - the first pocket arrangement looked like a loose regroup,
+  - the green form stayed too far from the support-built receiver,
+  - the correct proof frame was later than the first sampled hold frame.
+
+## Quality Throat Gate
+
+- **Hypothesis**: A narrow throat can make a passage feel more authored if the dominant form visibly compresses through it before the final resolve.
+- **Result**: Confirmed after widening the gate bars, shrinking the green form further, and moving the support forms away from the throat.
+- **What worked**:
+  - two longer orange bars that create a clear gated throat,
+  - a compressed green form that is visibly thinner while passing between them,
+  - support forms positioned away from the squeeze so the gate owns the frame,
+  - gate removal before the resolved landing.
+- **What failed first**:
+  - the first gate bars looked too isolated and the squeeze was not tight enough,
+  - the support forms were too close to the mechanism,
+  - the green form needed stronger compression to read in still frames.
+
+## Quality Relay Handoff
+
+- **Hypothesis**: A support-to-support relay can make the final regroup feel more designed if the accent clearly passes from one support role to another before the dominant form arrives.
+- **Result**: Confirmed after separating the accent move into two beats and sampling the mid-relay frame before the green form settles.
+- **What worked**:
+  - a two-segment relay path that gives the handoff a visible first and second leg,
+  - a proof frame where the blue support, purple support, and accent define the relay before the green form fully joins,
+  - a delayed green arrival so the support handoff has its own beat,
+  - a final cluster that removes the relay device after the transfer has been established.
+- **What failed first**:
+  - the original relay read too much like a normal guide line,
+  - the green form arrived too early and hid the handoff,
+  - the useful proof frame was earlier than the first convenient landing sample.
+
+## Quality Sling Release
+
+- **Hypothesis**: A pullback and release can make a transfer feel more authored if the dominant form is visibly stretched against a support tether before launch.
+- **Result**: Confirmed after moving the blue anchor farther right, tightening the tether, and stretching the green form more aggressively in the pull frame.
+- **What worked**:
+  - one taut orange tether that clearly connects the stretched green form to the blue anchor,
+  - a longer, flatter green form in the pull frame so stored tension reads in a still,
+  - the blue anchor isolated enough to act as a real counterforce,
+  - tether removal after the release so the final cluster is cleaner than the setup.
+- **What failed first**:
+  - the first tether looked too loose,
+  - the green form was not stretched enough to read as stored tension,
+  - the blue anchor needed more separation from the pull state.
+
+## Quality Cradle Catch
+
+- **Hypothesis**: A support-assisted catch can make a landing feel more designed if the support forms clearly sit underneath the dominant form before the final resolve.
+- **Result**: Confirmed after lowering the blue and purple supports, shrinking the green form, and keeping a sampled frame where the green shape visibly rests above the cradle.
+- **What worked**:
+  - a blue left support and purple right support that read as the base of a shallow cradle,
+  - a smaller green form that sits above those supports instead of flattening the whole group,
+  - one guide that suggests descent into the cradle without turning into the main subject,
+  - a resolved landing that removes the cradle logic after the catch has been established.
+- **What failed first**:
+  - the first cradle arrangement looked too much like a generic three-part stack,
+  - the green form was too large and visually collapsed the support relationship,
+  - the supports needed to sit lower to read as a catch from below.
+
+## Quality Ramp Lift
+
+- **Hypothesis**: A visible ramp can make upward motion feel more authored if the dominant form clearly rides the support surface before the final resolve.
+- **Result**: Confirmed on the first pass.
+- **What worked**:
+  - one angled orange ramp with enough length to read as a lifting surface,
+  - a hold frame where the green form is clearly above the lower support and aligned with the ramp direction,
+  - support forms separated so the ramp remains legible as the main mechanism,
+  - ramp removal before the final cluster so the ending stays simpler than the setup.
+- **What failed first**:
+  - no major structural failure in the first pass, but the proof depends on sampling the mid-lift frame rather than the resolved landing.
+
+## Quality Clamp Close
+
+- **Hypothesis**: Side clamps can make a squeeze feel more intentional if they visibly close around the dominant form before release.
+- **Result**: Confirmed after sampling an earlier proof frame where the side bars are close enough to read as pressure around the leader.
+- **What worked**:
+  - two vertical support bars that clearly move inward toward the center,
+  - a compressed green form that sits between them during the clamp beat,
+  - an earlier hold frame where the closing action is cleaner than the later release frame,
+  - clamp removal before the final landing so the composition resolves into a simpler cluster.
+- **What failed first**:
+  - the later sampled frame mixed mechanism and release too much,
+  - the proof depended on choosing the right still instead of the first convenient one,
+  - the clamp bars only read once they were close enough to create visible side pressure.
+
+# Practical Rules
+
+1. Start each quality experiment with a single explicit visual hypothesis.
+2. Keep text near zero. If narration will be added later, the video should communicate through shape, rhythm, and color first.
+3. Use the primary palette as the main semantic signal:
+   - green, blue, purple, red for structural actors,
+   - orange for route or connection emphasis,
+   - yellow for transient accent pulses.
+4. Review with a white background first. White review renders make spacing, contrast, and overdraw defects obvious.
+5. Extract real video frames before declaring a composition good. Poster images alone are not enough.
+6. Watch for three common failure modes in review frames:
+   - too much empty space on one side,
+   - overlapping shapes that read as mud,
+   - accent motion that is too small relative to the stage.
+7. Prefer one primary moving element per beat. If multiple things animate at once, clarity and quality perception drop quickly.
+8. Use faint gray shadows and thin neutral frames to add depth without fighting the palette.
+9. Keep target states visually simpler than source states. The landing frame should feel resolved.
+10. If a frame still feels like a static exported diagram, add either:
+   - stronger deformation,
+   - clearer asymmetry,
+   - or a more deliberate accent path.
+11. Negative space only feels premium if the active zone is strong enough to earn the empty area around it.
+12. Mask-driven reveals work better when the mask is narrow and neutral, so it reads as a device instead of as another actor.
+13. In final frames, source ghosts should be barely present. If they compete with the landing cluster, reduce them again.
+14. Rhythm markers can improve quality perception, but only when they are visually subordinate to the shapes they are pacing.
+15. Counter-motion works best when the two opposing groups keep distinct roles and do not collapse into one ambiguous mass.
+16. Strong scale hierarchy improves clarity when the size differences are obvious, not subtle.
+17. Orbit-like motion feels premium when one anchor remains stable and the orbital guides disappear before the landing frame.
+18. Compression beats work best when the squeeze is visibly tighter than the source layout and the release lands into a simpler, stronger cluster.
+19. Edge tension only reads when the dominant form is pushed close enough to the boundary to create pressure, but still far enough to avoid accidental clipping.
+20. A short overshoot can make a boundary landing feel authored, but the final settle still has to look clean and stable.
+21. Occlusion only helps when one layer clearly peels away; if the overlap is static or ambiguous, it just looks crowded.
+22. Any guide used to explain an occlusion move should disappear before the final frame, or it weakens the resolved landing.
+23. Hinge-like motion needs a visible anchor during the pivot and no anchor residue after the landing.
+24. Pivot experiments work better when the main rotating form is obviously dominant and the supporting forms remain subordinate.
+25. Delayed settle only reads when the primary form lands decisively first and the secondary forms overshoot enough for the echo to register.
+26. If guide geometry remains on screen during a delayed settle, it can hide the timing idea instead of supporting it.
+27. Fan-out landings need enough angular separation and spacing to read as one designed sweep rather than as a tilted pile.
+28. A narrow approach can make a fan-out landing feel more intentional by giving the opening move a clear before-and-after state.
+29. Shear-based motion only reads when the intermediate diagonal is strong enough to register in still frames, not just in motion.
+30. A sheared intermediate state works better when the final landing becomes more stable and simple than the stressed frame.
+31. Aperture-style reveals need neutral mechanics and a clear opening distance, or they feel like decoration instead of reveal logic.
+32. Any aperture or shutter device should disappear before the final frame so the landing state owns the composition.
+33. Snap-recoil motion only reads when the overshoot is large enough to register in still frames, not just as a tiny wobble in motion.
+34. In snap-recoil compositions, support forms should resolve after the dominant snap so the primary beat stays legible.
+35. Staged convergence needs a lane that is visibly narrower than both the source layout and the final landing.
+36. If the intermediate lane is too loose, the choreography reads like a normal transfer instead of a deliberate two-stage convergence.
+37. Arc-based handoff only works when the path remains visible through the transfer moment; otherwise it reads like decoration.
+38. In an arc handoff, the dominant form should own the curved motion while support forms stay calmer and resolve later.
+39. Corridor squeeze needs a compressed phase that is visibly shorter in height than the source and destination states.
+40. Neutral corridor geometry should support the squeeze and then disappear before the resolved landing owns the frame.
+41. Crossing paths only improve quality when one form clearly owns the foreground crossing and the support forms stay calm enough to preserve hierarchy.
+42. If a composition depends on a latch or anchor, that device must be visibly distinct in at least one review frame; being technically present in motion is not enough.
+43. Anchor and latch devices work better when they sit just outside the overlap zone, so the mechanism reads before the final landing removes it.
+44. Parallax only reads as depth when the dominant form advances noticeably earlier or farther than the supports; small offsets collapse back into ordinary regrouping.
+45. In a parallax transfer, support forms should lag enough to preserve foreground and background roles through the mid-frame.
+46. Docking works better with an open receiver than with a closed outline, because the entrance itself explains the motion.
+47. A docking mechanism should disappear before the final landing, but the hold frame still needs one moment where the dominant form is visibly inside the receiver.
+48. A bridge transfer only reads when the passage remains visible around the dominant form; if the crossing form hides the span, the mechanism collapses into a normal move.
+49. In a bridge composition, secondary forms should sit away from the span so the crossing beat owns the frame.
+50. A support-built receiver works better when the supporting forms create different walls of the pocket instead of stacking in parallel.
+51. When a mechanism depends on a specific hold frame, sample later or earlier beats until the proof is visually undeniable instead of documenting the first convenient still.
+52. A throat gate only reads when the dominant form is visibly more compressed inside the throat than in the source or landing states.
+53. Gate bars should be long enough to define the passage and the support forms should stay away from that squeeze zone.
+54. A relay handoff works better when the accent path is split into distinct legs instead of one continuous stroke.
+55. If the point of the experiment is support-to-support transfer, delay the dominant form so the relay has one frame where it owns the scene.
+56. Sling-style motion only reads when the tether looks taut and the dominant form is visibly stretched in the pullback frame.
+57. The support anchor in a sling composition should sit far enough from the pulled form to create visible stored tension before release.
+58. A cradle catch works better when the support forms stay lower than the dominant form and clearly define the underside of the catch.
+59. If the dominant form in a cradle is too large, the catch stops reading as support and collapses into a generic stacked cluster.
+60. Ramp-based motion works better when the support line is long enough to read as a surface, not just a directional cue.
+61. In a ramp lift, the useful proof frame is the mid-lift beat where the leader visibly aligns with the ramp rather than the final landing.
+62. A clamp close only reads when the side bars are near enough to create visible pressure around the leader.
+63. For clamp-style experiments, an earlier hold frame can communicate the mechanism better than a later release frame.
+
+# Reusable Process
+
+1. State the missing hypothesis.
+2. Build a first composition with minimal text and strict palette discipline.
+3. Render the video and export representative frames.
+4. Critique spacing, hierarchy, dead space, and color emphasis from the frames.
+5. Patch the composition and rerender.
+6. Only keep experiments whose final frames look intentional without narration.
