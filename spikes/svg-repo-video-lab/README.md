@@ -61,21 +61,25 @@ Validation review frames are written under:
 
 - `videos/svg-repo-video-lab/review-frames/`
 - `videos/svg-repo-video-lab/review-half-second/`
+- `videos/svg-repo-video-lab/review-frames-0.3s/`
 
 ## Latest Validation
 
 Rendered with:
 
 ```bash
-uv run --script spikes/svg-repo-video-lab/main.py --quality medium
+uv run --script spikes/svg-repo-video-lab/main.py
 ```
 
 Observed output:
 
-- Duration: 44.151 seconds.
-- Frames: 1325 decoded frames at 30 fps.
+- Duration: 43.251 seconds.
+- Frames: 1298 decoded frames at 30 fps.
 - Resolution: 1600x900.
-- Transparency: WebM VP9 stream reports `alpha_mode=1`; `ffmpeg -c:v libvpx-vp9 -vf alphaextract` confirmed alpha extrema `(0, 255)`.
-- Half-second review: regenerated `videos/svg-repo-video-lab/review-half-second/contact-sheet-*.png` for the full medium render; inspected the scan pass, the exact 14-second clamp beat, and the 29.5-30.5 second continuation transition.
-- Composition audit: `frame-composition-audit.py --cadence 0.5 --write-overlays` reported `sampled_frames=89` and `blocking_frames=0` on the promoted medium WebM.
+- Transparency: WebM VP9 stream reports `alpha_mode=1`; `imageio-ffmpeg` with `-c:v libvpx-vp9 -vf alphaextract` confirmed alpha extrema `(0, 255)`.
+- 0.3-second review: regenerated 145 individual frames under `videos/svg-repo-video-lab/review-frames-0.3s/frames/` plus 6 `contact-sheet-*.png` files; inspected the opening, fan-out proof frames, and the 33-36 second project-block activation.
+- Composition audit: `frame-composition-audit.py --cadence 0.3 --write-overlays` reported `sampled_frames=145` and `blocking_frames=0` on the promoted medium WebM.
+- Resting mobject audit: `resting-mobject-audit.py --scene-file spikes/svg-repo-video-lab/main.py --scene-class SvgRepoVideoLabScene` reported `rest_snapshots=14` and `blocking_snapshots=0`.
 - Exact callout audit: `frame-composition-audit.py --times 14 --out-dir videos/svg-repo-video-lab/composition-audit-14s --write-overlays` reported `blocking_frames=0`.
+- Crowding audit: `frame-crowding-audit.py --times 14 --write-overlays` and `frame-crowding-audit.py --start 12 --end 16 --cadence 0.5 --write-overlays` both reported `blocking_frames=0` after widening the clamp and separating the intermediate SVG roles.
+- Block activation crowding audit: `frame-crowding-audit.py --start 33 --end 36 --cadence 0.3 --write-overlays` still reports low component clearance from normal text glyphs, list rows, and panel internals; full-size review found no actor-to-guide, actor-to-outline, or actor-to-actor collision.

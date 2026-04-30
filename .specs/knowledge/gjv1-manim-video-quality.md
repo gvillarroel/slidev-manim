@@ -618,11 +618,17 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - XML-level fill replacement worked well for monochrome icons and simple multi-path chart icons before they entered Manim,
   - keeping Manim text as an overlay locked to the downloaded text-document SVG was more predictable than relying on renderer-dependent SVG `<text>` support,
   - a local `page-background` stage made the detailed icons readable while preserving transparent margins in the WebM,
-  - when continuing from the resolved SVG cluster into a two-column project breakdown, faint but visible destination block scaffolds kept the setup frame balanced before the progressive lists appeared.
+  - starting the scene with the raw SVG structure already present gave the opening breath a real composition instead of a blank first frame,
+  - when continuing from the resolved SVG cluster into a two-column project breakdown, faint but visible destination block scaffolds kept the setup frame balanced before the progressive lists appeared,
+  - fading placeholder scaffolds out while fading the real text-bearing project blocks in kept the activation readable at 0.3-second sampling,
+  - lowering the final fan-out cluster slightly cleared a vertical off-center audit finding without changing the continuation layout.
 - **What failed first**:
   - some plausible SVG Repo ids returned a Vercel challenge even through `show` URLs, so the downloader needs payload validation and a fallback,
   - treating every imported SVG as a direct morph target is risky because topology varies wildly between downloaded icons,
   - the composition becomes busy quickly when five external icons move at once, so the edit pipeline needs zones and one visible active device per beat,
+  - fading in the initial raw icons left the first sampled frame structurally blank,
+  - `ReplacementTransform` from placeholder scaffolds into blocks with title text created unreadable mid-frame glyph noise,
+  - a fan-out can be technically unclipped but still fail composition because the active bbox sits too high,
   - very faint placeholder panels can look acceptable to a human but be ignored by the composition audit, leaving the source column flagged as off-center until the scaffold has enough stroke or header contrast.
 
 ## SVG Repo Continuation Blocks
@@ -671,6 +677,23 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - positioning row badges from the active category cell made long badges feel attached to the purple column instead of arranged in their own ordered column,
   - keeping `keyword ->` visible while the category traveled back to the table created mid-frame overlap around the 19-second proof frame,
   - a smaller local stage left black margins when the WebM was decoded without alpha in PyAV.
+
+## Transaction Project Breakdown
+
+- **Hypothesis**: A resolved transaction-category table can become two workstream backlogs if the table remains visible as a compact input while two destination blocks appear progressively.
+- **Result**: Confirmed after preserving the previous final state as the opening frame, adding visible output scaffolds, and reviewing the generated project-list frames at medium quality.
+- **What worked**:
+  - starting from the resolved table avoided re-explaining the row classification mechanism,
+  - compacting the table into a left input panel made the continuation read as a second beat of the previous result,
+  - two right-side project blocks with blue and purple headers established clear workstream roles,
+  - visible placeholder panels balanced the setup before tasks appeared,
+  - orange trunk and branch guides made the two-block split readable in still frames,
+  - revealing one task row per beat made the lists feel generated from the classified table,
+  - composing task labels from per-word mobjects with fixed gaps preserved spaces that looked collapsed in direct `Text` and `MarkupText` rows.
+- **What failed first**:
+  - rendering task rows as a single `Text`/`MarkupText` object made phrases such as `export category dataset` and `convert gaps to tasks` visually lose the first space,
+  - relying on the final frame alone would not prove the continuation; setup, first-block, fork, both-blocks, and final-hold frames were all needed,
+  - the automated audit flagged expected title-band centering and panel/guide fragments, so full-size review was needed to distinguish warnings from real overlap.
 
 # Practical Rules
 
@@ -791,6 +814,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 106. For half-second review, do not stop at the first called-out timestamp. Sample the surrounding transition and any later camera handoff, because a fixed timestamp can hide adjacent frames with worse composition.
 107. Pixel audits should center on the full intentional scaffold when neutral panels balance the scene. Strong-color-only centering can falsely flag a valid source-to-destination setup as off-center.
 108. Treat thin vertical-fragment findings as review prompts unless `--strict-stray` is enabled. Intentional panel edges, scaffolds, and branch guides can look like stray lines to connected-component audits; unsupported residue still needs a full-size overlay check.
+109. Use a dedicated crowding audit after a timestamp callout about cramped SVG clusters. Margins and centering can pass while an actor still touches a guide, outline, clamp, or sibling actor.
+110. In SVG and label compositions, actor-to-support overlap is not automatically a failure. Text inside an icon body, labels inside a document card, and imported SVG internals can be intentional; reserve blocking crowding findings for actor-to-guide, actor-to-outline, and actor-to-actor clearance failures.
+111. Thin neutral rails and panel edges should not redefine the active center unless they genuinely expand the layout. Centering audits should use full content boxes only when the scaffold is large enough to balance the composition, not when it is just a top or bottom rail.
+112. If the first review frame is blank because the opening structure fades in, add the initial structure before the first wait and spend the breath on a visible composition.
+113. Do not morph placeholder scaffolds into text-bearing blocks. Fade or remove the placeholder, then reveal the real block so mid-frame titles stay readable.
+114. A technically visible fan-out can still need vertical recentering; treat off-center audit findings during mechanism proof frames as composition problems, not just crop checks.
 
 # Reusable Process
 

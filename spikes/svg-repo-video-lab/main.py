@@ -441,12 +441,13 @@ COLOR_POSITIONS = {
     "code-window": RIGHT * 0.78 + DOWN * 0.02,
 }
 
+FINAL_CLUSTER_SHIFT = DOWN * 0.22
 FINAL_POSITIONS = {
-    "robot": RIGHT * 1.6 + UP * 1.66,
-    "chart": RIGHT * 0.82 + UP * 0.42,
-    "bulb": RIGHT * 2.35 + UP * 0.28,
-    "text-document": RIGHT * 1.14 + DOWN * 1.5,
-    "code-window": RIGHT * 2.36 + DOWN * 1.3,
+    "robot": RIGHT * 1.6 + UP * 1.66 + FINAL_CLUSTER_SHIFT,
+    "chart": RIGHT * 0.82 + UP * 0.42 + FINAL_CLUSTER_SHIFT,
+    "bulb": RIGHT * 2.35 + UP * 0.28 + FINAL_CLUSTER_SHIFT,
+    "text-document": RIGHT * 1.14 + DOWN * 1.5 + FINAL_CLUSTER_SHIFT,
+    "code-window": RIGHT * 2.36 + DOWN * 1.3 + FINAL_CLUSTER_SHIFT,
 }
 
 
@@ -468,8 +469,8 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         raw_group = VGroup(*raw.values())
         for icon in raw.values():
             icon.set_z_index(2)
-        self.play(FadeIn(raw_group, lag_ratio=0.08), run_time=1.1, rate_func=smooth)
-        self.wait(2.55)
+        self.add(raw_group)
+        self.wait(2.75)
 
         colored = self.colored_icons()
         route = ArcBetweenPoints(LEFT * 2.94 + UP * 1.86, RIGHT * 1.0 + UP * 1.86, angle=-0.14)
@@ -624,7 +625,8 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.play(Create(trunk), run_time=0.45)
         self.play(
             Create(top_branch),
-            ReplacementTransform(block_skeletons[0], top_block),
+            FadeOut(block_skeletons[0], scale=1.02),
+            FadeIn(top_block, shift=UP * 0.04),
             run_time=0.75,
             rate_func=smooth,
         )
@@ -634,7 +636,8 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.wait(0.35)
         self.play(
             Create(bottom_branch),
-            ReplacementTransform(block_skeletons[1], bottom_block),
+            FadeOut(block_skeletons[1], scale=1.02),
+            FadeIn(bottom_block, shift=DOWN * 0.04),
             run_time=0.75,
             rate_func=smooth,
         )
@@ -719,11 +722,11 @@ class SvgRepoVideoLabScene(MovingCameraScene):
 
     def mid_icons(self, colored: dict[str, SVGMobject]) -> dict[str, SVGMobject]:
         targets = {
-            "robot": colored["robot"].copy().stretch(1.26, 0).stretch(0.74, 1).rotate(-6 * PI / 180).move_to(LEFT * 0.05 + UP * 1.55),
-            "chart": colored["chart"].copy().stretch(1.62, 1).stretch(0.92, 0).move_to(LEFT * 0.18 + UP * 0.58),
-            "bulb": colored["bulb"].copy().scale(1.24).rotate(8 * PI / 180).move_to(LEFT * 0.62 + DOWN * 0.5),
-            "text-document": colored["text-document"].copy().stretch(1.12, 0).move_to(RIGHT * 0.28 + DOWN * 1.32),
-            "code-window": colored["code-window"].copy().stretch(0.84, 0).stretch(1.08, 1).rotate(4 * PI / 180).move_to(RIGHT * 1.12 + DOWN * 0.38),
+            "robot": colored["robot"].copy().stretch(1.26, 0).stretch(0.74, 1).rotate(-6 * PI / 180).move_to(LEFT * 0.05 + UP * 1.34),
+            "chart": colored["chart"].copy().stretch(1.62, 1).stretch(0.92, 0).move_to(LEFT * 0.55 + DOWN * 0.08),
+            "bulb": colored["bulb"].copy().scale(1.24).rotate(8 * PI / 180).move_to(LEFT * 0.9 + DOWN * 0.48),
+            "text-document": colored["text-document"].copy().stretch(1.12, 0).move_to(DOWN * 1.3),
+            "code-window": colored["code-window"].copy().stretch(0.84, 0).stretch(1.08, 1).rotate(4 * PI / 180).move_to(RIGHT * 1.5 + DOWN * 0.38),
         }
         for icon in targets.values():
             icon.set_z_index(4)
@@ -762,16 +765,16 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         return swatches
 
     def shape_clamp(self) -> VGroup:
-        left_bar = Line(LEFT * 2.0 + UP * 2.08, LEFT * 2.0 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
-        right_bar = Line(RIGHT * 2.24 + UP * 2.08, RIGHT * 2.24 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
+        left_bar = Line(LEFT * 2.35 + UP * 2.08, LEFT * 2.35 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
+        right_bar = Line(RIGHT * 2.72 + UP * 2.08, RIGHT * 2.72 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
         brace = RoundedRectangle(
-            width=4.62,
+            width=5.38,
             height=4.42,
             corner_radius=0.28,
             stroke_color=PRIMARY_ORANGE,
             stroke_width=4,
             fill_opacity=0,
-        ).move_to(RIGHT * 0.12)
+        ).move_to(RIGHT * 0.18)
         clamp = VGroup(left_bar, right_bar, brace)
         clamp.set_opacity(0.78)
         clamp.set_z_index(1)
@@ -790,7 +793,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
 
     def final_core(self) -> VGroup:
         ring = Circle(radius=0.5, stroke_color=PRIMARY_ORANGE, stroke_width=7, fill_color=WHITE_HEX, fill_opacity=1)
-        ring.move_to(RIGHT * 1.62 + DOWN * 0.18)
+        ring.move_to(RIGHT * 1.62 + DOWN * 0.4)
         glyph = Text("SVG", font="Arial", weight=BOLD, color=GRAY)
         glyph.scale_to_fit_width(0.9)
         glyph.move_to(ring.get_center())
@@ -799,7 +802,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         return core
 
     def fan_guides(self) -> VGroup:
-        center = RIGHT * 1.62 + DOWN * 0.18
+        center = RIGHT * 1.62 + DOWN * 0.4
         guides = VGroup(
             Line(center, FINAL_POSITIONS["robot"], color=PRIMARY_ORANGE, stroke_width=4),
             Line(center, FINAL_POSITIONS["chart"], color=PRIMARY_ORANGE, stroke_width=4),

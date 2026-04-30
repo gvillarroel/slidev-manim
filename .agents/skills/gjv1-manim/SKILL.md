@@ -70,7 +70,8 @@ Load only the resource needed for the current task:
 - For a copyable new spike shape, start from [examples/quality-spike-template.py](examples/quality-spike-template.py).
 - For a reusable all-video contact sheet command, run or adapt [examples/contact-sheet-review.py](examples/contact-sheet-review.py).
 - For a prioritized edge, center, and near-clipping candidate pass, run or adapt [examples/frame-safety-audit.py](examples/frame-safety-audit.py).
-- For exact timestamp margin, side-fragment, and overlap/crowding checks, run [scripts/frame-composition-audit.py](scripts/frame-composition-audit.py).
+- For exact timestamp margin, side-fragment, and broad overlap/crowding checks, run [scripts/frame-composition-audit.py](scripts/frame-composition-audit.py).
+- For strict actor-to-guide, actor-to-outline, or actor-to-actor clearance checks, run [scripts/frame-crowding-audit.py](scripts/frame-crowding-audit.py).
 - For rest-state mobject edge clearance before a full render, run [scripts/resting-mobject-audit.py](scripts/resting-mobject-audit.py).
 - For the transparent-loop versus local-stage decision, compare [examples/transparent-loop-vs-backed-clip.py](examples/transparent-loop-vs-backed-clip.py).
 - For reusable output resources, copy from [assets/canonical-palette.json](assets/canonical-palette.json), [assets/review-frame-policy.json](assets/review-frame-policy.json), [assets/frame-safety-policy.json](assets/frame-safety-policy.json), or [assets/manim_scene_helpers.py](assets/manim_scene_helpers.py).
@@ -228,7 +229,14 @@ Use exact timestamps when a review points to a specific second:
 uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --video videos/<spike-name>/<video-name>.webm --times 14 --write-overlays
 ```
 
-Treat `low_visual_margin` and `off_center_content` as blocking composition findings. Treat `stray_vertical_fragment` as a full-size review prompt by default because intentional panel edges and route guides can trigger it; rerun with `--strict-stray` when the overlay shows unsupported vertical residue. Treat `possible_overlap_or_crowding` as a full-size review prompt unless `--strict-notices` is appropriate for the scene.
+If the exact timestamp looks visually cramped but the composition audit only reports `possible_overlap_or_crowding`, run the stricter crowding audit on that timestamp and its surrounding half-second range:
+
+```bash
+uv run --script .agents/skills/gjv1-manim/scripts/frame-crowding-audit.py --video videos/<spike-name>/<video-name>.webm --times 14 --write-overlays
+uv run --script .agents/skills/gjv1-manim/scripts/frame-crowding-audit.py --video videos/<spike-name>/<video-name>.webm --start 12 --end 16 --cadence 0.5 --write-overlays
+```
+
+Treat `low_visual_margin` and `off_center_content` as blocking composition findings. Treat `stray_vertical_fragment` as a full-size review prompt by default because intentional panel edges and route guides can trigger it; rerun with `--strict-stray` when the overlay shows unsupported vertical residue. Treat `possible_overlap_or_crowding` as a full-size review prompt unless `--strict-notices` is appropriate for the scene. Treat `low_component_clearance` from the crowding audit as blocking when the pair is actor-to-guide, actor-to-outline, or actor-to-actor.
 
 ## 5. Sample the right proof moment
 
@@ -349,7 +357,9 @@ Do not add text before exhausting those fixes.
 - reveal output block scaffolds before detailed content so the setup frame is balanced,
 - make scaffolds visible enough to survive review: pale panels are fine, but borders and header hints must not vanish,
 - activate each large block before revealing its list rows,
+- do not `ReplacementTransform` placeholder scaffolds into text-bearing blocks. Fade or remove the scaffold, then fade in the real block so title text does not become unreadable mid-frame.
 - reveal keypoints progressively with one row per beat,
+- for short task-list rows, inspect full-size frames for collapsed word spacing. If `Text` or `MarkupText` makes spaces ambiguous, compose the label from per-word mobjects arranged with a fixed gap.
 - keep the fork or branch geometry visible while each block becomes populated,
 - update the poster composition to the new terminal state when the final hold changes.
 
