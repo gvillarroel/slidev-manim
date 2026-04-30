@@ -459,8 +459,9 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             return
 
         stage, rails, source_zone, edit_zone, final_zone = self.stage()
+        final_zone.set_opacity(0)
         self.add(stage, rails, source_zone, edit_zone, final_zone)
-        self.camera.frame.set(width=10.15)
+        self.camera.frame.set(width=11.25)
         self.camera.frame.move_to(LEFT * 2.05 + DOWN * 0.02)
 
         raw = self.raw_icons()
@@ -471,21 +472,24 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.wait(2.55)
 
         colored = self.colored_icons()
-        route = ArcBetweenPoints(LEFT * 3.05 + UP * 2.28, RIGHT * 1.15 + UP * 2.28, angle=-0.18)
+        route = ArcBetweenPoints(LEFT * 2.94 + UP * 1.86, RIGHT * 1.0 + UP * 1.86, angle=-0.14)
         route.set_stroke(PRIMARY_ORANGE, width=7, opacity=0.82)
         scanner = RoundedRectangle(
-            width=0.54,
-            height=5.18,
+            width=0.42,
+            height=4.05,
             corner_radius=0.14,
             stroke_width=0,
             fill_color=PRIMARY_ORANGE,
-            fill_opacity=0.78,
+            fill_opacity=0.66,
         ).move_to(LEFT * 2.56)
         scanner.set_z_index(5)
         swatches = self.color_swatches()
-        self.play(Create(route), FadeIn(scanner), FadeIn(swatches, shift=UP * 0.16), run_time=1.05)
+        self.play(Create(route), FadeIn(scanner), FadeIn(swatches), run_time=1.05)
         self.play(
-            scanner.animate.move_to(RIGHT * 1.64),
+            scanner.animate.move_to(RIGHT * 1.46),
+            source_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
+            final_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
+            self.camera.frame.animate.set(width=11.7).move_to(LEFT * 0.75 + DOWN * 0.02),
             AnimationGroup(
                 *[
                     ReplacementTransform(raw[name], colored[name], path_arc=(-0.16 if index % 2 else 0.16))
@@ -496,16 +500,16 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             run_time=4.1,
             rate_func=smooth,
         )
-        self.wait(0.75)
+        self.wait(0.25)
         self.play(
             FadeOut(scanner),
             FadeOut(route),
             FadeOut(swatches),
-            source_zone.animate.set_stroke(opacity=0.18).set_fill(opacity=0.1),
-            final_zone.animate.set_stroke(opacity=0.16).set_fill(opacity=0.08),
-            edit_zone.animate.set_stroke(GRAY_200, opacity=1).set_fill(WHITE_HEX, opacity=0.76),
-            self.camera.frame.animate.set(width=9.25).move_to(ORIGIN + DOWN * 0.02),
-            run_time=0.95,
+            source_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
+            final_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
+            edit_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
+            self.camera.frame.animate.set(width=11.2).move_to(ORIGIN + DOWN * 0.02),
+            run_time=0.7,
             rate_func=smooth,
         )
 
@@ -549,24 +553,13 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         final_video_label = document_label("VIDEO", final["text-document"], color=PRIMARY_PURPLE)
         core = self.final_core()
         fan_guides = self.fan_guides()
-        expanded_final_zone = RoundedRectangle(
-            width=5.72,
-            height=5.65,
-            corner_radius=0.28,
-            stroke_color=GRAY_200,
-            stroke_width=2,
-            fill_color=WHITE_HEX,
-            fill_opacity=0.7,
-        ).move_to(RIGHT * 1.58)
-        expanded_final_zone.set_z_index(-3)
         self.play(
             FadeOut(source_zone),
             FadeOut(edit_zone),
             FadeOut(rails),
-            ReplacementTransform(final_zone, expanded_final_zone),
             FadeIn(fan_guides),
             FadeIn(core, scale=0.9),
-            self.camera.frame.animate.set(width=9.1).move_to(RIGHT * 1.2 + DOWN * 0.02),
+            self.camera.frame.animate.set(width=9.8).move_to(RIGHT * 1.2 + DOWN * 0.04),
             run_time=0.85,
         )
         self.play(
@@ -589,10 +582,79 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.play(
             accent.animate.scale(1.9).set_fill(PRIMARY_ORANGE, opacity=0),
             FadeOut(fan_guides),
-            expanded_final_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
             run_time=0.8,
         )
-        self.wait(6.25)
+        self.wait(2.4)
+        self.remove(accent)
+
+        source_group = VGroup(*final.values(), core, video_label)
+        input_panel = self.subproject_input_panel()
+        block_skeletons = self.project_block_skeletons()
+        self.play(
+            source_group.animate.move_to(ORIGIN + DOWN * 0.05),
+            self.camera.frame.animate.set(width=13.15).move_to(ORIGIN + DOWN * 0.02),
+            run_time=0.55,
+            rate_func=smooth,
+        )
+        self.play(
+            FadeIn(input_panel, shift=LEFT * 0.18),
+            FadeIn(block_skeletons, shift=RIGHT * 0.18),
+            source_group.animate.scale(0.56).move_to(LEFT * 3.82 + DOWN * 0.05),
+            run_time=1.05,
+            rate_func=smooth,
+        )
+        self.wait(0.55)
+
+        trunk, top_branch, bottom_branch = self.subproject_guides()
+        top_block, top_items = self.project_block(
+            "SVG Asset Pipeline",
+            PRIMARY_BLUE,
+            PRIMARY_YELLOW,
+            ("cache source SVGs", "normalize palette variants", "expose editable roles"),
+            RIGHT * 2.15 + UP * 1.47,
+        )
+        bottom_block, bottom_items = self.project_block(
+            "Slide Video Layer",
+            PRIMARY_PURPLE,
+            PRIMARY_GREEN,
+            ("render transparent WebM", "stage progressive reveals", "sample review frames"),
+            RIGHT * 2.15 + DOWN * 1.47,
+        )
+
+        self.play(Create(trunk), run_time=0.45)
+        self.play(
+            Create(top_branch),
+            ReplacementTransform(block_skeletons[0], top_block),
+            run_time=0.75,
+            rate_func=smooth,
+        )
+        for row in top_items:
+            self.play(FadeIn(row, shift=RIGHT * 0.14), run_time=0.52, rate_func=smooth)
+            self.wait(0.15)
+        self.wait(0.35)
+        self.play(
+            Create(bottom_branch),
+            ReplacementTransform(block_skeletons[1], bottom_block),
+            run_time=0.75,
+            rate_func=smooth,
+        )
+        for row in bottom_items:
+            self.play(FadeIn(row, shift=RIGHT * 0.14), run_time=0.52, rate_func=smooth)
+            self.wait(0.15)
+
+        output_pulse = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1)
+        output_pulse.move_to(LEFT * 1.32 + DOWN * 0.02)
+        output_pulse.set_z_index(8)
+        self.play(FadeIn(output_pulse, scale=0.7), run_time=0.25)
+        self.play(
+            output_pulse.animate.scale(2.4).set_fill(PRIMARY_ORANGE, opacity=0),
+            trunk.animate.set_opacity(0.34),
+            top_branch.animate.set_opacity(0.34),
+            bottom_branch.animate.set_opacity(0.34),
+            run_time=0.85,
+            rate_func=smooth,
+        )
+        self.wait(6.1)
 
     def stage(self) -> tuple[RoundedRectangle, VGroup, RoundedRectangle, RoundedRectangle, RoundedRectangle]:
         stage = RoundedRectangle(
@@ -633,11 +695,12 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         ).move_to(RIGHT * 4.42)
         rails = VGroup(
             DashedLine(LEFT * 2.05 + UP * 2.85, RIGHT * 1.95 + UP * 2.85, dash_length=0.18, color=GRAY_300, stroke_width=3),
-            DashedLine(RIGHT * 2.55 + DOWN * 2.85, RIGHT * 5.85 + DOWN * 2.85, dash_length=0.18, color=GRAY_300, stroke_width=3),
         )
         rails.set_z_index(-2)
         for zone in (source_zone, edit_zone, final_zone):
             zone.set_z_index(-3)
+        final_zone.set_stroke(opacity=0)
+        final_zone.set_fill(opacity=0)
         return stage, rails, source_zone, edit_zone, final_zone
 
     def raw_icons(self) -> dict[str, SVGMobject]:
@@ -694,16 +757,16 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             ]
         )
         swatches.arrange(RIGHT, buff=0.13)
-        swatches.move_to(LEFT * 0.07 + UP * 2.78)
+        swatches.move_to(LEFT * 0.04 + UP * 2.08)
         swatches.set_z_index(6)
         return swatches
 
     def shape_clamp(self) -> VGroup:
-        left_bar = Line(LEFT * 1.62 + UP * 2.32, LEFT * 1.62 + DOWN * 2.32, color=PRIMARY_ORANGE, stroke_width=8)
-        right_bar = Line(RIGHT * 1.82 + UP * 2.32, RIGHT * 1.82 + DOWN * 2.32, color=PRIMARY_ORANGE, stroke_width=8)
+        left_bar = Line(LEFT * 1.62 + UP * 2.08, LEFT * 1.62 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
+        right_bar = Line(RIGHT * 1.82 + UP * 2.08, RIGHT * 1.82 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
         brace = RoundedRectangle(
             width=3.78,
-            height=4.9,
+            height=4.42,
             corner_radius=0.28,
             stroke_color=PRIMARY_ORANGE,
             stroke_width=4,
@@ -748,17 +811,146 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         guides.set_z_index(1)
         return guides
 
-    def poster_composition(self) -> VGroup:
-        stage, rails, source_zone, edit_zone, final_zone = self.stage()
-        raw = VGroup(*self.raw_icons().values())
+    def subproject_input_panel(self) -> VGroup:
+        panel = RoundedRectangle(
+            width=3.18,
+            height=5.65,
+            corner_radius=0.28,
+            stroke_color=GRAY_200,
+            stroke_width=2,
+            fill_color=WHITE_HEX,
+            fill_opacity=0.74,
+        ).move_to(LEFT * 3.82 + DOWN * 0.05)
+        marker = RoundedRectangle(
+            width=1.38,
+            height=0.18,
+            corner_radius=0.06,
+            stroke_width=0,
+            fill_color=PRIMARY_ORANGE,
+            fill_opacity=0.9,
+        ).move_to(panel.get_top() + DOWN * 0.42)
+        label = Text("resolved input", font="Arial", weight=BOLD, color=GRAY, font_size=22)
+        label.scale_to_fit_width(1.65)
+        label.move_to(panel.get_bottom() + UP * 0.62)
+        group = VGroup(panel, marker, label)
+        group.set_z_index(-1)
+        marker.set_z_index(1)
+        label.set_z_index(1)
+        return group
+
+    def subproject_guides(self) -> VGroup:
+        start = LEFT * 2.22 + DOWN * 0.02
+        fork = LEFT * 1.32 + DOWN * 0.02
+        top = LEFT * 0.72 + UP * 1.47
+        bottom = LEFT * 0.72 + DOWN * 1.47
+        trunk = Line(start, fork, color=PRIMARY_ORANGE, stroke_width=7)
+        top_branch = ArcBetweenPoints(fork, top, angle=0.24)
+        bottom_branch = ArcBetweenPoints(fork, bottom, angle=-0.24)
+        for branch in (top_branch, bottom_branch):
+            branch.set_stroke(PRIMARY_ORANGE, width=7, opacity=0.78)
+        trunk.set_stroke(PRIMARY_ORANGE, width=7, opacity=0.78)
+        guides = VGroup(trunk, top_branch, bottom_branch)
+        guides.set_z_index(1)
+        return guides
+
+    def project_block_skeletons(self) -> VGroup:
+        skeletons = VGroup()
+        for index, center in enumerate((RIGHT * 2.15 + UP * 1.47, RIGHT * 2.15 + DOWN * 1.47)):
+            panel = RoundedRectangle(
+                width=5.28,
+                height=2.34,
+                corner_radius=0.18,
+                stroke_color=GRAY_300,
+                stroke_width=0,
+                fill_color=WHITE_HEX,
+                fill_opacity=0.38,
+            ).move_to(center)
+            header_hint = RoundedRectangle(
+                width=4.82,
+                height=0.16,
+                corner_radius=0.06,
+                stroke_width=0,
+                fill_color=PRIMARY_BLUE if index == 0 else PRIMARY_PURPLE,
+                fill_opacity=0.36,
+            ).move_to(panel.get_top() + DOWN * 0.36)
+            skeletons.add(VGroup(panel, header_hint))
+        skeletons.set_z_index(2)
+        return skeletons
+
+    def project_block(
+        self,
+        title: str,
+        header_color: str,
+        bullet_color: str,
+        items: tuple[str, ...],
+        center,
+    ) -> tuple[VGroup, list[VGroup]]:
+        panel = RoundedRectangle(
+            width=5.28,
+            height=2.34,
+            corner_radius=0.18,
+            stroke_color=GRAY_200,
+            stroke_width=2,
+            fill_color=WHITE_HEX,
+            fill_opacity=0.95,
+        ).move_to(center)
+        header = RoundedRectangle(
+            width=4.82,
+            height=0.54,
+            corner_radius=0.13,
+            stroke_width=0,
+            fill_color=header_color,
+            fill_opacity=1,
+        ).move_to(panel.get_top() + DOWN * 0.36)
+        title_text = Text(title, font="Arial", weight=BOLD, color=WHITE_HEX, font_size=26)
+        if title_text.width > 4.28:
+            title_text.scale_to_fit_width(4.28)
+        title_text.move_to(header.get_center())
+
+        rows: list[VGroup] = []
+        first_y = panel.get_top()[1] - 0.98
+        for index, item in enumerate(items):
+            dot = Circle(radius=0.055, stroke_width=0, fill_color=bullet_color, fill_opacity=1)
+            line = Text(item, font="Arial", color=GRAY, font_size=22)
+            if line.width > 4.2:
+                line.scale_to_fit_width(4.2)
+            row = VGroup(dot, line).arrange(RIGHT, buff=0.16)
+            row.move_to([panel.get_left()[0] + 2.48, first_y - index * 0.42, 0])
+            row.align_to(panel, LEFT).shift(RIGHT * 0.42)
+            row.set_z_index(6)
+            rows.append(row)
+
+        block = VGroup(panel, header, title_text)
+        block.set_z_index(4)
+        return block, rows
+
+    def continuation_poster_composition(self) -> VGroup:
+        stage, _, _, _, _ = self.stage()
         final = self.final_icons()
-        final_group = VGroup(*final.values(), self.final_core())
-        label = final_label("color / shape / text")
-        label.move_to(LEFT * 0.02 + DOWN * 2.82)
-        label.set_z_index(7)
-        route = ArcBetweenPoints(LEFT * 2.62 + UP * 1.95, RIGHT * 2.46 + UP * 1.95, angle=-0.42)
-        route.set_stroke(PRIMARY_ORANGE, width=8, opacity=0.82)
-        return VGroup(stage, rails, source_zone, edit_zone, final_zone, route, raw, final_group, label)
+        core = self.final_core()
+        label = document_label("VIDEO", final["text-document"], color=PRIMARY_PURPLE)
+        input_group = VGroup(*final.values(), core, label).scale(0.56).move_to(LEFT * 3.82 + DOWN * 0.05)
+        input_panel = self.subproject_input_panel()
+        guides = self.subproject_guides()
+        guides.set_opacity(0.34)
+        top_block, top_items = self.project_block(
+            "SVG Asset Pipeline",
+            PRIMARY_BLUE,
+            PRIMARY_YELLOW,
+            ("cache source SVGs", "normalize palette variants", "expose editable roles"),
+            RIGHT * 2.15 + UP * 1.47,
+        )
+        bottom_block, bottom_items = self.project_block(
+            "Slide Video Layer",
+            PRIMARY_PURPLE,
+            PRIMARY_GREEN,
+            ("render transparent WebM", "stage progressive reveals", "sample review frames"),
+            RIGHT * 2.15 + DOWN * 1.47,
+        )
+        return VGroup(stage, input_panel, input_group, guides, top_block, *top_items, bottom_block, *bottom_items)
+
+    def poster_composition(self) -> VGroup:
+        return self.continuation_poster_composition()
 
 
 def render_variant(args: _Args) -> None:

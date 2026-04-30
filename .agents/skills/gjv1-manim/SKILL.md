@@ -29,6 +29,14 @@ Use `side formula handoff` for table transformations where two or more source ce
 - For text-derived classifications, preserve the full source string with inline markup when highlighting matched text. Splitting a transaction description into separate text chunks can remove visible spaces, and direct character slicing can drift when rendered glyph submobjects do not map to the source string.
 - If a side badge, formula panel, or temporary guide balances the table during the mechanism, also sample the final frame after that support disappears. Recenter or rebalance the resolved table if the no-support hold becomes left- or right-heavy.
 - For title bands that include both title and subtitle, build the backing panel from the measured title/subtitle group height plus padding. Fixed-height title panels can leave the subtitle outside the local background after font or spacing changes.
+- For side badges, build the backing box from the measured terms plus generous horizontal padding. If the result must travel back into the table, fade or remove the source-side terms first so the traveling result does not cross over still-visible text.
+
+## Grid Discipline For Side Mechanisms
+
+- Treat side badges as a separate aligned column, not as objects positioned from each active cell.
+- Give every badge the same centerline and width as the top rule badge so row-level mechanisms keep a grid-like rhythm.
+- Reserve a visible gutter between the table and the side column. Long labels should shrink inside the side column before they drift onto a destination column.
+- When a user reports that a badge or callout feels misplaced, compare it against the nearest row, column, and sibling badge. The fix is usually alignment to an explicit grid, not another local offset.
 
 # Working Style
 
@@ -38,6 +46,10 @@ Use `side formula handoff` for table transformations where two or more source ce
 - Review real sampled frames before declaring the result good.
 - For transforms with disappearing, remapped, or imported components, review at 0.5 second intervals before accepting the motion.
 - Inspect suspicious contact-sheet frames at full size before deciding they are artifacts.
+- If a human calls out a bad timestamp, extract that exact frame at full size and treat it as stronger evidence than the surrounding contact sheet.
+- If a callout is about an existing rendered video, patch and rerender the video itself; skill updates are not a substitute for fixing the artifact.
+- For camera moves, dense SVG imports, large panels, or overlapping clusters, run the automated frame composition audit before saying there are no crop or overlap problems.
+- For continuation scenes that introduce a second column later, reveal visible destination scaffolds early enough that the setup frame still balances before the lists or detailed content appear.
 - Keep only the experiments whose still frames remain intentional without narration.
 - Respect the project pacing floor: at least 25 seconds for slide-integration scenes, with 2 to 3 seconds of visible opening breath and 5 to 7 seconds of final hold unless a shorter micro-loop is explicitly documented.
 
@@ -53,10 +65,13 @@ Load only the resource needed for the current task:
 - For preferred color styles and exact Manim token names, read [references/preferred-color-styles.md](references/preferred-color-styles.md).
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
+- For continuing a resolved composition into two generated project blocks, read [references/continuation-project-breakdowns.md](references/continuation-project-breakdowns.md).
 - For repo-wide video review, promoted-output counting, and contact sheets, read [references/repo-wide-video-audit.md](references/repo-wide-video-audit.md).
 - For a copyable new spike shape, start from [examples/quality-spike-template.py](examples/quality-spike-template.py).
 - For a reusable all-video contact sheet command, run or adapt [examples/contact-sheet-review.py](examples/contact-sheet-review.py).
 - For a prioritized edge, center, and near-clipping candidate pass, run or adapt [examples/frame-safety-audit.py](examples/frame-safety-audit.py).
+- For exact timestamp margin, side-fragment, and overlap/crowding checks, run [scripts/frame-composition-audit.py](scripts/frame-composition-audit.py).
+- For rest-state mobject edge clearance before a full render, run [scripts/resting-mobject-audit.py](scripts/resting-mobject-audit.py).
 - For the transparent-loop versus local-stage decision, compare [examples/transparent-loop-vs-backed-clip.py](examples/transparent-loop-vs-backed-clip.py).
 - For reusable output resources, copy from [assets/canonical-palette.json](assets/canonical-palette.json), [assets/review-frame-policy.json](assets/review-frame-policy.json), [assets/frame-safety-policy.json](assets/frame-safety-policy.json), or [assets/manim_scene_helpers.py](assets/manim_scene_helpers.py).
 
@@ -193,6 +208,28 @@ uv run --with av --with pillow .agents/skills/gjv1-manim/examples/contact-sheet-
 
 For component remaps, imported SVGs, deletion beats, or any scene where something appears to flicker in the background, also extract a half-second review set. Keep the images on a white background and build contact sheets, but open suspicious frames full size before patching. One-second sampling can miss unsupported child roles, lingering guides, and ambiguous SVG morph states.
 
+For camera framing, panel crops, dense SVG clusters, or possible overlaps, also run the automated composition audit:
+
+```bash
+uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --video videos/<spike-name>/<video-name>.webm --cadence 0.5 --write-overlays
+```
+
+For rest holds, run the scene-geometry audit before rerendering a long video. It skips animations, captures every `wait()`, and reports named mobjects whose bounds are outside the active camera frame or inside the safety margin:
+
+```bash
+uv run --script .agents/skills/gjv1-manim/scripts/resting-mobject-audit.py --scene-file spikes/<spike-name>/main.py --scene-class <SceneClass> --out-dir videos/<spike-name>/resting-mobject-audit
+```
+
+Use `--check-pairs` only when sibling mobject collisions are the suspected failure; the default is edge clearance because panel children and imported SVG leaves often overlap by design.
+
+Use exact timestamps when a review points to a specific second:
+
+```bash
+uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --video videos/<spike-name>/<video-name>.webm --times 14 --write-overlays
+```
+
+Treat `low_visual_margin` and `off_center_content` as blocking composition findings. Treat `stray_vertical_fragment` as a full-size review prompt by default because intentional panel edges and route guides can trigger it; rerun with `--strict-stray` when the overlay shows unsupported vertical residue. Treat `possible_overlap_or_crowding` as a full-size review prompt unless `--strict-notices` is appropriate for the scene.
+
 ## 5. Sample the right proof moment
 
 Do not default to the final frame. Sample the frame that proves the mechanism.
@@ -205,6 +242,8 @@ Use these defaults:
   sample the frame where the mechanism is still visible around the leader.
 - `fork / split / relay / handoff / bridge / weave / arc`:
   sample the transfer frame, not only the start or finish.
+- `continuation / project breakdown`:
+  sample the setup with destination scaffolds, first populated block, fork-with-second-block, and final hold. The final completed list alone does not prove that the blocks were generated from the prior state.
 - `table / formula handoff`:
   sample the formula-composed frame and the result-handoff frame; the final completed table alone does not prove the calculation mechanism.
 - `snap / recoil / edge tension / echo settle`:
@@ -222,6 +261,8 @@ Check these first:
 
 - too much dead space on one side,
 - shapes colliding into unreadable clusters,
+- rest-state mobject audit findings for `outside_frame`, `low_edge_clearance`, or `off_center_rest_content`,
+- automated audit findings for low margins, residual side fragments, or overlap/crowding near the active timestamp,
 - accent motion too small to matter,
 - guide geometry overpowering the actors,
 - target state busier than source state,
@@ -302,6 +343,16 @@ Do not add text before exhausting those fixes.
 - let the lead form arrive first when the scene depends on delayed settle,
 - remove orbital or staging scaffolding before the final frame.
 
+### Continuation and project breakdowns
+
+- preserve the prior resolved composition as a compact input when it is the source for the next beat,
+- reveal output block scaffolds before detailed content so the setup frame is balanced,
+- make scaffolds visible enough to survive review: pale panels are fine, but borders and header hints must not vanish,
+- activate each large block before revealing its list rows,
+- reveal keypoints progressively with one row per beat,
+- keep the fork or branch geometry visible while each block becomes populated,
+- update the poster composition to the new terminal state when the final hold changes.
+
 ### Imported SVG and component remaps
 
 - keep transformable SVG roles in stable top-level groups such as `body`, `slot`, or `accent`,
@@ -362,6 +413,7 @@ When the first pass looks weak, it is usually because of one of these:
 - child roles move before the new body exists, making them appear unsupported even if the final frame is clean.
 - contact-sheet thumbnails make small intentional child-role geometry look like source residue; inspect the frame at full size before patching.
 - title groups, badges, chips, or callouts touch a panel boundary; reserve a clean header band or move the mechanism away from that label zone.
+- camera-focus passes leave cropped neighboring panel fragments visible at the frame edge instead of hiding or fully contextualizing them.
 - formula terms are animated separately and become unreadable in intermediate frames.
 - calculation badges sit on top of table values, headers, or active row cues.
 - transient result text overlaps the final destination text instead of transforming into it.

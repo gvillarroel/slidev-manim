@@ -35,6 +35,7 @@ Read this when the composition is built but the right review frames are unclear.
 | Snap recoil | Overshoot before recoil | Snap reads as normal arrival | Increase overshoot distance |
 | Staged convergence | Forms compressed in lane | Lane is too loose | Make lane narrower than source and target |
 | Fork diverge | Branches separated around fork | Split reads as regrouping | Keep trunk visible and increase branch angle |
+| Project breakdown continuation | Resolved input plus visible output scaffolds, then populated blocks | Continuation reads as a separate pasted slide | Keep compact source input, reveal scaffolds early, and populate blocks progressively |
 
 ## Critique Order
 
@@ -55,3 +56,28 @@ A proof frame should answer one question without narration:
 `What physical or visual mechanism is causing this transition?`
 
 If the answer is "it moved because the animation says so," the frame is unfinished.
+
+## Timestamp Callouts
+
+When a reviewer names a specific second, inspect that timestamp at full size before defending the contact sheet. Contact sheets can hide panel crops, over-tight margins, and thin residual fragments.
+
+For the exact timestamp and its surrounding motion, run:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --video videos/<spike-name>/<video-name>.webm --times 14 --write-overlays
+uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --video videos/<spike-name>/<video-name>.webm --start 12 --end 16 --cadence 0.5 --write-overlays
+```
+
+Patch any `low_visual_margin` or `off_center_content` finding before claiming the framing is clean. `stray_vertical_fragment` means the overlay should be opened full size; it is blocking only when the vertical slice is unsupported residue or an accidental crop, not when it is a deliberate panel edge, scaffold, or guide. Rerun with `--strict-stray` when a reviewer calls out side fragments. `possible_overlap_or_crowding` is also a full-size review prompt; it is not automatically wrong, but it is not dismissible from a thumbnail.
+
+## Continuation Blocks
+
+For a continuation that turns a resolved diagram into generated project blocks, do not sample only the final completed list. The useful proof set is:
+
+1. setup with the prior resolved composition and visible output scaffolds,
+2. first block populated,
+3. fork or branch still visible while the second block activates,
+4. both blocks populated,
+5. final hold after guide softening.
+
+If the setup frame is flagged as off-center, make the destination scaffolds more visible before moving the camera again. Very faint placeholder panels can look acceptable in motion but disappear from pixel-based audits.

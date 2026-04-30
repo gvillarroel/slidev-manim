@@ -53,6 +53,81 @@ videos/review-sheets/frame-safety-audit/frame-safety-audit.png
 
 Treat these as candidates, not verdicts. The audit intentionally flags near-edge text, panel borders, chips, and off-center compositions so the next step is a full-size frame review.
 
+## Automated Composition Audit
+
+For a specific rendered video with camera work, large panels, SVG clusters, or tight transforms, run the denser pixel audit:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --video videos/<spike-name>/<video-name>.webm --cadence 0.5 --write-overlays
+```
+
+Use exact timestamps when a reviewer points to a failure:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --video videos/<spike-name>/<video-name>.webm --times 14 --write-overlays
+```
+
+Read `composition-audit/report.md` first, then open overlay PNGs for blocking findings. Blocking defaults are low visual margin and off-center content. Stray vertical fragments are notices by default because stage panels, scaffolds, and route guides can be intentional; use `--strict-stray` when the suspected issue is unsupported side residue. Possible overlap or crowding is also a notice by default; use `--strict-notices` when dense overlap is unacceptable for the scene.
+
+## Confirm VP9 Alpha
+
+For transparent WebM deliverables, check both stream metadata and a decoded alpha frame. Metadata such as `alpha_mode=1` confirms intent, but an extracted alpha image confirms the promoted file still contains transparent pixels.
+
+If system `ffmpeg` is not on `PATH`, use `imageio-ffmpeg`. If `alphaextract` reports missing planes, force the VP9 decoder:
+
+```powershell
+@'
+import subprocess
+from pathlib import Path
+from PIL import Image
+import imageio_ffmpeg
+
+ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+video = Path(r'videos/<spike>/<video>.webm')
+out = video.parent / 'review-frames' / 'alpha-check-frame.png'
+out.parent.mkdir(parents=True, exist_ok=True)
+
+subprocess.run(
+    [
+        ffmpeg,
+        '-hide_banner',
+        '-loglevel',
+        'error',
+        '-c:v',
+        'libvpx-vp9',
+        '-i',
+        str(video),
+        '-frames:v',
+        '1',
+        '-vf',
+        'format=yuva420p,alphaextract',
+        str(out),
+    ],
+    check=True,
+)
+
+print(Image.open(out).convert('L').getextrema())
+'@ | uv run --with imageio-ffmpeg --with pillow -
+```
+
+A useful transparent clip should show an extrema range with both transparent and opaque values, for example `(0, 255)`.
+
+## Audit Rest-State Geometry
+
+When a video looks cut off at a held state, use the mobject geometry audit before guessing at camera numbers. It runs the scene with skipped animations, captures each `wait()`, and compares visible mobject bounds against the active camera frame:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/resting-mobject-audit.py --scene-file spikes/<spike-name>/main.py --scene-class <SceneClass> --out-dir videos/<spike-name>/resting-mobject-audit
+```
+
+For scenes that download or generate local assets during `main()`, pass setup hooks:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/resting-mobject-audit.py --scene-file spikes/svg-repo-video-lab/main.py --scene-class SvgRepoVideoLabScene --setup-call ensure_raw_assets --setup-call ensure_generated_variants --out-dir videos/svg-repo-video-lab/resting-mobject-audit
+```
+
+Treat `outside_frame`, `low_edge_clearance`, and `off_center_rest_content` as blocking for rest holds. Add `--check-pairs` only when sibling mobject collisions are the suspected issue; parent panels, labels, and imported SVG internals frequently overlap by design.
+
 ## Review Criteria
 
 Check these for every sheet:
@@ -64,6 +139,7 @@ Check these for every sheet:
 - Do titles, badges, chips, or callouts have their own safe header band instead of touching the frame or diagram panels?
 - Are primary colors serving semantic roles instead of arbitrary decoration?
 - Does at least one sampled frame prove the intended mechanism?
+- Do automated composition audit overlays show adequate active margins and no residual side fragments?
 
 ## Final Report
 
@@ -71,6 +147,9 @@ Include:
 
 - promoted deliverable count by extension,
 - contact sheet paths,
+- rest-state mobject audit report paths when held frames, camera focus, or final holds were involved,
+- composition audit report paths when camera framing, panels, SVG clusters, or overlaps were involved,
+- VP9 alpha metadata and alpha-extraction result for transparent WebM deliverables,
 - scripts patched,
 - render commands run,
 - syntax and token checks,

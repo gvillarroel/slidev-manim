@@ -57,6 +57,9 @@ GRAY_700 = "#4f4f4f"
 HIGHLIGHT_BLUE = "#cdf3ff"
 HIGHLIGHT_PURPLE = "#f9ccff"
 PAGE_BACKGROUND = "#f7f7f7"
+SIDE_BADGE_CENTER_X = 4.78
+SIDE_BADGE_WIDTH = 3.0
+SIDE_BADGE_TEXT_WIDTH = 2.36
 
 CATEGORY_RULES = [
     ("SUPERMARKET", "Groceries"),
@@ -367,23 +370,25 @@ class TransactionCategoryTableScene(Scene):
         title_panel.move_to(title_block.get_center())
         title_panel.set_z_index(0)
 
-        rule_panel = RoundedRectangle(
-            width=2.6,
-            height=0.74,
-            corner_radius=0.14,
-            stroke_color=GRAY_300,
-            stroke_width=1.5,
-            fill_color=WHITE,
-            fill_opacity=0.96,
-        )
-        rule_panel.move_to(RIGHT * 4.82 + UP * 2.0)
-        rule_panel.set_z_index(1)
         rule_hint = VGroup(
             code_text("keyword", size=18, color=PRIMARY_ORANGE),
             code_text("->", size=18, color=GRAY_700),
             text("category", size=18, color=PRIMARY_PURPLE, weight="BOLD"),
         )
         rule_hint.arrange(RIGHT, buff=0.12)
+        if rule_hint.width > SIDE_BADGE_TEXT_WIDTH:
+            rule_hint.scale_to_fit_width(SIDE_BADGE_TEXT_WIDTH)
+        rule_panel = RoundedRectangle(
+            width=SIDE_BADGE_WIDTH,
+            height=rule_hint.height + 0.4,
+            corner_radius=0.14,
+            stroke_color=GRAY_300,
+            stroke_width=1.5,
+            fill_color=WHITE,
+            fill_opacity=0.96,
+        )
+        rule_panel.move_to(RIGHT * SIDE_BADGE_CENTER_X + UP * 2.0)
+        rule_panel.set_z_index(1)
         rule_hint.move_to(rule_panel.get_center())
         rule_hint.set_z_index(3)
 
@@ -454,7 +459,7 @@ class TransactionCategoryTableScene(Scene):
 
         badge, badge_parts = self._classification_badge(
             transaction,
-            category_cell.get_right() + RIGHT * 1.42,
+            RIGHT * SIDE_BADGE_CENTER_X + UP * category_cell.get_center()[1],
         )
 
         result_token = text(transaction.category, size=23, color=PRIMARY_YELLOW, weight="BOLD")
@@ -478,6 +483,11 @@ class TransactionCategoryTableScene(Scene):
         )
         self.wait(0.35)
         self.play(
+            FadeOut(badge_parts["keyword"], shift=UP * 0.02),
+            FadeOut(badge_parts["arrow"], shift=UP * 0.02),
+            run_time=0.22,
+        )
+        self.play(
             ReplacementTransform(badge_parts["category"], result_token),
             run_time=0.65,
             rate_func=rate_functions.ease_out_cubic,
@@ -492,8 +502,6 @@ class TransactionCategoryTableScene(Scene):
             FadeOut(row_focus),
             FadeOut(keyword_box),
             FadeOut(badge_parts["box"], shift=UP * 0.03),
-            FadeOut(badge_parts["keyword"], shift=UP * 0.03),
-            FadeOut(badge_parts["arrow"], shift=UP * 0.03),
             run_time=0.45,
         )
 
@@ -507,12 +515,12 @@ class TransactionCategoryTableScene(Scene):
         category = text(transaction.category, size=20, color=PRIMARY_PURPLE, weight="BOLD")
         terms = VGroup(keyword, arrow, category)
         terms.arrange(RIGHT, buff=0.12)
-        if terms.width > 2.32:
-            terms.scale_to_fit_width(2.32)
+        if terms.width > SIDE_BADGE_TEXT_WIDTH:
+            terms.scale_to_fit_width(SIDE_BADGE_TEXT_WIDTH)
 
         badge = RoundedRectangle(
-            width=terms.width + 0.44,
-            height=0.46,
+            width=SIDE_BADGE_WIDTH,
+            height=terms.height + 0.28,
             corner_radius=0.1,
             stroke_color=PRIMARY_ORANGE,
             stroke_width=1.8,

@@ -118,6 +118,21 @@ def parse_args() -> argparse.Namespace:
         help="Write annotated PNG overlays for frames with findings.",
     )
     parser.add_argument(
+        "--check-gray-only",
+        action="store_true",
+        help="Also apply margin and centering checks when only low-saturation gray structure is visible.",
+    )
+    parser.add_argument(
+        "--strict-notices",
+        action="store_true",
+        help="Treat notice-level overlap/crowding findings as blocking failures.",
+    )
+    parser.add_argument(
+        "--strict-stray",
+        action="store_true",
+        help="Treat low-saturation vertical fragments as blocking instead of review notices.",
+    )
+    parser.add_argument(
         "--max-components",
         type=int,
         default=24,
@@ -161,7 +176,7 @@ def sample_times(duration: float, args: argparse.Namespace) -> list[float]:
 
 def frame_at(video: Path, time: float, fps: float) -> Image.Image:
     selected = None
-    for target in (time, max(0.0, time - 1 / fps)):
+    for target in (time, max(0.0, time - 1 / fps), max(0.0, time - 2 / fps), max(0.0, time - 0.15)):
         container = av.open(str(video))
         stream = container.streams.video[0]
         container.seek(int(max(0, target) / stream.time_base), stream=stream)
@@ -172,6 +187,11 @@ def frame_at(video: Path, time: float, fps: float) -> Image.Image:
         container.close()
         if selected is not None:
             break
+    if selected is None:
+        container = av.open(str(video))
+        for frame in container.decode(video=0):
+            selected = frame
+        container.close()
     if selected is None:
         raise RuntimeError(f"No frame near {time:.3f}s")
 
@@ -300,6 +320,7 @@ def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> di
         "time": round(time, 3),
         "content_box": content_box.to_list() if content_box else None,
         "strong_box": strong_box.to_list() if strong_box else None,
+        "active_color": strong_box is not None,
         "foreground_fraction": float(mask.mean()),
         "findings": findings,
     }
@@ -310,31 +331,34 @@ def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> di
     active_box = strong_box or content_box
     result["active_box"] = active_box.to_list()
     margins = margins_for(active_box, width, height)
-    center_x, center_y = active_box.center
+    center_box = content_box if strong_box is not None and content_box.area > active_box.area * 1.45 else active_box
+    center_x, center_y = center_box.center
     result["margins"] = margins
+    result["center_box"] = center_box.to_list()
     result["center_offset"] = {
         "x": (center_x - width / 2) / width,
         "y": (center_y - height / 2) / height,
     }
 
-    low_margins = {name: value for name, value in margins.items() if value < args.margin}
-    if low_margins:
-        add_finding(
-            findings,
-            "low_visual_margin",
-            "warning",
-            "Visible foreground is too close to the frame edge.",
-            {"minimum_fraction": args.margin, "margins": low_margins},
-        )
+    if strong_box is not None or args.check_gray_only:
+        low_margins = {name: value for name, value in margins.items() if value < args.margin}
+        if low_margins:
+            add_finding(
+                findings,
+                "low_visual_margin",
+                "warning",
+                "Visible foreground is too close to the frame edge.",
+                {"minimum_fraction": args.margin, "margins": low_margins},
+            )
 
-    if abs(result["center_offset"]["x"]) > args.center_tolerance or abs(result["center_offset"]["y"]) > args.center_tolerance:
-        add_finding(
-            findings,
-            "off_center_content",
-            "warning",
-            "Visible content bbox is outside the center tolerance.",
-            {"tolerance": args.center_tolerance, "offset": result["center_offset"]},
-        )
+        if abs(result["center_offset"]["x"]) > args.center_tolerance or abs(result["center_offset"]["y"]) > args.center_tolerance:
+            add_finding(
+                findings,
+                "off_center_content",
+                "warning",
+                "Visible content bbox is outside the center tolerance.",
+                {"tolerance": args.center_tolerance, "offset": result["center_offset"]},
+            )
 
     if strong_box:
         stray_boxes: list[list[int]] = []
@@ -350,8 +374,8 @@ def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> di
             add_finding(
                 findings,
                 "stray_vertical_fragment",
-                "warning",
-                "Thin low-saturation vertical fragments sit outside the active colored composition.",
+                "warning" if args.strict_stray else "notice",
+                "Thin low-saturation vertical fragments sit outside the active colored composition; review them as blocking only when they are not intentional panel edges or guides.",
                 {"boxes": stray_boxes[:8]},
             )
 
@@ -434,12 +458,28 @@ def draw_overlay(image: Image.Image, audit: dict, out_path: Path, margin_fractio
     overlay.save(out_path)
 
 
+def is_blocking(audit: dict, strict_notices: bool) -> bool:
+    severities = {finding["severity"] for finding in audit["findings"]}
+    return bool({"error", "warning"} & severities) or (strict_notices and "notice" in severities)
+
+
 def write_outputs(out_dir: Path, audits: list[dict], args: argparse.Namespace, metadata: dict) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "audit.json").write_text(json.dumps({"metadata": metadata, "frames": audits}, indent=2), encoding="utf-8")
 
     with (out_dir / "audit.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["time", "finding_count", "codes", "min_margin", "center_offset_x", "center_offset_y"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=[
+                "time",
+                "finding_count",
+                "blocking",
+                "codes",
+                "min_margin",
+                "center_offset_x",
+                "center_offset_y",
+            ],
+        )
         writer.writeheader()
         for audit in audits:
             margins = audit.get("margins", {})
@@ -448,6 +488,7 @@ def write_outputs(out_dir: Path, audits: list[dict], args: argparse.Namespace, m
                 {
                     "time": audit["time"],
                     "finding_count": len(audit["findings"]),
+                    "blocking": is_blocking(audit, args.strict_notices),
                     "codes": ";".join(finding["code"] for finding in audit["findings"]),
                     "min_margin": min(margins.values()) if margins else "",
                     "center_offset_x": center.get("x", ""),
@@ -455,14 +496,16 @@ def write_outputs(out_dir: Path, audits: list[dict], args: argparse.Namespace, m
                 }
             )
 
-    flagged = [audit for audit in audits if audit["findings"]]
+    flagged = [audit for audit in audits if is_blocking(audit, args.strict_notices)]
+    noticed = [audit for audit in audits if audit["findings"] and not is_blocking(audit, args.strict_notices)]
     lines = [
         "# Frame Composition Audit",
         "",
         f"- Video: `{metadata['video']}`",
         f"- Duration: {metadata['duration']:.3f}s",
         f"- Sampled frames: {len(audits)}",
-        f"- Flagged frames: {len(flagged)}",
+        f"- Blocking frames: {len(flagged)}",
+        f"- Notice-only frames: {len(noticed)}",
         f"- Margin threshold: {args.margin:.3f}",
         "",
     ]
@@ -471,6 +514,13 @@ def write_outputs(out_dir: Path, audits: list[dict], args: argparse.Namespace, m
         lines.append(f"- {audit['time']:.3f}s: {codes}")
     if len(flagged) > 80:
         lines.append(f"- ... {len(flagged) - 80} additional flagged frames omitted")
+    if noticed:
+        lines.extend(["", "## Notice-Only Frames", ""])
+        for audit in noticed[:40]:
+            codes = ", ".join(finding["code"] for finding in audit["findings"])
+            lines.append(f"- {audit['time']:.3f}s: {codes}")
+        if len(noticed) > 40:
+            lines.append(f"- ... {len(noticed) - 40} additional notice-only frames omitted")
     (out_dir / "report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -484,16 +534,19 @@ def main() -> int:
     duration, fps, width, height = video_metadata(video)
     times = sample_times(duration, args)
     audits: list[dict] = []
-    flagged_count = 0
+    blocking_count = 0
+    finding_count = 0
 
     for time in times:
         image = frame_at(video, time, fps)
         audit = audit_frame(image, time, args)
         audits.append(audit)
         if audit["findings"]:
-            flagged_count += 1
+            finding_count += 1
             if args.write_overlays:
                 draw_overlay(image, audit, out_dir / "overlays" / f"frame-{time:07.3f}s.png", args.margin)
+        if is_blocking(audit, args.strict_notices):
+            blocking_count += 1
 
     metadata = {
         "video": str(video),
@@ -506,9 +559,10 @@ def main() -> int:
     write_outputs(out_dir, audits, args, metadata)
 
     print(f"sampled_frames={len(audits)}")
-    print(f"flagged_frames={flagged_count}")
+    print(f"frames_with_findings={finding_count}")
+    print(f"blocking_frames={blocking_count}")
     print(out_dir / "report.md")
-    return 1 if flagged_count else 0
+    return 1 if blocking_count else 0
 
 
 if __name__ == "__main__":

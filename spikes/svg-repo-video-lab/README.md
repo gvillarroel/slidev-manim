@@ -16,6 +16,7 @@ Download several SVG Repo assets and test a practical SVG-to-video workflow:
 - deform imported SVGs as Manim vector mobjects,
 - attach animated text to a downloaded text-document SVG,
 - transform the edited SVGs into a final slide-ready composition.
+- continue from the resolved SVG composition into two generated subproject blocks with progressive keypoint lists.
 
 ## Source SVGs
 
@@ -71,8 +72,10 @@ uv run --script spikes/svg-repo-video-lab/main.py --quality medium
 
 Observed output:
 
-- Duration: 33.026 seconds.
-- Frames: 991 decoded frames at 30 fps.
+- Duration: 44.151 seconds.
+- Frames: 1325 decoded frames at 30 fps.
 - Resolution: 1600x900.
-- Transparency: WebM VP9 stream reports `alpha_mode=1`; ffmpeg frame extraction confirmed alpha extrema `(0, 255)`.
-- Review: proof-frame and half-second contact sheets showed no major SVG remap artifacts or accidental camera crops in the text-change, shape-clamp, and final fan-out phases.
+- Transparency: WebM VP9 stream reports `alpha_mode=1`; `ffmpeg -c:v libvpx-vp9 -vf alphaextract` confirmed alpha extrema `(0, 255)`.
+- Half-second review: regenerated `videos/svg-repo-video-lab/review-half-second/contact-sheet-*.png` for the full medium render; inspected the scan pass, the exact 14-second clamp beat, and the 29.5-30.5 second continuation transition.
+- Composition audit: `frame-composition-audit.py --cadence 0.5 --write-overlays` reported `sampled_frames=89` and `blocking_frames=0` on the promoted medium WebM.
+- Exact callout audit: `frame-composition-audit.py --times 14 --out-dir videos/svg-repo-video-lab/composition-audit-14s --write-overlays` reported `blocking_frames=0`.

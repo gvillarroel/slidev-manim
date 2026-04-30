@@ -617,11 +617,33 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - caching raw SVGs under the spike and writing edited variants under `videos/<spike>/.generated/svg/` kept the source assets auditable while keeping generated mutations out of source control,
   - XML-level fill replacement worked well for monochrome icons and simple multi-path chart icons before they entered Manim,
   - keeping Manim text as an overlay locked to the downloaded text-document SVG was more predictable than relying on renderer-dependent SVG `<text>` support,
-  - a local `page-background` stage made the detailed icons readable while preserving transparent margins in the WebM.
+  - a local `page-background` stage made the detailed icons readable while preserving transparent margins in the WebM,
+  - when continuing from the resolved SVG cluster into a two-column project breakdown, faint but visible destination block scaffolds kept the setup frame balanced before the progressive lists appeared.
 - **What failed first**:
   - some plausible SVG Repo ids returned a Vercel challenge even through `show` URLs, so the downloader needs payload validation and a fallback,
   - treating every imported SVG as a direct morph target is risky because topology varies wildly between downloaded icons,
-  - the composition becomes busy quickly when five external icons move at once, so the edit pipeline needs zones and one visible active device per beat.
+  - the composition becomes busy quickly when five external icons move at once, so the edit pipeline needs zones and one visible active device per beat,
+  - very faint placeholder panels can look acceptable to a human but be ignored by the composition audit, leaving the source column flagged as off-center until the scaffold has enough stroke or header contrast.
+
+## SVG Repo Continuation Blocks
+
+- **Hypothesis**: A resolved SVG composition can become the input to a second-column project breakdown if the continuation preserves the final cluster as a compact source and reveals destination blocks progressively.
+- **Result**: Confirmed after widening the final camera frame, adding visible block scaffolds, and validating the proof frames around the continuation rather than only the old source-to-SVG mechanism.
+- **What worked**:
+  - keeping the resolved SVG fan as a compact left input made the continuation feel like a real second beat instead of a new unrelated diagram,
+  - two large right-side blocks with strong primary-color header bands gave the lists enough hierarchy to read from a slide distance,
+  - revealing list rows one at a time made the subproject keypoints feel generated from the prior explanation instead of pasted onto the final frame,
+  - drawing the trunk first and each branch as its corresponding block activates kept the fork mechanism visible in still frames,
+  - output placeholders with visible gray borders and header hints balanced the setup frame before the detailed lists appeared,
+  - updating the poster composition to the new terminal state kept the promoted PNG aligned with the promoted WebM.
+- **What failed first**:
+  - a narrow continuation camera caused the left input panel to read as a cropped side fragment even though nothing was technically cut off,
+  - placeholders that were too faint looked fine to a human but were ignored by the audit, leaving the setup frame flagged as off-center,
+  - auditing only the whole video made earlier intentional focus passes obscure the quality of the new continuation; exact proof timestamps were more useful.
+- **Validation pattern**:
+  - sample setup, first block populated, fork-with-second-block, both blocks populated, and final hold frames,
+  - run `frame-composition-audit.py --times "<proof times>" --write-overlays` on those proof frames,
+  - confirm VP9 alpha with a decoder that preserves alpha; on Windows, `imageio-ffmpeg` plus `-c:v libvpx-vp9 -vf format=yuva420p,alphaextract` worked when `ffmpeg` was not on `PATH`.
 
 ## Transaction Category Table
 
@@ -636,12 +658,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - sampling the no-badge final frame exposed that the table was balanced only while the side badge was present,
   - a short resolved-state recenter after the badge disappears keeps the final hold framed without weakening the row-level mechanism frames,
   - sizing the title backing panel from the measured title/subtitle group kept both lines inside the local background,
+  - sizing side badges from measured terms plus horizontal padding kept `keyword -> category` readable,
+  - placing every side badge on one fixed side-column centerline kept the Uber and Pharmacy badges aligned with the top rule badge instead of drifting toward the purple destination column,
+  - fading the source-side `keyword ->` terms before the category handoff prevented the result text from crossing over still-visible badge text,
   - setting the camera background to `page-background` avoided black frame margins in standalone WebM review.
 - **What failed first**:
   - splitting descriptions into separate text chunks removed visible spaces around the highlighted keyword,
   - direct `Text` character slicing misaligned with spaces because rendered glyph submobjects do not map cleanly to the source string,
   - the table was staged left to make room for the side badge, which made the final no-badge hold feel off-center,
   - a fixed-height title panel covered the main title but let the subtitle fall outside the backing shape,
+  - the fixed-width `keyword -> category` badge had cramped left and right padding,
+  - positioning row badges from the active category cell made long badges feel attached to the purple column instead of arranged in their own ordered column,
+  - keeping `keyword ->` visible while the category traveled back to the table created mid-frame overlap around the 19-second proof frame,
   - a smaller local stage left black margins when the WebM was decoded without alpha in PyAV.
 
 # Practical Rules
@@ -747,6 +775,22 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 90. For layout-variant videos, shorten copy and adapt scale per aspect ratio instead of reusing wide-scene coordinates in a portrait render. Portrait variants should get their own stage size, font sizes, and motion lane.
 91. Semantic remap scenes need a reserved header band for global badges. Badges that touch a panel border read as accidental overlap even when they do not hide the transformed nodes.
 92. A frame-safety audit is useful before patching a whole repo: use it to prioritize edge, center, and large-near-edge candidates, then confirm each suspected issue at full size before changing scripts.
+93. In `MovingCameraScene` focus passes, hide neighboring panels or guides completely when they would only appear as cropped edge fragments. Faint context is useful only when the visible shape still reads as context, not as an accidental slice.
+94. If a reviewer names a timestamp, fix and validate that exact timestamp in the promoted video, not only the workflow or skill notes.
+95. Over-tight camera focus can make a valid mechanism look misframed even when no object is technically cut off; widen the camera or shrink the device until the active colored bbox clears the margin threshold.
+96. For SVG clusters, treat `possible_overlap_or_crowding` as a full-size inspection prompt. Do not count it as a crop failure when the overlap is internal to a single imported SVG and the active margins pass.
+97. In continuation scenes that move from one resolved input column to a second output column, reveal visible output scaffolds early enough to balance the frame, then replace each scaffold with the real block as its list appears.
+98. Rest holds need a geometry audit as well as rendered-frame review. A skipped-animation mobject pass can identify which held object is inside the edge safety margin before spending time on another full render.
+99. If a held panel or zone is almost as tall as the camera frame, widen the camera instead of trusting that the panel is technically visible. Low edge clearance reads as bad framing even without literal clipping.
+100. For project-breakdown continuations, keep the prior resolved composition visible as a compact input instead of fading it away. The viewer needs the source state to understand that the blocks were generated from it.
+101. In list-based project blocks, use strong header bands and small progressive row reveals. The row text may be necessary, but the animation should still be carried by the fork, block activation, and timing.
+102. Do not let placeholder panels be merely decorative haze. If a scaffold balances the composition before content appears, give it enough stroke or header contrast to survive proof-frame review and automated audits.
+103. For continuation scenes, validate the exact proof frames for the new mechanism. A full-video audit is still useful, but older intentional focus passes can produce unrelated findings.
+104. For transparent VP9 WebM validation, metadata such as `alpha_mode=1` is useful but not enough. Extract an alpha frame with a VP9 decoder; if `alphaextract` reports missing planes, force `-c:v libvpx-vp9` and `format=yuva420p`.
+105. When a spike's terminal state changes, update the poster path as part of the same iteration so the promoted PNG remains a truthful still of the latest video.
+106. For half-second review, do not stop at the first called-out timestamp. Sample the surrounding transition and any later camera handoff, because a fixed timestamp can hide adjacent frames with worse composition.
+107. Pixel audits should center on the full intentional scaffold when neutral panels balance the scene. Strong-color-only centering can falsely flag a valid source-to-destination setup as off-center.
+108. Treat thin vertical-fragment findings as review prompts unless `--strict-stray` is enabled. Intentional panel edges, scaffolds, and branch guides can look like stray lines to connected-component audits; unsupported residue still needs a full-size overlay check.
 
 # Reusable Process
 

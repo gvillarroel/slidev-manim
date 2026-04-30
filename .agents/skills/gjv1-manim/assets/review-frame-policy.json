@@ -12,5 +12,19 @@
     "snap": "sample the stressed or overshoot frame before the landing",
     "support_force": "sample where the support visibly causes the motion",
     "landing": "sample both the designed landing and the resolved final hold"
+  },
+  "composition_audit": {
+    "cadence_seconds": 0.5,
+    "minimum_margin_fraction": 0.045,
+    "center_tolerance_fraction": 0.08,
+    "blocking_codes": [
+      "blank_frame",
+      "low_visual_margin",
+      "off_center_content"
+    ],
+    "notice_codes": [
+      "stray_vertical_fragment",
+      "possible_overlap_or_crowding"
+    ]
   }
 }
