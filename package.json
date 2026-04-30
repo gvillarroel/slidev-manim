@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "export:mp4": "scripts/slidev-to-mp4.sh",
+    "export:mp4": "node scripts/record-slidev-to-mp4.mjs",
     "dev:circle-left-to-right": "slidev spikes/circle-left-to-right/slides.md",
     "build:circle-left-to-right": "slidev build spikes/circle-left-to-right/slides.md",
     "dev:overlay-corner-callout": "slidev spikes/overlay-corner-callout/slides.md",
@@ -35,7 +35,9 @@
     "dev:mermaid-sequence-boundary": "slidev spikes/mermaid-sequence-boundary/slides.md",
     "build:mermaid-sequence-boundary": "slidev build spikes/mermaid-sequence-boundary/slides.md",
     "dev:mermaid-layout-gallery": "slidev spikes/mermaid-layout-gallery/slides.md",
-    "build:mermaid-layout-gallery": "slidev build spikes/mermaid-layout-gallery/slides.md"
+    "build:mermaid-layout-gallery": "slidev build spikes/mermaid-layout-gallery/slides.md",
+    "record:mp4": "node scripts/record-slidev-to-mp4.mjs",
+    "export:static-mp4": "scripts/slidev-to-mp4.sh"
   },
   "devDependencies": {
     "@slidev/cli": "^52.3.0",
