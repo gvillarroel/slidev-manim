@@ -393,6 +393,7 @@ Do not add text before exhausting those fixes.
 - remove the device before the resolved landing.
 - if the source zone disappears after an aperture or reveal, recenter the destination stage during cleanup so the final hold does not feel stranded in leftover negative space.
 - move or retire the active accent in the same beat as the landing. A small pulse left at the old aperture edge reads as residue once the guide disappears.
+- for mask-transfer scenes, retire the source row, route lines, destination slots, mask band, and traveling accent before the compact landing morph. Faded source actors or an accent left inside the destination cluster can pass broad composition review but fail strict actor-to-actor clearance.
 
 ### Magnet capture
 

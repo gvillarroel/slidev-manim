@@ -20,10 +20,11 @@ from manim import (
     UP,
     AnimationGroup,
     Circle,
+    Create,
     FadeIn,
     FadeOut,
     Line,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
@@ -46,6 +47,7 @@ PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
 
 
 class _Args(argparse.Namespace):
@@ -104,11 +106,10 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def chip(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(
+def chip(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(
         width=width,
         height=height,
-        corner_radius=0.3,
         stroke_width=0,
         fill_color=color,
         fill_opacity=1,
@@ -119,69 +120,139 @@ class QualityMaskTransferScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        panel = RoundedRectangle(
-            width=12.8,
-            height=5.7,
-            corner_radius=0.35,
+        panel = Rectangle(
+            width=12.4,
+            height=5.5,
             stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=WHITE,
             fill_opacity=0,
         )
-        band = RoundedRectangle(
-            width=2.15,
-            height=5.1,
-            corner_radius=0.34,
+
+        band = Rectangle(
+            width=1.25,
+            height=4.85,
             stroke_width=0,
             fill_color=GRAY_100,
-            fill_opacity=0.95,
-        ).move_to(LEFT * 4.7)
+            fill_opacity=0.98,
+        ).move_to(LEFT * 4.75)
 
         top_row = VGroup(
-            chip(PRIMARY_GREEN, 2.1, 1.0).move_to(LEFT * 3.8 + UP * 0.8),
-            chip(PRIMARY_BLUE, 2.0, 0.96).move_to(LEFT * 1.1 + UP * 0.8),
-            chip(PRIMARY_PURPLE, 1.9, 0.92).move_to(RIGHT * 1.4 + UP * 0.8),
-            chip(PRIMARY_RED, 1.8, 0.88).move_to(RIGHT * 3.8 + UP * 0.8),
+            chip(PRIMARY_GREEN, 1.75, 0.82).move_to(LEFT * 3.9 + UP * 1.05),
+            chip(PRIMARY_BLUE, 1.68, 0.78).move_to(LEFT * 1.35 + UP * 1.05),
+            chip(PRIMARY_PURPLE, 1.52, 0.72).move_to(RIGHT * 1.15 + UP * 1.05),
+            chip(PRIMARY_RED, 1.34, 0.66).move_to(RIGHT * 3.35 + UP * 1.05),
         )
+
+        target_slots = VGroup(
+            Circle(radius=0.52, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(LEFT * 3.6 + DOWN * 1.1),
+            Circle(radius=0.44, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(LEFT * 1.15 + DOWN * 1.08),
+            Circle(radius=0.36, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(RIGHT * 1.05 + DOWN * 1.05),
+            Circle(radius=0.29, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(RIGHT * 2.85 + DOWN * 1.02),
+        ).set_stroke(opacity=0.36)
+
         bottom_row = VGroup(
-            Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(LEFT * 2.75 + DOWN * 1.1),
-            Circle(radius=0.42, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(LEFT * 0.55 + DOWN * 1.08),
-            Circle(radius=0.34, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 1.45 + DOWN * 1.05),
-            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 3.05 + DOWN * 1.02),
+            Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(target_slots[0]),
+            Circle(radius=0.42, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(target_slots[1]),
+            Circle(radius=0.34, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(target_slots[2]),
+            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(target_slots[3]),
         )
+
         transfer_lines = VGroup(*[
-            Line(top_row[i].get_bottom(), bottom_row[i].get_top(), color=PRIMARY_ORANGE, stroke_width=5)
+            Line(top_row[i].get_bottom(), bottom_row[i].get_top(), color=PRIMARY_ORANGE, stroke_width=4)
             for i in range(4)
-        ]).set_opacity(0)
+        ]).set_opacity(0.0)
 
-        accent = Circle(radius=0.15, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(LEFT * 4.55 + UP * 1.9)
+        accent = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(LEFT * 4.75 + UP * 1.95)
 
-        self.add(panel, band)
-        self.play(FadeIn(top_row, lag_ratio=0.08), run_time=0.7)
-        self.play(band.animate.move_to(RIGHT * 0.2), accent.animate.move_to(RIGHT * 0.35 + UP * 1.9), run_time=0.9, rate_func=smooth)
-        self.play(FadeIn(transfer_lines, lag_ratio=0.06), FadeIn(bottom_row, lag_ratio=0.08), run_time=0.45)
-        self.play(band.animate.move_to(RIGHT * 4.25), accent.animate.move_to(RIGHT * 4.45 + UP * 1.9), run_time=0.8, rate_func=smooth)
+        self.add(panel, top_row, target_slots, band, accent)
+        self.wait(2.4)
+
+        self.play(
+            band.animate.move_to(LEFT * 2.6),
+            accent.animate.move_to(LEFT * 2.6 + UP * 1.95),
+            run_time=2.4,
+            rate_func=smooth,
+        )
+        self.play(
+            Create(transfer_lines[0]),
+            FadeIn(bottom_row[0]),
+            target_slots[0].animate.set_stroke(opacity=0.12),
+            run_time=1.6,
+            rate_func=smooth,
+        )
+        self.wait(0.7)
+
+        self.play(
+            band.animate.move_to(LEFT * 0.35),
+            accent.animate.move_to(LEFT * 0.35 + UP * 1.95),
+            run_time=2.2,
+            rate_func=smooth,
+        )
+        self.play(
+            AnimationGroup(
+                Create(transfer_lines[1]),
+                FadeIn(bottom_row[1]),
+                Create(transfer_lines[2]),
+                FadeIn(bottom_row[2]),
+                lag_ratio=0.32,
+            ),
+            target_slots[1].animate.set_stroke(opacity=0.12),
+            target_slots[2].animate.set_stroke(opacity=0.12),
+            run_time=2.4,
+            rate_func=smooth,
+        )
+        self.wait(0.7)
+
+        self.play(
+            band.animate.move_to(RIGHT * 2.55),
+            accent.animate.move_to(RIGHT * 2.55 + UP * 1.95),
+            run_time=2.2,
+            rate_func=smooth,
+        )
+        self.play(
+            Create(transfer_lines[3]),
+            FadeIn(bottom_row[3]),
+            target_slots[3].animate.set_stroke(opacity=0.12),
+            run_time=1.5,
+            rate_func=smooth,
+        )
+        self.wait(0.8)
+
+        self.play(
+            band.animate.move_to(RIGHT * 4.75),
+            accent.animate.move_to(RIGHT * 4.75 + UP * 1.95),
+            run_time=1.9,
+            rate_func=smooth,
+        )
 
         compact_targets = VGroup(
-            Circle(radius=0.68, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 1.95 + UP * 0.55),
-            Circle(radius=0.52, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.0 + UP * 0.0),
-            Circle(radius=0.38, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 2.35 + DOWN * 0.95),
-            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 3.65 + DOWN * 1.15),
+            Circle(radius=0.69, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(LEFT * 0.1 + UP * 0.58),
+            Circle(radius=0.49, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 1.5 + UP * 0.02),
+            Circle(radius=0.36, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 0.45 + DOWN * 1.22),
+            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 1.95 + DOWN * 1.38),
         )
 
         self.play(
-            AnimationGroup(*[Transform(bottom_row[i], compact_targets[i]) for i in range(4)], lag_ratio=0.07),
             transfer_lines.animate.set_opacity(0.0),
-            top_row.animate.set_opacity(0.08),
+            target_slots.animate.set_stroke(opacity=0.0),
+            FadeOut(top_row),
             band.animate.set_opacity(0.0),
-            run_time=1.3,
+            FadeOut(accent),
+            run_time=1.2,
             rate_func=smooth,
         )
+        self.play(
+            AnimationGroup(*[Transform(bottom_row[i], compact_targets[i]) for i in range(4)], lag_ratio=0.07),
+            run_time=2.2,
+            rate_func=smooth,
+        )
+        self.wait(0.7)
+
         for dot in bottom_row:
-            self.play(dot.animate.scale(1.08), run_time=0.16, rate_func=there_and_back)
-        self.play(accent.animate.move_to(RIGHT * 2.55 + DOWN * 0.18).set_fill(PRIMARY_YELLOW, opacity=1), run_time=0.22)
-        self.play(FadeOut(accent), FadeOut(top_row), run_time=0.18)
-        self.wait(0.25)
+            self.play(dot.animate.scale(1.08), run_time=0.28, rate_func=there_and_back)
+        self.play(FadeOut(panel), run_time=1.0)
+        self.wait(5.8)
 
 
 def render_variant(args: _Args) -> None:

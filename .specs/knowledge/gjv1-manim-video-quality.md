@@ -116,16 +116,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Mask Transfer
 
 - **Hypothesis**: A traveling mask band can make a reveal feel more authored than plain fade-ins.
-- **Result**: Confirmed after simplifying the final cluster.
+- **Result**: Confirmed again after expanding the draft into a 30.9-second slide-integration scene with visible opening structure, staged mask passes, scaffold cleanup before compaction, and a clean final hold.
 - **What worked**:
   - a neutral vertical band that acts as a reveal device,
   - top-row chips as a source state and circles as a distilled target state,
-  - top-row ghosts kept very faint in the final frame,
-  - diagonal compact landing with clear size hierarchy.
+  - faint stroke-only destination slots during the opening breath, so the lower row reads as pending structure rather than unused blank space,
+  - stopping the mask at multiple proof beats so each revealed circle has a readable cause,
+  - removing the source row, route lines, target slots, band, and active accent before the compact landing morph, so strict crowding checks do not inherit source or accent residue,
+  - diagonal compact landing with clear size hierarchy and enough actor spacing for the final hold.
 - **What failed first**:
+  - the legacy draft was only 5.496 seconds and opened on a mostly empty frame,
   - the band was too wide,
   - the first compact cluster felt muddy,
-  - ghost chips were too visible and competed with the landing state.
+  - ghost chips were too visible and competed with the landing state,
+  - leaving the source row and yellow accent during the compacting morph created strict actor-to-actor clearance failures even after the broad composition audit passed.
 
 ## Quality Rhythm Gating
 
