@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 VARIANTS = {
     "approach-a": "approach-a",
     "approach-b": "approach-b",
@@ -129,7 +152,7 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 
-from manim import BLUE_E, DOWN, GREY_A, GREY_B, GREY_D, LEFT, RIGHT, Scene, UP, WHITE, Circle, Dot, Line, RoundedRectangle, Text, linear
+from manim import DOWN, LEFT, RIGHT, Scene, UP, WHITE, Circle, Dot, Line, RoundedRectangle, Text, linear
 
 
 class CompareTwoApproachesScene(Scene):
@@ -152,30 +175,32 @@ class CompareTwoApproachesScene(Scene):
             width=self.panel_width,
             height=self.panel_height,
             corner_radius=0.36,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_BLUE,
             stroke_width=6,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
         )
         lane = Line(
             LEFT * 4.65 + DOWN * 0.25,
             RIGHT * 4.65 + DOWN * 0.25,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=8,
         )
-        start_marker = Dot(point=LEFT * 4.65 + DOWN * 0.25, color=GREY_D, radius=0.075)
-        end_marker = Dot(point=RIGHT * 4.65 + DOWN * 0.25, color=GREY_D, radius=0.075)
+        start_marker = Dot(point=LEFT * 4.65 + DOWN * 0.25, color=GRAY_600, radius=0.075)
+        end_marker = Dot(point=RIGHT * 4.65 + DOWN * 0.25, color=GRAY_600, radius=0.075)
         moving_circle = (
-            Circle(radius=0.82, color=BLUE_E, stroke_width=10)
-            .set_fill(BLUE_E, opacity=0.94)
+            Circle(radius=0.82, color=PRIMARY_GREEN, stroke_width=10)
+            .set_fill(PRIMARY_GREEN, opacity=0.94)
             .move_to(LEFT * 4.35 + UP * 0.88)
         )
         return frame, lane, start_marker, end_marker, moving_circle
 
     def render_approach_a(self) -> None:
         frame, lane, start_marker, end_marker, moving_circle = self.common_frame()
-        title = Text("Approach A", font_size=28, weight="BOLD", color=GREY_A).move_to(
+        title = Text("Approach A", font_size=28, weight="BOLD", color=GRAY).move_to(
             UP * 2.18
         )
-        subtitle = Text("minimal motion", font_size=20, color=GREY_A).move_to(UP * 1.82)
+        subtitle = Text("minimal motion", font_size=20, color=GRAY).move_to(UP * 1.82)
 
         self.add(frame, lane, start_marker, end_marker, title, subtitle, moving_circle)
         self.play(
@@ -187,18 +212,18 @@ class CompareTwoApproachesScene(Scene):
 
     def render_approach_b(self) -> None:
         frame, lane, start_marker, end_marker, moving_circle = self.common_frame()
-        title = Text("Approach B", font_size=28, weight="BOLD", color=GREY_A).move_to(
+        title = Text("Approach B", font_size=28, weight="BOLD", color=GRAY).move_to(
             UP * 2.18
         )
-        subtitle = Text("same motion, more emphasis", font_size=20, color=GREY_A).move_to(
+        subtitle = Text("same motion, more emphasis", font_size=20, color=GRAY).move_to(
             UP * 1.82
         )
-        halo = Circle(radius=1.03, color=BLUE_E, stroke_width=8).set_stroke(opacity=0.22)
+        halo = Circle(radius=1.03, color=PRIMARY_YELLOW, stroke_width=8).set_stroke(opacity=0.42)
         halo.move_to(moving_circle.get_center())
         trail = Line(
             LEFT * 4.05 + UP * 0.88,
             LEFT * 3.0 + UP * 0.88,
-            color=BLUE_E,
+            color=PRIMARY_ORANGE,
             stroke_width=12,
             sheen_factor=0.2,
         ).set_opacity(0.6)

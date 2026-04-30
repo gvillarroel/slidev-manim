@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240" role="img" aria-label="Intermediate normalized SVG">
+  <g id="body">
+    <rect x="90" y="94" width="220" height="52" rx="26" fill="#45842a"/>
+  </g>
+  <g id="slot">
+    <rect x="142" y="105" width="56" height="30" rx="15" fill="#007298"/>
+    <rect x="210" y="105" width="48" height="30" rx="15" fill="#652f6c"/>
+  </g>
+  <g id="accent">
+    <circle cx="200" cy="120" r="15" fill="#f1c319"/>
+  </g>
+</svg>

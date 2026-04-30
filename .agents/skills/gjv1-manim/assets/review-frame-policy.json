@@ -1,0 +1,15 @@
+{
+  "sample_percentages": [0.12, 0.5, 0.88],
+  "review_background": "#f7f7f7",
+  "tile_background": "#ffffff",
+  "promoted_video_extensions": [".webm", ".mp4", ".mov", ".mkv"],
+  "ignore_path_segments": [".manim", "partial_movie_files"],
+  "proof_frame_defaults": {
+    "compression": "sample the constrained mid-state",
+    "capture": "sample where the mechanism is still visible around the leader",
+    "handoff": "sample the transfer frame",
+    "snap": "sample the stressed or overshoot frame before the landing",
+    "support_force": "sample where the support visibly causes the motion",
+    "landing": "sample both the designed landing and the resolved final hold"
+  }
+}

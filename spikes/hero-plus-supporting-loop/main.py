@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 VARIANTS = {
     "hero": {
         "scene": "HeroPlusSupportingLoopHeroScene",
@@ -146,10 +169,6 @@ if __name__ == "__main__":
 
 
 from manim import (
-    BLUE_B,
-    BLUE_C,
-    BLUE_D,
-    BLUE_E,
     ORIGIN,
     Circle,
     Dot,
@@ -166,32 +185,32 @@ from manim import (
 class HeroPlusSupportingLoopHeroScene(Scene):
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
 
-        orbit = Circle(radius=3.25, color=BLUE_D, stroke_width=18)
+        orbit = Circle(radius=3.25, color=PRIMARY_BLUE, stroke_width=18)
         orbit.set_stroke(opacity=0.78)
 
-        inner_orbit = Circle(radius=2.28, color=BLUE_C, stroke_width=8)
+        inner_orbit = Circle(radius=2.28, color=PRIMARY_GREEN, stroke_width=8)
         inner_orbit.set_stroke(opacity=0.22)
 
-        center_core = Circle(radius=0.48, color=BLUE_E, stroke_width=10)
-        center_core.set_fill(BLUE_E, opacity=0.95)
+        center_core = Circle(radius=0.48, color=PRIMARY_GREEN, stroke_width=10)
+        center_core.set_fill(PRIMARY_GREEN, opacity=0.95)
 
-        center_ring = Circle(radius=0.95, color=BLUE_B, stroke_width=6)
+        center_ring = Circle(radius=0.95, color=PRIMARY_PURPLE, stroke_width=6)
         center_ring.set_stroke(opacity=0.28)
 
-        orbit_dot = Dot(color=BLUE_E, radius=0.18)
+        orbit_dot = Dot(color=PRIMARY_YELLOW, radius=0.18)
         orbit_dot.move_to(orbit.point_from_proportion(0))
 
         orbit_glow = always_redraw(
-            lambda: Circle(radius=0.31, color=BLUE_E, stroke_width=6)
-            .set_fill(BLUE_E, opacity=0.16)
+            lambda: Circle(radius=0.31, color=PRIMARY_YELLOW, stroke_width=6)
+            .set_fill(PRIMARY_YELLOW, opacity=0.16)
             .move_to(orbit_dot)
         )
 
         anchor_points = []
         for proportion in (0.0, 0.25, 0.5, 0.75):
-            anchor = Dot(color=BLUE_B, radius=0.07)
+            anchor = Dot(color=PRIMARY_ORANGE, radius=0.07)
             anchor.move_to(orbit.point_from_proportion(proportion))
             anchor.set_opacity(0.45)
             anchor_points.append(anchor)
@@ -215,30 +234,30 @@ class HeroPlusSupportingLoopHeroScene(Scene):
 class HeroPlusSupportingLoopSupportScene(Scene):
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
 
-        orbit = Circle(radius=1.62, color=BLUE_D, stroke_width=12)
+        orbit = Circle(radius=1.62, color=PRIMARY_BLUE, stroke_width=12)
         orbit.set_stroke(opacity=0.84)
 
-        support_ring = Circle(radius=2.0, color=BLUE_B, stroke_width=5)
+        support_ring = Circle(radius=2.0, color=PRIMARY_GREEN, stroke_width=5)
         support_ring.set_stroke(opacity=0.22)
 
-        center_core = Circle(radius=0.34, color=BLUE_E, stroke_width=8)
-        center_core.set_fill(BLUE_E, opacity=0.96)
+        center_core = Circle(radius=0.34, color=PRIMARY_GREEN, stroke_width=8)
+        center_core.set_fill(PRIMARY_GREEN, opacity=0.96)
 
-        orbit_dot = Dot(color=BLUE_E, radius=0.12)
+        orbit_dot = Dot(color=PRIMARY_YELLOW, radius=0.12)
         orbit_dot.move_to(orbit.point_from_proportion(0))
 
         orbit_glow = always_redraw(
-            lambda: Circle(radius=0.22, color=BLUE_E, stroke_width=4)
-            .set_fill(BLUE_E, opacity=0.14)
+            lambda: Circle(radius=0.22, color=PRIMARY_YELLOW, stroke_width=4)
+            .set_fill(PRIMARY_YELLOW, opacity=0.14)
             .move_to(orbit_dot)
         )
 
         guide = Line(
             orbit.point_from_proportion(0.0),
             orbit.point_from_proportion(0.5),
-            color=BLUE_B,
+            color=PRIMARY_ORANGE,
             stroke_width=5,
         )
         guide.set_stroke(opacity=0.2)

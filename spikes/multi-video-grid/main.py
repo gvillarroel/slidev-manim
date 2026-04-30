@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 VARIANTS = {
     "orbit": {
         "scene": "MultiVideoGridOrbitScene",
@@ -145,16 +168,10 @@ def run_variant(args: _Args, variant_name: str) -> int:
 
 
 from manim import (
-    BLUE_E,
     DOWN,
-    GREEN_E,
-    GREY_B,
-    GREY_D,
     LEFT,
-    ORANGE,
     RIGHT,
     Scene,
-    TEAL_E,
     Text,
     UP,
     WHITE,
@@ -170,13 +187,22 @@ from manim import (
 
 
 class BaseMultiVideoGridScene(Scene):
-    accent = BLUE_E
+    accent = PRIMARY_BLUE
     title = ""
     subtitle = ""
 
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
+
+        stage = RoundedRectangle(
+            width=12.8,
+            height=7.25,
+            corner_radius=0.36,
+            stroke_width=0,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
+        )
 
         shell = RoundedRectangle(
             width=11.0,
@@ -184,13 +210,14 @@ class BaseMultiVideoGridScene(Scene):
             corner_radius=0.34,
             stroke_color=self.accent,
             stroke_width=5,
-        ).move_to(DOWN * 0.55)
-        title = Text(self.title, font_size=42, color=GREY_D)
-        title.to_edge(UP, buff=0.45)
-        subtitle = Text(self.subtitle, font_size=21, color=GREY_B)
+        ).move_to(DOWN * 0.62)
+        shell.set_fill(WHITE, opacity=0.72)
+        title = Text(self.title, font_size=42, color=GRAY)
+        title.to_edge(UP, buff=0.72)
+        subtitle = Text(self.subtitle, font_size=21, color=GRAY_700)
         subtitle.next_to(title, DOWN, buff=0.12)
 
-        self.add(shell, title, subtitle)
+        self.add(stage, shell, title, subtitle)
         self.build_motion(shell)
         self.wait(0.15)
 
@@ -199,13 +226,13 @@ class BaseMultiVideoGridScene(Scene):
 
 
 class MultiVideoGridOrbitScene(BaseMultiVideoGridScene):
-    accent = BLUE_E
+    accent = PRIMARY_BLUE
     title = "Orbit"
-    subtitle = "Circular motion keeps the frame alive without fighting the slide."
+    subtitle = "A calm loop inside a slide tile."
 
     def build_motion(self, shell: RoundedRectangle) -> None:
         center = shell.get_center()
-        orbit_path = Circle(radius=1.45, color=GREY_B, stroke_width=6).move_to(
+        orbit_path = Circle(radius=1.45, color=GRAY_300, stroke_width=6).move_to(
             center + LEFT * 1.3 + DOWN * 0.05
         )
         dot = Circle(radius=0.16, color=self.accent, stroke_width=4).set_fill(
@@ -215,7 +242,7 @@ class MultiVideoGridOrbitScene(BaseMultiVideoGridScene):
         core = Circle(radius=0.13, color=self.accent, stroke_width=0).set_fill(
             self.accent, opacity=0.9
         ).move_to(orbit_path.get_center())
-        label = Text("Independent path", font_size=24, color=GREY_D)
+        label = Text("Independent path", font_size=24, color=GRAY_600)
         label.move_to(shell.get_center() + DOWN * 1.95)
 
         self.play(Create(orbit_path), FadeIn(core), FadeIn(dot), FadeIn(label), run_time=0.4)
@@ -223,13 +250,13 @@ class MultiVideoGridOrbitScene(BaseMultiVideoGridScene):
 
 
 class MultiVideoGridPulseScene(BaseMultiVideoGridScene):
-    accent = TEAL_E
+    accent = PRIMARY_GREEN
     title = "Pulse"
-    subtitle = "A centered signal test with repeated expansion and contraction."
+    subtitle = "One signal expands and settles."
 
     def build_motion(self, shell: RoundedRectangle) -> None:
         center = shell.get_center()
-        outer_ring = Circle(radius=1.3, color=GREY_B, stroke_width=5).move_to(center)
+        outer_ring = Circle(radius=1.3, color=GRAY_300, stroke_width=5).move_to(center)
         inner_ring = Circle(radius=0.82, color=self.accent, stroke_width=8).move_to(
             center
         )
@@ -239,16 +266,16 @@ class MultiVideoGridPulseScene(BaseMultiVideoGridScene):
         left_bar = Line(
             center + LEFT * 2.4 + DOWN * 0.55,
             center + LEFT * 1.55 + DOWN * 0.55,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=8,
         )
         right_bar = Line(
             center + RIGHT * 1.55 + DOWN * 0.55,
             center + RIGHT * 2.4 + DOWN * 0.55,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=8,
         )
-        caption = Text("Signal gain", font_size=24, color=GREY_D)
+        caption = Text("Signal gain", font_size=24, color=GRAY_600)
         caption.move_to(shell.get_center() + DOWN * 1.95)
 
         self.play(
@@ -265,34 +292,34 @@ class MultiVideoGridPulseScene(BaseMultiVideoGridScene):
 
 
 class MultiVideoGridSweepScene(BaseMultiVideoGridScene):
-    accent = ORANGE
+    accent = PRIMARY_ORANGE
     title = "Sweep"
-    subtitle = "A horizontal pass checks how well the clip reads in a wide tile."
+    subtitle = "A wide pass tests horizontal coverage."
 
     def build_motion(self, shell: RoundedRectangle) -> None:
         center = shell.get_center()
         track = Line(
             center + LEFT * 4.25 + DOWN * 0.2,
             center + RIGHT * 4.25 + DOWN * 0.2,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=8,
         )
         tick_left = Line(
             center + LEFT * 4.25 + DOWN * 0.4,
             center + LEFT * 4.25 + DOWN * 0.0,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=4,
         )
         tick_mid = Line(
             center + DOWN * 0.4,
             center + DOWN * 0.0,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=4,
         )
         tick_right = Line(
             center + RIGHT * 4.25 + DOWN * 0.4,
             center + RIGHT * 4.25 + DOWN * 0.0,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=4,
         )
         marker = RoundedRectangle(
@@ -303,7 +330,7 @@ class MultiVideoGridSweepScene(BaseMultiVideoGridScene):
             stroke_width=4,
         ).set_fill(self.accent, opacity=0.93)
         marker.move_to(center + LEFT * 4.25 + DOWN * 0.2)
-        caption = Text("Track coverage", font_size=24, color=GREY_D)
+        caption = Text("Track coverage", font_size=24, color=GRAY_600)
         caption.move_to(shell.get_center() + DOWN * 1.95)
 
         self.play(
@@ -319,16 +346,16 @@ class MultiVideoGridSweepScene(BaseMultiVideoGridScene):
 
 
 class MultiVideoGridMergeScene(BaseMultiVideoGridScene):
-    accent = GREEN_E
+    accent = PRIMARY_PURPLE
     title = "Merge"
-    subtitle = "Two independent pieces converge into one shared result."
+    subtitle = "Two inputs resolve into one view."
 
     def build_motion(self, shell: RoundedRectangle) -> None:
         center = shell.get_center()
         bridge = Line(
             center + LEFT * 2.35 + DOWN * 0.12,
             center + RIGHT * 2.35 + DOWN * 0.12,
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=8,
         )
         left = Circle(radius=0.42, color=self.accent, stroke_width=6).set_fill(
@@ -345,9 +372,9 @@ class MultiVideoGridMergeScene(BaseMultiVideoGridScene):
             stroke_width=4,
         ).set_fill(WHITE, opacity=0.92)
         badge.move_to(center + DOWN * 0.12)
-        label = Text("Combined view", font_size=26, color=GREY_D)
+        label = Text("Combined view", font_size=26, color=GRAY_600)
         label.move_to(badge.get_center())
-        caption = Text("Independent inputs", font_size=24, color=GREY_D)
+        caption = Text("Independent inputs", font_size=24, color=GRAY_600)
         caption.move_to(shell.get_center() + DOWN * 1.95)
 
         self.play(

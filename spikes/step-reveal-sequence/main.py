@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 VARIANTS = {
     "intro": {
         "scene": "StepRevealIntroScene",
@@ -141,15 +164,11 @@ def run_variant(args: _Args, variant_name: str) -> int:
 
 
 from manim import (
-    BLUE_E,
     DOWN,
     LEFT,
     RIGHT,
     UP,
     UR,
-    BLACK,
-    GRAY_B,
-    GRAY_D,
     WHITE,
     Circle,
     Create,
@@ -173,29 +192,38 @@ class BaseStepRevealScene(Scene):
 
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
 
-        title = Text(self.headline, font_size=42, color=BLACK)
-        title.to_edge(UP, buff=0.55)
-        subtitle = Text(self.subtitle, font_size=24, color=GRAY_D)
+        stage = RoundedRectangle(
+            width=12.8,
+            height=7.25,
+            corner_radius=0.34,
+            stroke_width=0,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
+        )
+
+        title = Text(self.headline, font_size=42, color=GRAY)
+        title.to_edge(UP, buff=0.78)
+        subtitle = Text(self.subtitle, font_size=24, color=GRAY_600)
         subtitle.next_to(title, DOWN, buff=0.18)
 
         track = Line(
             LEFT * 5.7 + DOWN * 0.65,
             RIGHT * 5.7 + DOWN * 0.65,
-            color=GRAY_B,
+            color=GRAY_300,
             stroke_width=10,
         )
-        start_marker = Circle(radius=0.12, color=GRAY_B, stroke_width=2)
-        end_marker = Circle(radius=0.12, color=GRAY_B, stroke_width=2)
+        start_marker = Circle(radius=0.12, color=GRAY_300, stroke_width=2)
+        end_marker = Circle(radius=0.12, color=GRAY_300, stroke_width=2)
         start_marker.move_to(LEFT * 5.2 + DOWN * 0.65)
         end_marker.move_to(RIGHT * 5.2 + DOWN * 0.65)
 
-        circle = Circle(radius=0.42, color=BLUE_E, stroke_width=8)
-        circle.set_fill(BLUE_E, opacity=0.92)
+        circle = Circle(radius=0.42, color=PRIMARY_GREEN, stroke_width=8)
+        circle.set_fill(PRIMARY_GREEN, opacity=0.92)
         circle.move_to(LEFT * 5.2 + DOWN * 0.65)
 
-        self.add(track, start_marker, end_marker, title, subtitle, circle)
+        self.add(stage, track, start_marker, end_marker, title, subtitle, circle)
         self.play(GrowFromCenter(circle), run_time=0.35)
         self.play(
             circle.animate.move_to(LEFT * 0.6 + DOWN * 0.65),
@@ -225,30 +253,37 @@ class BaseStepRevealScene(Scene):
             width=4.2,
             height=1.6,
             corner_radius=0.18,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_ORANGE,
             stroke_width=2,
             fill_color=WHITE,
             fill_opacity=0.88,
         )
-        title = Text(self.card_title, font_size=26, color=BLACK)
-        body = Text(self.card_body, font_size=18, color=GRAY_D)
+        title = Text(self.card_title, font_size=26, color=GRAY)
+        body = Text(self.card_body, font_size=18, color=GRAY_600)
+        max_text_width = box.width - 0.5
+        if title.width > max_text_width:
+            title.scale_to_fit_width(max_text_width)
+        if body.width > max_text_width:
+            body.scale_to_fit_width(max_text_width)
         body.next_to(title, DOWN, buff=0.12)
         content = VGroup(title, body).move_to(box.get_center())
         card = VGroup(box, content)
-        card.to_corner(UR, buff=0.55)
+        card.move_to(RIGHT * 3.55 + UP * 1.15)
         return card
 
     def _build_badge(self) -> VGroup:
         badge = RoundedRectangle(
-            width=3.6,
+            width=4.4,
             height=0.82,
             corner_radius=0.2,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_PURPLE,
             stroke_width=2,
             fill_color=WHITE,
             fill_opacity=0.9,
         )
-        label = Text(self.final_label, font_size=22, color=BLACK)
+        label = Text(self.final_label, font_size=20, color=GRAY)
+        if label.width > badge.width - 0.4:
+            label.scale_to_fit_width(badge.width - 0.4)
         label.move_to(badge.get_center())
         group = VGroup(badge, label)
         group.to_edge(DOWN, buff=0.55)
@@ -267,7 +302,7 @@ class StepRevealContextScene(BaseStepRevealScene):
     headline = "Step 1: Add context"
     subtitle = "The same motion now carries supporting explanation."
     card_title = "Why this matters"
-    card_body = "Reusing the same asset keeps the explanation visually stable."
+    card_body = "Stable reuse keeps the story legible."
     final_label = ""
 
 
@@ -275,7 +310,7 @@ class StepRevealWrapScene(BaseStepRevealScene):
     headline = "Step 2: Close the loop"
     subtitle = "The final slide reuses the motion but shifts the emphasis to the outcome."
     card_title = "What changed"
-    card_body = "The narrative now points at the result instead of the setup."
+    card_body = "The result now owns the emphasis."
     final_label = "Ready for the slide narrative"
 
 

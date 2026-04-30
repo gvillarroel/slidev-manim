@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240" role="img" aria-label="Target transformed SVG">
+  <g id="body">
+    <path d="M102 122L166 168L298 72" fill="none" stroke="#45842a" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="slot">
+    <circle cx="286" cy="86" r="16" fill="#007298"/>
+    <circle cx="330" cy="62" r="11" fill="#652f6c"/>
+  </g>
+  <g id="accent">
+    <circle cx="166" cy="168" r="15" fill="#f1c319"/>
+  </g>
+</svg>

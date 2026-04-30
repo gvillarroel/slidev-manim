@@ -21,6 +21,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 
 @dataclass(frozen=True)
 class Variant:
@@ -150,11 +173,7 @@ if __name__ == "__main__":
 
 
 from manim import (
-    BLACK,
-    BLUE_E,
     DOWN,
-    GREY_B,
-    GREY_D,
     LEFT,
     RIGHT,
     UP,
@@ -183,12 +202,12 @@ class AspectRatioVariantBase(Scene):
             corner_radius=0.16,
             width=3.0,
             height=0.72,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_BLUE,
             stroke_width=4,
             fill_color=WHITE,
             fill_opacity=1,
         )
-        label = Text(text, font_size=26, color=BLACK)
+        label = Text(text, font_size=26, color=GRAY)
         label.move_to(chip.get_center())
         return VGroup(chip, label)
 
@@ -198,30 +217,41 @@ class AspectRatioVariantBase(Scene):
         start: object,
         end: object,
     ) -> tuple[Line, Circle, Circle]:
-        track = Line(start, end, color=GREY_B, stroke_width=10)
-        start_marker = Circle(radius=0.09, color=GREY_D, stroke_width=0).move_to(start)
-        end_marker = Circle(radius=0.09, color=GREY_D, stroke_width=0).move_to(end)
+        track = Line(start, end, color=GRAY_300, stroke_width=10)
+        start_marker = Circle(radius=0.09, color=GRAY_600, stroke_width=0).move_to(start)
+        end_marker = Circle(radius=0.09, color=GRAY_600, stroke_width=0).move_to(end)
         return track, start_marker, end_marker
 
 
 class WideAspectRatioScene(AspectRatioVariantBase):
     def construct(self) -> None:
         if self.is_poster():
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
+
+        stage = RoundedRectangle(
+            width=12.85,
+            height=7.15,
+            corner_radius=0.34,
+            stroke_width=0,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
+        )
 
         frame = RoundedRectangle(
             width=12.2,
-            height=5.9,
+            height=6.25,
             corner_radius=0.34,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_BLUE,
             stroke_width=6,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
         )
         frame.shift(DOWN * 0.08)
 
-        title = Text(self.title_text, font_size=42, color=BLACK)
-        subtitle = Text(self.subtitle_text, font_size=24, color=BLACK)
+        title = Text(self.title_text, font_size=42, color=GRAY)
+        subtitle = Text(self.subtitle_text, font_size=24, color=GRAY)
         title_group = VGroup(title, subtitle).arrange(DOWN, aligned_edge=LEFT, buff=0.18)
-        title_group.to_edge(UP, buff=0.7).shift(LEFT * 2.75)
+        title_group.to_edge(UP, buff=1.05).shift(LEFT * 2.75)
 
         chip = self.make_label_chip(self.accent_label)
         chip.next_to(title_group, DOWN, buff=0.38).align_to(title_group, LEFT)
@@ -233,20 +263,20 @@ class WideAspectRatioScene(AspectRatioVariantBase):
             end=track_end,
         )
 
-        moving_circle = Circle(radius=0.72, color=BLUE_E, stroke_width=10)
-        moving_circle.set_fill(BLUE_E, opacity=0.94)
+        moving_circle = Circle(radius=0.72, color=PRIMARY_GREEN, stroke_width=10)
+        moving_circle.set_fill(PRIMARY_GREEN, opacity=0.94)
         moving_circle.move_to(LEFT * 4.95 + DOWN * 0.05)
 
         arrow = Arrow(
             chip.get_bottom(),
             moving_circle.get_top(),
             buff=0.12,
-            color=BLUE_E,
+            color=PRIMARY_ORANGE,
             stroke_width=6,
             max_tip_length_to_length_ratio=0.16,
         )
 
-        self.add(frame, title_group, chip, track, start_marker, end_marker, arrow, moving_circle)
+        self.add(stage, frame, title_group, chip, track, start_marker, end_marker, arrow, moving_circle)
         self.play(
             moving_circle.animate.move_to(RIGHT * 4.95 + DOWN * 0.05),
             run_time=3.0,
@@ -262,21 +292,32 @@ class TallAspectRatioScene(AspectRatioVariantBase):
 
     def construct(self) -> None:
         if self.is_poster():
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
+
+        stage = RoundedRectangle(
+            width=6.95,
+            height=12.75,
+            corner_radius=0.34,
+            stroke_width=0,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
+        )
 
         frame = RoundedRectangle(
             width=5.8,
             height=12.8,
             corner_radius=0.34,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_BLUE,
             stroke_width=6,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
         )
         frame.shift(DOWN * 0.08)
 
-        title = Text(self.title_text, font_size=42, color=BLACK)
-        subtitle = Text(self.subtitle_text, font_size=24, color=BLACK)
+        title = Text(self.title_text, font_size=42, color=GRAY)
+        subtitle = Text(self.subtitle_text, font_size=24, color=GRAY)
         title_group = VGroup(title, subtitle).arrange(DOWN, aligned_edge=LEFT, buff=0.18)
-        title_group.to_edge(UP, buff=0.6).shift(UP * 0.15)
+        title_group.to_edge(UP, buff=0.95)
 
         chip = self.make_label_chip(self.accent_label)
         chip.next_to(title_group, DOWN, buff=0.32).align_to(title_group, LEFT)
@@ -288,15 +329,15 @@ class TallAspectRatioScene(AspectRatioVariantBase):
             end=track_end,
         )
 
-        moving_circle = Circle(radius=0.72, color=BLUE_E, stroke_width=10)
-        moving_circle.set_fill(BLUE_E, opacity=0.94)
+        moving_circle = Circle(radius=0.72, color=PRIMARY_GREEN, stroke_width=10)
+        moving_circle.set_fill(PRIMARY_GREEN, opacity=0.94)
         moving_circle.move_to(UP * 4.55 + RIGHT * 0.18)
 
         arrow = Arrow(
             chip.get_bottom(),
             moving_circle.get_left(),
             buff=0.12,
-            color=BLUE_E,
+            color=PRIMARY_ORANGE,
             stroke_width=6,
             max_tip_length_to_length_ratio=0.16,
         )
@@ -305,17 +346,18 @@ class TallAspectRatioScene(AspectRatioVariantBase):
             corner_radius=0.18,
             width=4.25,
             height=1.05,
-            stroke_color=GREY_B,
+            stroke_color=GRAY_300,
             stroke_width=3,
             fill_color=WHITE,
             fill_opacity=1,
         )
-        help_text = Text("Good for a narrow panel or stacked layout.", font_size=22, color=BLACK)
+        help_text = Text("Good for a narrow panel or stacked layout.", font_size=22, color=GRAY)
         help_text.move_to(help_box.get_center())
         help_group = VGroup(help_box, help_text)
         help_group.next_to(track, UP, buff=0.45)
 
         self.add(
+            stage,
             frame,
             title_group,
             chip,

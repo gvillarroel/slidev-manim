@@ -19,6 +19,29 @@ REPO_ROOT = SPIKE_DIR.parent.parent
 SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
+
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
 LEGACY_VIDEO = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 
 VARIANTS = {
@@ -26,12 +49,14 @@ VARIANTS = {
         "scene": "CircleLeftToRightFullScene",
         "resolution": "1920,1080",
         "output": OUTPUT_DIR / "circle-left-to-right-full.webm",
+        "mp4": OUTPUT_DIR / "circle-left-to-right-full.mp4",
         "poster": OUTPUT_DIR / "circle-left-to-right-full.png",
     },
     "content": {
         "scene": "CircleLeftToRightContentScene",
         "resolution": "1600,900",
         "output": OUTPUT_DIR / "circle-left-to-right-content.webm",
+        "mp4": OUTPUT_DIR / "circle-left-to-right-content.mp4",
         "poster": OUTPUT_DIR / "circle-left-to-right-content.png",
     },
 }
@@ -98,6 +123,33 @@ def build_command(args: _Args, variant_name: str) -> list[str]:
     return command
 
 
+def build_mp4_command(args: _Args, variant_name: str) -> list[str]:
+    STAGING_DIR.mkdir(parents=True, exist_ok=True)
+    variant = VARIANTS[variant_name]
+
+    command = [
+        sys.executable,
+        "-m",
+        "manim",
+        "render",
+        quality_flag(args.quality),
+        "--format",
+        "mp4",
+        "-r",
+        variant["resolution"],
+        "-o",
+        Path(variant["mp4"]).stem,
+        "--media_dir",
+        str(STAGING_DIR),
+    ]
+
+    if args.preview:
+        command.append("-p")
+
+    command.extend([str(Path(__file__).resolve()), variant["scene"]])
+    return command
+
+
 def build_poster_command(args: _Args, variant_name: str) -> list[str]:
     variant = VARIANTS[variant_name]
     return [
@@ -133,6 +185,11 @@ def promote_rendered_video(variant_name: str) -> None:
     promote_rendered_file(Path(variant["output"]).name, variant["output"])
 
 
+def promote_mp4(variant_name: str) -> None:
+    variant = VARIANTS[variant_name]
+    promote_rendered_file(Path(variant["mp4"]).name, variant["mp4"])
+
+
 def promote_poster(variant_name: str) -> None:
     variant = VARIANTS[variant_name]
     promote_rendered_file(Path(variant["poster"]).name, variant["poster"])
@@ -149,6 +206,18 @@ def main() -> int:
         if result.returncode != 0:
             return result.returncode
         promote_rendered_video(variant_name)
+
+        mp4_env = os.environ.copy()
+        mp4_env["SPIKE_RENDER_TARGET"] = "mp4"
+        mp4_result = subprocess.run(
+            build_mp4_command(args, variant_name),
+            check=False,
+            env=mp4_env,
+        )
+        if mp4_result.returncode != 0:
+            return mp4_result.returncode
+        promote_mp4(variant_name)
+
         poster_env = os.environ.copy()
         poster_env["SPIKE_RENDER_TARGET"] = "poster"
         poster_result = subprocess.run(
@@ -161,6 +230,7 @@ def main() -> int:
         promote_poster(variant_name)
 
     shutil.copy2(VARIANTS["full"]["output"], LEGACY_VIDEO)
+    shutil.copy2(VARIANTS["full"]["mp4"], OUTPUT_DIR / f"{SPIKE_NAME}.mp4")
     return 0
 
 
@@ -168,7 +238,7 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 
-from manim import BLUE_E, LEFT, RIGHT, WHITE, Circle, Scene, linear
+from manim import Dot, LEFT, Line, RIGHT, VGroup, WHITE, Circle, Scene, linear
 
 
 class BaseCircleLeftToRightScene(Scene):
@@ -178,15 +248,22 @@ class BaseCircleLeftToRightScene(Scene):
     run_time = 2.8
 
     def construct(self) -> None:
-        if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
-        circle = Circle(radius=self.radius, color=BLUE_E, stroke_width=10)
-        circle.set_fill(BLUE_E, opacity=0.92)
-        circle.move_to(LEFT * abs(self.start_x))
+        if os.environ.get("SPIKE_RENDER_TARGET") in {"mp4", "poster"}:
+            self.camera.background_color = PAGE_BACKGROUND
 
-        self.add(circle)
+        start = LEFT * abs(self.start_x)
+        end = RIGHT * abs(self.end_x)
+        guide = Line(start, end, color=PRIMARY_ORANGE, stroke_width=7)
+        guide.set_stroke(opacity=0.34)
+
+        circle = Circle(radius=self.radius, color=PRIMARY_GREEN, stroke_width=10)
+        circle.set_fill(PRIMARY_GREEN, opacity=0.94)
+        core = Dot(color=PRIMARY_YELLOW, radius=self.radius * 0.12)
+        leader = VGroup(circle, core).move_to(start)
+
+        self.add(guide, leader)
         self.play(
-            circle.animate.move_to(RIGHT * abs(self.end_x)),
+            leader.animate.move_to(end),
             run_time=self.run_time,
             rate_func=linear,
         )

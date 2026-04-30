@@ -13,6 +13,7 @@
 - Store concise reusable implementation and validation notes under `.specs/knowledge/*.md`.
 - All documents in `.specs/` must be written in Markdown and include frontmatter.
 - Reuse validated workflows recorded in `.specs/knowledge/` before inventing a new local process for the same task.
+- Reuse the canonical slide and video visual system defined in `.specs/adr/0002-slide-and-video-color-system.md`.
 
 ## Repository Layout
 
@@ -32,6 +33,28 @@
 - This project exists to experiment with combining Slidev and Manim.
 - The main goal is to generate presentations where slides can include Manim-rendered videos with transparent backgrounds.
 - Those animations should help express ideas progressively inside each slide, instead of being treated as isolated standalone videos.
+- Use the scene pacing decision in `.specs/adr/0003-scene-duration-and-pacing.md` for Manim videos intended for slide integration.
+
+## Visual System
+
+- Use the canonical project palette and typography system for Slidev slides and Manim videos unless a spike is intentionally testing a different style direction.
+- Do not use source-system prefixes in project artifacts when referring to colors, typography, or iconography.
+- Treat `primary-red`, `primary-orange`, `primary-yellow`, `primary-green`, `primary-blue`, and `primary-purple` as the default solid background palette for slides, panels, and video composition blocks.
+- When those primary colors are used as backgrounds, use white text by default.
+- When taking screenshots to review slide progress, use a white review background by default unless the spike is explicitly validating a different slide background.
+
+## Scene Pacing
+
+- Manim scenes intended for Slidev integration should be at least 25 seconds long unless a shorter micro-loop or bumper is explicitly documented.
+- Give each scene 2 to 3 seconds of breathing room after the initial meaningful composition appears.
+- Hold the resolved final state for 5 to 7 seconds so the slide has time to land.
+- Do not spend the opening breath on a blank transparent frame; show the initial structure first, then let it breathe.
+
+## Video Iteration Review
+
+- After each meaningful video iteration, render or reference the latest output and show it in the chat with a Markdown media embed.
+- Use the absolute filesystem path in the Markdown media embed so the Codex desktop app can display the video inline.
+- Include the key validation result next to the embed, such as duration, frame count, transparency, or review-frame checks when relevant.
 
 ## Skills Strategy
 

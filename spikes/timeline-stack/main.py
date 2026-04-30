@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 VARIANTS = {
     "wide": {
         "scene": "TimelineStackWideScene",
@@ -134,12 +157,7 @@ def run_variant(args: _Args, variant_name: str) -> int:
 
 
 from manim import (
-    BLACK,
-    BLUE_E,
     DOWN,
-    GREY_A,
-    GREY_B,
-    GREY_D,
     LEFT,
     RIGHT,
     Scene,
@@ -156,6 +174,8 @@ from manim import (
 
 
 class BaseTimelineStackScene(Scene):
+    stage_width = 12.8
+    stage_height = 7.15
     card_width = 8.2
     card_height = 1.28
     card_gap = 0.34
@@ -168,14 +188,23 @@ class BaseTimelineStackScene(Scene):
 
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
+
+        stage = RoundedRectangle(
+            width=self.stage_width,
+            height=self.stage_height,
+            corner_radius=0.34,
+            stroke_width=0,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
+        )
 
         spine_start = LEFT * abs(self.spine_x) + UP * self.spine_top
         spine_end = LEFT * abs(self.spine_x) + DOWN * abs(self.spine_bottom)
-        spine = Line(spine_start, spine_end, color=GREY_B, stroke_width=9)
-        progress = Line(spine_start, spine_start, color=BLUE_E, stroke_width=10)
+        spine = Line(spine_start, spine_end, color=GRAY_300, stroke_width=9)
+        progress = Line(spine_start, spine_start, color=PRIMARY_ORANGE, stroke_width=10)
 
-        self.add(spine, progress)
+        self.add(stage, spine, progress)
 
         cards = []
         markers = []
@@ -184,8 +213,8 @@ class BaseTimelineStackScene(Scene):
             card.move_to(spec["position"])
             cards.append(card)
 
-            marker = Circle(radius=0.14, color=BLUE_E, stroke_width=2)
-            marker.set_fill(BLUE_E, opacity=0.96)
+            marker = Circle(radius=0.14, color=PRIMARY_YELLOW, stroke_width=2)
+            marker.set_fill(PRIMARY_YELLOW, opacity=0.96)
             marker.move_to(LEFT * abs(self.spine_x) + UP * spec["marker_y"])
             markers.append(marker)
 
@@ -217,7 +246,7 @@ class BaseTimelineStackScene(Scene):
             width=self.card_width,
             height=self.card_height,
             corner_radius=0.18,
-            stroke_color=BLUE_E,
+            stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=WHITE,
             fill_opacity=0.92,
@@ -227,14 +256,14 @@ class BaseTimelineStackScene(Scene):
             height=0.34,
             corner_radius=0.12,
             stroke_width=0,
-            fill_color=BLUE_E,
+            fill_color=PRIMARY_GREEN,
             fill_opacity=0.96,
         )
         badge_label = Text(step, font_size=14, color=WHITE)
         badge_group = VGroup(badge, badge_label)
 
-        title_text = Text(title, font_size=self.card_title_size, color=BLACK)
-        body_text = Text(body, font_size=self.card_body_size, color=GREY_D)
+        title_text = Text(title, font_size=self.card_title_size, color=GRAY)
+        body_text = Text(body, font_size=self.card_body_size, color=GRAY_600)
 
         content = VGroup(badge_group, title_text, body_text).arrange(
             DOWN,
@@ -246,6 +275,8 @@ class BaseTimelineStackScene(Scene):
 
 
 class TimelineStackWideScene(BaseTimelineStackScene):
+    stage_width = 12.8
+    stage_height = 7.15
     card_width = 8.6
     card_height = 1.38
     spine_x = -4.5
@@ -279,6 +310,8 @@ class TimelineStackWideScene(BaseTimelineStackScene):
 
 
 class TimelineStackPortraitScene(BaseTimelineStackScene):
+    stage_width = 6.95
+    stage_height = 12.75
     card_width = 5.95
     card_height = 1.54
     spine_x = -2.75

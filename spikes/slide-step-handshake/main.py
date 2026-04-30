@@ -21,6 +21,29 @@ REPO_ROOT = SPIKE_DIR.parent.parent
 SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
+
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
 VIDEO_FILE = OUTPUT_DIR / "slide-step-handshake.webm"
 POSTER_FILE = OUTPUT_DIR / "slide-step-handshake.png"
 
@@ -115,12 +138,21 @@ def main() -> int:
 class SlideStepHandshakeScene(Scene):
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
 
-        left_node = Circle(radius=0.78, color=BLUE_C, stroke_width=10)
-        left_node.set_fill(BLUE_C, opacity=0.96)
-        right_node = Circle(radius=0.78, color=ORANGE, stroke_width=10)
-        right_node.set_fill(ORANGE, opacity=0.96)
+        stage = RoundedRectangle(
+            width=12.3,
+            height=4.25,
+            corner_radius=0.34,
+            stroke_width=0,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
+        )
+
+        left_node = Circle(radius=0.78, color=PRIMARY_GREEN, stroke_width=10)
+        left_node.set_fill(PRIMARY_GREEN, opacity=0.96)
+        right_node = Circle(radius=0.78, color=PRIMARY_BLUE, stroke_width=10)
+        right_node.set_fill(PRIMARY_BLUE, opacity=0.96)
 
         left_node.move_to(LEFT * 4.0 + DOWN * 0.15)
         right_node.move_to(RIGHT * 4.0 + UP * 0.15)
@@ -130,17 +162,17 @@ class SlideStepHandshakeScene(Scene):
         left_label.move_to(left_node)
         right_label.move_to(right_node)
 
-        bridge = Line(left_node.get_right(), right_node.get_left(), color=TEAL_B, stroke_width=8)
+        bridge = Line(left_node.get_right(), right_node.get_left(), color=PRIMARY_ORANGE, stroke_width=8)
         bridge.set_stroke(opacity=0.35)
 
-        pulse = Circle(radius=0.12, color=TEAL_B, stroke_width=6)
-        pulse.set_fill(TEAL_B, opacity=0.22)
+        pulse = Circle(radius=0.12, color=PRIMARY_YELLOW, stroke_width=6)
+        pulse.set_fill(PRIMARY_YELLOW, opacity=0.28)
         pulse.move_to(ORIGIN)
 
-        anchor = Dot(color=TEAL_B, radius=0.06)
+        anchor = Dot(color=PRIMARY_YELLOW, radius=0.06)
         anchor.move_to(ORIGIN)
 
-        self.add(bridge, left_node, right_node, left_label, right_label, pulse, anchor)
+        self.add(stage, bridge, left_node, right_node, left_label, right_label, pulse, anchor)
         self.play(
             left_node.animate.move_to(LEFT * 1.75 + DOWN * 0.1),
             right_node.animate.move_to(RIGHT * 1.75 + UP * 0.1),

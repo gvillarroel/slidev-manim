@@ -1,0 +1,560 @@
+description: gjv1-manim-compare-generated:compare
+prompts:
+  - "{{taskPrompt}}"
+providers:
+  - id: C:\Users\villa\dev\skill-arena\src\providers\compare-matrix-provider.js
+    label: no-skill
+    config:
+      provider_id: no-skill
+      profile_id: no-skill
+      skill_mode_id: no-skill
+      routes:
+        codex-mini:
+          scenarioId: codex-mini-no-skill
+          provider:
+            id: C:\Users\villa\dev\skill-arena\src\providers\codex-system-provider.js
+            label: codex:command:gpt-5.1-codex-mini
+            config:
+              provider_id: codex:command:gpt-5.1-codex-mini
+              execution_method: command
+              command_path: codex
+              model: gpt-5.1-codex-mini
+              working_dir: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\workspace
+              additional_directories: []
+              sandbox_mode: workspace-write
+              approval_policy: never
+              web_search_enabled: false
+              network_access_enabled: false
+              model_reasoning_effort: low
+              cli_env:
+                APPDATA: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\user-profile\AppData\Roaming
+                CODEX_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\codex-home
+                HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\home
+                LOCALAPPDATA: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\user-profile\AppData\Local
+                USERPROFILE: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\user-profile
+                XDG_CACHE_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\home\.cache
+                XDG_CONFIG_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\home\.config
+                XDG_DATA_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\home\.local\share
+                XDG_STATE_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\home\.local\state
+                GIT_CONFIG_GLOBAL: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\gitconfig
+                GIT_CONFIG_NOSYSTEM: "1"
+                SKILL_ARENA_EXECUTION_ROOT: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9
+                SKILL_ARENA_ISOLATION: strict
+                SKILL_ARENA_ISOLATED_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\home
+                SKILL_ARENA_ALLOWED_SKILLS: ""
+                TEMP: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\tmp
+                TMP: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\tmp
+                TMPDIR: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\tmp
+              enable_streaming: false
+              deep_tracing: false
+              skip_git_repo_check: false
+              codex_config:
+                skills:
+                  config: []
+              strict_runtime_isolation: true
+              prompt_preamble: ""
+  - id: C:\Users\villa\dev\skill-arena\src\providers\compare-matrix-provider.js
+    label: skill
+    config:
+      provider_id: skill
+      profile_id: skill
+      skill_mode_id: skill
+      routes:
+        codex-mini:
+          scenarioId: codex-mini-skill
+          provider:
+            id: C:\Users\villa\dev\skill-arena\src\providers\codex-system-provider.js
+            label: codex:command:gpt-5.1-codex-mini
+            config:
+              provider_id: codex:command:gpt-5.1-codex-mini
+              execution_method: command
+              command_path: codex
+              model: gpt-5.1-codex-mini
+              working_dir: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\workspace
+              additional_directories: []
+              sandbox_mode: workspace-write
+              approval_policy: never
+              web_search_enabled: false
+              network_access_enabled: false
+              model_reasoning_effort: low
+              cli_env:
+                APPDATA: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\user-profile\AppData\Roaming
+                CODEX_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\codex-home
+                HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\home
+                LOCALAPPDATA: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\user-profile\AppData\Local
+                USERPROFILE: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\user-profile
+                XDG_CACHE_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\home\.cache
+                XDG_CONFIG_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\home\.config
+                XDG_DATA_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\home\.local\share
+                XDG_STATE_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\home\.local\state
+                GIT_CONFIG_GLOBAL: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\gitconfig
+                GIT_CONFIG_NOSYSTEM: "1"
+                SKILL_ARENA_EXECUTION_ROOT: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF
+                SKILL_ARENA_ISOLATION: strict
+                SKILL_ARENA_ISOLATED_HOME: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\home
+                SKILL_ARENA_ALLOWED_SKILLS: gjv1-manim
+                TEMP: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\tmp
+                TMP: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\tmp
+                TMPDIR: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\tmp
+              enable_streaming: false
+              deep_tracing: false
+              skip_git_repo_check: false
+              codex_config:
+                skills:
+                  config:
+                    - path: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5j07PF\codex-home\skills\gjv1-manim\SKILL.md
+                      enabled: true
+              strict_runtime_isolation: true
+              prompt_preamble: "Skill activation: explicitly invoke and follow these skills
+                before solving the task: $gjv1-manim."
+tests:
+  - description: codex mini | Create a Mermaid-driven sequence spike with palette
+      discipline and rendered proof artifacts.
+    vars:
+      taskPrompt: "Create a new spike at `spikes/eval-mermaid-sequence-left-to-right`.
+        The spike must include `README.md` and an executable `main.py`. Render
+        `videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-\
+        to-right.webm` and
+        `videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-\
+        to-right.png`. Extract at least one proof frame into
+        `videos/eval-mermaid-sequence-left-to-right/review-frames/`. Append a
+        section titled `## Eval Mermaid Sequence Left To Right` to
+        `.specs/knowledge/gjv1-manim-video-quality.md`. Use the project primary
+        palette, keep text near zero, use a white review background, and animate
+        this Mermaid sequence idea so the request visibly travels from left to
+        right and the response returns: `sequenceDiagram; participant Alice;
+        participant Bob; Alice->>Bob: Request; Bob->>Alice: Response`. Return
+        only a brief completion note after the files are written."
+      variantId: codex-mini
+      variantDisplayName: codex mini
+    metadata:
+      benchmarkId: gjv1-manim-compare-generated
+      promptId: mermaid-left-right-spike
+      promptDescription: Create a Mermaid-driven sequence spike with palette
+        discipline and rendered proof artifacts.
+      variantId: codex-mini
+      variantDisplayName: codex mini
+      rowId: codex-mini:mermaid-left-right-spike
+      label_variantId: codex-mini
+      label_variantDisplayName: codex mini
+    assert:
+      - type: llm-rubric
+        value: "Score 1.0 only if the agent follows the repository workflow for
+          high-quality Manim video iteration: it creates or refines the
+          requested spikes, keeps text minimal, uses the project palette,
+          renders real video artifacts, produces proof frames, and updates the
+          reusable knowledge note with concise experiment-specific learnings."
+        provider:
+          id: C:\Users\villa\dev\skill-arena\src\providers\local-judge-provider.js
+          config:
+            provider_id: skill-arena:judge:codex
+            adapter: codex
+            working_directory: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\workspace
+      - type: javascript
+        value: >
+          const fs = process.getBuiltinModule("node:fs");
+
+          const path = process.getBuiltinModule("node:path");
+
+          return fs.existsSync(path.resolve(process.cwd(),
+          ".specs/knowledge/gjv1-manim-video-quality.md"));
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/eval-mermaid-sequence-left-to-right/README.md"), 'utf8');
+            return fileContents.includes("Eval Mermaid Sequence Left To Right");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/eval-mermaid-sequence-left-to-right/main.py"), 'utf8');
+            return fileContents.includes("PRIMARY_GREEN");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/eval-mermaid-sequence-left-to-right/main.py"), 'utf8');
+            return fileContents.includes("background_color = WHITE");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, ".specs/knowledge/gjv1-manim-video-quality.md"), 'utf8');
+            return fileContents.includes("## Eval Mermaid Sequence Left To Right");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >
+          const fs = process.getBuiltinModule("node:fs");
+
+          const path = process.getBuiltinModule("node:path");
+
+          const frameDir = path.resolve(process.cwd(),
+          "videos/eval-mermaid-sequence-left-to-right/review-frames");
+
+          return [
+            "spikes/eval-mermaid-sequence-left-to-right/README.md",
+            "spikes/eval-mermaid-sequence-left-to-right/main.py",
+            "videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-to-right.webm",
+            "videos/eval-mermaid-sequence-left-to-right/eval-mermaid-sequence-left-to-right.png",
+          ].every((relativePath) => fs.existsSync(path.resolve(process.cwd(),
+          relativePath)))
+            && fs.existsSync(frameDir)
+            && fs.readdirSync(frameDir).some((name) => name.endsWith(".png"));
+  - description: codex mini | Create a mechanism-first merge funnel spike with
+      rendered proof artifacts and documented learnings.
+    vars:
+      taskPrompt: Create a new spike at `spikes/eval-merge-funnel-quality`. The spike
+        must include `README.md` and an executable `main.py`. Render
+        `videos/eval-merge-funnel-quality/eval-merge-funnel-quality.webm` and
+        `videos/eval-merge-funnel-quality/eval-merge-funnel-quality.png`.
+        Extract at least one proof frame into
+        `videos/eval-merge-funnel-quality/review-frames/`. Append a section
+        titled `## Eval Merge Funnel Quality` to
+        `.specs/knowledge/gjv1-manim-video-quality.md`. Keep text near zero, use
+        the project primary palette, use a white review background, and make the
+        video show three colored inputs compressing through a visible orange
+        funnel before resolving into one dominant landing. Return only a brief
+        completion note after the files are written.
+      variantId: codex-mini
+      variantDisplayName: codex mini
+    metadata:
+      benchmarkId: gjv1-manim-compare-generated
+      promptId: merge-funnel-spike
+      promptDescription: Create a mechanism-first merge funnel spike with rendered
+        proof artifacts and documented learnings.
+      variantId: codex-mini
+      variantDisplayName: codex mini
+      rowId: codex-mini:merge-funnel-spike
+      label_variantId: codex-mini
+      label_variantDisplayName: codex mini
+    assert:
+      - type: llm-rubric
+        value: "Score 1.0 only if the agent follows the repository workflow for
+          high-quality Manim video iteration: it creates or refines the
+          requested spikes, keeps text minimal, uses the project palette,
+          renders real video artifacts, produces proof frames, and updates the
+          reusable knowledge note with concise experiment-specific learnings."
+        provider:
+          id: C:\Users\villa\dev\skill-arena\src\providers\local-judge-provider.js
+          config:
+            provider_id: skill-arena:judge:codex
+            adapter: codex
+            working_directory: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\workspace
+      - type: javascript
+        value: >
+          const fs = process.getBuiltinModule("node:fs");
+
+          const path = process.getBuiltinModule("node:path");
+
+          return fs.existsSync(path.resolve(process.cwd(),
+          ".specs/knowledge/gjv1-manim-video-quality.md"));
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/eval-merge-funnel-quality/README.md"), 'utf8');
+            return fileContents.includes("Eval Merge Funnel Quality");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/eval-merge-funnel-quality/main.py"), 'utf8');
+            return fileContents.includes("PRIMARY_ORANGE");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/eval-merge-funnel-quality/main.py"), 'utf8');
+            return fileContents.includes("background_color = WHITE");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, ".specs/knowledge/gjv1-manim-video-quality.md"), 'utf8');
+            return fileContents.includes("## Eval Merge Funnel Quality");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >
+          const fs = process.getBuiltinModule("node:fs");
+
+          const path = process.getBuiltinModule("node:path");
+
+          const frameDir = path.resolve(process.cwd(),
+          "videos/eval-merge-funnel-quality/review-frames");
+
+          return [
+            "spikes/eval-merge-funnel-quality/README.md",
+            "spikes/eval-merge-funnel-quality/main.py",
+            "videos/eval-merge-funnel-quality/eval-merge-funnel-quality.webm",
+            "videos/eval-merge-funnel-quality/eval-merge-funnel-quality.png",
+          ].every((relativePath) => fs.existsSync(path.resolve(process.cwd(),
+          relativePath)))
+            && fs.existsSync(frameDir)
+            && fs.readdirSync(frameDir).some((name) => name.endsWith(".png"));
+  - description: codex mini | Improve an existing spike so the sleeve mechanism is
+      clearer in proof frames.
+    vars:
+      taskPrompt: Refine `spikes/quality-sleeve-reveal/main.py` so the covered
+        pass-through frame is easier to read in stills while keeping text near
+        zero and preserving the project palette. Rerender
+        `videos/quality-sleeve-reveal/quality-sleeve-reveal.webm` and
+        `videos/quality-sleeve-reveal/quality-sleeve-reveal.png`. Extract at
+        least one proof frame into
+        `videos/quality-sleeve-reveal/review-frames/`. Append a section titled
+        `## Eval Sleeve Reveal Repair` to
+        `.specs/knowledge/gjv1-manim-video-quality.md`. Return only a brief
+        completion note after the files are written.
+      variantId: codex-mini
+      variantDisplayName: codex mini
+    metadata:
+      benchmarkId: gjv1-manim-compare-generated
+      promptId: repair-sleeve-reveal
+      promptDescription: Improve an existing spike so the sleeve mechanism is clearer
+        in proof frames.
+      variantId: codex-mini
+      variantDisplayName: codex mini
+      rowId: codex-mini:repair-sleeve-reveal
+      label_variantId: codex-mini
+      label_variantDisplayName: codex mini
+    assert:
+      - type: llm-rubric
+        value: "Score 1.0 only if the agent follows the repository workflow for
+          high-quality Manim video iteration: it creates or refines the
+          requested spikes, keeps text minimal, uses the project palette,
+          renders real video artifacts, produces proof frames, and updates the
+          reusable knowledge note with concise experiment-specific learnings."
+        provider:
+          id: C:\Users\villa\dev\skill-arena\src\providers\local-judge-provider.js
+          config:
+            provider_id: skill-arena:judge:codex
+            adapter: codex
+            working_directory: C:\Users\villa\AppData\Local\Temp\skill-arena-execution-5zirF9\workspace
+      - type: javascript
+        value: >
+          const fs = process.getBuiltinModule("node:fs");
+
+          const path = process.getBuiltinModule("node:path");
+
+          return fs.existsSync(path.resolve(process.cwd(),
+          ".specs/knowledge/gjv1-manim-video-quality.md"));
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/quality-sleeve-reveal/main.py"), 'utf8');
+            return fileContents.includes("sleeve_left");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, "spikes/quality-sleeve-reveal/main.py"), 'utf8');
+            return fileContents.includes("background_color = WHITE");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >-
+          const fs = process.getBuiltinModule('node:fs');
+
+          const path = process.getBuiltinModule('node:path');
+
+          const workspaceDirectory =
+          context?.providerResponse?.metadata?.workspaceDirectory ??
+          context?.providerResponse?.metadata?.workingDirectory;
+
+          if (!workspaceDirectory) {
+            throw new Error('Missing provider workspaceDirectory in assertion context.');
+          }
+
+          try {
+            const fileContents = fs.readFileSync(path.resolve(workspaceDirectory, ".specs/knowledge/gjv1-manim-video-quality.md"), 'utf8');
+            return fileContents.includes("## Eval Sleeve Reveal Repair");
+          } catch (error) {
+            if (error?.code === 'ENOENT') {
+              return false;
+            }
+            throw error;
+          }
+      - type: javascript
+        value: >
+          const fs = process.getBuiltinModule("node:fs");
+
+          const path = process.getBuiltinModule("node:path");
+
+          const frameDir = path.resolve(process.cwd(),
+          "videos/quality-sleeve-reveal/review-frames");
+
+          return [
+            "spikes/quality-sleeve-reveal/main.py",
+            "videos/quality-sleeve-reveal/quality-sleeve-reveal.webm",
+            "videos/quality-sleeve-reveal/quality-sleeve-reveal.png",
+          ].every((relativePath) => fs.existsSync(path.resolve(process.cwd(),
+          relativePath)))
+            && fs.existsSync(frameDir)
+            && fs.readdirSync(frameDir).some((name) => name.endsWith(".png"));

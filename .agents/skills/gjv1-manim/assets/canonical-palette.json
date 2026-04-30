@@ -1,0 +1,34 @@
+{
+  "primary": {
+    "red": "#9e1b32",
+    "orange": "#e77204",
+    "yellow": "#f1c319",
+    "green": "#45842a",
+    "blue": "#007298",
+    "purple": "#652f6c"
+  },
+  "neutral": {
+    "white": "#ffffff",
+    "gray": "#333e48",
+    "page_background": "#f7f7f7"
+  },
+  "gray_scale": {
+    "gray_100": "#e7e7e7",
+    "gray_200": "#cfcfcf",
+    "gray_300": "#b5b5b5",
+    "gray_400": "#9c9c9c",
+    "gray_600": "#696969",
+    "gray_700": "#4f4f4f"
+  },
+  "highlight": {
+    "red": "#ffccd5",
+    "orange": "#ffe5cc",
+    "yellow": "#fff4cc",
+    "green": "#dbffcc",
+    "blue": "#cdf3ff",
+    "purple": "#f9ccff"
+  },
+  "shadow": {
+    "blue": "#004d66"
+  }
+}

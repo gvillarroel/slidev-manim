@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 MAIN_VIDEO = OUTPUT_DIR / "inset-annotation-panel-main.webm"
 MAIN_POSTER = OUTPUT_DIR / "inset-annotation-panel-main.png"
 ZOOM_VIDEO = OUTPUT_DIR / "inset-annotation-panel-zoom.webm"
@@ -161,12 +184,7 @@ if __name__ == "__main__":
 
 
 from manim import (
-    BLUE_B,
-    BLUE_D,
-    BLUE_E,
     DOWN,
-    GREY_B,
-    GREY_D,
     LEFT,
     RIGHT,
     UR,
@@ -187,7 +205,7 @@ class InsetAnnotationPanelScene(Scene):
     def construct(self) -> None:
         variant = os.environ.get("SPIKE_VARIANT", "main")
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
 
         if variant == "zoom":
             self.construct_zoom()
@@ -199,7 +217,7 @@ class InsetAnnotationPanelScene(Scene):
             width=11.7,
             height=5.55,
             corner_radius=0.36,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_BLUE,
             stroke_width=6,
             fill_color=WHITE,
             fill_opacity=0.94,
@@ -207,28 +225,28 @@ class InsetAnnotationPanelScene(Scene):
         header = Text(
             "Primary annotation panel",
             font_size=28,
-            color=BLUE_D,
+            color=PRIMARY_BLUE,
         ).next_to(panel.get_top(), DOWN, buff=0.28)
 
-        track = Line(LEFT * 5.0 + DOWN * 0.65, RIGHT * 4.85 + DOWN * 0.65, color=GREY_B, stroke_width=8)
-        track_label = Text("detail anchor", font_size=20, color=GREY_D).next_to(track, UP, buff=0.18)
-        focus = Circle(radius=0.13, color=BLUE_B, stroke_width=0).set_fill(BLUE_B, opacity=1.0)
+        track = Line(LEFT * 5.0 + DOWN * 0.65, RIGHT * 4.85 + DOWN * 0.65, color=GRAY_300, stroke_width=8)
+        track_label = Text("detail anchor", font_size=20, color=GRAY_600).next_to(track, UP, buff=0.18)
+        focus = Circle(radius=0.13, color=PRIMARY_YELLOW, stroke_width=0).set_fill(PRIMARY_YELLOW, opacity=1.0)
         focus.move_to(LEFT * 4.35 + DOWN * 0.65)
         callout = RoundedRectangle(
             width=2.35,
             height=0.72,
             corner_radius=0.18,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_ORANGE,
             stroke_width=3,
-            fill_color=BLUE_B,
+            fill_color=PRIMARY_ORANGE,
             fill_opacity=0.12,
         ).move_to(UR * 1.95 + DOWN * 0.15)
-        callout_text = Text("magnified later", font_size=18, color=BLUE_E).move_to(callout.get_center())
-        accent = Line(UR * 1.35 + DOWN * 0.82, LEFT * 0.55 + DOWN * 0.58, color=BLUE_E, stroke_width=4)
+        callout_text = Text("magnified later", font_size=18, color=GRAY).move_to(callout.get_center())
+        accent = Line(UR * 1.35 + DOWN * 0.82, LEFT * 0.55 + DOWN * 0.58, color=PRIMARY_ORANGE, stroke_width=4)
 
-        moving_dot = Circle(radius=0.45, color=BLUE_E, stroke_width=10).set_fill(BLUE_E, opacity=0.92)
+        moving_dot = Circle(radius=0.45, color=PRIMARY_GREEN, stroke_width=10).set_fill(PRIMARY_GREEN, opacity=0.92)
         moving_dot.move_to(LEFT * 4.55 + UP * 0.8)
-        motion_track = Line(LEFT * 4.45 + UP * 0.8, RIGHT * 4.45 + UP * 0.8, color=GREY_D, stroke_width=12)
+        motion_track = Line(LEFT * 4.45 + UP * 0.8, RIGHT * 4.45 + UP * 0.8, color=GRAY_600, stroke_width=12)
 
         self.add(panel, header, motion_track, track, track_label, focus, accent)
         self.play(FadeIn(moving_dot), run_time=0.4)
@@ -241,20 +259,20 @@ class InsetAnnotationPanelScene(Scene):
             width=5.9,
             height=5.9,
             corner_radius=0.42,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_BLUE,
             stroke_width=6,
             fill_color=WHITE,
             fill_opacity=0.96,
         )
-        title = Text("Zoomed detail", font_size=30, color=BLUE_D).next_to(panel.get_top(), DOWN, buff=0.22)
-        magnifier = Circle(radius=1.65, color=BLUE_B, stroke_width=8).set_fill(BLUE_B, opacity=0.08)
+        title = Text("Zoomed detail", font_size=30, color=PRIMARY_BLUE).next_to(panel.get_top(), DOWN, buff=0.22)
+        magnifier = Circle(radius=1.65, color=PRIMARY_BLUE, stroke_width=8).set_fill(PRIMARY_BLUE, opacity=0.08)
         magnifier.shift(DOWN * 0.1)
-        cross_h = Line(LEFT * 1.25, RIGHT * 1.25, color=GREY_B, stroke_width=6).move_to(magnifier)
-        cross_v = Line(UP * 1.25, DOWN * 1.25, color=GREY_B, stroke_width=6).move_to(magnifier)
-        detail_dot = Circle(radius=0.38, color=BLUE_E, stroke_width=10).set_fill(BLUE_E, opacity=0.95)
+        cross_h = Line(LEFT * 1.25, RIGHT * 1.25, color=GRAY_300, stroke_width=6).move_to(magnifier)
+        cross_v = Line(UP * 1.25, DOWN * 1.25, color=GRAY_300, stroke_width=6).move_to(magnifier)
+        detail_dot = Circle(radius=0.38, color=PRIMARY_GREEN, stroke_width=10).set_fill(PRIMARY_GREEN, opacity=0.95)
         detail_dot.move_to(LEFT * 0.5 + UP * 0.35)
-        label = Text("detail focus", font_size=22, color=BLUE_E).next_to(magnifier, DOWN, buff=0.28)
-        lens_ring = Circle(radius=2.1, color=BLUE_E, stroke_width=4).move_to(magnifier)
+        label = Text("detail focus", font_size=22, color=PRIMARY_BLUE).next_to(magnifier, DOWN, buff=0.28)
+        lens_ring = Circle(radius=2.1, color=PRIMARY_ORANGE, stroke_width=4).move_to(magnifier)
 
         self.add(panel, title, cross_h, cross_v, label)
         self.play(Create(magnifier), run_time=0.5)

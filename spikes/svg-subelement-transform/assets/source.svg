@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240" role="img" aria-label="Source composite SVG">
+  <g id="body">
+    <rect x="78" y="58" width="244" height="124" rx="30" fill="#45842a"/>
+  </g>
+  <g id="slot">
+    <rect x="118" y="96" width="126" height="18" rx="9" fill="#007298"/>
+    <rect x="118" y="128" width="88" height="18" rx="9" fill="#652f6c"/>
+  </g>
+  <g id="accent">
+    <circle cx="116" cy="82" r="17" fill="#f1c319"/>
+  </g>
+  <g id="delete_badge">
+    <rect x="276" y="42" width="58" height="58" rx="17" fill="#9e1b32"/>
+    <path d="M292 70H318" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

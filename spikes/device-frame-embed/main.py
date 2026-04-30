@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 VARIANTS = {
     "browser": {
         "scene": "DeviceFrameEmbedBrowserScene",
@@ -136,10 +159,6 @@ if __name__ == "__main__":
 
 
 from manim import (
-    BLUE_B,
-    BLUE_C,
-    BLUE_D,
-    BLUE_E,
     DOWN,
     Dot,
     FadeIn,
@@ -159,7 +178,7 @@ from manim import (
 
 def _prepare_poster(scene: Scene) -> None:
     if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-        scene.camera.background_color = WHITE
+        scene.camera.background_color = PAGE_BACKGROUND
 
 
 def _accent_card(width: float, height: float, stroke_color: str, fill_opacity: float) -> RoundedRectangle:
@@ -174,40 +193,40 @@ class DeviceFrameEmbedBrowserScene(Scene):
         _prepare_poster(self)
 
         shell = RoundedRectangle(width=10.8, height=5.9, corner_radius=0.22)
-        shell.set_stroke(BLUE_D, width=8, opacity=0.5)
-        shell.set_fill(BLUE_D, opacity=0.02)
+        shell.set_stroke(PRIMARY_BLUE, width=8, opacity=0.5)
+        shell.set_fill(PAGE_BACKGROUND, opacity=0.96)
 
         viewport = RoundedRectangle(width=10.0, height=4.85, corner_radius=0.18)
-        viewport.set_stroke(BLUE_C, width=4, opacity=0.2)
-        viewport.set_fill(BLUE_C, opacity=0.03)
+        viewport.set_stroke(PRIMARY_BLUE, width=4, opacity=0.2)
+        viewport.set_fill(PRIMARY_BLUE, opacity=0.03)
 
         chrome = VGroup(
-            Dot(color=BLUE_B, radius=0.09),
-            Dot(color=BLUE_B, radius=0.09),
-            Dot(color=BLUE_B, radius=0.09),
+            Dot(color=PRIMARY_BLUE, radius=0.09),
+            Dot(color=PRIMARY_BLUE, radius=0.09),
+            Dot(color=PRIMARY_BLUE, radius=0.09),
         ).arrange(RIGHT, buff=0.13)
         chrome.set_opacity(0.45)
         chrome.to_corner(UP + LEFT).shift(RIGHT * 0.55 + DOWN * 0.45)
 
         address_bar = RoundedRectangle(width=4.1, height=0.34, corner_radius=0.14)
-        address_bar.set_stroke(BLUE_B, width=2, opacity=0.18)
-        address_bar.set_fill(BLUE_B, opacity=0.06)
+        address_bar.set_stroke(PRIMARY_BLUE, width=2, opacity=0.18)
+        address_bar.set_fill(PRIMARY_BLUE, opacity=0.06)
         address_bar.next_to(chrome, RIGHT, buff=0.45).shift(DOWN * 0.01)
 
-        card_top_left = _accent_card(2.35, 1.05, BLUE_C, 0.08).move_to(LEFT * 2.35 + UP * 0.7)
-        card_top_right = _accent_card(2.9, 1.05, BLUE_C, 0.05).move_to(RIGHT * 2.15 + UP * 0.7)
-        card_bottom = _accent_card(5.9, 1.15, BLUE_D, 0.05).move_to(DOWN * 1.45)
+        card_top_left = _accent_card(2.35, 1.05, PRIMARY_GREEN, 0.12).move_to(LEFT * 2.35 + UP * 0.7)
+        card_top_right = _accent_card(2.9, 1.05, PRIMARY_BLUE, 0.09).move_to(RIGHT * 2.15 + UP * 0.7)
+        card_bottom = _accent_card(5.9, 1.15, PRIMARY_PURPLE, 0.08).move_to(DOWN * 1.45)
 
-        guide = Line(LEFT * 3.65 + DOWN * 0.85, RIGHT * 3.65 + DOWN * 0.85, color=BLUE_B, stroke_width=5)
-        guide.set_stroke(opacity=0.22)
+        guide = Line(LEFT * 3.65 + DOWN * 0.85, RIGHT * 3.65 + DOWN * 0.85, color=PRIMARY_ORANGE, stroke_width=5)
+        guide.set_stroke(opacity=0.48)
 
-        dot = Dot(color=BLUE_E, radius=0.15)
+        dot = Dot(color=PRIMARY_YELLOW, radius=0.15)
         dot.move_to(guide.get_start())
 
         glow = always_redraw(
             lambda: RoundedRectangle(width=0.6, height=0.6, corner_radius=0.3)
-            .set_stroke(BLUE_E, width=6, opacity=0.25)
-            .set_fill(BLUE_E, opacity=0.12)
+            .set_stroke(PRIMARY_YELLOW, width=6, opacity=0.28)
+            .set_fill(PRIMARY_YELLOW, opacity=0.14)
             .move_to(dot)
         )
 
@@ -223,37 +242,37 @@ class DeviceFrameEmbedDeviceScene(Scene):
         _prepare_poster(self)
 
         shell = RoundedRectangle(width=4.35, height=8.05, corner_radius=0.42)
-        shell.set_stroke(BLUE_D, width=8, opacity=0.52)
-        shell.set_fill(BLUE_D, opacity=0.02)
+        shell.set_stroke(PRIMARY_BLUE, width=8, opacity=0.52)
+        shell.set_fill(PAGE_BACKGROUND, opacity=0.96)
 
         screen = RoundedRectangle(width=3.58, height=6.95, corner_radius=0.22)
-        screen.set_stroke(BLUE_C, width=4, opacity=0.18)
-        screen.set_fill(BLUE_C, opacity=0.03)
+        screen.set_stroke(PRIMARY_BLUE, width=4, opacity=0.18)
+        screen.set_fill(PRIMARY_BLUE, opacity=0.03)
 
         notch = RoundedRectangle(width=1.35, height=0.16, corner_radius=0.08)
-        notch.set_stroke(BLUE_B, width=2, opacity=0.16)
-        notch.set_fill(BLUE_B, opacity=0.05)
+        notch.set_stroke(PRIMARY_BLUE, width=2, opacity=0.16)
+        notch.set_fill(PRIMARY_BLUE, opacity=0.05)
         notch.to_edge(UP).shift(DOWN * 0.42)
 
         stack = VGroup(
-            _accent_card(2.25, 0.68, BLUE_C, 0.08),
-            _accent_card(2.7, 0.68, BLUE_C, 0.06),
-            _accent_card(2.25, 0.68, BLUE_C, 0.08),
+            _accent_card(2.25, 0.68, PRIMARY_GREEN, 0.12),
+            _accent_card(2.7, 0.68, PRIMARY_BLUE, 0.09),
+            _accent_card(2.25, 0.68, PRIMARY_PURPLE, 0.08),
         ).arrange(DOWN, buff=0.26)
         stack.shift(UP * 0.78)
 
-        footer = _accent_card(2.65, 0.84, BLUE_D, 0.06).shift(DOWN * 1.65)
+        footer = _accent_card(2.65, 0.84, PRIMARY_ORANGE, 0.10).shift(DOWN * 1.65)
 
-        path = Line(UP * 2.45, DOWN * 2.25, color=BLUE_B, stroke_width=5)
-        path.set_stroke(opacity=0.24)
+        path = Line(UP * 2.45, DOWN * 2.25, color=PRIMARY_ORANGE, stroke_width=5)
+        path.set_stroke(opacity=0.46)
 
-        dot = Dot(color=BLUE_E, radius=0.16)
+        dot = Dot(color=PRIMARY_YELLOW, radius=0.16)
         dot.move_to(path.get_start())
 
         glow = always_redraw(
             lambda: RoundedRectangle(width=0.62, height=0.62, corner_radius=0.31)
-            .set_stroke(BLUE_E, width=6, opacity=0.25)
-            .set_fill(BLUE_E, opacity=0.12)
+            .set_stroke(PRIMARY_YELLOW, width=6, opacity=0.28)
+            .set_fill(PRIMARY_YELLOW, opacity=0.14)
             .move_to(dot)
         )
 

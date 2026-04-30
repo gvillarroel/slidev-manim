@@ -20,6 +20,29 @@ SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
+
 OUTPUT_VIDEO = OUTPUT_DIR / "split-screen-sync.webm"
 OUTPUT_POSTER = OUTPUT_DIR / "split-screen-sync.png"
 
@@ -122,7 +145,7 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 
-from manim import BLUE_E, DOWN, GREY_B, GREY_D, LEFT, RIGHT, Scene, UP, WHITE, Circle, Line, RoundedRectangle, linear
+from manim import DOWN, LEFT, RIGHT, Scene, UP, WHITE, Circle, Line, RoundedRectangle, linear
 
 
 class SplitScreenSyncScene(Scene):
@@ -136,30 +159,32 @@ class SplitScreenSyncScene(Scene):
 
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
 
         frame = RoundedRectangle(
             width=self.panel_width,
             height=self.panel_height,
             corner_radius=0.35,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_BLUE,
             stroke_width=6,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=0.96,
         )
         lane = Line(
             LEFT * 4.45 + DOWN * abs(self.lane_y),
             RIGHT * 4.45 + DOWN * abs(self.lane_y),
-            color=GREY_B,
+            color=GRAY_300,
             stroke_width=8,
         )
-        start_marker = Circle(radius=0.09, color=GREY_D, stroke_width=0).move_to(
+        start_marker = Circle(radius=0.09, color=GRAY_600, stroke_width=0).move_to(
             LEFT * 4.45 + DOWN * abs(self.lane_y)
         )
-        end_marker = Circle(radius=0.09, color=GREY_D, stroke_width=0).move_to(
+        end_marker = Circle(radius=0.09, color=GRAY_600, stroke_width=0).move_to(
             RIGHT * 4.45 + DOWN * abs(self.lane_y)
         )
         moving_circle = (
-            Circle(radius=self.circle_radius, color=BLUE_E, stroke_width=10)
-            .set_fill(BLUE_E, opacity=0.93)
+            Circle(radius=self.circle_radius, color=PRIMARY_GREEN, stroke_width=10)
+            .set_fill(PRIMARY_GREEN, opacity=0.94)
             .move_to(LEFT * abs(self.start_x) + UP * 0.9)
         )
 

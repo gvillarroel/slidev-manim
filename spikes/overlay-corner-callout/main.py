@@ -19,6 +19,29 @@ REPO_ROOT = SPIKE_DIR.parent.parent
 SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
+
+PRIMARY_RED = "#9e1b32"
+PRIMARY_ORANGE = "#e77204"
+PRIMARY_YELLOW = "#f1c319"
+PRIMARY_GREEN = "#45842a"
+PRIMARY_BLUE = "#007298"
+PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_100 = "#e7e7e7"
+GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_400 = "#9c9c9c"
+GRAY_600 = "#696969"
+GRAY_700 = "#4f4f4f"
+HIGHLIGHT_RED = "#ffccd5"
+HIGHLIGHT_ORANGE = "#ffe5cc"
+HIGHLIGHT_YELLOW = "#fff4cc"
+HIGHLIGHT_GREEN = "#dbffcc"
+HIGHLIGHT_BLUE = "#cdf3ff"
+HIGHLIGHT_PURPLE = "#f9ccff"
+SHADOW_BLUE = "#004d66"
+PAGE_BACKGROUND = "#f7f7f7"
 OUTPUT_VIDEO = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 OUTPUT_POSTER = OUTPUT_DIR / f"{SPIKE_NAME}.png"
 
@@ -118,8 +141,6 @@ if __name__ == "__main__":
 
 
 from manim import (
-    BLACK,
-    BLUE_E,
     DL,
     DR,
     ORIGIN,
@@ -141,26 +162,26 @@ from manim import (
 class OverlayCornerCalloutScene(Scene):
     def construct(self) -> None:
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+            self.camera.background_color = PAGE_BACKGROUND
 
-        marker = Circle(radius=0.35, color=BLUE_E, stroke_width=10)
-        marker.set_fill(BLUE_E, opacity=0.96)
+        marker = Circle(radius=0.35, color=PRIMARY_GREEN, stroke_width=10)
+        marker.set_fill(PRIMARY_GREEN, opacity=0.96)
         marker.move_to(DR * 2.45 + UP * 1.05)
 
-        halo = Circle(radius=0.64, color=BLUE_E, stroke_width=6)
-        halo.set_stroke(opacity=0.28)
+        halo = Circle(radius=0.64, color=PRIMARY_YELLOW, stroke_width=6)
+        halo.set_stroke(opacity=0.36)
         halo.move_to(marker)
 
         label_box = RoundedRectangle(
             corner_radius=0.16,
             width=3.25,
             height=0.8,
-            stroke_color=BLUE_E,
+            stroke_color=PRIMARY_ORANGE,
             stroke_width=4,
             fill_color=WHITE,
             fill_opacity=1,
         )
-        label = Text("Corner callout", font_size=28, color=BLACK)
+        label = Text("Corner callout", font_size=28, color=GRAY)
         label.move_to(label_box.get_center())
         label_group = VGroup(label_box, label)
         label_group.next_to(marker, UL, buff=0.16)
@@ -169,7 +190,7 @@ class OverlayCornerCalloutScene(Scene):
             label_group.get_bottom(),
             marker.get_top(),
             buff=0.1,
-            color=BLUE_E,
+            color=PRIMARY_ORANGE,
             stroke_width=6,
             max_tip_length_to_length_ratio=0.16,
         )

@@ -35,6 +35,11 @@ This repository should treat Slidev delivery assets and review assets as separat
 19. Step-based narration across consecutive slides can reuse the same Manim asset successfully when each slide changes emphasis, framing, or annotation rather than replacing the motion language.
 20. Device or browser frame embeds work better when the frame chrome is authored in Slidev and the Manim asset remains a reusable transparent payload inside that shell.
 21. Side-by-side comparison slides benefit from separate assets for each approach and from keeping each panel visually balanced rather than forcing symmetric visual density.
+22. In larger Slidev decks that mix Mermaid with custom HTML, Mermaid code fences are more robust when they stay outside complex nested wrappers; wrap the video panels, not the Mermaid block.
+23. A background-loop layout can safely use an absolute transparent video layer behind regular slide content as long as the readable layer remains on a light, solid surface.
+24. For static validation of built Slidev decks, serving the spike-local `dist/` directory works, but route-specific screenshots are more reliable when Playwright opens the root deck and navigates with arrow keys instead of requesting numbered paths directly.
+25. Headless Chromium can still leave transparent `.webm` panels visually blank in screenshots even when the deck, diagram, and panel composition are correct, so screenshot validation should focus on layout, palette, and asset resolution rather than assuming visible decoded motion.
+26. Slide-integration Manim videos need pacing room: use the ADR-0003 duration floor, hold an initial visible state before the main motion, and keep the final state on screen long enough for the slide to land.
 
 # Practical Rule
 
@@ -44,3 +49,4 @@ This repository should treat Slidev delivery assets and review assets as separat
   - optional alternate framing outputs when different slide compositions need different source videos.
 - Prefer creating a dedicated spike whenever a new Slidev composition pattern changes the video framing, narrative role, or fallback behavior.
 - If a slide needs multiple concurrent videos, give each one isolated imports, poster fallbacks, and explicit layout ownership instead of sharing a single global media state.
+- When validating a spike, check video duration and pacing against ADR-0003 unless the README documents a shorter micro-loop or bumper exception.
