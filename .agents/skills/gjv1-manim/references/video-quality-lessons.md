@@ -30,6 +30,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - For generated diagram SVGs, keep inspectable source artifacts in the spike output, but animate stable role fragments and prefer native Manim connectors when imported arrowheads render too heavy.
 - Sequence handoffs need receiver cues before arrival, activation bars or route evidence during ownership, and a terminal artifact so the final hold has a center of interest.
 - Long sequence routes need compact route-label chips; return paths should use a visibly different grammar from request paths.
+- Arc handoffs need one proof frame where the dominant form is visibly riding the curved path while supports stay calmer. If cleanup removes the source zone, recenter the resolved cluster so the final hold does not remain stranded in the old target lane.
 - Table and formula scenes should identify source cells in place, compose the formula in a stable side zone, and transform the computed result into the destination cell.
 - Continuation scenes should preserve the previous resolved state as a compact input, reveal destination scaffolds early enough to balance the frame, and populate output blocks progressively.
 - Placeholder scaffolds should be removed or faded before text-bearing blocks appear. Do not morph placeholder panels directly into titles or list rows.

@@ -405,16 +405,22 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Arc Handoff
 
 - **Hypothesis**: A dominant form can feel more authored if it transfers along a visible curve before the rest of the composition catches up.
-- **Result**: Confirmed after keeping the arc visible through the handoff moment.
+- **Result**: Confirmed again after expanding the draft into a 27.6-second slide-integration scene with a visible opening breath, sustained arc proof frames, delayed support travel, and a centered final hold.
 - **What worked**:
   - one strong orange arc that survives long enough to be legible,
   - the dominant green form arriving along that curve before the support forms resolve,
+  - faint destination slots during the opening breath so the target zone reads as pending structure,
+  - delayed gray support arcs that appear only after the dominant handoff is established,
+  - removing the outer frame and source zone during cleanup, then recentering the final cluster with its target field,
   - a final cluster that contrasts with the earlier curved path,
   - minimal supporting motion so the handoff remains the main beat.
 - **What failed first**:
+  - the 2.9-second draft was far below the slide-integration pacing floor,
+  - the first sampled frame had no meaningful mechanism breath,
   - the first arc disappeared too soon,
   - the motion looked like a normal transfer with curved decoration,
-  - the intermediate handoff position needed to be more distinct from the final landing.
+  - the intermediate handoff position needed to be more distinct from the final landing,
+  - after source cleanup, the final cluster initially remained too far right and failed off-center audits until it was shifted toward the middle.
 
 ## Quality Corridor Squeeze
 
@@ -906,6 +912,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 143. In sequential negative-space transfers, retire each completed route scaffold as soon as its handoff lands. Keeping all route lines until the final cleanup can make later proof frames read as guide residue rather than intentional quiet space.
 144. In aperture reveals, move or fade the active accent with the landing cleanup. A pulse left at the former shutter edge reads as residue once the guide disappears.
 145. When a reveal removes the source zone, recenter or rebalance the destination stage before the final hold. Otherwise the final cluster can feel stranded in leftover source-to-target layout space.
+146. Arc handoff scenes need a proof frame where the dominant form is visibly riding the curve while supports remain calmer. After the source zone disappears, recenter the resolved cluster instead of leaving it stranded in the old target lane.
 
 # Reusable Process
 

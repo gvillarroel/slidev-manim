@@ -358,6 +358,7 @@ Do not add text before exhausting those fixes.
 - separate leader and supports more decisively,
 - preserve a readable entrance, bridge, slot, or crossing,
 - split one path into explicit legs when the handoff must be staged.
+- for arc handoffs, let the dominant form visibly ride the curve before support forms move. Use faint destination slots during the opening breath, then retire the source zone and recenter the resolved cluster after cleanup.
 - for sequence diagrams, let the target receiver cue exist before the pulse arrives and fade that cue in the cleanup beat once the route or activation bar records the message.
 - for long sequence arrows, keep route labels in compact chips and place them on a consistent side of the route so lifelines remain subordinate.
 - for quadrant or axis-drop diagrams, keep the causal drop cue vertical when the concept is lower cost, risk, or effort; put any later horizontal repositioning in a separate rail or staged move.
