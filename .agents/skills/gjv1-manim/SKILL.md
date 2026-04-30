@@ -394,6 +394,15 @@ Do not add text before exhausting those fixes.
 - if the source zone disappears after an aperture or reveal, recenter the destination stage during cleanup so the final hold does not feel stranded in leftover negative space.
 - move or retire the active accent in the same beat as the landing. A small pulse left at the old aperture edge reads as residue once the guide disappears.
 
+### Magnet capture
+
+- Show the receiver, target slots, and magnet core during the opening breath so the destination reads as a prepared capture pocket, not a late decorative prop.
+- Let the leader compress inside the open receiver before support forms move. Supports arriving too early turn the capture into a generic regroup.
+- Retire target slots and field rails as soon as the leader proves the capture. If those guides remain under the support handoff, strict crowding audits and human review both read them as residue.
+- If source cleanup removes the left panel, shift or recenter the receiver stage before the delayed supports arrive so the proof hold does not stay off-center.
+- For bracket-style receivers, use separated strokes or visible corner gaps when running strict crowding audits. A connected U-shaped guide can produce one broad bounding box that falsely overlaps the captured actor.
+- Fade the receiver and magnet core before the final landing morph unless they still cause the motion. Leaving the core in place while the leader expands can create actor-to-actor cleanup contact.
+
 ### Support and force
 
 - delay support motion until the leader reaches the mechanism,

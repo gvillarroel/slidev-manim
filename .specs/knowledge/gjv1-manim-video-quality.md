@@ -373,16 +373,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Magnet Capture
 
 - **Hypothesis**: A receiver should feel like it captures if the pocket stays visible while the leader stretches into it.
-- **Result**: Confirmed after rebuilding the receiver as a right-side pocket and delaying the support forms.
+- **Result**: Confirmed again after turning the draft into a 29.9-second slide-integration scene with a visible opening breath, held capture proof frames, and a clean centered final hold.
 - **What worked**:
-  - a receiver pocket that clearly opens toward the arriving form,
-  - a stretched green leader that is partly inside the pocket before the landing,
-  - a yellow core that stays near the entrance during the capture frame,
-  - support forms arriving after the main pull so the mechanism stays readable.
+  - showing the source state, receiver pocket, target slots, and magnet core during the opening breath instead of starting with a late receiver reveal,
+  - a stretched green leader that becomes visibly compressed inside the open pocket before support forms move,
+  - fading target slots and field rails as soon as the leader has proved the capture, so support-hand-off frames do not inherit guide residue,
+  - shifting the receiver stage toward center before the delayed supports arrive, which avoids a long off-center hold after the source panel disappears,
+  - using a broken receiver bracket with enough stroke gaps for strict crowding audits to measure real clearances instead of one large U-shaped bounding box,
+  - fading the receiver and magnet core before the final landing morph, so the resolved hold has no actor-to-guide or actor-to-actor cleanup contact.
 - **What failed first**:
+  - the original render was only 2.864 seconds and had no slide-integration pacing,
   - the first receiver looked decorative instead of causal,
   - the leader crossed the receiver too completely and lost the sense of being pulled inward,
-  - support forms arrived too early and diluted the capture beat.
+  - support forms arrived too early and diluted the capture beat,
+  - leaving target slots, field rails, or the red core into later beats created strict crowding failures even when the broad composition audit passed.
 
 ## Quality Merge Funnel
 

@@ -47,6 +47,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Axis-drop cues should keep the causal drop vertical, hold it, remove it, and only then move the point along any later rail.
 - Bumper deflect scenes read cleaner when the leader owns a held compression frame, supports move into separate release lanes before the final morph, and passive destination slots disappear before the landing.
 - Cradle catch scenes need a held proof frame where lower support pads visibly receive the dominant form. After that proof, separate support dots downward and outward and remove cradle/backing scaffolds so the resolved hold keeps clear actor-to-actor spacing.
+- Magnet capture scenes should show a prepared receiver during the opening breath, hold the leader compressed inside the pocket before supports move, retire target slots and field rails immediately after their causal beat, and fade the receiver/core before the landing morph. If a bracket receiver is audited strictly, separated strokes or clear corner gaps prevent one U-shaped guide from becoming a false overlap box.
 - When a reviewer names a timestamp, validate that exact timestamp and the surrounding transition frames in the promoted video.
 - Poster images must be updated when the terminal video state changes.
 
