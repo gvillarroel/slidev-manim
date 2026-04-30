@@ -4,7 +4,16 @@ There are two useful export paths in this repo.
 
 ## Full-fidelity recording: captures animations and transitions
 
-Use this for real presentation video. It starts the Slidev dev server, opens the deck in Chromium with Playwright, walks forward through the presentation, records the browser, and re-encodes the Playwright `.webm` capture to MP4 with `ffmpeg`.
+Use this for real presentation video. It assumes a Slidev dev server is already running, opens the deck in Chromium with Playwright, walks forward through the presentation, records the browser, and re-encodes the Playwright `.webm` capture to MP4 with `ffmpeg`.
+
+Start Slidev separately:
+
+```bash
+npm run dev:your-deck
+# or: npx slidev slides.md
+```
+
+Then record the active browser presentation:
 
 ```bash
 npm run record:mp4 -- slides.md videos/deck.mp4
@@ -13,7 +22,7 @@ npm run record:mp4 -- slides.md videos/deck.mp4
 Set the default timing with environment variables:
 
 ```bash
-STEP_WAIT_MS=2000 MAX_STEPS=80 FPS=30 SIZE=1920x1080 \
+SLIDEV_URL=http://127.0.0.1:3030 STEP_WAIT_MS=2000 MAX_STEPS=80 FPS=30 SIZE=1920x1080 \
   npm run record:mp4 -- slides.md videos/deck.mp4
 ```
 
@@ -31,6 +40,7 @@ recordWait: 5000
 
 Options:
 
+- `SLIDEV_URL`: already-running Slidev URL, default `http://127.0.0.1:3030`.
 - `STEP_WAIT_MS`: default milliseconds to wait on each slide/click step. Increase this for long animations/transitions.
 - `INTRO_WAIT_MS`: milliseconds to wait before navigation starts.
 - `MAX_STEPS`: safety cap for slide/click advances.

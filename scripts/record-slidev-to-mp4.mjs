@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { chromium } from 'playwright'
 import { spawn } from 'node:child_process'
-import { existsSync } from 'node:fs'
 import { mkdtemp, rm, mkdir, stat, rename, readFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, resolve, dirname } from 'node:path'
@@ -17,9 +16,9 @@ Per-slide timing can be set with Slidev frontmatter:
   ---
 
 Environment variables:
+  SLIDEV_URL        Already-running Slidev URL. Default: http://127.0.0.1:3030
   SIZE              Browser/video size. Default: 1920x1080
   FPS               Output MP4 frame rate. Default: 30
-  PORT              Slidev dev-server port. Default: 3030
   STEP_WAIT_MS      Wait after each navigation/click step. Default: 1200
   INTRO_WAIT_MS     Wait before first navigation. Default: 1000
   MAX_STEPS         Safety limit for ArrowRight steps. Default: 200
@@ -56,35 +55,21 @@ if (!width || !height) {
 }
 
 const fps = Number(process.env.FPS || 30)
-const port = Number(process.env.PORT || 3030)
+const slidevUrl = process.env.SLIDEV_URL || 'http://127.0.0.1:3030'
 const stepWaitMs = Number(process.env.STEP_WAIT_MS || 1200)
 const introWaitMs = Number(process.env.INTRO_WAIT_MS || 1000)
 const maxSteps = Number(process.env.MAX_STEPS || 200)
 const keepWebm = process.env.KEEP_WEBM === '1' || process.env.KEEP_WEBM === 'true'
 const slideWaits = parseSlideRecordWaits(await readFile(deckPath, 'utf8'))
-const url = `http://127.0.0.1:${port}`
+const url = slidevUrl
 const tmp = await mkdtemp(join(tmpdir(), 'slidev-record-'))
 const videoDir = join(tmp, 'video')
 await mkdir(videoDir, { recursive: true })
 
-let slidev
 let browser
 
 function spawnCommand(command, args, options = {}) {
   return spawn(command, args, { stdio: ['ignore', 'pipe', 'pipe'], ...options })
-}
-
-function findSlidevCommand() {
-  if (process.platform !== 'win32' && existsSync(resolve('node_modules/.bin/slidev'))) {
-    return [resolve('node_modules/.bin/slidev'), []]
-  }
-  if (process.platform === 'win32' && existsSync(resolve('node_modules/.bin/slidev.cmd'))) {
-    return [resolve('node_modules/.bin/slidev.cmd'), []]
-  }
-  if (process.env.npm_execpath?.includes('pnpm')) {
-    return [process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm', ['exec', 'slidev']]
-  }
-  return [process.platform === 'win32' ? 'npx.cmd' : 'npx', ['slidev']]
 }
 
 async function waitForServer(page, deadlineMs = 60000) {
@@ -158,14 +143,6 @@ async function pageState(page) {
 }
 
 try {
-  const [slidevBin, prefixArgs] = findSlidevCommand()
-  const command = slidevBin
-  const args = [...prefixArgs, deckPath, '--remote=false', '--port', String(port)]
-  slidev = spawnCommand(command, args, { cwd: process.cwd() })
-
-  slidev.stdout.on('data', (chunk) => process.stderr.write(chunk))
-  slidev.stderr.on('data', (chunk) => process.stderr.write(chunk))
-
   browser = await chromium.launch({ headless: true })
 
   // Wait for Slidev before creating the recorded context, otherwise the output
@@ -244,6 +221,5 @@ try {
   console.log(`Wrote ${out} after ${steps} navigation step(s).`)
 } finally {
   if (browser) await browser.close().catch(() => {})
-  if (slidev) slidev.kill('SIGTERM')
   if (!keepWebm) await rm(tmp, { recursive: true, force: true }).catch(() => {})
 }
