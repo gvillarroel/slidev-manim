@@ -872,6 +872,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 126. For quadrant or axis-drop scenes, keep the causal drop cue vertical when the concept is lower cost or lower risk. A diagonal arrow usually reads as a generic route instead of the intended axis change.
 127. When a point must move after an axis cue, separate the mechanism into a held cue, cue removal, and then staged movement. Simultaneous arrow-and-point motion can look like a drag handle instead of a prior decision signal.
 128. Large decorative or review frames need the same edge-clearance discipline as actors. If a resting audit flags the outer frame, shrink the frame or widen the camera before accepting the hold.
+129. Generated diagram SVGs are most useful when the script writes whole source/target SVGs and then extracts one fragment per stable top-level role id. This keeps the diagram inspectable while still making each node and edge independently animatable in Manim.
+130. For generated SVG diagrams, attach native Manim labels to imported SVG bodies instead of relying on SVG text import. It preserves geometry as the actor while keeping labels readable across render environments.
+131. Selection handles for SVG diagram roles should sit at node corners or route centers, not on top of label centers. Centered handles can read as text defects in still-frame review.
+132. Fade source-layout lanes when a target scaffold takes over. A lane that survives into the final hold looks like leftover diagram residue even when no audit blocks it.
+133. Imported SVG arrowheads can look much heavier in Manim than in the raw SVG because stroke conversion turns them into thick filled outlines. For diagram videos, prefer native Manim `Arrow` or `CurvedArrow` connectors anchored to SVG-derived role positions when connector quality matters.
+134. For Mermaid-generated diagram videos, keep the `.mmd` file and raw Mermaid SVG as review artifacts. Generate the SVG with Mermaid CLI's `mmdc -i input.mmd -o output.svg` command, or `npx -y -p @mermaid-js/mermaid-cli mmdc -i input.mmd -o output.svg -b transparent` when avoiding a global install. Then normalize only the node groups that need animation into stable top-level ids, strip Mermaid labels from imported fragments, and attach native Manim text for predictable video rendering.
 
 # Reusable Process
 

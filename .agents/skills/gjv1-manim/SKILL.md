@@ -388,6 +388,10 @@ Do not add text before exhausting those fixes.
 - establish the new primary body before moving smaller child roles so they do not appear to float,
 - use `FadeOut` plus `Create` for incompatible primary-body handoffs,
 - scale native Manim labels to the current imported SVG body when they are attached to an icon. A fixed label minimum can overpower compact document or badge icons after the icon becomes part of a source cluster.
+- for Mermaid-generated diagram SVGs, keep the `.mmd` source as the inspectable diagram definition, render it with Mermaid CLI's `mmdc -i input.mmd -o output.svg` command. When avoiding a global install, use `npx -y -p @mermaid-js/mermaid-cli mmdc -i input.mmd -o output.svg -b transparent`. Normalize only the node groups that need to become video actors into stable top-level ids before extracting fragments.
+- for generated diagram SVGs, write whole source/target SVGs for inspection but animate per-role fragments extracted from stable top-level ids. Attach native Manim labels to imported node bodies instead of relying on SVG text import.
+- if imported SVG arrows look bulky after render, replace video connectors with native Manim `Arrow` or `CurvedArrow` objects anchored to the SVG role positions. Keep the generated SVG for inspection, but do not force low-quality SVG arrowheads into the final video.
+- selection handles or proof dots for imported SVG nodes should sit near node corners; centered dots over labels read as text defects. Route handles can sit on route centers when they do not obscure arrow direction.
 - when an SVG cluster becomes a compact input for a continuation scene, tighten the terminal fan or stack before shrinking it. Loose source clusters become harder to read once framed inside a small panel.
 - inspect half-second transition frames full size before changing the code; thumbnails can make intentional child roles look like residue.
 
