@@ -619,11 +619,14 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - keeping Manim text as an overlay locked to the downloaded text-document SVG was more predictable than relying on renderer-dependent SVG `<text>` support,
   - a local `page-background` stage made the detailed icons readable while preserving transparent margins in the WebM,
   - starting the scene with the raw SVG structure already present gave the opening breath a real composition instead of a blank first frame,
+  - adding faint target slots inside the initially empty edit zone made the opening breath read as a pending destination instead of unused space,
   - when continuing from the resolved SVG cluster into a two-column project breakdown, faint but visible destination block scaffolds kept the setup frame balanced before the progressive lists appeared,
   - fading placeholder scaffolds out while fading the real text-bearing project blocks in kept the activation readable at 0.3-second sampling,
   - moving the compact source label into a small filled header made the left input read as a deliberate source card and removed bottom-label crowding,
   - keeping the lower placeholder scaffold visible until the real lower block had enough opacity prevented one-frame vertical off-center regressions during the handoff,
   - lowering the final fan-out cluster slightly cleared a vertical off-center audit finding without changing the continuation layout,
+  - replacing full radial fan guides with shortened segmented guide strokes removed a near-vertical orange residue line while preserving the sense of a fan-out,
+  - adding a subtle body anchor rail to real project blocks kept partially populated block activations vertically balanced after the placeholder scaffold was covered,
   - scaling the native Manim document badge to the compact SVG body kept `RAW`/`VIDEO` readable without letting the label overpower the imported document icon,
   - tightening the final fan-out positions before the continuation made the compact input source read as one resolved object instead of a tall stack of loose icons,
   - softening continuation fork guides after the output pulse kept the final hold cleaner while preserving the source-to-block relationship.
@@ -634,6 +637,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - fading in the initial raw icons left the first sampled frame structurally blank,
   - `ReplacementTransform` from placeholder scaffolds into blocks with title text created unreadable mid-frame glyph noise,
   - a fan-out can be technically unclipped but still fail composition because the active bbox sits too high,
+  - a full center-to-target fan guide can read as a stray vertical fragment when the target sits almost directly above the hub,
+  - a real text-bearing block can cover the placeholder scaffold before its rows appear, leaving a one-frame active bbox that is too top-heavy unless the block has its own body anchor,
+  - an empty destination panel during the opening breath reads as dead space unless there is subtle target scaffolding already visible,
   - very faint placeholder panels can look acceptable to a human but be ignored by the composition audit, leaving the source column flagged as off-center until the scaffold has enough stroke or header contrast,
   - a fixed minimum width for text attached to a small imported SVG can make the label become the focal object instead of the SVG body,
   - terminal fork guides that remain at mechanism strength after the pulse can make the final hold feel like it is still mid-transition.
@@ -833,6 +839,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 117. Phase scaffolds such as dashed rails, setup guides, or source-zone hints should fade in the same cleanup beat as the mechanism they support. If they linger into the next mechanism, 0.3-second contact sheets can make them read as accidental residue even when audits do not block.
 118. Native Manim labels attached to imported SVGs should scale to the current SVG body, not to a fixed label minimum. Compact icons need subordinate labels so the imported shape remains the actor.
 119. In continuation scenes, soften fork or branch guides after the output pulse unless the guide is still causing motion. The final hold should preserve the relationship without looking mid-transition.
+120. If an opening composition reserves a destination zone before anything moves there, add faint target slots or scaffolds during the visible breath so the empty zone reads as intentional pending structure.
+121. For fan-out guides, shorten or curve any nearly vertical hub-to-target stroke. A full radial line to a target above the hub can look like residue even when it is geometrically correct.
+122. Real project blocks need their own low-contrast body anchor if they cover placeholder scaffolds before rows appear. Otherwise a partial block activation can become vertically top-heavy for one sampled frame.
 
 # Reusable Process
 

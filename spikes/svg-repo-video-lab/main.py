@@ -459,9 +459,9 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             self.add(self.poster_composition())
             return
 
-        stage, rails, source_zone, edit_zone, final_zone = self.stage()
+        stage, rails, source_zone, edit_zone, final_zone, edit_hints = self.stage()
         final_zone.set_opacity(0)
-        self.add(stage, rails, source_zone, edit_zone, final_zone)
+        self.add(stage, rails, source_zone, edit_zone, final_zone, edit_hints)
         self.camera.frame.set(width=11.25)
         self.camera.frame.move_to(LEFT * 2.05 + DOWN * 0.02)
 
@@ -490,6 +490,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             scanner.animate.move_to(RIGHT * 1.46),
             source_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
             final_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
+            edit_hints.animate.set_opacity(0.22),
             self.camera.frame.animate.set(width=11.7).move_to(LEFT * 0.75 + DOWN * 0.02),
             AnimationGroup(
                 *[
@@ -507,6 +508,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             FadeOut(route),
             FadeOut(swatches),
             FadeOut(rails),
+            FadeOut(edit_hints),
             source_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
             final_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
             edit_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
@@ -547,9 +549,9 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             rate_func=smooth,
         )
         rays = self.bulb_rays(mid["bulb"])
-        self.play(FadeIn(rays, lag_ratio=0.12), run_time=0.75)
-        self.wait(1.0)
-        self.play(FadeOut(clamp), FadeOut(rays), run_time=0.7)
+        self.play(FadeIn(rays, lag_ratio=0.12), FadeOut(clamp), run_time=0.55)
+        self.wait(0.95)
+        self.play(FadeOut(rays), run_time=0.35)
 
         final = self.final_icons()
         final_video_label = document_label("VIDEO", final["text-document"], color=PRIMARY_PURPLE)
@@ -560,7 +562,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             FadeOut(edit_zone),
             FadeIn(fan_guides),
             FadeIn(core, scale=0.9),
-            self.camera.frame.animate.set(width=9.8).move_to(RIGHT * 1.2 + DOWN * 0.04),
+            self.camera.frame.animate.set(width=9.8).move_to(RIGHT * 1.0 + DOWN * 0.04),
             run_time=0.85,
         )
         self.play(
@@ -659,7 +661,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         )
         self.wait(6.1)
 
-    def stage(self) -> tuple[RoundedRectangle, VGroup, RoundedRectangle, RoundedRectangle, RoundedRectangle]:
+    def stage(self) -> tuple[RoundedRectangle, VGroup, RoundedRectangle, RoundedRectangle, RoundedRectangle, VGroup]:
         stage = RoundedRectangle(
             width=12.9,
             height=7.16,
@@ -704,7 +706,40 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             zone.set_z_index(-3)
         final_zone.set_stroke(opacity=0)
         final_zone.set_fill(opacity=0)
-        return stage, rails, source_zone, edit_zone, final_zone
+        edit_hints = self.edit_target_hints()
+        return stage, rails, source_zone, edit_zone, final_zone, edit_hints
+
+    def edit_target_hints(self) -> VGroup:
+        slot_specs = {
+            "robot": (0.58, 0.54, PRIMARY_BLUE),
+            "chart": (0.7, 0.46, PRIMARY_GREEN),
+            "bulb": (0.54, 0.54, PRIMARY_YELLOW),
+            "text-document": (0.54, 0.7, PRIMARY_PURPLE),
+            "code-window": (0.9, 0.68, PRIMARY_RED),
+        }
+        hints = VGroup()
+        for name, (width, height, color) in slot_specs.items():
+            slot = RoundedRectangle(
+                width=width,
+                height=height,
+                corner_radius=0.08,
+                stroke_color=GRAY_200,
+                stroke_width=1.4,
+                fill_color=WHITE_HEX,
+                fill_opacity=0.32,
+            ).move_to(COLOR_POSITIONS[name])
+            accent = RoundedRectangle(
+                width=min(width * 0.58, 0.48),
+                height=0.06,
+                corner_radius=0.03,
+                stroke_width=0,
+                fill_color=color,
+                fill_opacity=0.36,
+            ).move_to(slot.get_top() + DOWN * 0.13)
+            hints.add(VGroup(slot, accent))
+        hints.set_z_index(-1)
+        hints.set_opacity(0.72)
+        return hints
 
     def raw_icons(self) -> dict[str, SVGMobject]:
         heights = {"robot": 1.08, "chart": 0.94, "bulb": 0.96, "text-document": 0.96, "code-window": 1.48}
@@ -803,14 +838,28 @@ class SvgRepoVideoLabScene(MovingCameraScene):
 
     def fan_guides(self) -> VGroup:
         center = RIGHT * 1.62 + DOWN * 0.4
-        guides = VGroup(
-            Line(center, FINAL_POSITIONS["robot"], color=PRIMARY_ORANGE, stroke_width=4),
-            Line(center, FINAL_POSITIONS["chart"], color=PRIMARY_ORANGE, stroke_width=4),
-            Line(center, FINAL_POSITIONS["bulb"], color=PRIMARY_ORANGE, stroke_width=4),
-            Line(center, FINAL_POSITIONS["text-document"], color=PRIMARY_ORANGE, stroke_width=4),
-            Line(center, FINAL_POSITIONS["code-window"], color=PRIMARY_ORANGE, stroke_width=4),
+        robot_arc = ArcBetweenPoints(
+            center + UP * 0.55 + LEFT * 0.16,
+            FINAL_POSITIONS["robot"] + DOWN * 0.46 + RIGHT * 0.14,
+            angle=-0.32,
         )
-        guides.set_opacity(0.38)
+        robot_arc.set_stroke(PRIMARY_ORANGE, width=3.4)
+
+        def guide_to(name: str, start_gap: float = 0.5, end_gap: float = 0.46) -> Line:
+            target = FINAL_POSITIONS[name]
+            direction = target - center
+            length = math.sqrt(float(direction[0] ** 2 + direction[1] ** 2))
+            unit = direction / length
+            return Line(center + unit * start_gap, target - unit * end_gap, color=PRIMARY_ORANGE, stroke_width=3.4)
+
+        guides = VGroup(
+            robot_arc,
+            guide_to("chart"),
+            guide_to("bulb"),
+            guide_to("text-document"),
+            guide_to("code-window", start_gap=0.58, end_gap=0.5),
+        )
+        guides.set_opacity(0.34)
         guides.set_z_index(1)
         return guides
 
@@ -917,6 +966,14 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         if title_text.width > 4.28:
             title_text.scale_to_fit_width(4.28)
         title_text.move_to(header.get_center())
+        body_anchor = RoundedRectangle(
+            width=4.54,
+            height=0.07,
+            corner_radius=0.035,
+            stroke_width=0,
+            fill_color=bullet_color,
+            fill_opacity=0.26,
+        ).move_to(panel.get_bottom() + UP * 0.34)
 
         rows: list[VGroup] = []
         first_y = panel.get_top()[1] - 0.98
@@ -931,12 +988,12 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             row.set_z_index(6)
             rows.append(row)
 
-        block = VGroup(panel, header, title_text)
+        block = VGroup(panel, header, title_text, body_anchor)
         block.set_z_index(4)
         return block, rows
 
     def continuation_poster_composition(self) -> VGroup:
-        stage, _, _, _, _ = self.stage()
+        stage, _, _, _, _, _ = self.stage()
         final = self.final_icons()
         core = self.final_core()
         label = document_label("VIDEO", final["text-document"], color=PRIMARY_PURPLE)

@@ -50,6 +50,7 @@ Use `side formula handoff` for table transformations where two or more source ce
 - If a callout is about an existing rendered video, patch and rerender the video itself; skill updates are not a substitute for fixing the artifact.
 - For camera moves, dense SVG imports, large panels, or overlapping clusters, run the automated frame composition audit before saying there are no crop or overlap problems.
 - For continuation scenes that introduce a second column later, reveal visible destination scaffolds early enough that the setup frame still balances before the lists or detailed content appear.
+- When an opening beat reserves a destination zone before motion reaches it, add faint target slots or scaffolds so the breath does not read as unused blank space.
 - Keep only the experiments whose still frames remain intentional without narration.
 - Respect the project pacing floor: at least 25 seconds for slide-integration scenes, with 2 to 3 seconds of visible opening breath and 5 to 7 seconds of final hold unless a shorter micro-loop is explicitly documented.
 
@@ -358,6 +359,7 @@ Do not add text before exhausting those fixes.
 - put compact input labels in a small header band when a footer would crowd the shrunken source cluster,
 - reveal output block scaffolds before detailed content so the setup frame is balanced,
 - make scaffolds visible enough to survive review: pale panels are fine, but borders and header hints must not vanish,
+- give real blocks a low-contrast body anchor or footer rail if they cover placeholder scaffolds before rows appear. A blank block body can make one sampled activation frame top-heavy even when the full block is eventually balanced.
 - activate each large block before revealing its list rows,
 - keep a balancing scaffold visible until the replacement block is visibly established; fading both through the same first sampled frame can create a one-frame off-center composition,
 - do not `ReplacementTransform` placeholder scaffolds into text-bearing blocks. Fade or remove the scaffold, then fade in the real block so title text does not become unreadable mid-frame.
@@ -365,6 +367,7 @@ Do not add text before exhausting those fixes.
 - for short task-list rows, inspect full-size frames for collapsed word spacing. If `Text` or `MarkupText` makes spaces ambiguous, compose the label from per-word mobjects arranged with a fixed gap.
 - keep the fork or branch geometry visible while each block becomes populated,
 - after the output pulse, soften fork or branch guides below mechanism strength unless they are still causing motion. The final hold should preserve the source-to-block relationship without looking mid-transition.
+- for fan-out guide sets, shorten or curve any hub-to-target stroke that is nearly vertical. A full radial line to a target above the hub often reads as stray residue in sampled frames.
 - update the poster composition to the new terminal state when the final hold changes.
 
 ### Imported SVG and component remaps
