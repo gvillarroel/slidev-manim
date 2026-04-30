@@ -37,6 +37,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Compression, squeeze, clamp, and throat-gate scenes need a visibly tighter constrained phase than both source and landing states.
 - Aperture and reveal scenes should not leave the destination stranded after the source zone disappears. Recenter or rebalance the destination stage during cleanup, and carry the active accent into the landing or remove it with the guide.
 - Orbit, fan-out, and fork scenes need enough spacing in proof frames to avoid reading as collisions or loose regrouping.
+- Snap recoil scenes need the destination slot or pressure surface visible before the snap, a held stretched overshoot proof frame, and early removal of target slots before support forms settle. Keep the wall far enough from supports to clear targeted crowding checks, then recenter the resolved stage after source cleanup.
 - Edge-tension scenes read best when the destination edge exists as a temporary pressure surface before arrival, the overshoot is held against it in a proof frame, and abandoned source panels disappear before the final hold.
 - Axis-drop cues should keep the causal drop vertical, hold it, remove it, and only then move the point along any later rail.
 - Bumper deflect scenes read cleaner when the leader owns a held compression frame, supports move into separate release lanes before the final morph, and passive destination slots disappear before the landing.

@@ -294,16 +294,23 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Snap Recoil
 
 - **Hypothesis**: A decisive arrival followed by a short recoil can feel sharper and more intentional than a perfectly smooth settle.
-- **Result**: Confirmed after increasing the overshoot distance of the dominant form.
+- **Result**: Confirmed again after expanding the draft into a 25.9-second slide-integration scene with visible opening structure, a held overshoot proof beat, separated support settle, and a recentered final hold.
 - **What worked**:
   - the dominant green form arriving first with a visible overshoot,
+  - showing faint target slots and a pressure wall during the opening breath, so the destination zone reads as pending structure instead of empty space,
+  - holding a stretched overshoot near the wall long enough to survive 0.3-second proof-frame review,
   - a quick recoil into the final landing position,
+  - retiring target slots before the support settle so slot outlines do not become actor-to-outline crowding,
   - support forms resolving afterward so the snap remains the main beat,
+  - keeping clear space between the support forms and the pressure wall in the settle frame,
+  - recentering the target stage after source cleanup,
   - a final frame that still feels stable despite the sharper motion.
 - **What failed first**:
+  - the draft was far below the 25-second pacing floor and had no visible opening breath,
   - the first overshoot was too small,
   - the snap risked reading like a normal arrival,
-  - the recoil needed more contrast against the final settled position.
+  - the recoil needed more contrast against the final settled position,
+  - passive target slots and a too-near pressure wall triggered strict crowding findings after the main mechanism had already landed.
 
 ## Quality Bumper Deflect
 
