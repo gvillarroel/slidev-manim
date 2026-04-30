@@ -623,6 +623,25 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - treating every imported SVG as a direct morph target is risky because topology varies wildly between downloaded icons,
   - the composition becomes busy quickly when five external icons move at once, so the edit pipeline needs zones and one visible active device per beat.
 
+## Transaction Category Table
+
+- **Hypothesis**: A two-column transaction table should read as text-derived classification if the matched keyword is visible inside the original description before the category lands in the destination cell.
+- **Result**: Confirmed after replacing segmented text with inline markup and reviewing medium-render frames.
+- **What worked**:
+  - keeping the table to two columns made the transformation match the user-facing model directly,
+  - using `MarkupText` preserved the original transaction description while coloring only the matched keyword,
+  - a full source-cell outline plus a row cursor gave enough active-row focus without placing badges over table values,
+  - the side `keyword -> category` badge made the extraction rule readable while leaving the actual table uncluttered,
+  - replacing the transient category result into the destination cell kept the handoff clear,
+  - sampling the no-badge final frame exposed that the table was balanced only while the side badge was present,
+  - a short resolved-state recenter after the badge disappears keeps the final hold framed without weakening the row-level mechanism frames,
+  - setting the camera background to `page-background` avoided black frame margins in standalone WebM review.
+- **What failed first**:
+  - splitting descriptions into separate text chunks removed visible spaces around the highlighted keyword,
+  - direct `Text` character slicing misaligned with spaces because rendered glyph submobjects do not map cleanly to the source string,
+  - the table was staged left to make room for the side badge, which made the final no-badge hold feel off-center,
+  - a smaller local stage left black margins when the WebM was decoded without alpha in PyAV.
+
 # Practical Rules
 
 1. Start each quality experiment with a single explicit visual hypothesis.
@@ -719,6 +738,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 83. For SVG Repo assets, prefer `show/<id>/<slug>.svg` for automated retrieval and validate that the payload is actually SVG before caching it.
 84. Keep raw downloaded SVGs separate from generated palette/text variants so later review can distinguish source behavior from pipeline edits.
 85. When an imported SVG needs editable text, lock native Manim text to the SVG body unless the render pipeline has proven that SVG `<text>` imports consistently across environments.
+86. When a `MovingCameraScene` crops into one stage zone, dim neighboring panel strokes and fills during that focus so edge fragments read as context instead of accidental framing.
+87. If a final panel border stops explaining the motion after fan-out, fade it before the hold; the resolved cluster should own the last frame.
+88. Promote rendered outputs by latest modified time when Manim writes into reused media folders, because lexicographic path order can copy stale low-quality variants after rerenders.
 
 # Reusable Process
 

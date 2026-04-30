@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import sys
 from dataclasses import dataclass
+from html import escape
 from pathlib import Path
 
 from manim import (
@@ -25,6 +26,7 @@ from manim import (
     FadeOut,
     Indicate,
     Line,
+    MarkupText,
     RoundedRectangle,
     Scene,
     SurroundingRectangle,
@@ -151,7 +153,7 @@ def promote_rendered_file(target_name: str, destination: Path) -> None:
     if not matches:
         raise FileNotFoundError(f"Could not find {target_name} under {STAGING_DIR}")
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(matches[-1], destination)
+    shutil.copy2(max(matches, key=lambda path: path.stat().st_mtime), destination)
 
 
 def derive_transaction(description: str) -> Transaction:
@@ -193,7 +195,7 @@ class TransactionTable:
         self.group = VGroup()
         self.cells: dict[tuple[int, int], Cell] = {}
         self.category_texts: list[Text] = []
-        self.keyword_tokens: list[Text] = []
+        self.keyword_tokens: list[object] = []
         self.category_column_box: SurroundingRectangle | None = None
 
     def center_for(self, row: int, col: int) -> object:
@@ -302,39 +304,28 @@ class TransactionTable:
         description: str,
         keyword: str,
         box: RoundedRectangle,
-    ) -> tuple[VGroup, Text]:
+    ) -> tuple[MarkupText, object]:
         keyword_start = description.upper().index(keyword)
         keyword_end = keyword_start + len(keyword)
-        parts = [
-            (description[:keyword_start].strip(), GRAY, None),
-            (description[keyword_start:keyword_end], PRIMARY_ORANGE, "BOLD"),
-            (description[keyword_end:].strip(), GRAY, None),
-        ]
 
-        chunks = VGroup()
-        keyword_token: Text | None = None
-        for value, color, weight in parts:
-            if value == "":
-                continue
-            chunk = code_text(value, size=20, color=color)
-            if weight:
-                chunk.set_weight(weight)
-            chunk.set_z_index(4 if weight else 3)
-            if weight:
-                keyword_token = chunk
-            chunks.add(chunk)
-
-        chunks.arrange(RIGHT, buff=0.055, aligned_edge=DOWN)
+        label = MarkupText(
+            (
+                f"{escape(description[:keyword_start])}"
+                f'<span fgcolor="{PRIMARY_ORANGE}"><b>{escape(description[keyword_start:keyword_end])}</b></span>'
+                f"{escape(description[keyword_end:])}"
+            ),
+            font="Consolas",
+            font_size=20,
+            color=GRAY,
+        )
         max_width = box.width - 0.28
-        if chunks.width > max_width:
-            chunks.scale_to_fit_width(max_width)
-        chunks.move_to(box.get_left() + RIGHT * (0.16 + chunks.width / 2))
-        chunks.set_y(box.get_center()[1])
-        chunks.set_z_index(3)
+        if label.width > max_width:
+            label.scale_to_fit_width(max_width)
+        label.move_to(box.get_left() + RIGHT * (0.16 + label.width / 2))
+        label.set_y(box.get_center()[1])
+        label.set_z_index(3)
 
-        if keyword_token is None:
-            raise ValueError(f"Keyword {keyword} was not rendered for {description}")
-        return chunks, keyword_token
+        return label, label
 
 
 class TransactionCategoryTableScene(Scene):
@@ -355,25 +346,26 @@ class TransactionCategoryTableScene(Scene):
         )
         stage.set_z_index(-10)
 
+        title = text("Transaction text to category", size=32, color=GRAY, weight="BOLD")
+        title.to_edge(UP, buff=0.36)
+        title.set_z_index(2)
+
+        subtitle = text("Matched keywords become one category per row", size=20, color=GRAY_700)
+        subtitle.next_to(title, DOWN, buff=0.11)
+        subtitle.set_z_index(2)
+
+        title_block = VGroup(title, subtitle)
         title_panel = RoundedRectangle(
             width=11.65,
-            height=0.82,
+            height=title_block.height + 0.34,
             corner_radius=0.18,
             stroke_color=GRAY_200,
             stroke_width=1.5,
             fill_color=WHITE,
             fill_opacity=1,
         )
-        title_panel.to_edge(UP, buff=0.28)
+        title_panel.move_to(title_block.get_center())
         title_panel.set_z_index(0)
-
-        title = text("Transaction text to category", size=32, color=GRAY, weight="BOLD")
-        title.to_edge(UP, buff=0.41)
-        title.set_z_index(2)
-
-        subtitle = text("Matched keywords become one category per row", size=20, color=GRAY_700)
-        subtitle.next_to(title, DOWN, buff=0.11)
-        subtitle.set_z_index(2)
 
         rule_panel = RoundedRectangle(
             width=2.6,
@@ -416,12 +408,18 @@ class TransactionCategoryTableScene(Scene):
             Indicate(table.cells[(0, 1)].box, color=PRIMARY_PURPLE, scale_factor=1.04),
             run_time=0.65,
         )
+        final_table = VGroup(table_group, *table.category_texts, table.category_column_box)
+        self.play(
+            final_table.animate.shift(RIGHT * 1.48),
+            run_time=0.9,
+            rate_func=rate_functions.ease_out_cubic,
+        )
         self.wait(6.7)
 
     def _animate_row(self, row_index: int, transaction: Transaction, table: TransactionTable) -> None:
         description_cell = table.cells[(row_index, 0)].box
         category_cell = table.cells[(row_index, 1)].box
-        keyword_token = table.keyword_tokens[row_index - 1]
+        description_label = table.keyword_tokens[row_index - 1]
         final_category_text = table.category_texts[row_index - 1]
 
         row_marker = RoundedRectangle(
@@ -446,11 +444,11 @@ class TransactionCategoryTableScene(Scene):
         row_focus = VGroup(row_marker, row_line)
 
         keyword_box = SurroundingRectangle(
-            keyword_token,
+            description_cell,
             color=PRIMARY_ORANGE,
             stroke_width=2.2,
-            buff=0.055,
-            corner_radius=0.04,
+            buff=0.02,
+            corner_radius=0.08,
         )
         keyword_box.set_z_index(8)
 
@@ -474,7 +472,7 @@ class TransactionCategoryTableScene(Scene):
             run_time=0.55,
         )
         self.play(
-            Indicate(keyword_token, color=PRIMARY_ORANGE, scale_factor=1.04),
+            Indicate(description_label, color=PRIMARY_ORANGE, scale_factor=1.015),
             FadeIn(badge_parts["category"], shift=LEFT * 0.03),
             run_time=0.55,
         )

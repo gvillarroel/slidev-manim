@@ -191,7 +191,7 @@ from manim import (
 
 class AspectRatioVariantBase(Scene):
     title_text = "Aspect ratio variants"
-    subtitle_text = "The same idea can be framed differently for different slide layouts."
+    subtitle_text = "Same motion, different slide layouts."
     accent_label = "Reusable motion"
 
     def is_poster(self) -> bool:
@@ -251,7 +251,7 @@ class WideAspectRatioScene(AspectRatioVariantBase):
         title = Text(self.title_text, font_size=42, color=GRAY)
         subtitle = Text(self.subtitle_text, font_size=24, color=GRAY)
         title_group = VGroup(title, subtitle).arrange(DOWN, aligned_edge=LEFT, buff=0.18)
-        title_group.to_edge(UP, buff=1.05).shift(LEFT * 2.75)
+        title_group.move_to(LEFT * 3.15 + UP * 2.58)
 
         chip = self.make_label_chip(self.accent_label)
         chip.next_to(title_group, DOWN, buff=0.38).align_to(title_group, LEFT)
@@ -287,7 +287,7 @@ class WideAspectRatioScene(AspectRatioVariantBase):
 
 class TallAspectRatioScene(AspectRatioVariantBase):
     title_text = "Tall variant"
-    subtitle_text = "The same motion can become a sidebar-ready visual when the frame is narrow."
+    subtitle_text = "Same motion in a narrow frame."
     accent_label = "Vertical framing"
 
     def construct(self) -> None:
@@ -295,8 +295,8 @@ class TallAspectRatioScene(AspectRatioVariantBase):
             self.camera.background_color = PAGE_BACKGROUND
 
         stage = RoundedRectangle(
-            width=6.95,
-            height=12.75,
+            width=4.05,
+            height=7.55,
             corner_radius=0.34,
             stroke_width=0,
             fill_color=PAGE_BACKGROUND,
@@ -304,8 +304,8 @@ class TallAspectRatioScene(AspectRatioVariantBase):
         )
 
         frame = RoundedRectangle(
-            width=5.8,
-            height=12.8,
+            width=3.65,
+            height=7.15,
             corner_radius=0.34,
             stroke_color=PRIMARY_BLUE,
             stroke_width=6,
@@ -314,27 +314,30 @@ class TallAspectRatioScene(AspectRatioVariantBase):
         )
         frame.shift(DOWN * 0.08)
 
-        title = Text(self.title_text, font_size=42, color=GRAY)
-        subtitle = Text(self.subtitle_text, font_size=24, color=GRAY)
+        title = Text(self.title_text, font_size=30, color=GRAY)
+        subtitle = Text(self.subtitle_text, font_size=16, color=GRAY)
+        subtitle.scale_to_fit_width(3.0)
         title_group = VGroup(title, subtitle).arrange(DOWN, aligned_edge=LEFT, buff=0.18)
-        title_group.to_edge(UP, buff=0.95)
+        title_group.move_to(UP * 3.0)
+        title_group.align_to(frame, LEFT).shift(RIGHT * 0.34)
 
         chip = self.make_label_chip(self.accent_label)
-        chip.next_to(title_group, DOWN, buff=0.32).align_to(title_group, LEFT)
+        chip.scale(0.78)
+        chip.next_to(title_group, DOWN, buff=0.26).align_to(title_group, LEFT)
 
-        track_start = UP * 4.6 + LEFT * 0.05
-        track_end = DOWN * 4.8 + LEFT * 0.05
+        track_start = UP * 1.0 + RIGHT * 0.46
+        track_end = DOWN * 2.82 + RIGHT * 0.46
         track, start_marker, end_marker = self.make_track(
             start=track_start,
             end=track_end,
         )
 
-        moving_circle = Circle(radius=0.72, color=PRIMARY_GREEN, stroke_width=10)
+        moving_circle = Circle(radius=0.42, color=PRIMARY_GREEN, stroke_width=8)
         moving_circle.set_fill(PRIMARY_GREEN, opacity=0.94)
-        moving_circle.move_to(UP * 4.55 + RIGHT * 0.18)
+        moving_circle.move_to(UP * 0.98 + RIGHT * 0.74)
 
         arrow = Arrow(
-            chip.get_bottom(),
+            chip.get_right(),
             moving_circle.get_left(),
             buff=0.12,
             color=PRIMARY_ORANGE,
@@ -344,17 +347,17 @@ class TallAspectRatioScene(AspectRatioVariantBase):
 
         help_box = RoundedRectangle(
             corner_radius=0.18,
-            width=4.25,
-            height=1.05,
+            width=3.05,
+            height=0.68,
             stroke_color=GRAY_300,
             stroke_width=3,
             fill_color=WHITE,
             fill_opacity=1,
         )
-        help_text = Text("Good for a narrow panel or stacked layout.", font_size=22, color=GRAY)
+        help_text = Text("Sidebar-ready framing.", font_size=15, color=GRAY)
         help_text.move_to(help_box.get_center())
         help_group = VGroup(help_box, help_text)
-        help_group.next_to(track, UP, buff=0.45)
+        help_group.next_to(chip, DOWN, buff=0.26).align_to(chip, LEFT)
 
         self.add(
             stage,
@@ -369,7 +372,7 @@ class TallAspectRatioScene(AspectRatioVariantBase):
             moving_circle,
         )
         self.play(
-            moving_circle.animate.move_to(DOWN * 4.7 + RIGHT * 0.18),
+            moving_circle.animate.move_to(DOWN * 2.78 + RIGHT * 0.74),
             run_time=3.0,
             rate_func=linear,
         )

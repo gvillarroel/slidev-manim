@@ -8,6 +8,7 @@
     "purple": "#652f6c"
   },
   "neutral": {
+    "black": "#000000",
     "white": "#ffffff",
     "gray": "#333e48",
     "page_background": "#f7f7f7"
@@ -17,8 +18,11 @@
     "gray_200": "#cfcfcf",
     "gray_300": "#b5b5b5",
     "gray_400": "#9c9c9c",
+    "gray_500": "#828282",
     "gray_600": "#696969",
-    "gray_700": "#4f4f4f"
+    "gray_700": "#4f4f4f",
+    "gray_800": "#363636",
+    "gray_900": "#1c1c1c"
   },
   "highlight": {
     "red": "#ffccd5",
@@ -29,6 +33,19 @@
     "purple": "#f9ccff"
   },
   "shadow": {
-    "blue": "#004d66"
+    "red": "#6d1222",
+    "orange": "#994a00",
+    "yellow": "#98700c",
+    "green": "#294d19",
+    "blue": "#004d66",
+    "purple": "#431f47"
+  },
+  "status": {
+    "red": "#e8002a",
+    "orange": "#ff9633",
+    "yellow": "#ffd332",
+    "green": "#36b300",
+    "blue": "#00ace6",
+    "purple": "#9e00b3"
   }
 }

@@ -39,6 +39,7 @@ STAGING_DIR = OUTPUT_DIR / ".manim"
 VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
 
+# Preferred color styles: ../references/preferred-color-styles.md
 PRIMARY_RED = "#9e1b32"
 PRIMARY_ORANGE = "#e77204"
 PRIMARY_YELLOW = "#f1c319"

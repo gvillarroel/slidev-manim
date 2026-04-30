@@ -426,12 +426,14 @@ class MermaidSvgComponentRemapScene(Scene):
         ).next_to(title, DOWN, buff=0.2)
 
         source_panel = build_panel("Source layout", PRIMARY_GREEN, width=7.0, height=3.0).move_to(LEFT * 3.45 + DOWN * 0.55)
-        target_panel = build_panel("Target layout", PRIMARY_RED, width=4.35, height=5.0).move_to(RIGHT * 3.35 + DOWN * 0.62)
+        target_panel = build_panel("Target layout", PRIMARY_RED, width=4.35, height=5.0).move_to(RIGHT * 3.35 + DOWN * 0.76)
 
         badges = VGroup(
             badge("Source: flowchart", PRIMARY_GREEN),
             badge("Target: stateDiagram-v2", PRIMARY_RED),
         ).arrange(RIGHT, buff=0.45).next_to(subtitle, DOWN, buff=0.28)
+        badges.scale(0.78)
+        badges.shift(UP * 0.32)
 
         source_positions = {
             ordered_source[0]: LEFT * 5.25 + DOWN * 0.7,
@@ -439,9 +441,9 @@ class MermaidSvgComponentRemapScene(Scene):
             ordered_source[2]: LEFT * 0.75 + DOWN * 0.7,
         }
         target_positions = {
-            ordered_target[0]: RIGHT * 3.35 + UP * 0.85,
-            ordered_target[1]: RIGHT * 3.35 + DOWN * 0.55,
-            ordered_target[2]: RIGHT * 3.35 + DOWN * 1.95,
+            ordered_target[0]: RIGHT * 3.62 + UP * 0.62,
+            ordered_target[1]: RIGHT * 3.62 + DOWN * 0.72,
+            ordered_target[2]: RIGHT * 3.62 + DOWN * 2.06,
         }
 
         source_nodes = {
@@ -468,7 +470,7 @@ class MermaidSvgComponentRemapScene(Scene):
                 target_nodes[ordered_target[1]], target_nodes[ordered_target[2]]
             ),
         }
-        target_start = build_start_marker().move_to(target_positions[ordered_target[0]] + UP * 1.0)
+        target_start = build_start_marker().move_to(target_positions[ordered_target[0]] + UP * 0.82)
         target_start_edge = Arrow(
             start=target_start.get_center() + DOWN * 0.03,
             end=target_nodes[ordered_target[0]].get_top() + UP * 0.02,

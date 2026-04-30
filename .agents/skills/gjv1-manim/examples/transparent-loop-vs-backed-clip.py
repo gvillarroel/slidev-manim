@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from manim import Circle, Dot, MoveAlongPath, RoundedRectangle, Scene, Text, VGroup, linear
 
+# Preferred color styles: ../references/preferred-color-styles.md
 PRIMARY_ORANGE = "#e77204"
 PRIMARY_YELLOW = "#f1c319"
 PRIMARY_GREEN = "#45842a"

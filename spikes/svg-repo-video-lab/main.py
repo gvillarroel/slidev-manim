@@ -37,9 +37,9 @@ from manim import (
     FadeOut,
     GrowFromCenter,
     Line,
+    MovingCameraScene,
     ReplacementTransform,
     RoundedRectangle,
-    Scene,
     SVGMobject,
     SurroundingRectangle,
     Text,
@@ -180,7 +180,7 @@ def promote(target_name: str, destination: Path) -> None:
     if not matches:
         raise FileNotFoundError(target_name)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(matches[-1], destination)
+    shutil.copy2(max(matches, key=lambda path: path.stat().st_mtime), destination)
 
 
 def is_svg_payload(payload: bytes) -> bool:
@@ -442,15 +442,15 @@ COLOR_POSITIONS = {
 }
 
 FINAL_POSITIONS = {
-    "robot": RIGHT * 3.55 + UP * 1.66,
-    "chart": RIGHT * 2.8 + UP * 0.42,
-    "bulb": RIGHT * 4.3 + UP * 0.28,
-    "text-document": RIGHT * 3.2 + DOWN * 1.5,
-    "code-window": RIGHT * 4.25 + DOWN * 1.3,
+    "robot": RIGHT * 1.6 + UP * 1.66,
+    "chart": RIGHT * 0.82 + UP * 0.42,
+    "bulb": RIGHT * 2.35 + UP * 0.28,
+    "text-document": RIGHT * 1.14 + DOWN * 1.5,
+    "code-window": RIGHT * 2.36 + DOWN * 1.3,
 }
 
 
-class SvgRepoVideoLabScene(Scene):
+class SvgRepoVideoLabScene(MovingCameraScene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
         poster_mode = os.environ.get("SPIKE_RENDER_TARGET") == "poster"
@@ -460,6 +460,8 @@ class SvgRepoVideoLabScene(Scene):
 
         stage, rails, source_zone, edit_zone, final_zone = self.stage()
         self.add(stage, rails, source_zone, edit_zone, final_zone)
+        self.camera.frame.set(width=10.15)
+        self.camera.frame.move_to(LEFT * 2.05 + DOWN * 0.02)
 
         raw = self.raw_icons()
         raw_group = VGroup(*raw.values())
@@ -495,7 +497,17 @@ class SvgRepoVideoLabScene(Scene):
             rate_func=smooth,
         )
         self.wait(0.75)
-        self.play(FadeOut(scanner), FadeOut(route), FadeOut(swatches), run_time=0.7)
+        self.play(
+            FadeOut(scanner),
+            FadeOut(route),
+            FadeOut(swatches),
+            source_zone.animate.set_stroke(opacity=0.18).set_fill(opacity=0.1),
+            final_zone.animate.set_stroke(opacity=0.16).set_fill(opacity=0.08),
+            edit_zone.animate.set_stroke(GRAY_200, opacity=1).set_fill(WHITE_HEX, opacity=0.76),
+            self.camera.frame.animate.set(width=9.25).move_to(ORIGIN + DOWN * 0.02),
+            run_time=0.95,
+            rate_func=smooth,
+        )
 
         raw_label = document_label("RAW", colored["text-document"], color=PRIMARY_BLUE)
         video_label = document_label("VIDEO", colored["text-document"], color=PRIMARY_PURPLE)
@@ -537,7 +549,26 @@ class SvgRepoVideoLabScene(Scene):
         final_video_label = document_label("VIDEO", final["text-document"], color=PRIMARY_PURPLE)
         core = self.final_core()
         fan_guides = self.fan_guides()
-        self.play(FadeIn(fan_guides), FadeIn(core, scale=0.9), run_time=0.85)
+        expanded_final_zone = RoundedRectangle(
+            width=5.72,
+            height=5.65,
+            corner_radius=0.28,
+            stroke_color=GRAY_200,
+            stroke_width=2,
+            fill_color=WHITE_HEX,
+            fill_opacity=0.7,
+        ).move_to(RIGHT * 1.58)
+        expanded_final_zone.set_z_index(-3)
+        self.play(
+            FadeOut(source_zone),
+            FadeOut(edit_zone),
+            FadeOut(rails),
+            ReplacementTransform(final_zone, expanded_final_zone),
+            FadeIn(fan_guides),
+            FadeIn(core, scale=0.9),
+            self.camera.frame.animate.set(width=9.1).move_to(RIGHT * 1.2 + DOWN * 0.02),
+            run_time=0.85,
+        )
         self.play(
             AnimationGroup(
                 ReplacementTransform(mid["robot"], final["robot"], path_arc=0.22),
@@ -555,7 +586,12 @@ class SvgRepoVideoLabScene(Scene):
         accent.move_to(core[0].get_center())
         accent.set_z_index(8)
         self.play(FadeIn(accent, scale=0.7), run_time=0.32)
-        self.play(accent.animate.scale(1.9).set_fill(PRIMARY_ORANGE, opacity=0), FadeOut(fan_guides), run_time=0.8)
+        self.play(
+            accent.animate.scale(1.9).set_fill(PRIMARY_ORANGE, opacity=0),
+            FadeOut(fan_guides),
+            expanded_final_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
+            run_time=0.8,
+        )
         self.wait(6.25)
 
     def stage(self) -> tuple[RoundedRectangle, VGroup, RoundedRectangle, RoundedRectangle, RoundedRectangle]:
@@ -594,10 +630,10 @@ class SvgRepoVideoLabScene(Scene):
             stroke_width=2,
             fill_color=WHITE_HEX,
             fill_opacity=0.68,
-        ).move_to(RIGHT * 3.62)
+        ).move_to(RIGHT * 4.42)
         rails = VGroup(
             DashedLine(LEFT * 2.05 + UP * 2.85, RIGHT * 1.95 + UP * 2.85, dash_length=0.18, color=GRAY_300, stroke_width=3),
-            DashedLine(RIGHT * 1.82 + DOWN * 2.85, RIGHT * 5.17 + DOWN * 2.85, dash_length=0.18, color=GRAY_300, stroke_width=3),
+            DashedLine(RIGHT * 2.55 + DOWN * 2.85, RIGHT * 5.85 + DOWN * 2.85, dash_length=0.18, color=GRAY_300, stroke_width=3),
         )
         rails.set_z_index(-2)
         for zone in (source_zone, edit_zone, final_zone):
@@ -605,14 +641,14 @@ class SvgRepoVideoLabScene(Scene):
         return stage, rails, source_zone, edit_zone, final_zone
 
     def raw_icons(self) -> dict[str, SVGMobject]:
-        heights = {"robot": 0.92, "chart": 0.8, "bulb": 0.82, "text-document": 0.82, "code-window": 1.24}
+        heights = {"robot": 1.08, "chart": 0.94, "bulb": 0.96, "text-document": 0.96, "code-window": 1.48}
         icons = {name: svg_icon(raw_path(name), heights[name], RAW_POSITIONS[name], opacity=0.42) for name in RAW_POSITIONS}
         for icon in icons.values():
             icon.set_color(GRAY_400)
         return icons
 
     def colored_icons(self) -> dict[str, SVGMobject]:
-        heights = {"robot": 1.0, "chart": 0.86, "bulb": 0.9, "text-document": 0.88, "code-window": 1.38}
+        heights = {"robot": 1.16, "chart": 1.0, "bulb": 1.04, "text-document": 1.02, "code-window": 1.58}
         icons = {name: svg_icon(color_path(name), heights[name], COLOR_POSITIONS[name]) for name in COLOR_POSITIONS}
         for icon in icons.values():
             icon.set_z_index(3)
@@ -631,7 +667,7 @@ class SvgRepoVideoLabScene(Scene):
         return targets
 
     def final_icons(self) -> dict[str, SVGMobject]:
-        heights = {"robot": 1.02, "chart": 0.82, "bulb": 0.78, "text-document": 0.82, "code-window": 1.08}
+        heights = {"robot": 1.22, "chart": 1.0, "bulb": 0.98, "text-document": 0.98, "code-window": 1.34}
         final = {name: svg_icon(color_path(name), heights[name], FINAL_POSITIONS[name]) for name in FINAL_POSITIONS}
         final["robot"].rotate(-8 * PI / 180)
         final["chart"].rotate(5 * PI / 180)
@@ -691,7 +727,7 @@ class SvgRepoVideoLabScene(Scene):
 
     def final_core(self) -> VGroup:
         ring = Circle(radius=0.5, stroke_color=PRIMARY_ORANGE, stroke_width=7, fill_color=WHITE_HEX, fill_opacity=1)
-        ring.move_to(RIGHT * 3.64 + DOWN * 0.18)
+        ring.move_to(RIGHT * 1.62 + DOWN * 0.18)
         glyph = Text("SVG", font="Arial", weight=BOLD, color=GRAY)
         glyph.scale_to_fit_width(0.9)
         glyph.move_to(ring.get_center())
@@ -700,7 +736,7 @@ class SvgRepoVideoLabScene(Scene):
         return core
 
     def fan_guides(self) -> VGroup:
-        center = RIGHT * 3.64 + DOWN * 0.18
+        center = RIGHT * 1.62 + DOWN * 0.18
         guides = VGroup(
             Line(center, FINAL_POSITIONS["robot"], color=PRIMARY_ORANGE, stroke_width=4),
             Line(center, FINAL_POSITIONS["chart"], color=PRIMARY_ORANGE, stroke_width=4),

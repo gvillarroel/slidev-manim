@@ -26,6 +26,8 @@ Use `side formula handoff` for table transformations where two or more source ce
 - Use a high-contrast local background for floating formulas, usually white with a restrained primary-color border.
 - Make the result-to-cell moment a handoff, not a duplicate overlay. `ReplacementTransform` from transient result text into final table text is usually clearer than adding both.
 - Keep row indicators subordinate: a left marker plus a thin bottom rule usually reads better than a filled highlight band.
+- For text-derived classifications, preserve the full source string with inline markup when highlighting matched text. Splitting a transaction description into separate text chunks can remove visible spaces, and direct character slicing can drift when rendered glyph submobjects do not map to the source string.
+- If a side badge, formula panel, or temporary guide balances the table during the mechanism, also sample the final frame after that support disappears. Recenter or rebalance the resolved table if the no-support hold becomes left- or right-heavy.
 
 # Working Style
 
@@ -47,6 +49,7 @@ Use `side formula handoff` for table transformations where two or more source ce
 
 Load only the resource needed for the current task:
 
+- For preferred color styles and exact Manim token names, read [references/preferred-color-styles.md](references/preferred-color-styles.md).
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
 - For repo-wide video review, promoted-output counting, and contact sheets, read [references/repo-wide-video-audit.md](references/repo-wide-video-audit.md).
@@ -130,6 +133,7 @@ If the experiment fits more than one family, choose the one whose mechanism must
 
 Follow these baseline rules:
 
+- define colors with the preferred project tokens in [references/preferred-color-styles.md](references/preferred-color-styles.md), not default Manim color constants,
 - use the project primary palette for structural roles:
   - green, blue, purple, red for actors or stages,
   - orange for paths, guides, funnels, sleeves, gates, or support geometry,

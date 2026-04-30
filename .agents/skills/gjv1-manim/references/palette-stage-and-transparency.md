@@ -2,6 +2,8 @@
 
 Read this when deciding whether a Manim clip should stay transparent, gain a local background, or be color-normalized.
 
+For exact token names and preferred values, use [preferred-color-styles.md](preferred-color-styles.md). This file focuses on when and why those colors should appear.
+
 ## Canonical Color Roles
 
 Use the ADR-0002 palette as semantic roles, not decoration:

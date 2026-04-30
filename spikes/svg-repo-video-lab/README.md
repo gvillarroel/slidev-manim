@@ -60,3 +60,19 @@ Validation review frames are written under:
 
 - `videos/svg-repo-video-lab/review-frames/`
 - `videos/svg-repo-video-lab/review-half-second/`
+
+## Latest Validation
+
+Rendered with:
+
+```bash
+uv run --script spikes/svg-repo-video-lab/main.py --quality medium
+```
+
+Observed output:
+
+- Duration: 33.026 seconds.
+- Frames: 991 decoded frames at 30 fps.
+- Resolution: 1600x900.
+- Transparency: WebM VP9 stream reports `alpha_mode=1`; ffmpeg frame extraction confirmed alpha extrema `(0, 255)`.
+- Review: proof-frame and half-second contact sheets showed no major SVG remap artifacts or accidental camera crops in the text-change, shape-clamp, and final fan-out phases.

@@ -11,9 +11,19 @@ from PIL import Image, ImageDraw, ImageFont
 VIDEO_EXTENSIONS = {".webm", ".mp4", ".mov", ".mkv"}
 IGNORED_SEGMENTS = {".manim", "partial_movie_files"}
 SAMPLE_PERCENTAGES = (0.12, 0.5, 0.88)
-REVIEW_BACKGROUND = "#f7f7f7"
-TEXT_COLOR = "#333e48"
-BORDER_COLOR = "#cfcfcf"
+
+# Preferred color styles: ../references/preferred-color-styles.md
+PRIMARY_RED = "#9e1b32"
+WHITE = "#ffffff"
+GRAY = "#333e48"
+GRAY_200 = "#cfcfcf"
+PAGE_BACKGROUND = "#f7f7f7"
+REVIEW_BACKGROUND = WHITE
+SHEET_BACKGROUND = PAGE_BACKGROUND
+TILE_BACKGROUND = WHITE
+TEXT_COLOR = GRAY
+BORDER_COLOR = GRAY_200
+ERROR_COLOR = PRIMARY_RED
 
 
 def parse_args() -> argparse.Namespace:
@@ -84,7 +94,7 @@ def composite_alpha(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     rgb = background.convert("RGB")
     rgb.thumbnail(size, Image.Resampling.LANCZOS)
 
-    tile = Image.new("RGB", size, "#ffffff")
+    tile = Image.new("RGB", size, TILE_BACKGROUND)
     tile.paste(rgb, ((size[0] - rgb.width) // 2, (size[1] - rgb.height) // 2))
     return tile
 
@@ -103,7 +113,7 @@ def video_tile(root: Path, video: Path, fonts: tuple[ImageFont.ImageFont, ImageF
     label_height = 52
     tile_width = frame_width * 3 + gap * 2
     tile_height = label_height + frame_height
-    tile = Image.new("RGB", (tile_width, tile_height), "#ffffff")
+    tile = Image.new("RGB", (tile_width, tile_height), TILE_BACKGROUND)
     draw = ImageDraw.Draw(tile)
 
     label = video.relative_to(root).as_posix().replace("videos/", "", 1)
@@ -114,7 +124,7 @@ def video_tile(root: Path, video: Path, fonts: tuple[ImageFont.ImageFont, ImageF
     try:
         frames = sample_frames(video)
     except Exception as exc:  # noqa: BLE001 - this is a diagnostic artifact.
-        draw.text((4, label_height + 18), f"ERROR: {exc}", fill="#9e1b32", font=small_font)
+        draw.text((4, label_height + 18), f"ERROR: {exc}", fill=ERROR_COLOR, font=small_font)
         return tile
 
     for index in range(3):
@@ -160,7 +170,7 @@ def write_sheets(root: Path, videos: list[Path], output: Path, per_sheet: int) -
                 columns * tile_width + (columns + 1) * pad,
                 rows * tile_height + (rows + 1) * pad + 36,
             ),
-            REVIEW_BACKGROUND,
+            SHEET_BACKGROUND,
         )
         draw = ImageDraw.Draw(sheet)
         draw.text(

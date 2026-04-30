@@ -62,6 +62,9 @@
 - Evolve those skills so they work well for the specific needs of Slidev + Manim authoring.
 - Prioritize skills and workflows that improve authoring, rendering, composition, transparent-video integration, and slide-oriented animation patterns.
 
+## Skill evolution
+Ensure when you learned something new that can improve quiality of the output check .agents/skills/gjv1-manim, if the skill doesn't have what you have learned, include it as a new reference or an aumentation of an existing element.
+
 ## External References
 
 - Manim skill repository: <https://github.com/adithya-s-k/manim_skill/tree/main/skills>
