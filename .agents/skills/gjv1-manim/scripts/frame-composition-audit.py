@@ -331,7 +331,12 @@ def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> di
     active_box = strong_box or content_box
     result["active_box"] = active_box.to_list()
     margins = margins_for(active_box, width, height)
-    center_box = content_box if strong_box is not None and content_box.area > active_box.area * 1.45 else active_box
+    neutral_scaffold_expands_layout = (
+        strong_box is not None
+        and content_box.area > active_box.area * 1.45
+        and content_box.width > active_box.width * 1.35
+    )
+    center_box = content_box if neutral_scaffold_expands_layout else active_box
     center_x, center_y = center_box.center
     result["margins"] = margins
     result["center_box"] = center_box.to_list()

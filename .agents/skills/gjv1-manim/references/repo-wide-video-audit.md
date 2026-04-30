@@ -69,6 +69,23 @@ uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --v
 
 Read `composition-audit/report.md` first, then open overlay PNGs for blocking findings. Blocking defaults are low visual margin and off-center content. Stray vertical fragments are notices by default because stage panels, scaffolds, and route guides can be intentional; use `--strict-stray` when the suspected issue is unsupported side residue. Possible overlap or crowding is also a notice by default; use `--strict-notices` when dense overlap is unacceptable for the scene.
 
+## Automated Crowding Audit
+
+Use the stricter crowding audit when SVG clusters, clamps, guides, or panel outlines may be visually touching actors even if the whole frame has adequate margins:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/frame-crowding-audit.py --video videos/<spike-name>/<video-name>.webm --cadence 0.5 --write-overlays
+```
+
+For a reviewer-called timestamp, inspect the exact second and the surrounding transition:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/frame-crowding-audit.py --video videos/<spike-name>/<video-name>.webm --times 14 --write-overlays
+uv run --script .agents/skills/gjv1-manim/scripts/frame-crowding-audit.py --video videos/<spike-name>/<video-name>.webm --start 12 --end 16 --cadence 0.5 --write-overlays
+```
+
+Treat `low_component_clearance` findings as blocking for actor-to-guide, actor-to-outline, and actor-to-actor pairs. Actor-to-support overlap is often intentional in imported SVGs or labels inside a body, so confirm that case visually before patching.
+
 ## Confirm VP9 Alpha
 
 For transparent WebM deliverables, check both stream metadata and a decoded alpha frame. Metadata such as `alpha_mode=1` confirms intent, but an extracted alpha image confirms the promoted file still contains transparent pixels.
@@ -149,6 +166,7 @@ Include:
 - contact sheet paths,
 - rest-state mobject audit report paths when held frames, camera focus, or final holds were involved,
 - composition audit report paths when camera framing, panels, SVG clusters, or overlaps were involved,
+- crowding audit report paths when actors, guides, outlines, clamps, or dense SVG clusters were involved,
 - VP9 alpha metadata and alpha-extraction result for transparent WebM deliverables,
 - scripts patched,
 - render commands run,

@@ -629,6 +629,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - adding a subtle body anchor rail to real project blocks kept partially populated block activations vertically balanced after the placeholder scaffold was covered,
   - scaling the native Manim document badge to the compact SVG body kept `RAW`/`VIDEO` readable without letting the label overpower the imported document icon,
   - tightening the final fan-out positions before the continuation made the compact input source read as one resolved object instead of a tall stack of loose icons,
+  - tightening the fan-hold camera made the resolved SVG cluster feel more deliberate, but only after a small camera recenter kept the early fan proof frames inside the composition audit threshold,
   - softening continuation fork guides after the output pulse kept the final hold cleaner while preserving the source-to-block relationship.
 - **What failed first**:
   - some plausible SVG Repo ids returned a Vercel challenge even through `show` URLs, so the downloader needs payload validation and a fallback,
@@ -642,6 +643,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - an empty destination panel during the opening breath reads as dead space unless there is subtle target scaffolding already visible,
   - very faint placeholder panels can look acceptable to a human but be ignored by the composition audit, leaving the source column flagged as off-center until the scaffold has enough stroke or header contrast,
   - a fixed minimum width for text attached to a small imported SVG can make the label become the focal object instead of the SVG body,
+  - tightening a fan-out camera against the final hold can introduce off-center failures earlier in the fan formation; audit the whole transition cadence, then nudge the camera to satisfy the proof frames instead of judging only the final cluster,
+  - broad crowding audits can flag the intended actor-to-actor contact inside a compression frame; inspect the full-size proof frame and only accept it when the overlap visibly reads as squeeze pressure instead of accidental collision,
   - terminal fork guides that remain at mechanism strength after the pulse can make the final hold feel like it is still mid-transition.
 
 ## SVG Repo Continuation Blocks
@@ -842,6 +845,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 120. If an opening composition reserves a destination zone before anything moves there, add faint target slots or scaffolds during the visible breath so the empty zone reads as intentional pending structure.
 121. For fan-out guides, shorten or curve any nearly vertical hub-to-target stroke. A full radial line to a target above the hub can look like residue even when it is geometrically correct.
 122. Real project blocks need their own low-contrast body anchor if they cover placeholder scaffolds before rows appear. Otherwise a partial block activation can become vertically top-heavy for one sampled frame.
+123. When tightening the camera for a fan-out hold, rerun the 0.3-second composition audit across the whole fan transition. The final frame can look stronger while early fan proof frames drift off-center, and a small camera recenter is usually better than giving up the tighter hierarchy.
+124. For compression, squeeze, and clamp proof frames, one actor-to-actor contact can be acceptable when the still frame clearly communicates pressure. Validate it full size and keep actor-to-guide or actor-to-outline collisions as blocking.
 
 # Reusable Process
 

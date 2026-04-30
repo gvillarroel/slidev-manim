@@ -70,6 +70,15 @@ uv run --script .agents/skills/gjv1-manim/scripts/frame-composition-audit.py --v
 
 Patch any `low_visual_margin` or `off_center_content` finding before claiming the framing is clean. `stray_vertical_fragment` means the overlay should be opened full size; it is blocking only when the vertical slice is unsupported residue or an accidental crop, not when it is a deliberate panel edge, scaffold, or guide. Rerun with `--strict-stray` when a reviewer calls out side fragments. `possible_overlap_or_crowding` is also a full-size review prompt; it is not automatically wrong, but it is not dismissible from a thumbnail.
 
+When the timestamp looks visually cramped or actors appear to touch a guide, outline, clamp, panel edge, or another actor, run the stricter crowding audit too:
+
+```powershell
+uv run --script .agents/skills/gjv1-manim/scripts/frame-crowding-audit.py --video videos/<spike-name>/<video-name>.webm --times 14 --write-overlays
+uv run --script .agents/skills/gjv1-manim/scripts/frame-crowding-audit.py --video videos/<spike-name>/<video-name>.webm --start 12 --end 16 --cadence 0.5 --write-overlays
+```
+
+Treat `low_component_clearance` as blocking when the pair is actor-to-guide, actor-to-outline, or actor-to-actor. Do not treat actor-to-support overlap as automatically wrong; labels and icon internals often sit inside their support body by design.
+
 ## Continuation Blocks
 
 For a continuation that turns a resolved diagram into generated project blocks, do not sample only the final completed list. The useful proof set is:

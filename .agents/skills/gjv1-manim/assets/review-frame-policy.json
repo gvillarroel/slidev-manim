@@ -26,5 +26,18 @@
       "stray_vertical_fragment",
       "possible_overlap_or_crowding"
     ]
+  },
+  "crowding_audit": {
+    "cadence_seconds": 0.5,
+    "minimum_clearance_px": 30,
+    "blocking_code": "low_component_clearance",
+    "blocking_pairs": [
+      "actor-guide",
+      "actor-outline",
+      "actor-actor"
+    ],
+    "visual_review_pairs": [
+      "actor-support"
+    ]
   }
 }

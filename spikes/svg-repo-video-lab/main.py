@@ -562,7 +562,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             FadeOut(edit_zone),
             FadeIn(fan_guides),
             FadeIn(core, scale=0.9),
-            self.camera.frame.animate.set(width=9.8).move_to(RIGHT * 1.0 + DOWN * 0.04),
+            self.camera.frame.animate.set(width=8.65).move_to(RIGHT * 1.03 + UP * 0.06),
             run_time=0.85,
         )
         self.play(
@@ -760,7 +760,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             "robot": colored["robot"].copy().stretch(1.26, 0).stretch(0.74, 1).rotate(-6 * PI / 180).move_to(LEFT * 0.05 + UP * 1.34),
             "chart": colored["chart"].copy().stretch(1.62, 1).stretch(0.92, 0).move_to(LEFT * 0.55 + DOWN * 0.08),
             "bulb": colored["bulb"].copy().scale(1.24).rotate(8 * PI / 180).move_to(LEFT * 0.9 + DOWN * 0.48),
-            "text-document": colored["text-document"].copy().stretch(1.12, 0).move_to(DOWN * 1.3),
+            "text-document": colored["text-document"].copy().stretch(1.1, 0).move_to(DOWN * 1.08),
             "code-window": colored["code-window"].copy().stretch(0.84, 0).stretch(1.08, 1).rotate(4 * PI / 180).move_to(RIGHT * 1.5 + DOWN * 0.38),
         }
         for icon in targets.values():

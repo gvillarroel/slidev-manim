@@ -329,6 +329,7 @@ Do not add text before exhausting those fixes.
 - tighten the constrained phase more than feels necessary,
 - narrow the neck, lane, throat, corridor, or clamp gap,
 - sample an earlier proof frame if the release weakens the pressure,
+- full-size review any crowding finding in the constrained proof frame; actor-to-actor contact can be acceptable only when it reads as pressure, while actor-to-guide or actor-to-outline contact remains blocking,
 - keep support forms away from the squeeze zone.
 
 ### Reveal and conceal
@@ -349,6 +350,7 @@ Do not add text before exhausting those fixes.
 
 - make size contrast more obvious,
 - increase angular spacing in fan layouts,
+- when tightening a fan-out camera for hierarchy, audit the whole fan transition cadence and recenter for the earliest proof frames, not only the resolved hold,
 - push edge landings closer to the boundary if tension is the point,
 - let the lead form arrive first when the scene depends on delayed settle,
 - remove orbital or staging scaffolding before the final frame.
@@ -368,6 +370,7 @@ Do not add text before exhausting those fixes.
 - keep the fork or branch geometry visible while each block becomes populated,
 - after the output pulse, soften fork or branch guides below mechanism strength unless they are still causing motion. The final hold should preserve the source-to-block relationship without looking mid-transition.
 - for fan-out guide sets, shorten or curve any hub-to-target stroke that is nearly vertical. A full radial line to a target above the hub often reads as stray residue in sampled frames.
+- if a tighter camera makes the final fan hold stronger but the audit flags early fan proof frames as off-center, nudge the camera center for the transition before widening the shot again.
 - update the poster composition to the new terminal state when the final hold changes.
 
 ### Imported SVG and component remaps
