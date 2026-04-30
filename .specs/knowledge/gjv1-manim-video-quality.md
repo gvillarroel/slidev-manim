@@ -11,6 +11,21 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Quadrant Arrow Drop
+
+- **Hypothesis**: A selected point in a quadrant diagram reads as intentionally repositioned when the cost-drop cue is vertical, held before motion, and separated from the later horizontal target slot.
+- **Result**: Confirmed after replacing a short diagonal arrow pass with a 27.7-second staged drop-and-slide.
+- **What worked**:
+  - starting with a visible quadrant board instead of a blank opening frame,
+  - making the red cue a true vertical drop arrow and holding it long enough to survive 0.3-second review frames,
+  - reserving the future destination with a yellow target slot and a low-opacity orange rail,
+  - removing the arrow before the point moves, so the cue reads as cause rather than as a simultaneous drag handle,
+  - shrinking the outer review frame until the resting mobject audit cleared edge safety margins.
+- **What failed first**:
+  - a 2.86-second render was too short for slide integration,
+  - the diagonal arrow read as a generic route instead of a cost-drop mechanism,
+  - the first outer frame was technically visible but still too close to the camera edge for the resting audit.
+
 ## Repo-wide Generated Video Color-System Pass
 
 - **Hypothesis**: Older utility spikes would read more clearly if every generated video used the ADR-0002 palette as semantic roles instead of generic Manim color constants.
@@ -848,6 +863,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 123. When tightening the camera for a fan-out hold, rerun the 0.3-second composition audit across the whole fan transition. The final frame can look stronger while early fan proof frames drift off-center, and a small camera recenter is usually better than giving up the tighter hierarchy.
 124. For compression, squeeze, and clamp proof frames, one actor-to-actor contact can be acceptable when the still frame clearly communicates pressure. Validate it full size and keep actor-to-guide or actor-to-outline collisions as blocking.
 125. When a continuation starts from a resolved source cluster, a short centered bridge beat can be cleaner than revealing destination scaffolds immediately. If scaffolds appear while the source is still full-size, 0.3-second samples can become off-center or crowded; let the resolved source hold/move as one readable object, then reveal strong scaffold panels as it scales into the input column.
+126. For quadrant or axis-drop scenes, keep the causal drop cue vertical when the concept is lower cost or lower risk. A diagonal arrow usually reads as a generic route instead of the intended axis change.
+127. When a point must move after an axis cue, separate the mechanism into a held cue, cue removal, and then staged movement. Simultaneous arrow-and-point motion can look like a drag handle instead of a prior decision signal.
+128. Large decorative or review frames need the same edge-clearance discipline as actors. If a resting audit flags the outer frame, shrink the frame or widen the camera before accepting the hold.
 
 # Reusable Process
 

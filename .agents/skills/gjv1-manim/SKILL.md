@@ -145,6 +145,7 @@ Classify the experiment before coding. This determines what proof frame to sampl
 - `snap recoil`
 - `staged convergence`
 - `fork diverge`
+- `axis drop`
 
 If the experiment fits more than one family, choose the one whose mechanism must survive in a still frame.
 
@@ -313,6 +314,8 @@ Do not add text before exhausting those fixes.
 - separate leader and supports more decisively,
 - preserve a readable entrance, bridge, slot, or crossing,
 - split one path into explicit legs when the handoff must be staged.
+- for quadrant or axis-drop diagrams, keep the causal drop cue vertical when the concept is lower cost, risk, or effort; put any later horizontal repositioning in a separate rail or staged move.
+- hold the drop cue, remove it, then move the point. If the arrow and point move together, the cue reads like a drag handle instead of a prior decision signal.
 
 ### Table and formula handoff
 
@@ -420,6 +423,7 @@ Ship the video only if most of these are true:
 - if the scene uses a fork or split, the trunk remains visible long enough and the branches separate enough to avoid reading as a loose regroup.
 - if the scene uses a funnel merge, multiple inputs are visibly compressed inside a narrowing neck before the dominant landing.
 - if the scene uses a formula handoff, the formula is readable in its composed state and the result visibly replaces the destination value.
+- if the scene uses an axis-drop cue, the vertical cue survives in at least one proof frame, the target slot is visible before motion, and the cue is gone before the point starts traveling.
 
 # Common Failure Patterns
 
