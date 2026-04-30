@@ -414,7 +414,7 @@ def svg_icon(path: Path, height: float, position=ORIGIN, opacity: float = 1.0) -
 def document_label(text: str, target: SVGMobject, color: str = PRIMARY_PURPLE) -> Text:
     label = Text(text, font="Arial", weight=BOLD, color=color)
     label.scale_to_fit_width(max(0.9, min(1.55, target.width * 0.48)))
-    label.move_to(target.get_center() + DOWN * (target.height * 0.07))
+    label.move_to(target.get_center() + DOWN * (target.height * 0.01))
     label.set_z_index(6)
     return label
 
@@ -722,8 +722,8 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             "robot": colored["robot"].copy().stretch(1.26, 0).stretch(0.74, 1).rotate(-6 * PI / 180).move_to(LEFT * 0.05 + UP * 1.55),
             "chart": colored["chart"].copy().stretch(1.62, 1).stretch(0.92, 0).move_to(RIGHT * 0.55 + UP * 0.56),
             "bulb": colored["bulb"].copy().scale(1.24).rotate(8 * PI / 180).move_to(LEFT * 0.22 + DOWN * 0.58),
-            "text-document": colored["text-document"].copy().stretch(1.12, 0).move_to(RIGHT * 0.5 + DOWN * 1.64),
-            "code-window": colored["code-window"].copy().stretch(0.84, 0).stretch(1.08, 1).rotate(4 * PI / 180).move_to(RIGHT * 1.05 + DOWN * 0.42),
+            "text-document": colored["text-document"].copy().stretch(1.12, 0).move_to(RIGHT * 0.5 + DOWN * 1.5),
+            "code-window": colored["code-window"].copy().stretch(0.84, 0).stretch(1.08, 1).rotate(4 * PI / 180).move_to(RIGHT * 0.94 + DOWN * 0.42),
         }
         for icon in targets.values():
             icon.set_z_index(4)
@@ -762,10 +762,10 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         return swatches
 
     def shape_clamp(self) -> VGroup:
-        left_bar = Line(LEFT * 1.62 + UP * 2.08, LEFT * 1.62 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
-        right_bar = Line(RIGHT * 1.82 + UP * 2.08, RIGHT * 1.82 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
+        left_bar = Line(LEFT * 2.0 + UP * 2.08, LEFT * 2.0 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
+        right_bar = Line(RIGHT * 2.24 + UP * 2.08, RIGHT * 2.24 + DOWN * 2.08, color=PRIMARY_ORANGE, stroke_width=8)
         brace = RoundedRectangle(
-            width=3.78,
+            width=4.62,
             height=4.42,
             corner_radius=0.28,
             stroke_color=PRIMARY_ORANGE,
