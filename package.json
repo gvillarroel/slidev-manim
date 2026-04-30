@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "export:mp4": "scripts/slidev-to-mp4.sh",
     "dev:circle-left-to-right": "slidev spikes/circle-left-to-right/slides.md",
     "build:circle-left-to-right": "slidev build spikes/circle-left-to-right/slides.md",
     "dev:overlay-corner-callout": "slidev spikes/overlay-corner-callout/slides.md",
