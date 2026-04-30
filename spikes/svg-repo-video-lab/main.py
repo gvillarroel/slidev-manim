@@ -414,7 +414,7 @@ def svg_icon(path: Path, height: float, position=ORIGIN, opacity: float = 1.0) -
 def document_label(text: str, target: SVGMobject, color: str = PRIMARY_PURPLE) -> Text:
     label = Text(text, font="Arial", weight=BOLD, color=color)
     label.scale_to_fit_width(max(0.9, min(1.55, target.width * 0.48)))
-    label.move_to(target.get_center() + DOWN * (target.height * 0.01))
+    label.move_to(target.get_center() + UP * (target.height * 0.04))
     label.set_z_index(6)
     return label
 
@@ -720,10 +720,10 @@ class SvgRepoVideoLabScene(MovingCameraScene):
     def mid_icons(self, colored: dict[str, SVGMobject]) -> dict[str, SVGMobject]:
         targets = {
             "robot": colored["robot"].copy().stretch(1.26, 0).stretch(0.74, 1).rotate(-6 * PI / 180).move_to(LEFT * 0.05 + UP * 1.55),
-            "chart": colored["chart"].copy().stretch(1.62, 1).stretch(0.92, 0).move_to(RIGHT * 0.55 + UP * 0.56),
-            "bulb": colored["bulb"].copy().scale(1.24).rotate(8 * PI / 180).move_to(LEFT * 0.22 + DOWN * 0.58),
-            "text-document": colored["text-document"].copy().stretch(1.12, 0).move_to(RIGHT * 0.5 + DOWN * 1.5),
-            "code-window": colored["code-window"].copy().stretch(0.84, 0).stretch(1.08, 1).rotate(4 * PI / 180).move_to(RIGHT * 0.94 + DOWN * 0.42),
+            "chart": colored["chart"].copy().stretch(1.62, 1).stretch(0.92, 0).move_to(LEFT * 0.18 + UP * 0.58),
+            "bulb": colored["bulb"].copy().scale(1.24).rotate(8 * PI / 180).move_to(LEFT * 0.62 + DOWN * 0.5),
+            "text-document": colored["text-document"].copy().stretch(1.12, 0).move_to(RIGHT * 0.28 + DOWN * 1.32),
+            "code-window": colored["code-window"].copy().stretch(0.84, 0).stretch(1.08, 1).rotate(4 * PI / 180).move_to(RIGHT * 1.12 + DOWN * 0.38),
         }
         for icon in targets.values():
             icon.set_z_index(4)

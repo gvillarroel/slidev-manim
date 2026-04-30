@@ -308,7 +308,7 @@ def pair_is_strict(left: Component, right: Component, clear: float, raw_overlap:
     roles = {left.role, right.role}
     actor_present = "actor" in roles
     structural_present = bool({"guide", "outline"} & roles)
-    return actor_present and (structural_present or raw_overlap > 0 or relation == "outline_edge") and clear <= args.min_clearance
+    return actor_present and (structural_present or raw_overlap > 0 or relation == "outline_edge") and clear < args.min_clearance
 
 
 def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> dict:
