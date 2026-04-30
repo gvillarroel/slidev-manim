@@ -36,6 +36,23 @@ Useful smoke test:
 uv run --with av --with pillow .agents/skills/gjv1-manim/examples/contact-sheet-review.py --root . --limit 4 --output videos/review-sheets/gjv1-audit-smoke.png
 ```
 
+## Prioritize Edge and Center Risks
+
+Run the frame-safety audit before deciding which contact-sheet thumbnails need full-size inspection:
+
+```powershell
+uv run --with av --with pillow .agents/skills/gjv1-manim/examples/frame-safety-audit.py --root .
+```
+
+This writes:
+
+```text
+videos/review-sheets/frame-safety-audit/frame-safety-audit.json
+videos/review-sheets/frame-safety-audit/frame-safety-audit.png
+```
+
+Treat these as candidates, not verdicts. The audit intentionally flags near-edge text, panel borders, chips, and off-center compositions so the next step is a full-size frame review.
+
 ## Review Criteria
 
 Check these for every sheet:
@@ -44,6 +61,7 @@ Check these for every sheet:
 - Do text-heavy clips have a local `page-background` stage?
 - Are decorative loops intentionally transparent?
 - Are title margins visible in thumbnails?
+- Do titles, badges, chips, or callouts have their own safe header band instead of touching the frame or diagram panels?
 - Are primary colors serving semantic roles instead of arbitrary decoration?
 - Does at least one sampled frame prove the intended mechanism?
 

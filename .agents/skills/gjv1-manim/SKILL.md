@@ -28,6 +28,7 @@ Use `side formula handoff` for table transformations where two or more source ce
 - Keep row indicators subordinate: a left marker plus a thin bottom rule usually reads better than a filled highlight band.
 - For text-derived classifications, preserve the full source string with inline markup when highlighting matched text. Splitting a transaction description into separate text chunks can remove visible spaces, and direct character slicing can drift when rendered glyph submobjects do not map to the source string.
 - If a side badge, formula panel, or temporary guide balances the table during the mechanism, also sample the final frame after that support disappears. Recenter or rebalance the resolved table if the no-support hold becomes left- or right-heavy.
+- For title bands that include both title and subtitle, build the backing panel from the measured title/subtitle group height plus padding. Fixed-height title panels can leave the subtitle outside the local background after font or spacing changes.
 
 # Working Style
 
@@ -55,8 +56,9 @@ Load only the resource needed for the current task:
 - For repo-wide video review, promoted-output counting, and contact sheets, read [references/repo-wide-video-audit.md](references/repo-wide-video-audit.md).
 - For a copyable new spike shape, start from [examples/quality-spike-template.py](examples/quality-spike-template.py).
 - For a reusable all-video contact sheet command, run or adapt [examples/contact-sheet-review.py](examples/contact-sheet-review.py).
+- For a prioritized edge, center, and near-clipping candidate pass, run or adapt [examples/frame-safety-audit.py](examples/frame-safety-audit.py).
 - For the transparent-loop versus local-stage decision, compare [examples/transparent-loop-vs-backed-clip.py](examples/transparent-loop-vs-backed-clip.py).
-- For reusable output resources, copy from [assets/canonical-palette.json](assets/canonical-palette.json), [assets/review-frame-policy.json](assets/review-frame-policy.json), or [assets/manim_scene_helpers.py](assets/manim_scene_helpers.py).
+- For reusable output resources, copy from [assets/canonical-palette.json](assets/canonical-palette.json), [assets/review-frame-policy.json](assets/review-frame-policy.json), [assets/frame-safety-policy.json](assets/frame-safety-policy.json), or [assets/manim_scene_helpers.py](assets/manim_scene_helpers.py).
 
 # Workflow
 
@@ -359,6 +361,7 @@ When the first pass looks weak, it is usually because of one of these:
 - a direct SVG morph crosses incompatible topology and creates translucent plates, persistent strokes, or ambiguous in-between geometry.
 - child roles move before the new body exists, making them appear unsupported even if the final frame is clean.
 - contact-sheet thumbnails make small intentional child-role geometry look like source residue; inspect the frame at full size before patching.
+- title groups, badges, chips, or callouts touch a panel boundary; reserve a clean header band or move the mechanism away from that label zone.
 - formula terms are animated separately and become unreadable in intermediate frames.
 - calculation badges sit on top of table values, headers, or active row cues.
 - transient result text overlaps the final destination text instead of transforming into it.

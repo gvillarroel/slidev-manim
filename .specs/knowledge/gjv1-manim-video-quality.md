@@ -635,11 +635,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - replacing the transient category result into the destination cell kept the handoff clear,
   - sampling the no-badge final frame exposed that the table was balanced only while the side badge was present,
   - a short resolved-state recenter after the badge disappears keeps the final hold framed without weakening the row-level mechanism frames,
+  - sizing the title backing panel from the measured title/subtitle group kept both lines inside the local background,
   - setting the camera background to `page-background` avoided black frame margins in standalone WebM review.
 - **What failed first**:
   - splitting descriptions into separate text chunks removed visible spaces around the highlighted keyword,
   - direct `Text` character slicing misaligned with spaces because rendered glyph submobjects do not map cleanly to the source string,
   - the table was staged left to make room for the side badge, which made the final no-badge hold feel off-center,
+  - a fixed-height title panel covered the main title but let the subtitle fall outside the backing shape,
   - a smaller local stage left black margins when the WebM was decoded without alpha in PyAV.
 
 # Practical Rules
@@ -741,6 +743,10 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 86. When a `MovingCameraScene` crops into one stage zone, dim neighboring panel strokes and fills during that focus so edge fragments read as context instead of accidental framing.
 87. If a final panel border stops explaining the motion after fan-out, fade it before the hold; the resolved cluster should own the last frame.
 88. Promote rendered outputs by latest modified time when Manim writes into reused media folders, because lexicographic path order can copy stale low-quality variants after rerenders.
+89. Repo-wide audits need a full-size follow-up for any thumbnail where title text, badges, chips, or callouts sit near the edge; thumbnails made the `aspect-ratio-variants` title clipping easy to miss until candidate frames were extracted.
+90. For layout-variant videos, shorten copy and adapt scale per aspect ratio instead of reusing wide-scene coordinates in a portrait render. Portrait variants should get their own stage size, font sizes, and motion lane.
+91. Semantic remap scenes need a reserved header band for global badges. Badges that touch a panel border read as accidental overlap even when they do not hide the transformed nodes.
+92. A frame-safety audit is useful before patching a whole repo: use it to prioritize edge, center, and large-near-edge candidates, then confirm each suspected issue at full size before changing scripts.
 
 # Reusable Process
 
