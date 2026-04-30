@@ -408,6 +408,7 @@ Do not add text before exhausting those fixes.
 - for orbit-guided motion, treat crowding audit findings as blocking only after full-size review confirms actor-to-actor, actor-to-outline, or guide-over-actor interference. Actor-on-path contact can be intentional when the guide is the track being followed.
 - when tightening a fan-out camera for hierarchy, audit the whole fan transition cadence and recenter for the earliest proof frames, not only the resolved hold,
 - push edge landings closer to the boundary if tension is the point,
+- for edge-tension scenes, show a faint target slot or temporary pressure wall during the opening breath, hold the overshoot against it in a proof frame, then remove abandoned source panels and the wall before the resolved hold.
 - let the lead form arrive first when the scene depends on delayed settle,
 - remove orbital or staging scaffolding before the final frame.
 

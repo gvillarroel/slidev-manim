@@ -190,10 +190,15 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - a dominant green landing shape very near the right edge,
   - a small overshoot before the settle so the edge pressure feels earned,
   - a narrower destination zone that makes the right boundary matter,
+  - adding faint destination slots and a temporary red pressure wall during the opening breath, so the edge reads as a pending surface before the actors arrive,
+  - holding the overshoot against the wall long enough to survive 0.3-second proof frames,
+  - removing the abandoned source panel during cleanup, leaving quiet negative space instead of an empty container,
   - minimal supporting shapes that still keep the cluster legible.
 - **What failed first**:
+  - the draft was only 3.43 seconds and had no real slide-integration pacing,
   - the first version ended on the right side without real tension,
   - the destination cluster was too timid,
+  - the first long rerender left an empty source panel in the resolved hold,
   - the wide soft zone weakened the sense of pressure.
 
 ## Quality Occlusion Peel

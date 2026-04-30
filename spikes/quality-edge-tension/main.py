@@ -20,11 +20,12 @@ from manim import (
     UP,
     AnimationGroup,
     Circle,
+    Create,
     FadeIn,
     FadeOut,
     Line,
     MoveAlongPath,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
@@ -47,6 +48,7 @@ PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
 
 
 class _Args(argparse.Namespace):
@@ -99,42 +101,66 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=1)
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=1)
 
 
 class QualityEdgeTensionScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        left_soft = RoundedRectangle(width=3.9, height=4.5, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.26).move_to(LEFT * 3.45)
-        right_soft = RoundedRectangle(width=3.0, height=4.15, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.3).move_to(RIGHT * 4.55 + DOWN * 0.15)
+        frame = Rectangle(width=12.8, height=5.65, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
+        left_soft = Rectangle(width=3.8, height=4.25, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.24).move_to(LEFT * 3.58)
+        right_soft = Rectangle(width=2.55, height=4.2, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.34).move_to(RIGHT * 4.9 + DOWN * 0.04)
+        pressure_wall = Line(RIGHT * 5.96 + DOWN * 1.96, RIGHT * 5.96 + UP * 1.96, color=PRIMARY_RED, stroke_width=8).set_opacity(0.42)
 
         source = VGroup(
-            slab(PRIMARY_GREEN, 1.95, 0.9).move_to(LEFT * 3.95 + UP * 0.82),
-            slab(PRIMARY_BLUE, 1.82, 0.84).move_to(LEFT * 2.52 + DOWN * 0.02),
-            slab(PRIMARY_PURPLE, 1.66, 0.78).move_to(LEFT * 1.1 + DOWN * 0.98),
+            slab(PRIMARY_GREEN, 1.95, 0.86).move_to(LEFT * 4.08 + UP * 0.86),
+            slab(PRIMARY_BLUE, 1.82, 0.8).move_to(LEFT * 2.78 + DOWN * 0.02),
+            slab(PRIMARY_PURPLE, 1.62, 0.74).move_to(LEFT * 1.48 + DOWN * 0.9),
+        )
+        compressed = VGroup(
+            slab(PRIMARY_GREEN, 1.1, 0.78).move_to(RIGHT * 0.35 + UP * 0.52),
+            slab(PRIMARY_BLUE, 1.0, 0.72).move_to(RIGHT * 0.54 + DOWN * 0.16),
+            slab(PRIMARY_PURPLE, 0.86, 0.66).move_to(RIGHT * 0.76 + DOWN * 0.76),
         )
         targets = VGroup(
-            Circle(radius=0.88, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 4.82 + UP * 0.52),
-            Circle(radius=0.52, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.92 + DOWN * 0.42),
-            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 4.48 + DOWN * 1.12),
+            Circle(radius=0.86, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 5.02 + UP * 0.46),
+            Circle(radius=0.52, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 4.2 + DOWN * 0.48),
+            Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 4.78 + DOWN * 1.18),
         )
         overshoot_targets = VGroup(
-            Circle(radius=0.92, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 5.02 + UP * 0.5),
-            Circle(radius=0.54, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 4.08 + DOWN * 0.4),
-            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 4.62 + DOWN * 1.06),
+            Circle(radius=0.9, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 5.28 + UP * 0.47),
+            Circle(radius=0.55, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 4.44 + DOWN * 0.48),
+            Circle(radius=0.3, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 4.98 + DOWN * 1.15),
         )
+        target_slots = VGroup(
+            Circle(radius=0.9, stroke_color=GRAY_300, stroke_width=3, fill_opacity=0).move_to(targets[0]),
+            Circle(radius=0.55, stroke_color=GRAY_300, stroke_width=3, fill_opacity=0).move_to(targets[1]),
+            Circle(radius=0.3, stroke_color=GRAY_300, stroke_width=3, fill_opacity=0).move_to(targets[2]),
+        ).set_opacity(0.36)
 
-        guide = Line(LEFT * 0.58 + DOWN * 0.02, RIGHT * 4.2 + DOWN * 0.02, color=PRIMARY_ORANGE, stroke_width=7)
+        guide = Line(LEFT * 0.45 + DOWN * 0.06, RIGHT * 5.25 + DOWN * 0.06, color=PRIMARY_ORANGE, stroke_width=7)
         accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(guide.get_start())
-        settle_point = RIGHT * 4.42 + DOWN * 0.08
+        settle_point = RIGHT * 5.42 + DOWN * 0.06
 
-        self.add(frame, left_soft, right_soft)
-        self.play(FadeIn(source, lag_ratio=0.08), run_time=0.68)
-        self.play(FadeIn(guide), run_time=0.14)
-        self.play(MoveAlongPath(accent, guide), run_time=0.36)
+        self.add(frame, left_soft, right_soft, source, target_slots, pressure_wall)
+        self.wait(2.6)
+        self.play(Create(guide), FadeIn(accent), pressure_wall.animate.set_opacity(0.76), run_time=1.4)
+        self.wait(1.2)
+        self.play(MoveAlongPath(accent, guide), run_time=2.4, rate_func=smooth)
+        self.wait(0.7)
+        self.play(
+            AnimationGroup(
+                Transform(source[0], compressed[0].copy()),
+                Transform(source[1], compressed[1].copy()),
+                Transform(source[2], compressed[2].copy()),
+                lag_ratio=0.07,
+            ),
+            run_time=2.8,
+            rate_func=smooth,
+        )
+        self.wait(1.4)
         self.play(
             AnimationGroup(
                 Transform(source[0], overshoot_targets[0].copy()),
@@ -142,9 +168,10 @@ class QualityEdgeTensionScene(Scene):
                 Transform(source[2], overshoot_targets[2].copy()),
                 lag_ratio=0.08,
             ),
-            run_time=0.84,
+            run_time=2.7,
             rate_func=smooth,
         )
+        self.wait(2.4)
         self.play(
             AnimationGroup(
                 source[0].animate.move_to(targets[0].get_center()).scale(targets[0].width / source[0].width),
@@ -152,15 +179,15 @@ class QualityEdgeTensionScene(Scene):
                 source[2].animate.move_to(targets[2].get_center()).scale(targets[2].width / source[2].width),
                 lag_ratio=0.04,
             ),
-            run_time=0.18,
+            run_time=1.6,
             rate_func=smooth,
         )
-        self.play(FadeOut(guide), run_time=0.14)
-        self.play(accent.animate.move_to(settle_point).set_fill(PRIMARY_RED, opacity=1), run_time=0.16)
+        self.play(FadeOut(guide), FadeOut(target_slots), FadeOut(left_soft), run_time=1.0)
+        self.play(accent.animate.move_to(settle_point).set_fill(PRIMARY_RED, opacity=1), pressure_wall.animate.set_opacity(0.28), run_time=1.1)
         for item in source:
-            self.play(item.animate.scale(1.06), run_time=0.12, rate_func=there_and_back)
-        self.play(FadeOut(accent), run_time=0.14)
-        self.wait(0.25)
+            self.play(item.animate.scale(1.06), run_time=0.38, rate_func=there_and_back)
+        self.play(FadeOut(accent), FadeOut(pressure_wall), run_time=1.1)
+        self.wait(7.0)
 
 
 def render_variant(args: _Args) -> None:
