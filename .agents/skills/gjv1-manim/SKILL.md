@@ -14,6 +14,19 @@ Use this skill when the goal is not merely to make a Manim video that works, but
 
 The video should explain itself through shape, color, timing, compression, and reveal logic first. Text is a last resort.
 
+# Sequence Diagram Scenes
+
+Use `sequence handoff` for protocol or Mermaid sequence-diagram animations.
+
+- Keep the `.mmd` source as the inspectable protocol definition even when the final video is rebuilt with native Manim geometry.
+- Preserve Mermaid participant order unless the spike explicitly documents a semantic reorder.
+- Use native Manim participant cards, lifelines, activation bars, and message routes when connector quality, timing, or labels need careful control.
+- Treat every message as a receiver-caused handoff: show a target slot or receiver cue before the pulse arrives, then remove or soften that cue after it has explained the landing.
+- For opening breaths with participants in a top band, add faint destination slots or route scaffolds below the cards. Otherwise pixel audits and human review can both read the opening as top-heavy unused space.
+- Use compact route-label chips for long cross-lane messages. Bare labels on long arrows tend to disappear into lifelines or compete with the route.
+- Make return paths visibly different from requests, usually red and dashed, while keeping orange as the main causal request route.
+- Give the resolved frame one terminal artifact, such as a token badge, so the final hold has a center of interest after the protocol mechanics finish.
+
 # Data and Formula Scenes
 
 Use `side formula handoff` for table transformations where two or more source cells create a derived value.
@@ -105,6 +118,7 @@ Classify the experiment before coding. This determines what proof frame to sampl
 - `bridge span`
 - `weave crossing`
 - `relay handoff`
+- `sequence handoff`
 - `side formula handoff`
 - `parallax transfer`
 - `slot docking`
@@ -252,6 +266,8 @@ Use these defaults:
   sample the frame where the mechanism is still visible around the leader.
 - `fork / split / relay / handoff / bridge / weave / arc`:
   sample the transfer frame, not only the start or finish.
+- `sequence handoff`:
+  sample the opening with pending receiver slots, a long cross-lane request mid-transfer, a database query or return frame, and the final terminal artifact after transient slots disappear.
 - `continuation / project breakdown`:
   sample the setup with destination scaffolds, first populated block, fork-with-second-block, and final hold. The final completed list alone does not prove that the blocks were generated from the prior state.
 - `table / formula handoff`:
@@ -314,6 +330,8 @@ Do not add text before exhausting those fixes.
 - separate leader and supports more decisively,
 - preserve a readable entrance, bridge, slot, or crossing,
 - split one path into explicit legs when the handoff must be staged.
+- for sequence diagrams, let the target receiver cue exist before the pulse arrives and fade that cue in the cleanup beat once the route or activation bar records the message.
+- for long sequence arrows, keep route labels in compact chips and place them on a consistent side of the route so lifelines remain subordinate.
 - for quadrant or axis-drop diagrams, keep the causal drop cue vertical when the concept is lower cost, risk, or effort; put any later horizontal repositioning in a separate rail or staged move.
 - hold the drop cue, remove it, then move the point. If the arrow and point move together, the cue reads like a drag handle instead of a prior decision signal.
 
@@ -426,6 +444,7 @@ Ship the video only if most of these are true:
 - if the scene uses a fan-out landing, the forms keep enough spacing and angle to read as one designed sweep.
 - if the scene uses snap or recoil, the overshoot is large enough to survive a still frame.
 - if the scene uses a bridge, slot, or receiver, the entrance or passage remains visible around the leader.
+- if the scene uses sequence-diagram handoffs, receiver slots should be visible in the opening or just before arrival, activation bars should record ownership, and the final hold should remove transient receiver scaffolds.
 - if the scene uses a fork or split, the trunk remains visible long enough and the branches separate enough to avoid reading as a loose regroup.
 - if the scene uses a funnel merge, multiple inputs are visibly compressed inside a narrowing neck before the dominant landing.
 - if the scene uses a formula handoff, the formula is readable in its composed state and the result visibly replaces the destination value.

@@ -878,6 +878,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 132. Fade source-layout lanes when a target scaffold takes over. A lane that survives into the final hold looks like leftover diagram residue even when no audit blocks it.
 133. Imported SVG arrowheads can look much heavier in Manim than in the raw SVG because stroke conversion turns them into thick filled outlines. For diagram videos, prefer native Manim `Arrow` or `CurvedArrow` connectors anchored to SVG-derived role positions when connector quality matters.
 134. For Mermaid-generated diagram videos, keep the `.mmd` file and raw Mermaid SVG as review artifacts. Generate the SVG with Mermaid CLI's `mmdc -i input.mmd -o output.svg` command, or `npx -y -p @mermaid-js/mermaid-cli mmdc -i input.mmd -o output.svg -b transparent` when avoiding a global install. Then normalize only the node groups that need animation into stable top-level ids, strip Mermaid labels from imported fragments, and attach native Manim text for predictable video rendering.
+135. Sequence-diagram animations read better when each message has a receiver cue before arrival. A moving arrow alone looks like a static diagram export; a target slot plus activation bar makes the destination feel causal.
+136. Opening breaths for participant/lifeline diagrams can become top-heavy because the only saturated objects are the participant cards. Add faint receiver slots or route scaffolds during the breath so the pending protocol occupies the full intended stage.
+137. Long cross-lane sequence messages need compact route-label chips. Bare labels are too small or too close to lifelines once multiple horizontal routes accumulate.
+138. Return messages should have a different route grammar from requests, such as red dashed paths, while request routes stay orange. This preserves protocol direction without adding explanatory text.
+139. Receiver slots should disappear after their causal beat. Leaving all slots visible into the final hold makes the resolved frame look mid-transition even if the animation itself was clear.
+140. A terminal artifact, such as a token badge, gives sequence-diagram scenes a resolved center of interest after the last message completes.
 
 # Reusable Process
 
