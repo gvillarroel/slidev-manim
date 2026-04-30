@@ -847,6 +847,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 122. Real project blocks need their own low-contrast body anchor if they cover placeholder scaffolds before rows appear. Otherwise a partial block activation can become vertically top-heavy for one sampled frame.
 123. When tightening the camera for a fan-out hold, rerun the 0.3-second composition audit across the whole fan transition. The final frame can look stronger while early fan proof frames drift off-center, and a small camera recenter is usually better than giving up the tighter hierarchy.
 124. For compression, squeeze, and clamp proof frames, one actor-to-actor contact can be acceptable when the still frame clearly communicates pressure. Validate it full size and keep actor-to-guide or actor-to-outline collisions as blocking.
+125. When a continuation starts from a resolved source cluster, a short centered bridge beat can be cleaner than revealing destination scaffolds immediately. If scaffolds appear while the source is still full-size, 0.3-second samples can become off-center or crowded; let the resolved source hold/move as one readable object, then reveal strong scaffold panels as it scales into the input column.
 
 # Reusable Process
 

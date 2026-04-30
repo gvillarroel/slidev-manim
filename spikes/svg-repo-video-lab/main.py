@@ -596,14 +596,14 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.play(
             source_group.animate.move_to(ORIGIN + DOWN * 0.05),
             self.camera.frame.animate.set(width=13.15).move_to(ORIGIN + DOWN * 0.02),
-            run_time=0.55,
+            run_time=0.9,
             rate_func=smooth,
         )
         self.play(
-            FadeIn(input_panel, shift=LEFT * 0.18),
-            FadeIn(block_skeletons, shift=RIGHT * 0.18),
+            FadeIn(input_panel, shift=LEFT * 0.1),
+            FadeIn(block_skeletons, shift=RIGHT * 0.1),
             source_group.animate.scale(0.6).move_to(LEFT * 3.82 + DOWN * 0.12),
-            run_time=1.05,
+            run_time=0.75,
             rate_func=smooth,
         )
         self.wait(0.55)
@@ -912,28 +912,36 @@ class SvgRepoVideoLabScene(MovingCameraScene):
                 width=5.28,
                 height=2.34,
                 corner_radius=0.18,
-                stroke_color=GRAY_300,
-                stroke_width=0,
+                stroke_color=GRAY_200,
+                stroke_width=2,
                 fill_color=WHITE_HEX,
-                fill_opacity=0.38,
+                fill_opacity=0.68,
             ).move_to(center)
             header_hint = RoundedRectangle(
                 width=4.82,
-                height=0.16,
-                corner_radius=0.06,
+                height=0.26,
+                corner_radius=0.09,
                 stroke_width=0,
                 fill_color=PRIMARY_BLUE if index == 0 else PRIMARY_PURPLE,
-                fill_opacity=0.36,
+                fill_opacity=0.54,
             ).move_to(panel.get_top() + DOWN * 0.36)
+            row_hint = RoundedRectangle(
+                width=4.54,
+                height=0.1,
+                corner_radius=0.05,
+                stroke_width=0,
+                fill_color=PRIMARY_YELLOW if index == 0 else PRIMARY_GREEN,
+                fill_opacity=0.46,
+            ).move_to(center + DOWN * 0.06)
             footer_hint = RoundedRectangle(
                 width=4.54,
-                height=0.16,
+                height=0.12,
                 corner_radius=0.06,
                 stroke_width=0,
                 fill_color=PRIMARY_BLUE if index == 0 else PRIMARY_PURPLE,
-                fill_opacity=0.72,
+                fill_opacity=0.78,
             ).move_to(panel.get_bottom() + UP * 0.34)
-            skeletons.add(VGroup(panel, header_hint, footer_hint))
+            skeletons.add(VGroup(panel, header_hint, row_hint, footer_hint))
         skeletons.set_z_index(2)
         return skeletons
 
@@ -972,7 +980,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             corner_radius=0.035,
             stroke_width=0,
             fill_color=bullet_color,
-            fill_opacity=0.26,
+            fill_opacity=0.45,
         ).move_to(panel.get_bottom() + UP * 0.34)
 
         rows: list[VGroup] = []

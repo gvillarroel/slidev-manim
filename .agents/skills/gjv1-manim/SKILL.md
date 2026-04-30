@@ -362,6 +362,7 @@ Do not add text before exhausting those fixes.
 - reveal output block scaffolds before detailed content so the setup frame is balanced,
 - make scaffolds visible enough to survive review: pale panels are fine, but borders and header hints must not vanish,
 - give real blocks a low-contrast body anchor or footer rail if they cover placeholder scaffolds before rows appear. A blank block body can make one sampled activation frame top-heavy even when the full block is eventually balanced.
+- when a resolved source cluster must become a compact input, use a short centered bridge beat before the shrink if immediate scaffolds would collide with the full-size source. Reveal strong destination scaffolds as the source scales into the input column, not under the full-size cluster.
 - activate each large block before revealing its list rows,
 - keep a balancing scaffold visible until the replacement block is visibly established; fading both through the same first sampled frame can create a one-frame off-center composition,
 - do not `ReplacementTransform` placeholder scaffolds into text-bearing blocks. Fade or remove the scaffold, then fade in the real block so title text does not become unreadable mid-frame.

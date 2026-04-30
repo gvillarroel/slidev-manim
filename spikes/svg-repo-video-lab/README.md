@@ -73,13 +73,14 @@ uv run --script spikes/svg-repo-video-lab/main.py
 
 Observed output:
 
-- Duration: 42.933 seconds from 1288 decoded frames at 30 fps.
-- Frames: 1288 decoded frames at 30 fps.
+- Duration: 42.967 seconds from 1289 decoded frames at 30 fps.
+- Frames: 1289 decoded frames at 30 fps.
 - Resolution: 1600x900.
 - Transparency: `imageio-ffmpeg` with `-c:v libvpx-vp9 -vf format=yuva420p,alphaextract` confirmed sampled alpha extrema including `(0, 255)`; PyAV RGB/RGBA reads can report opaque samples for this VP9 alpha stream and should not be the only alpha check.
-- 0.3-second review: regenerated 144 individual frames under `videos/svg-repo-video-lab/review-frames-0.3s/frames/` plus 8 `contact-sheet-*.png` files; inspected the opening, RAW/VIDEO label, clamp proof frames, fan-out proof frames, and the 33-38 second project-block activation/final hold. The clamp document now sits higher inside the compression proof frame, the fan hold uses a tighter camera so the resolved SVG cluster owns more of the frame, and the fan camera is nudged to keep early proof frames centered before the continuation begins.
+- 0.3-second review: regenerated 144 individual frames under `videos/svg-repo-video-lab/review-frames-0.3s/frames/` plus 8 `contact-sheet-*.png` files; inspected the opening, RAW/VIDEO label, clamp proof frames, fan-out proof frames, and the 27-36 second project-block continuation. The continuation now uses a short centered bridge beat before the source cluster scales into the input panel, and the destination scaffolds have stronger panel, header, row, and footer cues so the pending project blocks survive sampled still frames.
 - Composition audit: `frame-composition-audit.py --cadence 0.3 --write-overlays` reported `sampled_frames=144` and `blocking_frames=0` on the promoted medium WebM.
 - Resting mobject audit: `resting-mobject-audit.py --scene-file spikes/svg-repo-video-lab/main.py --scene-class SvgRepoVideoLabScene` reported `rest_snapshots=14` and `blocking_snapshots=0`.
+- Continuation crowding audit: `frame-crowding-audit.py --start 27 --end 36 --cadence 0.3 --write-overlays` reports low component clearance in all sampled frames from expected imported SVG internals, labels inside the compact source panel, and text/header elements inside project cards; full-size overlay review found no visible actor-to-guide or actor-to-actor collision that weakens the mechanism.
 - Exact callout audit: `frame-composition-audit.py --times 14 --out-dir videos/svg-repo-video-lab/composition-audit-14s --write-overlays` reported `blocking_frames=0`.
 - Clamp crowding audit: `frame-crowding-audit.py --times 14 --write-overlays` reported `blocking_frames=0`; `frame-crowding-audit.py --start 12 --end 16 --cadence 0.5 --write-overlays` reports one low-clearance compression frame at 15.5s where the bulb intentionally crosses the chart bars inside the clamp. Full-size review accepted it as the visible squeeze rather than an accidental actor-to-guide collision.
 - Fan crowding audit: `frame-crowding-audit.py --start 18 --end 24 --cadence 0.3 --write-overlays` still reports low component clearance from expected imported SVG internals, the document label inside its card, and the `SVG` glyph inside the core ring; full-size overlay review found no visible actor-to-guide collision after the clamp clears.
