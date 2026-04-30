@@ -10,16 +10,28 @@ Use this for real presentation video. It starts the Slidev dev server, opens the
 npm run record:mp4 -- slides.md videos/deck.mp4
 ```
 
-Useful options are environment variables:
+Set the default timing with environment variables:
 
 ```bash
 STEP_WAIT_MS=2000 MAX_STEPS=80 FPS=30 SIZE=1920x1080 \
   npm run record:mp4 -- slides.md videos/deck.mp4
 ```
 
+Override timing per slide with Slidev frontmatter:
+
+```md
+---
+recordWait: 5000
+---
+
+# This slide records for 5 seconds before advancing
+```
+
+`recordWait` is in milliseconds and overrides `STEP_WAIT_MS` for that slide.
+
 Options:
 
-- `STEP_WAIT_MS`: milliseconds to wait after each `ArrowRight` step. Increase this for long animations/transitions.
+- `STEP_WAIT_MS`: default milliseconds to wait on each slide/click step. Increase this for long animations/transitions.
 - `INTRO_WAIT_MS`: milliseconds to wait before navigation starts.
 - `MAX_STEPS`: safety cap for slide/click advances.
 - `SIZE`: browser/video size, default `1920x1080`.
