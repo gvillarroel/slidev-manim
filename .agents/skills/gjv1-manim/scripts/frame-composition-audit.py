@@ -154,23 +154,26 @@ def sample_times(duration: float, args: argparse.Namespace) -> list[float]:
     while current <= end + 1e-6:
         times.append(round(current, 3))
         current += args.cadence
-    if times and times[-1] < duration and args.end is None:
-        times.append(round(duration, 3))
+    if times and duration - times[-1] > args.cadence * 0.45 and args.end is None:
+        times.append(round(max(0.0, duration - 0.05), 3))
     return times
 
 
 def frame_at(video: Path, time: float, fps: float) -> Image.Image:
-    container = av.open(str(video))
-    stream = container.streams.video[0]
-    container.seek(int(max(0, time) / stream.time_base), stream=stream)
     selected = None
-    for frame in container.decode(stream):
-        if frame.time is None or frame.time + (0.5 / fps) >= time:
-            selected = frame
+    for target in (time, max(0.0, time - 1 / fps)):
+        container = av.open(str(video))
+        stream = container.streams.video[0]
+        container.seek(int(max(0, target) / stream.time_base), stream=stream)
+        for frame in container.decode(stream):
+            if frame.time is None or frame.time + (0.5 / fps) >= target:
+                selected = frame
+                break
+        container.close()
+        if selected is not None:
             break
-    container.close()
     if selected is None:
-        raise RuntimeError(f"No frame at {time:.3f}s")
+        raise RuntimeError(f"No frame near {time:.3f}s")
 
     rgba = selected.to_image().convert("RGBA")
     background = Image.new("RGBA", rgba.size, WHITE)
@@ -304,8 +307,10 @@ def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> di
         add_finding(findings, "blank_frame", "error", "No visible foreground was detected.", {})
         return result
 
-    margins = margins_for(content_box, width, height)
-    center_x, center_y = content_box.center
+    active_box = strong_box or content_box
+    result["active_box"] = active_box.to_list()
+    margins = margins_for(active_box, width, height)
+    center_x, center_y = active_box.center
     result["margins"] = margins
     result["center_offset"] = {
         "x": (center_x - width / 2) / width,
@@ -332,12 +337,12 @@ def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> di
         )
 
     if strong_box:
-        expanded_strong = strong_box.expand(int(width * 0.035), width, height)
         stray_boxes: list[list[int]] = []
         for component in components:
             box = component.box
             slender = box.width <= width * 0.035 and box.height >= height * 0.42
-            outside_active_color = box.right < expanded_strong.left or box.left > expanded_strong.right
+            center_x, _ = box.center
+            outside_active_color = center_x < strong_box.left or center_x > strong_box.right
             low_saturation = component.mean_saturation < 0.16
             if slender and outside_active_color and low_saturation:
                 stray_boxes.append(box.to_list())
