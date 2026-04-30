@@ -13,7 +13,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from manim import DOWN, LEFT, RIGHT, UP, AnimationGroup, Circle, FadeIn, FadeOut, Line, RoundedRectangle, Scene, Transform, VGroup, WHITE, smooth
+from manim import DOWN, LEFT, ORIGIN, RIGHT, UP, AnimationGroup, Circle, FadeIn, FadeOut, Line, Rectangle, Scene, Transform, VGroup, WHITE, smooth
 
 SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parent.parent
@@ -68,51 +68,66 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=1)
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=1)
 
 
 class QualityBumperDeflectScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        source_zone = RoundedRectangle(width=4.0, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.22).move_to(LEFT * 3.08)
-        target_zone = RoundedRectangle(width=4.2, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.96)
+        frame = Rectangle(width=12.55, height=5.55, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
+        source_zone = Rectangle(width=3.8, height=3.85, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.22).move_to(LEFT * 3.18)
+        target_zone = Rectangle(width=4.8, height=3.85, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.85)
 
-        green = slab(PRIMARY_GREEN, 2.66, 0.92).move_to(LEFT * 3.24 + UP * 0.76)
-        blue = slab(PRIMARY_BLUE, 1.86, 0.82).move_to(LEFT * 2.08 + DOWN * 0.02)
-        purple = slab(PRIMARY_PURPLE, 1.3, 0.62).move_to(LEFT * 1.54 + DOWN * 0.98)
+        green = slab(PRIMARY_GREEN, 2.6, 0.88).move_to(LEFT * 3.48 + UP * 0.78)
+        blue = slab(PRIMARY_BLUE, 1.72, 0.72).move_to(LEFT * 2.62 + DOWN * 0.12)
+        purple = slab(PRIMARY_PURPLE, 1.08, 0.5).move_to(LEFT * 2.18 + DOWN * 1.0)
         source = VGroup(green, blue, purple)
 
-        bumper = Line(RIGHT * 1.86 + DOWN * 0.58, RIGHT * 2.58 + UP * 0.54, color=PRIMARY_ORANGE, stroke_width=8)
-        accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(RIGHT * 1.22 + DOWN * 0.08)
+        target_slots = VGroup(
+            Circle(radius=0.84, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 2.4 + UP * 0.62),
+            Circle(radius=0.42, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 4.4 + DOWN * 0.22),
+            Circle(radius=0.24, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 3.75 + DOWN * 1.18),
+        )
+        target_slots.set_stroke(opacity=0.38)
 
-        green_hit = slab(PRIMARY_GREEN, 2.12, 0.3).move_to(RIGHT * 1.54 + DOWN * 0.08).rotate(0.06)
-        blue_support = slab(PRIMARY_BLUE, 1.22, 0.48).move_to(RIGHT * 1.16 + DOWN * 1.08)
-        purple_support = slab(PRIMARY_PURPLE, 0.94, 0.38).move_to(RIGHT * 2.72 + UP * 1.04)
+        bumper = Line(RIGHT * 1.78 + DOWN * 0.88, RIGHT * 2.78 + UP * 0.92, color=PRIMARY_ORANGE, stroke_width=12)
+        contact_mark = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(RIGHT * 1.28 + DOWN * 0.1)
 
-        final_green = Circle(radius=0.9, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.5 + UP * 0.44)
-        final_blue = Circle(radius=0.46, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.72 + DOWN * 0.08)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 2.94 + DOWN * 0.98)
+        green_approach = slab(PRIMARY_GREEN, 2.32, 0.62).move_to(RIGHT * 0.78 + DOWN * 0.1).rotate(0.04)
+        green_hit = slab(PRIMARY_GREEN, 1.74, 0.34).move_to(RIGHT * 1.7 + DOWN * 0.02).rotate(0.12)
+        blue_support = slab(PRIMARY_BLUE, 1.08, 0.46).move_to(RIGHT * 1.02 + DOWN * 1.38)
+        purple_support = slab(PRIMARY_PURPLE, 0.72, 0.34).move_to(RIGHT * 3.75 + DOWN * 1.18)
 
-        self.add(frame, source_zone, target_zone)
-        self.play(FadeIn(source, lag_ratio=0.08), run_time=0.68)
-        self.play(FadeIn(bumper), run_time=0.18)
-        self.play(accent.animate.move_to(RIGHT * 1.92 + DOWN * 0.06), run_time=0.16, rate_func=smooth)
-        self.play(Transform(green, green_hit.copy()), run_time=0.34, rate_func=smooth)
+        final_green = Circle(radius=0.84, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.4 + UP * 0.62)
+        final_blue = Circle(radius=0.42, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 4.4 + DOWN * 0.22)
+        final_purple = Circle(radius=0.24, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 3.75 + DOWN * 1.18)
+        resolved_group = VGroup(target_zone, green, blue, purple)
+
+        self.add(frame, source_zone, target_zone, target_slots, source)
+        self.wait(2.4)
+        self.play(FadeIn(bumper), FadeIn(contact_mark), run_time=0.8)
+        self.play(contact_mark.animate.move_to(RIGHT * 1.78 + DOWN * 0.02), run_time=0.8, rate_func=smooth)
+        self.wait(0.8)
+        self.play(Transform(green, green_approach.copy()), contact_mark.animate.move_to(RIGHT * 2.02 + DOWN * 0.02), run_time=2.2, rate_func=smooth)
+        self.play(Transform(green, green_hit.copy()), contact_mark.animate.move_to(RIGHT * 2.16 + UP * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=1.55, rate_func=smooth)
+        self.wait(1.4)
         self.play(
             AnimationGroup(Transform(blue, blue_support.copy()), Transform(purple, purple_support.copy()), lag_ratio=0.1),
-            run_time=0.32,
+            run_time=2.35,
             rate_func=smooth,
         )
+        self.wait(0.9)
+        self.play(FadeOut(target_slots), run_time=0.6)
         self.play(
             AnimationGroup(Transform(green, final_green.copy()), Transform(blue, final_blue.copy()), Transform(purple, final_purple.copy()), lag_ratio=0.08),
-            run_time=0.58,
+            run_time=3.0,
             rate_func=smooth,
         )
-        self.play(accent.animate.move_to(RIGHT * 2.86 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=0.16)
-        self.play(FadeOut(bumper), FadeOut(accent), run_time=0.18)
-        self.wait(0.28)
+        self.wait(0.9)
+        self.play(FadeOut(bumper), FadeOut(contact_mark), FadeOut(source_zone), run_time=1.4)
+        self.play(resolved_group.animate.move_to(ORIGIN), run_time=1.8, rate_func=smooth)
+        self.wait(6.0)
 
 
 def render_variant(args: _Args) -> None:

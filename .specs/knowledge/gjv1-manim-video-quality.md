@@ -303,16 +303,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Bumper Deflect
 
 - **Hypothesis**: A visible bumper should make a redirection feel more authored if the leader clearly compresses against it before the landing.
-- **Result**: Confirmed after forcing the leader to arrive first and delaying the supports.
+- **Result**: Confirmed again after expanding the draft into a 26.9-second slide-integration scene with visible opening structure, a held bumper-contact proof beat, and a clean final hold.
 - **What worked**:
   - the green leader reaching the bumper before the blue and purple supports move,
   - a long enough orange bumper that the deflection surface remains legible in still frames,
   - a compressed, slightly tilted contact shape for the leader,
-  - support forms arriving later so the contact frame stays uncluttered.
+  - support forms arriving later so the contact frame stays uncluttered,
+  - retiring passive destination slots before the release so they do not crowd the landing,
+  - moving support forms into separated lanes before the final morph so they do not cross through each other in 0.3-second proof frames.
 - **What failed first**:
   - the first version spread the support forms too early,
   - the contact frame did not show enough compression,
-  - the bumper existed but did not yet feel like the cause of the turn.
+  - the bumper existed but did not yet feel like the cause of the turn,
+  - leaving destination scaffolds visible during release triggered actor-to-outline crowding and made the landing look unfinished,
+  - letting a support form travel through another actor during the release looked acceptable in motion but failed the targeted crowding audit.
 
 ## Quality Counterlift Balance
 

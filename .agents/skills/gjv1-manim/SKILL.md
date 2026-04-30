@@ -396,6 +396,8 @@ Do not add text before exhausting those fixes.
 - make beams tilt enough to read as load transfer,
 - stretch the dominant form more when tension is the point,
 - keep anchors, pivots, or bumpers visibly separate from the leader.
+- for bumper deflect scenes, let the leader own a held compression frame before supports arrive, then move supports into their separate release lanes before the final morph so they do not cross through each other.
+- retire passive destination slots or scaffolds before the deflected landing. Once the bumper has explained the turn, lingering outlines can read as actor-to-outline crowding instead of useful structure.
 
 ### Landing and arrangement
 
