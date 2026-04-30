@@ -346,6 +346,7 @@ Do not add text before exhausting those fixes.
 - for negative-space scenes, remove abandoned source containers before the resolved hold. A faded empty panel often reads as residue, while plain quiet space reads as intentional.
 - remove any device that remains after it has already explained the motion.
 - if a guide is not still causing the motion, remove it instead of lowering opacity and letting it linger.
+- for sequential negative-space transfers, retire each completed route scaffold as soon as its handoff lands. Keeping all route lines visible until the global cleanup can make later proof frames look like residue instead of intentional quiet space.
 - remove phase scaffolds in the same cleanup beat as the mechanism they support. Dashed rails, setup guides, and source-zone hints can read as accidental residue if they survive into the next proof frame.
 - for imported SVG remaps, do not assume `ReplacementTransform` is safe across incompatible geometry.
 

@@ -17,6 +17,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - A mechanism must survive in a still frame. If the sampled proof frame does not show the cause of the motion, resample or strengthen the mechanism.
 - The opening breath should show the initial structure first; do not spend it on a blank transparent frame.
 - Final holds are part of the composition. Remove guides, slots, sleeves, shutters, or scaffolds once they stop causing the motion.
+- In sequential negative-space transfers, retire each completed route scaffold as soon as its handoff lands. Keeping all route lines until the global cleanup can turn later proof frames into a residue field instead of quiet space.
 - Use the default visual system first: white background, black text, gray structure, and primary red as the active accent. Reach for orange, yellow, green, blue, or purple only when the user asks for color or when extra categories need explicit separation.
 - Square corners and straight rectangular edges are the default. Rounded forms should be an explicit style choice, not the baseline.
 - Text should try `Open Sans` first, with Arial or the system sans-serif as fallback.

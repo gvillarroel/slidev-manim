@@ -893,6 +893,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 140. A terminal artifact, such as a token badge, gives sequence-diagram scenes a resolved center of interest after the last message completes.
 141. Animated local backing panels should get explicit z-order below actors and pulses. Otherwise a panel opacity or scale animation can end up visually washing over the final colored mobjects.
 142. Negative-space final holds should remove abandoned source containers. Empty panels read as residue, while plain quiet space lets the resolved active zone own the frame.
+143. In sequential negative-space transfers, retire each completed route scaffold as soon as its handoff lands. Keeping all route lines until the final cleanup can make later proof frames read as guide residue rather than intentional quiet space.
 
 # Reusable Process
 

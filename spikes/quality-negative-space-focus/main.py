@@ -24,7 +24,7 @@ from manim import (
     FadeOut,
     Line,
     MoveAlongPath,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
@@ -106,11 +106,10 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def tile(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(
+def tile(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(
         width=width,
         height=height,
-        corner_radius=0.28,
         stroke_width=0,
         fill_color=color,
         fill_opacity=1,
@@ -125,33 +124,30 @@ class QualityNegativeSpaceFocusScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        frame = RoundedRectangle(
-            width=12.9,
-            height=5.8,
-            corner_radius=0.34,
+        frame = Rectangle(
+            width=12.55,
+            height=5.55,
             stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=WHITE,
             fill_opacity=0,
         )
         frame.set_z_index(5)
-        source_zone = RoundedRectangle(
-            width=4.4,
-            height=4.1,
-            corner_radius=0.36,
+        source_zone = Rectangle(
+            width=4.15,
+            height=3.85,
             stroke_width=0,
             fill_color=GRAY_100,
             fill_opacity=0.45,
-        ).move_to(LEFT * 3.2 + DOWN * 0.05)
+        ).move_to(LEFT * 3.15 + DOWN * 0.05)
         source_zone.set_z_index(0)
-        destination_zone = RoundedRectangle(
-            width=3.25,
-            height=3.7,
-            corner_radius=0.36,
+        destination_zone = Rectangle(
+            width=3.05,
+            height=3.58,
             stroke_width=0,
             fill_color=GRAY_100,
             fill_opacity=0.18,
-        ).move_to(RIGHT * 2.6 + DOWN * 0.08)
+        ).move_to(RIGHT * 2.22 + DOWN * 0.08)
         destination_zone.set_z_index(0)
 
         source_tiles = VGroup(
@@ -161,9 +157,9 @@ class QualityNegativeSpaceFocusScene(Scene):
         )
         source_tiles.set_z_index(3)
         destination_group = VGroup(
-            orb(PRIMARY_GREEN, 0.72).move_to(RIGHT * 2.75 + UP * 0.9),
-            orb(PRIMARY_BLUE, 0.58).move_to(RIGHT * 1.85 + DOWN * 0.1),
-            orb(PRIMARY_PURPLE, 0.5).move_to(RIGHT * 2.8 + DOWN * 1.2),
+            orb(PRIMARY_GREEN, 0.68).move_to(RIGHT * 2.75 + UP * 0.9),
+            orb(PRIMARY_BLUE, 0.54).move_to(RIGHT * 1.32 + DOWN * 0.22),
+            orb(PRIMARY_PURPLE, 0.48).move_to(RIGHT * 2.45 + DOWN * 1.2),
         )
 
         target_slots = VGroup(
@@ -173,10 +169,11 @@ class QualityNegativeSpaceFocusScene(Scene):
         )
         target_slots.set_z_index(1)
 
+        route_gap = RIGHT * 0.36
         guide_lines = [
-            Line(source_tiles[0].get_right(), destination_group[0].get_left(), color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
-            Line(source_tiles[1].get_right(), destination_group[1].get_left(), color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
-            Line(source_tiles[2].get_right(), destination_group[2].get_left(), color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
+            Line(source_tiles[0].get_right() + route_gap, destination_group[0].get_left() - route_gap, color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
+            Line(source_tiles[1].get_right() + route_gap, destination_group[1].get_left() - route_gap, color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
+            Line(source_tiles[2].get_right() + route_gap, destination_group[2].get_left() - route_gap, color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
         ]
 
         pulse = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(source_tiles[0].get_center() + RIGHT * 0.2)
@@ -202,7 +199,7 @@ class QualityNegativeSpaceFocusScene(Scene):
                 run_time=1.25,
                 rate_func=smooth,
             )
-            self.play(FadeOut(active_guide), run_time=0.35)
+            self.play(FadeOut(active_guide), FadeOut(route_scaffold[index]), run_time=0.35)
             if index < len(guide_lines) - 1:
                 self.play(pulse.animate.move_to(source_tiles[index + 1].get_center() + RIGHT * 0.2), run_time=0.55)
                 self.wait(0.35)
@@ -212,7 +209,7 @@ class QualityNegativeSpaceFocusScene(Scene):
                 FadeOut(route_scaffold),
                 FadeOut(source_zone),
                 destination_zone.animate.set_fill(opacity=0.44).scale(1.04),
-                pulse.animate.move_to(RIGHT * 2.35 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1),
+                pulse.animate.move_to(RIGHT * 3.25 + DOWN * 0.15).set_fill(PRIMARY_RED, opacity=1),
                 lag_ratio=0.08,
             ),
             run_time=1.6,
