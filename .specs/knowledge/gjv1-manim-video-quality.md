@@ -87,12 +87,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Result**: Confirmed after enlarging the landing zone.
 - **What worked**:
   - one soft active window on the left for the source state,
+  - faint destination slots during the opening breath, so the right-side negative space read as reserved instead of empty,
+  - staged one-route-at-a-time pulse travel, with each source tile transforming only after its path was activated,
+  - explicit layer ordering for animated backing panels, which kept the destination panel from washing over the final colored actors,
+  - removing the abandoned source panel before the resolved hold, leaving negative space instead of a ghost container,
   - a delayed transfer to a second active window on the right,
   - a landing cluster that stayed compact but not timid,
   - large negative space that remained intentional instead of empty.
 - **What failed first**:
   - the first landing cluster was too small,
-  - the active zone was too weak to justify the empty space around it.
+  - the active zone was too weak to justify the empty space around it,
+  - the first render was only 6.3 seconds and opened before the source actors were visible,
+  - animating the destination backing panel without explicit z-order let it overlay and desaturate the final actors,
+  - leaving a faded source panel in the final hold read as residue rather than deliberate quiet space.
 
 ## Quality Mask Transfer
 
@@ -884,6 +891,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 138. Return messages should have a different route grammar from requests, such as red dashed paths, while request routes stay orange. This preserves protocol direction without adding explanatory text.
 139. Receiver slots should disappear after their causal beat. Leaving all slots visible into the final hold makes the resolved frame look mid-transition even if the animation itself was clear.
 140. A terminal artifact, such as a token badge, gives sequence-diagram scenes a resolved center of interest after the last message completes.
+141. Animated local backing panels should get explicit z-order below actors and pulses. Otherwise a panel opacity or scale animation can end up visually washing over the final colored mobjects.
+142. Negative-space final holds should remove abandoned source containers. Empty panels read as residue, while plain quiet space lets the resolved active zone own the frame.
 
 # Reusable Process
 

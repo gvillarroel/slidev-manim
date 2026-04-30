@@ -134,7 +134,8 @@ class QualityNegativeSpaceFocusScene(Scene):
             fill_color=WHITE,
             fill_opacity=0,
         )
-        soft_zone = RoundedRectangle(
+        frame.set_z_index(5)
+        source_zone = RoundedRectangle(
             width=4.4,
             height=4.1,
             corner_radius=0.36,
@@ -142,52 +143,85 @@ class QualityNegativeSpaceFocusScene(Scene):
             fill_color=GRAY_100,
             fill_opacity=0.45,
         ).move_to(LEFT * 3.2 + DOWN * 0.05)
+        source_zone.set_z_index(0)
+        destination_zone = RoundedRectangle(
+            width=3.25,
+            height=3.7,
+            corner_radius=0.36,
+            stroke_width=0,
+            fill_color=GRAY_100,
+            fill_opacity=0.18,
+        ).move_to(RIGHT * 2.6 + DOWN * 0.08)
+        destination_zone.set_z_index(0)
 
         source_tiles = VGroup(
             tile(PRIMARY_GREEN, 2.2, 1.25).move_to(LEFT * 4.05 + UP * 0.9),
             tile(PRIMARY_BLUE, 2.2, 1.15).move_to(LEFT * 2.95 + DOWN * 0.15),
             tile(PRIMARY_PURPLE, 2.0, 1.05).move_to(LEFT * 1.85 + DOWN * 1.15),
         )
+        source_tiles.set_z_index(3)
         destination_group = VGroup(
             orb(PRIMARY_GREEN, 0.72).move_to(RIGHT * 2.75 + UP * 0.9),
             orb(PRIMARY_BLUE, 0.58).move_to(RIGHT * 1.85 + DOWN * 0.1),
             orb(PRIMARY_PURPLE, 0.5).move_to(RIGHT * 2.8 + DOWN * 1.2),
         )
 
-        guide_lines = VGroup(
-            Line(source_tiles[0].get_right(), destination_group[0].get_left(), color=PRIMARY_ORANGE, stroke_width=6),
-            Line(source_tiles[1].get_right(), destination_group[1].get_left(), color=PRIMARY_ORANGE, stroke_width=6),
-            Line(source_tiles[2].get_right(), destination_group[2].get_left(), color=PRIMARY_ORANGE, stroke_width=6),
-        ).set_opacity(0.82)
+        target_slots = VGroup(
+            Circle(radius=0.82, stroke_color=PRIMARY_GREEN, stroke_width=4, stroke_opacity=0.24, fill_opacity=0).move_to(destination_group[0]),
+            Circle(radius=0.67, stroke_color=PRIMARY_BLUE, stroke_width=4, stroke_opacity=0.22, fill_opacity=0).move_to(destination_group[1]),
+            Circle(radius=0.59, stroke_color=PRIMARY_PURPLE, stroke_width=4, stroke_opacity=0.22, fill_opacity=0).move_to(destination_group[2]),
+        )
+        target_slots.set_z_index(1)
+
+        guide_lines = [
+            Line(source_tiles[0].get_right(), destination_group[0].get_left(), color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
+            Line(source_tiles[1].get_right(), destination_group[1].get_left(), color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
+            Line(source_tiles[2].get_right(), destination_group[2].get_left(), color=PRIMARY_ORANGE, stroke_width=6).set_z_index(2),
+        ]
 
         pulse = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(source_tiles[0].get_center() + RIGHT * 0.2)
+        pulse.set_z_index(4)
 
-        self.add(frame, soft_zone)
-        self.play(FadeIn(source_tiles, shift=UP * 0.12, lag_ratio=0.1), run_time=0.85)
-        self.play(FadeIn(guide_lines, lag_ratio=0.14), run_time=0.4)
-        self.play(MoveAlongPath(pulse, guide_lines[0]), run_time=0.52, rate_func=linear)
-        self.play(pulse.animate.move_to(source_tiles[1].get_center() + RIGHT * 0.2), run_time=0.18)
-        self.play(MoveAlongPath(pulse, guide_lines[1]), run_time=0.52, rate_func=linear)
-        self.play(pulse.animate.move_to(source_tiles[2].get_center() + RIGHT * 0.2), run_time=0.18)
-        self.play(MoveAlongPath(pulse, guide_lines[2]), run_time=0.52, rate_func=linear)
+        self.add(frame, source_zone, destination_zone, target_slots, source_tiles, pulse)
+        self.wait(2.4)
+
+        route_scaffold = VGroup(*(line.copy().set_stroke(width=2.4, opacity=0.22).set_z_index(1) for line in guide_lines))
+        self.play(FadeIn(route_scaffold, lag_ratio=0.16), run_time=0.9)
+        self.wait(0.55)
+
+        for index, guide in enumerate(guide_lines):
+            active_guide = guide.copy().set_stroke(width=7, opacity=0.9).set_z_index(2)
+            self.play(FadeIn(active_guide), run_time=0.35)
+            self.play(MoveAlongPath(pulse, active_guide), run_time=2.15, rate_func=linear)
+            self.play(
+                AnimationGroup(
+                    Transform(source_tiles[index], destination_group[index]),
+                    FadeOut(target_slots[index]),
+                    lag_ratio=0,
+                ),
+                run_time=1.25,
+                rate_func=smooth,
+            )
+            self.play(FadeOut(active_guide), run_time=0.35)
+            if index < len(guide_lines) - 1:
+                self.play(pulse.animate.move_to(source_tiles[index + 1].get_center() + RIGHT * 0.2), run_time=0.55)
+                self.wait(0.35)
 
         self.play(
             AnimationGroup(
-                Transform(source_tiles[0], destination_group[0]),
-                Transform(source_tiles[1], destination_group[1]),
-                Transform(source_tiles[2], destination_group[2]),
-                soft_zone.animate.move_to(RIGHT * 2.25 + DOWN * 0.02).scale(1.02),
+                FadeOut(route_scaffold),
+                FadeOut(source_zone),
+                destination_zone.animate.set_fill(opacity=0.44).scale(1.04),
+                pulse.animate.move_to(RIGHT * 2.35 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1),
                 lag_ratio=0.08,
             ),
-            run_time=1.55,
+            run_time=1.6,
             rate_func=smooth,
         )
-        self.play(FadeOut(guide_lines), run_time=0.18)
-        self.play(pulse.animate.move_to(RIGHT * 2.25 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=0.22)
         for dot in source_tiles:
-            self.play(dot.animate.scale(1.08), run_time=0.18, rate_func=there_and_back)
-        self.play(FadeOut(pulse), run_time=0.18)
-        self.wait(0.25)
+            self.play(dot.animate.scale(1.08), run_time=0.42, rate_func=there_and_back)
+        self.play(FadeOut(pulse), run_time=0.45)
+        self.wait(6.2)
 
 
 def render_variant(args: _Args) -> None:

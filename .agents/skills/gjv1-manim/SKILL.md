@@ -332,6 +332,8 @@ Do not add text before exhausting those fixes.
 - reduce ghost opacity,
 - shorten or lengthen guides,
 - strengthen the active zone if the frame uses negative space,
+- when local backing panels animate, set their layer order below actors and pulses before rendering. Panel opacity or scale changes can otherwise wash over the final colored mobjects.
+- for negative-space scenes, remove abandoned source containers before the resolved hold. A faded empty panel often reads as residue, while plain quiet space reads as intentional.
 - remove any device that remains after it has already explained the motion.
 - if a guide is not still causing the motion, remove it instead of lowering opacity and letting it linger.
 - remove phase scaffolds in the same cleanup beat as the mechanism they support. Dashed rails, setup guides, and source-zone hints can read as accidental residue if they survive into the next proof frame.
