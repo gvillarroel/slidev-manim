@@ -19,10 +19,11 @@ If the prior resolved state stays visible as a compact input and the destination
 ## Styling
 
 - Use a neutral local stage for any text-heavy continuation.
-- Use strong primary-color header bands for the large output blocks.
-- Use small primary-yellow, green, or role-matched dots for keypoints.
+- Use black, gray, or primary-red header bands for the large output blocks by default.
+- Use small primary-red or grayscale keypoint marks. Use the wider palette only when the user asks for color or the breakdown needs categorical separation.
 - Keep the prior composition smaller than the output blocks so the new result owns the final frame.
 - Keep text concise enough that each row fits without scaling with viewport width.
+- Keep block edges straight and square.
 
 ## Scaffolds
 
@@ -32,7 +33,7 @@ Useful defaults:
 
 - panel stroke: `GRAY_300` or stronger,
 - panel fill: white at moderate opacity,
-- header hint: a short gray rounded bar,
+- header hint: a short straight gray bar,
 - z-index below real block content,
 - remove or replace each scaffold as its real block appears.
 

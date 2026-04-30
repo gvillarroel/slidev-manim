@@ -24,6 +24,7 @@ TILE_BACKGROUND = WHITE
 TEXT_COLOR = GRAY
 BORDER_COLOR = GRAY_200
 ERROR_COLOR = PRIMARY_RED
+FONT_CANDIDATES = ("OpenSans-Regular.ttf", "Open Sans.ttf", "arial.ttf", "DejaVuSans.ttf")
 
 
 def parse_args() -> argparse.Namespace:
@@ -100,10 +101,12 @@ def composite_alpha(image: Image.Image, size: tuple[int, int]) -> Image.Image:
 
 
 def load_fonts() -> tuple[ImageFont.ImageFont, ImageFont.ImageFont]:
-    try:
-        return ImageFont.truetype("arial.ttf", 15), ImageFont.truetype("arial.ttf", 12)
-    except OSError:
-        return ImageFont.load_default(), ImageFont.load_default()
+    for font_name in FONT_CANDIDATES:
+        try:
+            return ImageFont.truetype(font_name, 15), ImageFont.truetype(font_name, 12)
+        except OSError:
+            continue
+    return ImageFont.load_default(), ImageFont.load_default()
 
 
 def video_tile(root: Path, video: Path, fonts: tuple[ImageFont.ImageFont, ImageFont.ImageFont]) -> Image.Image:

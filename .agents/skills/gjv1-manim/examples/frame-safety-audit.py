@@ -13,6 +13,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 SKILL_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_POLICY = SKILL_DIR / "assets" / "frame-safety-policy.json"
+FONT_CANDIDATES = ("OpenSans-Regular.ttf", "Open Sans.ttf", "arial.ttf", "DejaVuSans.ttf")
 
 
 @dataclass(frozen=True)
@@ -166,10 +167,12 @@ def findings_for_video(path: Path, policy: dict) -> list[FrameFinding]:
 
 
 def load_fonts() -> tuple[ImageFont.ImageFont, ImageFont.ImageFont]:
-    try:
-        return ImageFont.truetype("arial.ttf", 15), ImageFont.truetype("arial.ttf", 12)
-    except OSError:
-        return ImageFont.load_default(), ImageFont.load_default()
+    for font_name in FONT_CANDIDATES:
+        try:
+            return ImageFont.truetype(font_name, 15), ImageFont.truetype(font_name, 12)
+        except OSError:
+            continue
+    return ImageFont.load_default(), ImageFont.load_default()
 
 
 def write_sheet(root: Path, findings: list[FrameFinding], path: Path, policy: dict, max_findings: int) -> None:

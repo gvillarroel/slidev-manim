@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from manim import RoundedRectangle, Text
+from manim import Rectangle, Text
 
 BLACK = "#000000"
 WHITE = "#ffffff"
@@ -39,44 +39,45 @@ STATUS_YELLOW = "#ffd332"
 STATUS_GREEN = "#36b300"
 STATUS_BLUE = "#00ace6"
 STATUS_PURPLE = "#9e00b3"
+DEFAULT_FONT = "Open Sans"
 
 
 def stage_panel(
     width: float = 12.8,
     height: float = 7.15,
-    corner_radius: float = 0.34,
     opacity: float = 0.96,
-) -> RoundedRectangle:
-    return RoundedRectangle(
+) -> Rectangle:
+    return Rectangle(
         width=width,
         height=height,
-        corner_radius=corner_radius,
         stroke_width=0,
         fill_color=PAGE_BACKGROUND,
         fill_opacity=opacity,
     )
 
 
-def soft_zone(width: float, height: float, opacity: float = 0.24) -> RoundedRectangle:
-    return RoundedRectangle(
+def soft_zone(width: float, height: float, opacity: float = 0.24) -> Rectangle:
+    return Rectangle(
         width=width,
         height=height,
-        corner_radius=0.35,
         stroke_width=0,
         fill_color=GRAY_100,
         fill_opacity=opacity,
     )
 
 
-def slab(color: str, width: float, height: float, opacity: float = 1.0) -> RoundedRectangle:
-    return RoundedRectangle(
+def slab(color: str, width: float, height: float, opacity: float = 1.0) -> Rectangle:
+    return Rectangle(
         width=width,
         height=height,
-        corner_radius=min(height * 0.28, 0.24),
         stroke_width=0,
         fill_color=color,
         fill_opacity=opacity,
     )
+
+
+def label_text(text: str, font_size: float = 30, color: str = BLACK) -> Text:
+    return Text(text, font=DEFAULT_FONT, font_size=font_size, color=color)
 
 
 def fit_text_to_width(label: Text, max_width: float) -> Text:

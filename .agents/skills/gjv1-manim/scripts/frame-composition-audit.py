@@ -21,12 +21,13 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 WHITE = "#ffffff"
+BLACK = "#000000"
 PAGE_BACKGROUND = "#f7f7f7"
 GRAY = "#333e48"
+GRAY_300 = "#b5b5b5"
+GRAY_500 = "#828282"
 PRIMARY_RED = "#9e1b32"
-PRIMARY_ORANGE = "#e77204"
-PRIMARY_BLUE = "#007298"
-PRIMARY_GREEN = "#45842a"
+FONT_CANDIDATES = ("OpenSans-Regular.ttf", "Open Sans.ttf", "arial.ttf", "DejaVuSans.ttf")
 
 
 @dataclass(frozen=True)
@@ -426,10 +427,12 @@ def audit_frame(image: Image.Image, time: float, args: argparse.Namespace) -> di
 
 
 def load_fonts() -> tuple[ImageFont.ImageFont, ImageFont.ImageFont]:
-    try:
-        return ImageFont.truetype("arial.ttf", 18), ImageFont.truetype("arial.ttf", 13)
-    except OSError:
-        return ImageFont.load_default(), ImageFont.load_default()
+    for font_name in FONT_CANDIDATES:
+        try:
+            return ImageFont.truetype(font_name, 18), ImageFont.truetype(font_name, 13)
+        except OSError:
+            continue
+    return ImageFont.load_default(), ImageFont.load_default()
 
 
 def draw_overlay(image: Image.Image, audit: dict, out_path: Path, margin_fraction: float) -> None:
@@ -439,17 +442,17 @@ def draw_overlay(image: Image.Image, audit: dict, out_path: Path, margin_fractio
     width, height = overlay.size
     margin_x = int(width * margin_fraction)
     margin_y = int(height * margin_fraction)
-    draw.rectangle([margin_x, margin_y, width - margin_x - 1, height - margin_y - 1], outline=PRIMARY_GREEN, width=2)
+    draw.rectangle([margin_x, margin_y, width - margin_x - 1, height - margin_y - 1], outline=GRAY_500, width=2)
 
     if audit.get("content_box"):
         draw.rectangle(audit["content_box"], outline=PRIMARY_RED, width=4)
     if audit.get("strong_box"):
-        draw.rectangle(audit["strong_box"], outline=PRIMARY_BLUE, width=3)
+        draw.rectangle(audit["strong_box"], outline=BLACK, width=3)
 
     for finding in audit["findings"]:
         boxes = finding.get("metrics", {}).get("boxes", [])
         for box in boxes:
-            draw.rectangle(box, outline=PRIMARY_ORANGE, width=4)
+            draw.rectangle(box, outline=GRAY_300, width=4)
 
     y = 12
     draw.rectangle([8, 8, width - 8, 38 + 22 * len(audit["findings"])], fill=(255, 255, 255), outline="#cfcfcf")

@@ -14,6 +14,15 @@ Use this skill when the goal is not merely to make a Manim video that works, but
 
 The video should explain itself through shape, color, timing, compression, and reveal logic first. Text is a last resort.
 
+# Default Visual System
+
+Use a restrained default look: white background, black text, gray structure, and primary red for the single active accent or warning. Borders should be straight and square by default, with no rounded corners unless a spike explicitly tests rounded geometry.
+
+- Use `Open Sans` for Manim text when available; fall back to Arial or the system sans-serif if Open Sans is unavailable.
+- Start with `WHITE`, `BLACK`, `GRAY`, `GRAY_*`, `PAGE_BACKGROUND`, and `PRIMARY_RED`.
+- Use the rest of the palette only when the user asks for more color, when a spike explicitly tests color roles, or when extra categories cannot be understood with red plus grayscale.
+- Prefer rectangular panels, square-corner cards, straight bars, rules, and crisp grid alignment.
+
 # Self-Containment Contract
 
 This skill must remain self-contained. `SKILL.md`, `references/`, `examples/`, `scripts/`, and `assets/` must not depend on project-management notes, repository-root documentation, absolute local paths, web URLs, external skill repositories, or any other source outside `.agents/skills/gjv1-manim`.
@@ -37,7 +46,7 @@ Use `sequence handoff` for protocol or Mermaid sequence-diagram animations.
 - Treat every message as a receiver-caused handoff: show a target slot or receiver cue before the pulse arrives, then remove or soften that cue after it has explained the landing.
 - For opening breaths with participants in a top band, add faint destination slots or route scaffolds below the cards. Otherwise pixel audits and human review can both read the opening as top-heavy unused space.
 - Use compact route-label chips for long cross-lane messages. Bare labels on long arrows tend to disappear into lifelines or compete with the route.
-- Make return paths visibly different from requests, usually red and dashed, while keeping orange as the main causal request route.
+- Make return paths visibly different from requests, usually red and dashed, while normal request routes stay black or gray. Use additional route colors only when the user asks for a colored protocol view.
 - Give the resolved frame one terminal artifact, such as a token badge, so the final hold has a center of interest after the protocol mechanics finish.
 
 # Data and Formula Scenes
@@ -49,7 +58,7 @@ Use `side formula handoff` for table transformations where two or more source ce
 - Avoid enlarged moving copies over original cell text; they create double text, baseline mismatch, and unreadable overlaps.
 - Give the formula its own side zone when the active table row is dense. Badges over headers or cells tend to occlude the data they are meant to explain.
 - Keep formulas as composed, aligned text when every still frame must be readable. Reserve transforms for the computed result leaving the formula and landing in the destination cell.
-- Use a high-contrast local background for floating formulas, usually white with a restrained primary-color border.
+- Use a high-contrast local background for floating formulas, usually white with a restrained gray or primary-red border.
 - Make the result-to-cell moment a handoff, not a duplicate overlay. `ReplacementTransform` from transient result text into final table text is usually clearer than adding both.
 - Keep row indicators subordinate: a left marker plus a thin bottom rule usually reads better than a filled highlight band.
 - For text-derived classifications, preserve the full source string with inline markup when highlighting matched text. Splitting a transaction description into separate text chunks can remove visible spaces, and direct character slicing can drift when rendered glyph submobjects do not map to the source string.
@@ -183,11 +192,12 @@ If the experiment fits more than one family, choose the one whose mechanism must
 Follow these baseline rules:
 
 - define colors with the preferred project tokens in [references/preferred-color-styles.md](references/preferred-color-styles.md), not default Manim color constants,
-- use the project primary palette for structural roles:
-  - green, blue, purple, red for actors or stages,
-  - orange for paths, guides, funnels, sleeves, gates, or support geometry,
-  - yellow for transient pulses, pivots, or attractor cores.
-- prefer rounded geometry,
+- use the default red, black, and grayscale palette first:
+  - black and dark gray for primary structure, labels, and stable actors,
+  - middle grays for panels, scaffolds, inactive paths, guides, and shadows,
+  - primary red for the active accent, selected path, warning, return route, or final pulse.
+- use orange, yellow, green, blue, and purple only when more color is explicitly requested or a scene needs categorical color separation that cannot be solved with red plus grayscale,
+- prefer square-corner rectangular geometry,
 - use only subtle gray framing or shadows,
 - keep one main moving element per beat,
 - make the landing state simpler than the source state,

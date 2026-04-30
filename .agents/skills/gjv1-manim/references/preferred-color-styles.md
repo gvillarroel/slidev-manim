@@ -58,13 +58,24 @@ Any future color-system change must update this file directly. Do not make this 
 
 ## Role Rules
 
-- Use `PRIMARY_GREEN`, `PRIMARY_BLUE`, `PRIMARY_PURPLE`, and `PRIMARY_RED` for structural actors, states, destinations, warnings, or deliberate tension.
-- Use `PRIMARY_ORANGE` for routes, guides, bridges, funnels, sleeves, gates, formula borders, and causal mechanisms.
-- Use `PRIMARY_YELLOW` for transient pulses, pivots, attractor cores, focus marks, and momentary attention.
-- Use `HIGHLIGHT_*` tokens for low-pressure fills behind the matching primary role.
-- Use `GRAY_*` tokens for scaffolding, frames, inactive text, and support geometry.
+- Default to `WHITE` or `PAGE_BACKGROUND` as the stage, `BLACK` and `GRAY_*` for text and structure, and `PRIMARY_RED` for the single active accent, warning, selected path, or return route.
+- Use `GRAY_*` tokens for scaffolding, frames, inactive text, support geometry, panels, table rules, guide rails, and quiet shadows.
+- Use `PRIMARY_RED`, `HIGHLIGHT_RED`, `SHADOW_RED`, and `STATUS_RED` for the default accent family.
+- Use `PRIMARY_ORANGE`, `PRIMARY_YELLOW`, `PRIMARY_GREEN`, `PRIMARY_BLUE`, `PRIMARY_PURPLE`, and their highlight, shadow, or status variants only when the user asks for a colored result, when a spike explicitly tests color, or when several simultaneous categories cannot be understood with red plus grayscale.
 - Use `PAGE_BACKGROUND` for local stages behind text-heavy or diagram-heavy clips.
-- Use `WHITE` as the default review background and as text on primary-color backgrounds.
+- Use `WHITE` as the default review background.
+
+## Typography
+
+- Prefer the CSS-like family order `"Open Sans", Arial, sans-serif`.
+- In Manim, set `font="Open Sans"` for normal `Text` labels and allow the renderer or system to fall back to Arial or a sans-serif face if Open Sans is unavailable.
+- Keep labels sparse, smaller than the moving geometry, and aligned to a square grid.
+
+## Geometry Defaults
+
+- Prefer straight rectangular edges and square corners.
+- Set `corner_radius=0` when a `RoundedRectangle` is unavoidable, or use `Rectangle` for panels, badges, cards, tracks, table cells, and stage blocks.
+- Use rounded geometry only when the spike explicitly tests rounded forms or a physical mechanism needs curvature.
 
 ## Example Requirements
 

@@ -17,7 +17,9 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - A mechanism must survive in a still frame. If the sampled proof frame does not show the cause of the motion, resample or strengthen the mechanism.
 - The opening breath should show the initial structure first; do not spend it on a blank transparent frame.
 - Final holds are part of the composition. Remove guides, slots, sleeves, shutters, or scaffolds once they stop causing the motion.
-- Use the primary palette semantically: green, blue, purple, and red for actors or states; orange for causal routes and mechanisms; yellow for transient attention.
+- Use the default visual system first: white background, black text, gray structure, and primary red as the active accent. Reach for orange, yellow, green, blue, or purple only when the user asks for color or when extra categories need explicit separation.
+- Square corners and straight rectangular edges are the default. Rounded forms should be an explicit style choice, not the baseline.
+- Text should try `Open Sans` first, with Arial or the system sans-serif as fallback.
 - Transparent clips with labels, diagram text, timeline cards, or captioned arrows need a local `page-background` stage so they remain inspectable outside a slide.
 - Decorative transparent loops can stay transparent when the slide surface supplies contrast and the clip has no labels or diagram text.
 - Contact sheets are useful for broad passes, but suspicious thumbnails must be opened full size before patching.

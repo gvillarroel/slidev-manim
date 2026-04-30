@@ -20,11 +20,10 @@ from manim import (
     RIGHT,
     UP,
     AnimationGroup,
-    Circle,
     FadeIn,
     FadeOut,
     Line,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
@@ -40,14 +39,14 @@ VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
 
 # Preferred color styles: references/preferred-color-styles.md in this skill.
+BLACK = "#000000"
 PRIMARY_RED = "#9e1b32"
-PRIMARY_ORANGE = "#e77204"
-PRIMARY_YELLOW = "#f1c319"
-PRIMARY_GREEN = "#45842a"
-PRIMARY_BLUE = "#007298"
-PRIMARY_PURPLE = "#652f6c"
+WHITE = "#ffffff"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
+GRAY_400 = "#9c9c9c"
+GRAY_500 = "#828282"
+GRAY_600 = "#696969"
 PAGE_BACKGROUND = "#f7f7f7"
 
 
@@ -98,11 +97,10 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(
         width=width,
         height=height,
-        corner_radius=min(height * 0.28, 0.24),
         stroke_width=0,
         fill_color=color,
         fill_opacity=1,
@@ -111,69 +109,67 @@ def slab(color: str, width: float, height: float) -> RoundedRectangle:
 
 class GJV1QualityTemplateScene(Scene):
     def construct(self) -> None:
-        self.camera.background_color = PAGE_BACKGROUND
+        self.camera.background_color = WHITE
 
-        stage = RoundedRectangle(
+        stage = Rectangle(
             width=12.8,
             height=6.3,
-            corner_radius=0.34,
             stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=PAGE_BACKGROUND,
             fill_opacity=0.96,
         )
-        source_zone = RoundedRectangle(
+        source_zone = Rectangle(
             width=4.0,
             height=4.1,
-            corner_radius=0.35,
             stroke_width=0,
             fill_color=GRAY_100,
             fill_opacity=0.24,
         ).move_to(LEFT * 3.05)
         target_zone = source_zone.copy().move_to(RIGHT * 3.0).set_fill(GRAY_100, opacity=0.3)
 
-        green = slab(PRIMARY_GREEN, 2.6, 0.86).move_to(LEFT * 3.35 + UP * 0.72)
-        blue = slab(PRIMARY_BLUE, 1.86, 0.76).move_to(LEFT * 2.22 + DOWN * 0.04)
-        purple = slab(PRIMARY_PURPLE, 1.38, 0.62).move_to(LEFT * 1.68 + DOWN * 0.92)
-        source = VGroup(green, blue, purple)
+        leader = slab(BLACK, 2.6, 0.86).move_to(LEFT * 3.35 + UP * 0.72)
+        support_a = slab(GRAY_600, 1.86, 0.76).move_to(LEFT * 2.22 + DOWN * 0.04)
+        support_b = slab(GRAY_400, 1.38, 0.62).move_to(LEFT * 1.68 + DOWN * 0.92)
+        source = VGroup(leader, support_a, support_b)
 
-        gate_top = Line(RIGHT * 1.15 + UP * 0.44, RIGHT * 2.65 + UP * 0.44, color=PRIMARY_ORANGE, stroke_width=7)
-        gate_bottom = Line(RIGHT * 1.15 + DOWN * 0.44, RIGHT * 2.65 + DOWN * 0.44, color=PRIMARY_ORANGE, stroke_width=7)
+        gate_top = Line(RIGHT * 1.15 + UP * 0.44, RIGHT * 2.65 + UP * 0.44, color=GRAY_500, stroke_width=7)
+        gate_bottom = Line(RIGHT * 1.15 + DOWN * 0.44, RIGHT * 2.65 + DOWN * 0.44, color=GRAY_500, stroke_width=7)
         gate = VGroup(gate_top, gate_bottom)
-        pulse = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(LEFT * 0.8)
+        pulse = slab(PRIMARY_RED, 0.24, 0.24).move_to(LEFT * 0.8)
 
         compressed = VGroup(
-            slab(PRIMARY_GREEN, 1.78, 0.52).move_to(RIGHT * 1.9 + UP * 0.2),
-            slab(PRIMARY_BLUE, 1.22, 0.46).move_to(RIGHT * 1.9 + DOWN * 0.14),
-            slab(PRIMARY_PURPLE, 0.9, 0.36).move_to(RIGHT * 1.9 + DOWN * 0.47),
+            slab(BLACK, 1.78, 0.52).move_to(RIGHT * 1.9 + UP * 0.2),
+            slab(GRAY_600, 1.22, 0.46).move_to(RIGHT * 1.9 + DOWN * 0.14),
+            slab(GRAY_400, 0.9, 0.36).move_to(RIGHT * 1.9 + DOWN * 0.47),
         )
         final = VGroup(
-            Circle(radius=0.84, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.65 + UP * 0.46),
-            Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.82 + DOWN * 0.02),
-            Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 3.14 + DOWN * 0.96),
+            slab(BLACK, 1.68, 0.72).move_to(RIGHT * 2.65 + UP * 0.46),
+            slab(GRAY_600, 1.0, 0.52).move_to(RIGHT * 3.72 + DOWN * 0.02),
+            slab(PRIMARY_RED, 0.68, 0.34).move_to(RIGHT * 3.12 + DOWN * 0.88),
         )
 
         self.add(stage, source_zone, target_zone, source)
-        self.wait(2.6)
+        self.wait(3.0)
         self.play(FadeIn(gate), FadeIn(pulse), run_time=0.8)
         self.play(
             AnimationGroup(
-                Transform(green, compressed[0]),
-                Transform(blue, compressed[1]),
-                Transform(purple, compressed[2]),
+                Transform(leader, compressed[0]),
+                Transform(support_a, compressed[1]),
+                Transform(support_b, compressed[2]),
                 pulse.animate.move_to(RIGHT * 1.9),
                 lag_ratio=0.08,
             ),
             run_time=4.0,
             rate_func=smooth,
         )
-        self.wait(2.2)
+        self.wait(2.6)
         self.play(FadeOut(gate), run_time=0.7)
         self.play(
             AnimationGroup(
-                Transform(green, final[0]),
-                Transform(blue, final[1]),
-                Transform(purple, final[2]),
+                Transform(leader, final[0]),
+                Transform(support_a, final[1]),
+                Transform(support_b, final[2]),
                 pulse.animate.move_to(RIGHT * 3.2).set_fill(PRIMARY_RED, opacity=1),
                 lag_ratio=0.12,
             ),
@@ -181,7 +177,7 @@ class GJV1QualityTemplateScene(Scene):
             rate_func=smooth,
         )
         self.play(FadeOut(pulse), run_time=0.7)
-        self.wait(7.0)
+        self.wait(9.2)
 
 
 def main() -> int:

@@ -149,12 +149,12 @@ Treat `outside_frame`, `low_edge_clearance`, and `off_center_rest_content` as bl
 
 Check these for every sheet:
 
-- Are there stale exports with old colors?
+- Are there stale exports with old colors or rounded-card styling?
 - Do text-heavy clips have a local `page-background` stage?
 - Are decorative loops intentionally transparent?
 - Are title margins visible in thumbnails?
 - Do titles, badges, chips, or callouts have their own safe header band instead of touching the frame or diagram panels?
-- Are primary colors serving semantic roles instead of arbitrary decoration?
+- Does the default style stay on white with black, gray, and primary red unless a wider palette was explicitly requested?
 - Does at least one sampled frame prove the intended mechanism?
 - Do automated composition audit overlays show adequate active margins and no residual side fragments?
 
