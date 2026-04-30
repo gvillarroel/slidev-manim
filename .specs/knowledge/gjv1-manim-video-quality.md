@@ -507,16 +507,21 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Bridge Span
 
 - **Hypothesis**: A temporary bridge can make a transfer feel more intentional if the dominant form clearly crosses a supported passage instead of drifting through empty space.
-- **Result**: Confirmed after turning the bridge into a visible passage and shrinking the green form so the span remains readable around it.
+- **Result**: Confirmed again after expanding the draft into a 27.9-second slide-integration scene with visible opening structure, a held bridge-crossing proof frame, and a centered resolved hold.
 - **What worked**:
+  - using square-corner geometry and canonical palette tokens so the bridge reads as structure rather than decoration,
+  - showing faint destination slots during the opening breath so the right side reads as pending structure,
   - a horizontal bridge that stays visible on both sides of the crossing form,
   - a hold frame where the green form is clearly on the bridge rather than merely near it,
   - blue and purple supports kept lower so they do not compete with the crossing beat,
-  - bridge removal before the final cluster so the ending stays clean.
+  - bridge removal before the final cluster so the ending stays clean,
+  - recentering the resolved local stage after the source zone disappears so the final hold does not stay stranded in the old transfer layout.
 - **What failed first**:
+  - the draft was only 3.096 seconds and had no useful final hold,
   - the first bridge read like an orange bar instead of a supported crossing,
   - the green form was too large and swallowed the mechanism,
-  - the passage needed visible separation above and below the crossing form.
+  - the passage needed visible separation above and below the crossing form,
+  - leaving the final cluster in the old right-side target zone created dead space after source cleanup.
 
 ## Quality Keystone Lock
 
@@ -929,6 +934,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 144. In aperture reveals, move or fade the active accent with the landing cleanup. A pulse left at the former shutter edge reads as residue once the guide disappears.
 145. When a reveal removes the source zone, recenter or rebalance the destination stage before the final hold. Otherwise the final cluster can feel stranded in leftover source-to-target layout space.
 146. Arc handoff scenes need a proof frame where the dominant form is visibly riding the curve while supports remain calmer. After the source zone disappears, recenter the resolved cluster instead of leaving it stranded in the old target lane.
+147. Bridge-span scenes should hold a proof frame where the dominant form is inside the passage while bridge rails remain visible above and below it. If the source zone is removed during cleanup, recenter the target stage and resolved cluster before the final hold.
 
 # Reusable Process
 
