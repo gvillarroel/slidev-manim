@@ -39,6 +39,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Continuation scenes should preserve the previous resolved state as a compact input, reveal destination scaffolds early enough to balance the frame, and populate output blocks progressively.
 - Placeholder scaffolds should be removed or faded before text-bearing blocks appear. Do not morph placeholder panels directly into titles or list rows.
 - Compression, squeeze, clamp, and throat-gate scenes need a visibly tighter constrained phase than both source and landing states.
+- Clamp-close scenes should hold the pressure proof before the release, then remove abandoned source panels and clamp bars before morphing into the landing. If the clamp remains during the release, 0.3-second samples can read as support residue instead of resolved motion.
 - Aperture and reveal scenes should not leave the destination stranded after the source zone disappears. Recenter or rebalance the destination stage during cleanup, and carry the active accent into the landing or remove it with the guide.
 - Orbit, fan-out, and fork scenes need enough spacing in proof frames to avoid reading as collisions or loose regrouping.
 - Snap recoil scenes need the destination slot or pressure surface visible before the snap, a held stretched overshoot proof frame, and early removal of target slots before support forms settle. Keep the wall far enough from supports to clear targeted crowding checks, then recenter the resolved stage after source cleanup.

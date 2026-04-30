@@ -13,7 +13,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from manim import DOWN, LEFT, RIGHT, UP, AnimationGroup, Circle, FadeIn, FadeOut, RoundedRectangle, Scene, Transform, VGroup, WHITE, smooth
+from manim import DOWN, LEFT, RIGHT, UP, AnimationGroup, Circle, FadeIn, FadeOut, Rectangle, Scene, Transform, VGroup, WHITE, smooth
 
 SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parent.parent
@@ -80,60 +80,85 @@ def promote_all(args: _Args) -> None:
     promote(poster_path.name, poster_path)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=1)
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=1)
 
 
 class QualityClampCloseScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        source_zone = RoundedRectangle(width=4.0, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.22).move_to(LEFT * 3.08)
-        target_zone = RoundedRectangle(width=4.2, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.96)
+        frame = Rectangle(width=12.9, height=5.8, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
+        source_zone = Rectangle(width=4.0, height=4.1, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.2).move_to(LEFT * 3.18)
+        target_zone = Rectangle(width=4.35, height=4.1, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.26).move_to(RIGHT * 1.78)
 
-        green = slab(PRIMARY_GREEN, 2.66, 0.92).move_to(LEFT * 3.24 + UP * 0.76)
-        blue = slab(PRIMARY_BLUE, 1.86, 0.82).move_to(LEFT * 2.08 + DOWN * 0.02)
-        purple = slab(PRIMARY_PURPLE, 1.3, 0.62).move_to(LEFT * 1.54 + DOWN * 0.98)
+        green = slab(PRIMARY_GREEN, 2.72, 0.92).move_to(LEFT * 3.46 + UP * 0.82)
+        blue = slab(PRIMARY_BLUE, 1.84, 0.78).move_to(LEFT * 2.62 + DOWN * 0.1)
+        purple = slab(PRIMARY_PURPLE, 1.24, 0.58).move_to(LEFT * 3.78 + DOWN * 1.02)
         source = VGroup(green, blue, purple)
 
-        clamp_left = slab(PRIMARY_BLUE, 0.42, 1.26).move_to(RIGHT * 1.1 + DOWN * 0.02)
-        clamp_right = slab(PRIMARY_PURPLE, 0.42, 1.18).move_to(RIGHT * 2.18 + DOWN * 0.04)
-        accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(RIGHT * 1.64 + DOWN * 0.02)
+        clamp_left = slab(PRIMARY_BLUE, 0.42, 2.24).move_to(RIGHT * 0.94 + DOWN * 0.02)
+        clamp_right = slab(PRIMARY_PURPLE, 0.42, 2.24).move_to(RIGHT * 2.42 + DOWN * 0.02)
+        clamp_left.set_opacity(0.62)
+        clamp_right.set_opacity(0.62)
+        accent = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(RIGHT * 1.68 + DOWN * 0.02)
 
-        green_clamp = slab(PRIMARY_GREEN, 1.18, 0.34).move_to(RIGHT * 1.64 + DOWN * 0.02)
+        green_clamp = slab(PRIMARY_GREEN, 1.02, 0.34).move_to(RIGHT * 1.68 + DOWN * 0.02)
+        blue_clamp = slab(PRIMARY_BLUE, 0.46, 0.36).move_to(RIGHT * 1.12 + DOWN * 0.62)
+        purple_clamp = slab(PRIMARY_PURPLE, 0.42, 0.32).move_to(RIGHT * 2.22 + UP * 0.62)
+        pressure_wall = Rectangle(width=1.58, height=0.66, stroke_color=PRIMARY_RED, stroke_width=3, fill_opacity=0).move_to(RIGHT * 1.68 + DOWN * 0.02)
 
-        final_green = Circle(radius=0.88, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.56 + UP * 0.42)
-        final_blue = Circle(radius=0.48, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.74 + DOWN * 0.04)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 3.0 + DOWN * 1.02)
+        final_green = Circle(radius=0.9, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 1.56 + UP * 0.42)
+        final_blue = Circle(radius=0.47, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 2.74 + DOWN * 0.1)
+        final_purple = Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 2.08 + DOWN * 1.04)
 
-        self.add(frame, source_zone, target_zone)
-        self.play(FadeIn(source, lag_ratio=0.08), run_time=0.68)
-        self.play(FadeIn(clamp_left), FadeIn(clamp_right), run_time=0.16)
-        self.play(Transform(green, green_clamp.copy()), run_time=0.28, rate_func=smooth)
+        self.add(frame, source_zone, target_zone, source, clamp_left, clamp_right)
+        self.wait(2.6)
         self.play(
             AnimationGroup(
-                clamp_left.animate.move_to(RIGHT * 1.34 + DOWN * 0.02),
-                clamp_right.animate.move_to(RIGHT * 1.94 + DOWN * 0.02),
-                accent.animate.move_to(RIGHT * 1.64 + DOWN * 0.02),
+                Transform(green, green_clamp.copy()),
+                blue.animate.move_to(LEFT * 2.62 + DOWN * 0.1).set_opacity(0.55),
+                purple.animate.move_to(LEFT * 3.78 + DOWN * 1.02).set_opacity(0.48),
                 lag_ratio=0.0,
             ),
-            run_time=0.28,
+            run_time=3.2,
             rate_func=smooth,
         )
+        self.wait(1.0)
+        self.play(
+            AnimationGroup(
+                clamp_left.animate.move_to(RIGHT * 1.28 + DOWN * 0.02).set_opacity(1),
+                clamp_right.animate.move_to(RIGHT * 2.08 + DOWN * 0.02).set_opacity(1),
+                Transform(blue, blue_clamp.copy()),
+                Transform(purple, purple_clamp.copy()),
+                FadeIn(accent),
+                lag_ratio=0.0,
+            ),
+            run_time=2.4,
+            rate_func=smooth,
+        )
+        self.play(FadeIn(pressure_wall), FadeOut(source_zone), accent.animate.scale(1.35), run_time=0.9, rate_func=smooth)
+        self.wait(1.6)
+        self.play(FadeOut(pressure_wall), accent.animate.move_to(RIGHT * 2.36 + UP * 0.26).set_fill(PRIMARY_RED, opacity=1), run_time=1.2, rate_func=smooth)
+        self.play(FadeOut(clamp_left), FadeOut(clamp_right), run_time=0.8, rate_func=smooth)
         self.play(
             AnimationGroup(
                 Transform(green, final_green.copy()),
                 Transform(blue, final_blue.copy()),
                 Transform(purple, final_purple.copy()),
-                lag_ratio=0.08,
+                lag_ratio=0.1,
             ),
-            run_time=0.62,
+            run_time=3.4,
             rate_func=smooth,
         )
-        self.play(FadeOut(clamp_left), FadeOut(clamp_right), run_time=0.14)
-        self.play(accent.animate.move_to(RIGHT * 2.88 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=0.16)
-        self.play(FadeOut(accent), run_time=0.14)
-        self.wait(0.25)
+        self.wait(0.8)
+        self.play(
+            target_zone.animate.move_to(RIGHT * 1.94).set_opacity(0.2),
+            run_time=1.2,
+            rate_func=smooth,
+        )
+        self.play(accent.animate.move_to(RIGHT * 2.92 + DOWN * 0.12).scale(0.74), run_time=1.1, rate_func=smooth)
+        self.play(FadeOut(accent), run_time=0.8)
+        self.wait(6.4)
 
 
 def main() -> int:

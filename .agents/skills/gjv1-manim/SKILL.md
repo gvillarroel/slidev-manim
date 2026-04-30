@@ -381,6 +381,7 @@ Do not add text before exhausting those fixes.
 - tighten the constrained phase more than feels necessary,
 - narrow the neck, lane, throat, corridor, or clamp gap,
 - sample an earlier proof frame if the release weakens the pressure,
+- for clamp-close scenes, hold the side-pressure proof before release, then remove abandoned source panels and clamp bars before the landing morph so the release frame does not inherit support residue,
 - full-size review any crowding finding in the constrained proof frame; actor-to-actor contact can be acceptable only when it reads as pressure, while actor-to-guide or actor-to-outline contact remains blocking,
 - keep support forms away from the squeeze zone.
 

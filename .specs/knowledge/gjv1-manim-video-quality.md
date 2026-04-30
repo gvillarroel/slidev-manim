@@ -628,16 +628,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Clamp Close
 
 - **Hypothesis**: Side clamps can make a squeeze feel more intentional if they visibly close around the dominant form before release.
-- **Result**: Confirmed after sampling an earlier proof frame where the side bars are close enough to read as pressure around the leader.
+- **Result**: Confirmed again after expanding the draft into a 27.4-second slide-integration scene with a visible opening breath, held pressure proof, clamp cleanup, and clean final hold.
 - **What worked**:
   - two vertical support bars that clearly move inward toward the center,
   - a compressed green form that sits between them during the clamp beat,
   - an earlier hold frame where the closing action is cleaner than the later release frame,
-  - clamp removal before the final landing so the composition resolves into a simpler cluster.
+  - fading the abandoned source panel during the pressure proof so the left side does not become empty residue,
+  - clamp removal before the release morph so the final landing is not contaminated by support bars,
+  - recentering the target stage after source cleanup so the resolved hold does not feel stranded.
 - **What failed first**:
+  - the draft was far below the 25-second pacing floor and began with too little visible structure,
   - the later sampled frame mixed mechanism and release too much,
   - the proof depended on choosing the right still instead of the first convenient one,
-  - the clamp bars only read once they were close enough to create visible side pressure.
+  - the clamp bars only read once they were close enough to create visible side pressure,
+  - keeping the source panel and clamp bars into the release made 0.3-second samples read as residue even though the mechanism itself was clear.
 
 ## Polars Derived Column
 
