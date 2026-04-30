@@ -6,7 +6,7 @@ For exact token names and preferred values, use [preferred-color-styles.md](pref
 
 ## Canonical Color Roles
 
-Use the ADR-0002 palette as semantic roles, not decoration:
+Use the skill-local primary palette as semantic roles, not decoration:
 
 - `primary-green`, `primary-blue`, `primary-purple`: structural actors or state groups.
 - `primary-orange`: routes, guides, bridges, funnels, sleeves, gates, and causal mechanisms.
@@ -75,4 +75,4 @@ Before finalizing a repo-wide pass:
 rg -n "PRIMARY_PRIMARY|HIGHLIGHT_PRIMARY|BRAND_GRAY|GRAY_[A-Z]\b|BLUE_[A-E]|GREY_[A-E]|GREEN_E|TEAL_|\bBLACK\b|#0b1120" spikes --glob main.py
 ```
 
-Also check literal hex values against ADR-0002. Non-canonical hex values should be rare and intentional.
+Also check literal hex values against [preferred-color-styles.md](preferred-color-styles.md). Non-canonical hex values should be rare and intentional.

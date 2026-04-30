@@ -14,6 +14,19 @@ Use this skill when the goal is not merely to make a Manim video that works, but
 
 The video should explain itself through shape, color, timing, compression, and reveal logic first. Text is a last resort.
 
+# Self-Containment Contract
+
+This skill must remain self-contained. `SKILL.md`, `references/`, `examples/`, `scripts/`, and `assets/` must not depend on project-management notes, repository-root documentation, absolute local paths, web URLs, external skill repositories, or any other source outside `.agents/skills/gjv1-manim`.
+
+- Link only to files that live inside this skill directory.
+- If external material informs an addition, copy or summarize the durable guidance into a skill-local file first, then link to that local file.
+- Treat project files such as `spikes/...` and `videos/...` as workflow inputs or outputs, not as canonical skill references.
+- Every future addition must pass the self-containment audit before the skill is considered updated:
+
+```bash
+uv run --script .agents/skills/gjv1-manim/scripts/self-containment-audit.py
+```
+
 # Sequence Diagram Scenes
 
 Use `sequence handoff` for protocol or Mermaid sequence-diagram animations.
@@ -67,10 +80,12 @@ Use `side formula handoff` for table transformations where two or more source ce
 - Keep only the experiments whose still frames remain intentional without narration.
 - Respect the project pacing floor: at least 25 seconds for slide-integration scenes, with 2 to 3 seconds of visible opening breath and 5 to 7 seconds of final hold unless a shorter micro-loop is explicitly documented.
 
-# Canonical Sources
+# Skill-Local Sources
 
-- Reuse the accumulated patterns in [C:\Users\villa\dev\slidev-manim\.specs\knowledge\gjv1-manim-video-quality.md](C:/Users/villa/dev/slidev-manim/.specs/knowledge/gjv1-manim-video-quality.md).
-- Update that knowledge note after each useful experiment. Do not let the skill drift away from the note.
+- Treat this file and the bundled resources below as the canonical source for the skill.
+- Use [references/video-quality-lessons.md](references/video-quality-lessons.md) for durable lessons that should survive future experiments.
+- Store reusable additions inside this skill directory, either in `SKILL.md`, `references/`, `examples/`, `scripts/`, or `assets/`.
+- Do not leave required skill guidance only in project notes, repository docs, web pages, or another skill.
 
 # Bundled Resources
 
@@ -194,7 +209,7 @@ Then extract frames with `PyAV`:
 import av
 from pathlib import Path
 
-video = Path(r'C:\path\to\video.webm')
+video = Path('videos/<spike-name>/<video-name>.webm')
 out_dir = video.parent / 'review-frames'
 out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -479,5 +494,5 @@ For each experiment:
 3. extract proof frames,
 4. extract half-second frames for component remaps or any transition that might hide artifacts between one-second samples,
 5. iterate at least once if the first pass is not clearly decent,
-6. record what worked and what failed in `.specs/knowledge/`,
-7. fold recurring lessons back into this skill instead of letting them accumulate only in the note.
+6. record reusable lessons in this skill, preferably [references/video-quality-lessons.md](references/video-quality-lessons.md) or the most relevant skill-local reference,
+7. fold recurring lessons back into this skill instead of letting them accumulate outside the skill.

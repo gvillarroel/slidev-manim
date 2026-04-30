@@ -1,6 +1,8 @@
 # Preferred Color Styles
 
-This reference mirrors [ADR-0002](../../../../.specs/adr/0002-slide-and-video-color-system.md). Use these tokens in GJV1 Manim examples and copied spikes unless a spike explicitly documents a different style direction.
+This is the skill-local canonical color reference. Use these tokens in GJV1 Manim examples and copied spikes unless a spike explicitly documents a different style direction.
+
+Any future color-system change must update this file directly. Do not make this reference depend on a project ADR, web page, external repository, or any other source outside this skill directory.
 
 ## Primary Palette
 

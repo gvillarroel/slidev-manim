@@ -12,7 +12,7 @@ VIDEO_EXTENSIONS = {".webm", ".mp4", ".mov", ".mkv"}
 IGNORED_SEGMENTS = {".manim", "partial_movie_files"}
 SAMPLE_PERCENTAGES = (0.12, 0.5, 0.88)
 
-# Preferred color styles: ../references/preferred-color-styles.md
+# Preferred color styles: references/preferred-color-styles.md in this skill.
 PRIMARY_RED = "#9e1b32"
 WHITE = "#ffffff"
 GRAY = "#333e48"
