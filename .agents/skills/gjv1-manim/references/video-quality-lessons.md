@@ -28,6 +28,8 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Low edge clearance, off-center rest content, and low visual margins are composition problems even when no object is technically clipped.
 - For imported SVGs, transform only compatible roles directly. Remove deleted roles first, establish the new primary body, then attach native Manim labels when text must stay readable.
 - For generated diagram SVGs, keep inspectable source artifacts in the spike output, but animate stable role fragments and prefer native Manim connectors when imported arrowheads render too heavy.
+- For generated diagram remaps, use specific receiver slots instead of one broad destination box, then remove those slots before any route pulse or resolved hold. Slot outlines that remain around docked nodes read as actor-to-outline crowding.
+- In graph-style diagram videos, strict crowding audits can flag intentional connector-to-node proximity or pulse-on-route contact. Inspect overlays full size and treat the finding as blocking only when the contact hides an actor, collides with an outline after the causal beat, or muddies the mechanism.
 - Sequence handoffs need receiver cues before arrival, activation bars or route evidence during ownership, and a terminal artifact so the final hold has a center of interest.
 - Long sequence routes need compact route-label chips; return paths should use a visibly different grammar from request paths.
 - Bridge-span scenes should hold a proof frame where the dominant form is inside the passage while bridge rails remain visible above and below it. If source cleanup removes the left zone, recenter the target stage and resolved cluster before the final hold.

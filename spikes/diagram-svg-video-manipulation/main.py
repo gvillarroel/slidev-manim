@@ -31,7 +31,7 @@ from manim import (
     FadeIn,
     FadeOut,
     MoveAlongPath,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     SVGMobject,
     Text,
@@ -52,6 +52,7 @@ PRIMARY_YELLOW = "#f1c319"
 PRIMARY_GREEN = "#45842a"
 PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
+PRIMARY_RED = "#9e1b32"
 WHITE = "#ffffff"
 GRAY = "#333e48"
 GRAY_100 = "#e7e7e7"
@@ -91,18 +92,18 @@ class _Args(argparse.Namespace):
 
 ROLE_PLACEMENTS: dict[str, dict[str, RolePlacement]] = {
     "source": {
-        "node_spec": RolePlacement(2.08, LEFT * 3.75 + DOWN * 0.28),
-        "node_svg": RolePlacement(2.08, ORIGIN + DOWN * 0.28),
-        "node_video": RolePlacement(2.08, RIGHT * 3.75 + DOWN * 0.28),
-        "edge_spec_svg": RolePlacement(1.42, LEFT * 1.88 + DOWN * 0.28),
-        "edge_svg_video": RolePlacement(1.42, RIGHT * 1.88 + DOWN * 0.28),
+        "node_spec": RolePlacement(2.32, LEFT * 4.0 + DOWN * 0.12),
+        "node_svg": RolePlacement(2.32, ORIGIN + DOWN * 0.12),
+        "node_video": RolePlacement(2.32, RIGHT * 4.0 + DOWN * 0.12),
+        "edge_spec_svg": RolePlacement(1.56, LEFT * 2.0 + DOWN * 0.12),
+        "edge_svg_video": RolePlacement(1.56, RIGHT * 2.0 + DOWN * 0.12),
     },
     "target": {
-        "node_spec": RolePlacement(2.08, LEFT * 3.05 + DOWN * 1.34),
-        "node_svg": RolePlacement(2.08, UP * 1.55),
-        "node_video": RolePlacement(2.08, RIGHT * 3.05 + DOWN * 1.34),
-        "edge_spec_svg": RolePlacement(2.78, LEFT * 1.48 + UP * 0.16),
-        "edge_svg_video": RolePlacement(2.78, RIGHT * 1.48 + UP * 0.16),
+        "node_spec": RolePlacement(2.32, LEFT * 3.25 + DOWN * 1.48),
+        "node_svg": RolePlacement(2.32, UP * 1.58),
+        "node_video": RolePlacement(2.32, RIGHT * 3.25 + DOWN * 1.48),
+        "edge_spec_svg": RolePlacement(3.0, LEFT * 1.58 + UP * 0.12),
+        "edge_svg_video": RolePlacement(3.0, RIGHT * 1.58 + UP * 0.12),
     },
 }
 
@@ -349,7 +350,7 @@ def build_straight_arrow(start, end) -> Arrow:
         start=start,
         end=end,
         buff=0.08,
-        stroke_width=2.6,
+        stroke_width=3.4,
         max_tip_length_to_length_ratio=0.085,
         max_stroke_width_to_length_ratio=14,
         color=PRIMARY_ORANGE,
@@ -361,8 +362,8 @@ def build_curved_arrow(start, end, angle: float) -> CurvedArrow:
         start,
         end,
         angle=angle,
-        stroke_width=2.6,
-        tip_length=0.085,
+        stroke_width=3.4,
+        tip_length=0.1,
         color=PRIMARY_ORANGE,
     )
 
@@ -374,13 +375,13 @@ def build_edge(stage: str, role: str, _source_svg: Path) -> Arrow | CurvedArrow:
 
     if stage == "source":
         if role == "edge_spec_svg":
-            edge = build_straight_arrow(spec + RIGHT * 1.02, svg + LEFT * 1.02)
+            edge = build_straight_arrow(spec + RIGHT * 1.34, svg + LEFT * 1.34)
         else:
-            edge = build_straight_arrow(svg + RIGHT * 1.02, video + LEFT * 1.02)
+            edge = build_straight_arrow(svg + RIGHT * 1.34, video + LEFT * 1.34)
     elif role == "edge_spec_svg":
-        edge = build_curved_arrow(spec + UP * 0.52 + RIGHT * 0.38, svg + DOWN * 0.48 + LEFT * 0.58, angle=-0.18)
+        edge = build_curved_arrow(spec + UP * 0.72 + RIGHT * 1.0, svg + DOWN * 0.72 + LEFT * 0.86, angle=-0.18)
     else:
-        edge = build_curved_arrow(svg + DOWN * 0.48 + RIGHT * 0.58, video + UP * 0.52 + LEFT * 0.38, angle=-0.18)
+        edge = build_curved_arrow(svg + DOWN * 0.72 + RIGHT * 0.86, video + UP * 0.72 + LEFT * 1.0, angle=-0.18)
 
     edge.set_z_index(ROLE_Z_INDEX[role])
     edge.set_opacity(0.9)
@@ -408,29 +409,55 @@ def ordered_parts(parts: dict[str, VGroup | SVGMobject]) -> VGroup:
 
 
 def stage_panel() -> VGroup:
-    backing = RoundedRectangle(
-        width=12.8,
-        height=6.35,
-        corner_radius=0.34,
+    backing = Rectangle(
+        width=11.8,
+        height=5.35,
         stroke_color=GRAY_200,
         stroke_width=2,
         fill_color=PAGE_BACKGROUND,
         fill_opacity=0.96,
     )
-    source_lane = RoundedRectangle(
-        width=10.2,
-        height=1.58,
-        corner_radius=0.26,
+    source_lane = Rectangle(
+        width=10.6,
+        height=1.32,
         stroke_color=GRAY_200,
         stroke_width=1.5,
         fill_color=GRAY_100,
         fill_opacity=0.28,
-    ).move_to(DOWN * 0.28)
+    ).move_to(DOWN * 0.12)
     return VGroup(backing, source_lane)
 
 
+def target_slots() -> VGroup:
+    slots = VGroup()
+    for role in ("node_spec", "node_svg", "node_video"):
+        slot = Rectangle(
+            width=ROLE_PLACEMENTS["target"][role].width + 0.26,
+            height=1.16,
+            stroke_color=GRAY_200,
+            stroke_width=1.4,
+            fill_color=WHITE,
+            fill_opacity=0.14,
+        ).move_to(placement_center("target", role))
+        slot.set_z_index(0)
+        slots.add(slot)
+    return slots
+
+
+def terminal_outline_for(node: VGroup | SVGMobject) -> Rectangle:
+    outline = Rectangle(
+        width=node.width + 0.72,
+        height=node.height + 0.52,
+        stroke_color=PRIMARY_RED,
+        stroke_width=3.6,
+        fill_opacity=0,
+    ).move_to(node.get_center())
+    outline.set_z_index(7)
+    return outline
+
+
 def handle_for(role: str, part: VGroup | SVGMobject) -> Circle:
-    handle = Circle(radius=0.075, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1)
+    handle = Circle(radius=0.105, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
     if role.startswith("node_"):
         handle.move_to(part.get_corner(UP + RIGHT) + LEFT * 0.24 + DOWN * 0.18)
     else:
@@ -454,7 +481,7 @@ class DiagramSvgVideoManipulationScene(Scene):
 
         panel = stage_panel()
         if poster_mode:
-            self.add(panel[0], ordered_parts(target_parts))
+            self.add(panel[0], ordered_parts(target_parts), terminal_outline_for(target_parts["node_video"]))
             return
 
         self.add(panel, ordered_parts(source_parts))
@@ -479,16 +506,7 @@ class DiagramSvgVideoManipulationScene(Scene):
         )
         self.wait(1.1)
 
-        target_hint = RoundedRectangle(
-            width=7.35,
-            height=4.45,
-            corner_radius=0.3,
-            stroke_color=GRAY_200,
-            stroke_width=1.5,
-            fill_color=GRAY_100,
-            fill_opacity=0.2,
-        ).move_to(UP * 0.05)
-        target_hint.set_z_index(0)
+        target_hint = target_slots()
 
         self.play(
             FadeIn(target_hint),
@@ -508,13 +526,17 @@ class DiagramSvgVideoManipulationScene(Scene):
             run_time=5.2,
             rate_func=smooth,
         )
-        self.wait(2.0)
+        self.wait(1.0)
+        self.play(FadeOut(target_hint), run_time=0.55)
+        self.wait(0.45)
 
-        pulse = Circle(radius=0.13, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1)
-        first_start = source_parts["node_spec"].get_center() + UP * 0.52 + RIGHT * 0.38
-        first_end = source_parts["node_svg"].get_center() + DOWN * 0.48 + LEFT * 0.58
-        second_start = source_parts["node_svg"].get_center() + DOWN * 0.48 + RIGHT * 0.58
-        second_end = source_parts["node_video"].get_center() + UP * 0.52 + LEFT * 0.38
+        pulse_core = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
+        pulse_halo = Circle(radius=0.31, stroke_width=2.2, stroke_color=PRIMARY_RED, fill_color=PRIMARY_RED, fill_opacity=0.1)
+        pulse = VGroup(pulse_halo, pulse_core)
+        first_start = source_parts["node_spec"].get_center() + UP * 0.72 + RIGHT * 1.0
+        first_end = source_parts["node_svg"].get_center() + DOWN * 0.72 + LEFT * 0.86
+        second_start = source_parts["node_svg"].get_center() + DOWN * 0.72 + RIGHT * 0.86
+        second_end = source_parts["node_video"].get_center() + UP * 0.72 + LEFT * 1.0
         pulse.move_to(first_start)
         pulse.set_z_index(9)
         first_path = pulse_path(first_start, first_end)
@@ -524,7 +546,8 @@ class DiagramSvgVideoManipulationScene(Scene):
         self.play(MoveAlongPath(pulse, first_path), run_time=2.05, rate_func=smooth)
         self.play(pulse.animate.move_to(second_start), run_time=0.28, rate_func=smooth)
         self.play(MoveAlongPath(pulse, second_path), run_time=2.05, rate_func=smooth)
-        self.play(FadeOut(pulse, scale=1.25), FadeOut(target_hint), run_time=0.8)
+        terminal_outline = terminal_outline_for(source_parts["node_video"])
+        self.play(FadeOut(pulse, scale=1.25), FadeIn(terminal_outline), run_time=0.8)
         self.wait(6.5)
 
 

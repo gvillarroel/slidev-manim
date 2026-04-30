@@ -11,6 +11,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Diagram SVG Video Manipulation Polish
+
+- **Hypothesis**: A generated diagram remap reads more like an authored video when semantic SVG actors are larger, target scaffolds explain only the remap, and the route pulse owns a clean stage afterward.
+- **Result**: Confirmed after enlarging the actors, replacing the broad destination hint with three target slots, moving slot cleanup before the route pulse, and adding a terminal outline around the resolved video node.
+- **What worked**:
+  - using specific destination slots instead of one large faint box, so the remap has visible receivers without creating a dead central panel,
+  - fading destination slots before the route pulse, so the pulse proof frames do not read as actor-to-outline crowding,
+  - keeping native Manim connectors but ending them just outside node bodies, which preserves graph direction while reducing connector overlap,
+  - using a red pulse and terminal outline as the active accent against categorical green, blue, and purple nodes.
+- **Validation note**:
+  - strict crowding audits can still flag graph connector-to-node proximity or pulse-on-route contact; inspect the overlays full size and reserve blocking status for contacts that obscure actors or leave scaffolds after their causal beat.
+
 ## Quadrant Arrow Drop
 
 - **Hypothesis**: A selected point in a quadrant diagram reads as intentionally repositioned when the cost-drop cue is vertical, held before motion, and separated from the later horizontal target slot.
