@@ -354,9 +354,11 @@ Do not add text before exhausting those fixes.
 ### Continuation and project breakdowns
 
 - preserve the prior resolved composition as a compact input when it is the source for the next beat,
+- put compact input labels in a small header band when a footer would crowd the shrunken source cluster,
 - reveal output block scaffolds before detailed content so the setup frame is balanced,
 - make scaffolds visible enough to survive review: pale panels are fine, but borders and header hints must not vanish,
 - activate each large block before revealing its list rows,
+- keep a balancing scaffold visible until the replacement block is visibly established; fading both through the same first sampled frame can create a one-frame off-center composition,
 - do not `ReplacementTransform` placeholder scaffolds into text-bearing blocks. Fade or remove the scaffold, then fade in the real block so title text does not become unreadable mid-frame.
 - reveal keypoints progressively with one row per beat,
 - for short task-list rows, inspect full-size frames for collapsed word spacing. If `Text` or `MarkupText` makes spaces ambiguous, compose the label from per-word mobjects arranged with a fixed gap.

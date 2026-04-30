@@ -73,13 +73,13 @@ uv run --script spikes/svg-repo-video-lab/main.py
 
 Observed output:
 
-- Duration: 43.251 seconds.
-- Frames: 1298 decoded frames at 30 fps.
+- Duration: 43.517 seconds.
+- Frames: 1306 decoded frames at 30 fps.
 - Resolution: 1600x900.
 - Transparency: WebM VP9 stream reports `alpha_mode=1`; `imageio-ffmpeg` with `-c:v libvpx-vp9 -vf alphaextract` confirmed alpha extrema `(0, 255)`.
-- 0.3-second review: regenerated 145 individual frames under `videos/svg-repo-video-lab/review-frames-0.3s/frames/` plus 6 `contact-sheet-*.png` files; inspected the opening, fan-out proof frames, and the 33-36 second project-block activation.
-- Composition audit: `frame-composition-audit.py --cadence 0.3 --write-overlays` reported `sampled_frames=145` and `blocking_frames=0` on the promoted medium WebM.
+- 0.3-second review: regenerated 146 individual frames under `videos/svg-repo-video-lab/review-frames-0.3s/frames/` plus 6 `contact-sheet-*.png` files; inspected the opening, fan-out proof frames, and the 33-38 second project-block activation/final hold.
+- Composition audit: `frame-composition-audit.py --cadence 0.3 --write-overlays` reported `sampled_frames=146` and `blocking_frames=0` on the promoted medium WebM.
 - Resting mobject audit: `resting-mobject-audit.py --scene-file spikes/svg-repo-video-lab/main.py --scene-class SvgRepoVideoLabScene` reported `rest_snapshots=14` and `blocking_snapshots=0`.
 - Exact callout audit: `frame-composition-audit.py --times 14 --out-dir videos/svg-repo-video-lab/composition-audit-14s --write-overlays` reported `blocking_frames=0`.
 - Crowding audit: `frame-crowding-audit.py --times 14 --write-overlays` and `frame-crowding-audit.py --start 12 --end 16 --cadence 0.5 --write-overlays` both reported `blocking_frames=0` after widening the clamp and separating the intermediate SVG roles.
-- Block activation crowding audit: `frame-crowding-audit.py --start 33 --end 36 --cadence 0.3 --write-overlays` still reports low component clearance from normal text glyphs, list rows, and panel internals; full-size review found no actor-to-guide, actor-to-outline, or actor-to-actor collision.
+- Block activation crowding audit: `frame-crowding-audit.py --start 33 --end 36 --cadence 0.3 --write-overlays` still reports low component clearance from expected header-inside-card, source-icon, label, and list-row internals; full-size review of the 33.6s activation and 38.1s final hold found no visible collision that weakens the mechanism.

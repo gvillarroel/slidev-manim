@@ -621,6 +621,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - starting the scene with the raw SVG structure already present gave the opening breath a real composition instead of a blank first frame,
   - when continuing from the resolved SVG cluster into a two-column project breakdown, faint but visible destination block scaffolds kept the setup frame balanced before the progressive lists appeared,
   - fading placeholder scaffolds out while fading the real text-bearing project blocks in kept the activation readable at 0.3-second sampling,
+  - moving the compact source label into a small filled header made the left input read as a deliberate source card and removed bottom-label crowding,
+  - keeping the lower placeholder scaffold visible until the real lower block had enough opacity prevented one-frame vertical off-center regressions during the handoff,
   - lowering the final fan-out cluster slightly cleared a vertical off-center audit finding without changing the continuation layout.
 - **What failed first**:
   - some plausible SVG Repo ids returned a Vercel challenge even through `show` URLs, so the downloader needs payload validation and a fallback,
@@ -645,6 +647,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **What failed first**:
   - a narrow continuation camera caused the left input panel to read as a cropped side fragment even though nothing was technically cut off,
   - placeholders that were too faint looked fine to a human but were ignored by the audit, leaving the setup frame flagged as off-center,
+  - fading a balancing scaffold in the same beat as the replacement block can create a single bad sampled frame where neither object visually owns the space,
   - auditing only the whole video made earlier intentional focus passes obscure the quality of the new continuation; exact proof timestamps were more useful.
 - **Validation pattern**:
   - sample setup, first block populated, fork-with-second-block, both blocks populated, and final hold frames,
@@ -820,6 +823,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 112. If the first review frame is blank because the opening structure fades in, add the initial structure before the first wait and spend the breath on a visible composition.
 113. Do not morph placeholder scaffolds into text-bearing blocks. Fade or remove the placeholder, then reveal the real block so mid-frame titles stay readable.
 114. A technically visible fan-out can still need vertical recentering; treat off-center audit findings during mechanism proof frames as composition problems, not just crop checks.
+115. Compact source panels in continuation scenes read cleaner when their label is a small header band instead of a footer that competes with the compressed source cluster.
+116. When a placeholder scaffold is carrying balance, keep it visible until the replacement block is visibly established; otherwise a single transition sample can become vertically off-center.
 
 # Reusable Process
 

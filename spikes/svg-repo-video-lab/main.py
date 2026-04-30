@@ -600,7 +600,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.play(
             FadeIn(input_panel, shift=LEFT * 0.18),
             FadeIn(block_skeletons, shift=RIGHT * 0.18),
-            source_group.animate.scale(0.56).move_to(LEFT * 3.82 + DOWN * 0.05),
+            source_group.animate.scale(0.6).move_to(LEFT * 3.82 + DOWN * 0.12),
             run_time=1.05,
             rate_func=smooth,
         )
@@ -636,11 +636,11 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.wait(0.35)
         self.play(
             Create(bottom_branch),
-            FadeOut(block_skeletons[1], scale=1.02),
             FadeIn(bottom_block, shift=DOWN * 0.04),
             run_time=0.75,
             rate_func=smooth,
         )
+        self.play(FadeOut(block_skeletons[1], scale=1.02), run_time=0.25, rate_func=smooth)
         for row in bottom_items:
             self.play(FadeIn(row, shift=RIGHT * 0.14), run_time=0.52, rate_func=smooth)
             self.wait(0.15)
@@ -825,16 +825,16 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             fill_opacity=0.74,
         ).move_to(LEFT * 3.82 + DOWN * 0.05)
         marker = RoundedRectangle(
-            width=1.38,
-            height=0.18,
-            corner_radius=0.06,
+            width=1.62,
+            height=0.44,
+            corner_radius=0.12,
             stroke_width=0,
             fill_color=PRIMARY_ORANGE,
-            fill_opacity=0.9,
+            fill_opacity=1,
         ).move_to(panel.get_top() + DOWN * 0.42)
-        label = Text("resolved input", font="Arial", weight=BOLD, color=GRAY, font_size=22)
-        label.scale_to_fit_width(1.65)
-        label.move_to(panel.get_bottom() + UP * 0.62)
+        label = Text("resolved input", font="Arial", weight=BOLD, color=WHITE_HEX, font_size=17)
+        label.scale_to_fit_width(1.34)
+        label.move_to(marker.get_center())
         group = VGroup(panel, marker, label)
         group.set_z_index(-1)
         marker.set_z_index(1)
@@ -876,7 +876,15 @@ class SvgRepoVideoLabScene(MovingCameraScene):
                 fill_color=PRIMARY_BLUE if index == 0 else PRIMARY_PURPLE,
                 fill_opacity=0.36,
             ).move_to(panel.get_top() + DOWN * 0.36)
-            skeletons.add(VGroup(panel, header_hint))
+            footer_hint = RoundedRectangle(
+                width=4.54,
+                height=0.16,
+                corner_radius=0.06,
+                stroke_width=0,
+                fill_color=PRIMARY_BLUE if index == 0 else PRIMARY_PURPLE,
+                fill_opacity=0.72,
+            ).move_to(panel.get_bottom() + UP * 0.34)
+            skeletons.add(VGroup(panel, header_hint, footer_hint))
         skeletons.set_z_index(2)
         return skeletons
 
@@ -932,7 +940,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         final = self.final_icons()
         core = self.final_core()
         label = document_label("VIDEO", final["text-document"], color=PRIMARY_PURPLE)
-        input_group = VGroup(*final.values(), core, label).scale(0.56).move_to(LEFT * 3.82 + DOWN * 0.05)
+        input_group = VGroup(*final.values(), core, label).scale(0.6).move_to(LEFT * 3.82 + DOWN * 0.12)
         input_panel = self.subproject_input_panel()
         guides = self.subproject_guides()
         guides.set_opacity(0.34)
