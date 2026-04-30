@@ -76,8 +76,8 @@ Observed output:
 - Duration: 43.517 seconds.
 - Frames: 1306 decoded frames at 30 fps.
 - Resolution: 1600x900.
-- Transparency: WebM VP9 stream reports `alpha_mode=1`; `imageio-ffmpeg` with `-c:v libvpx-vp9 -vf alphaextract` confirmed alpha extrema `(0, 255)`.
-- 0.3-second review: regenerated 146 individual frames under `videos/svg-repo-video-lab/review-frames-0.3s/frames/` plus 6 `contact-sheet-*.png` files; inspected the opening, fan-out proof frames, and the 33-38 second project-block activation/final hold.
+- Transparency: WebM VP9 stream reports `alpha_mode=1`; `imageio-ffmpeg` with `-c:v libvpx-vp9 -vf alphaextract` confirmed alpha extrema `(0, 255)` on transparent-border sample frames.
+- 0.3-second review: regenerated 146 individual frames under `videos/svg-repo-video-lab/review-frames-0.3s/frames/` plus 6 `contact-sheet-*.png` files; inspected the opening, RAW/VIDEO label, clamp proof frames, fan-out proof frames, and the 33-38 second project-block activation/final hold. The old dashed rail no longer lingers into the label and clamp mechanisms.
 - Composition audit: `frame-composition-audit.py --cadence 0.3 --write-overlays` reported `sampled_frames=146` and `blocking_frames=0` on the promoted medium WebM.
 - Resting mobject audit: `resting-mobject-audit.py --scene-file spikes/svg-repo-video-lab/main.py --scene-class SvgRepoVideoLabScene` reported `rest_snapshots=14` and `blocking_snapshots=0`.
 - Exact callout audit: `frame-composition-audit.py --times 14 --out-dir videos/svg-repo-video-lab/composition-audit-14s --write-overlays` reported `blocking_frames=0`.

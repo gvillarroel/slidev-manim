@@ -301,6 +301,7 @@ Do not add text before exhausting those fixes.
 - strengthen the active zone if the frame uses negative space,
 - remove any device that remains after it has already explained the motion.
 - if a guide is not still causing the motion, remove it instead of lowering opacity and letting it linger.
+- remove phase scaffolds in the same cleanup beat as the mechanism they support. Dashed rails, setup guides, and source-zone hints can read as accidental residue if they survive into the next proof frame.
 - for imported SVG remaps, do not assume `ReplacementTransform` is safe across incompatible geometry.
 
 ## Mechanism-specific fixes

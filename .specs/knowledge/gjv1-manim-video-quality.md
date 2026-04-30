@@ -825,6 +825,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 114. A technically visible fan-out can still need vertical recentering; treat off-center audit findings during mechanism proof frames as composition problems, not just crop checks.
 115. Compact source panels in continuation scenes read cleaner when their label is a small header band instead of a footer that competes with the compressed source cluster.
 116. When a placeholder scaffold is carrying balance, keep it visible until the replacement block is visibly established; otherwise a single transition sample can become vertically off-center.
+117. Phase scaffolds such as dashed rails, setup guides, or source-zone hints should fade in the same cleanup beat as the mechanism they support. If they linger into the next mechanism, 0.3-second contact sheets can make them read as accidental residue even when audits do not block.
 
 # Reusable Process
 

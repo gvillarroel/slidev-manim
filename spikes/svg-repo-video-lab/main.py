@@ -506,6 +506,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             FadeOut(scanner),
             FadeOut(route),
             FadeOut(swatches),
+            FadeOut(rails),
             source_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
             final_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
             edit_zone.animate.set_stroke(opacity=0).set_fill(opacity=0),
@@ -557,7 +558,6 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.play(
             FadeOut(source_zone),
             FadeOut(edit_zone),
-            FadeOut(rails),
             FadeIn(fan_guides),
             FadeIn(core, scale=0.9),
             self.camera.frame.animate.set(width=9.8).move_to(RIGHT * 1.2 + DOWN * 0.04),
