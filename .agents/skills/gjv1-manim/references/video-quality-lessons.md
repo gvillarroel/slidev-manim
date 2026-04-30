@@ -34,6 +34,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Continuation scenes should preserve the previous resolved state as a compact input, reveal destination scaffolds early enough to balance the frame, and populate output blocks progressively.
 - Placeholder scaffolds should be removed or faded before text-bearing blocks appear. Do not morph placeholder panels directly into titles or list rows.
 - Compression, squeeze, clamp, and throat-gate scenes need a visibly tighter constrained phase than both source and landing states.
+- Aperture and reveal scenes should not leave the destination stranded after the source zone disappears. Recenter or rebalance the destination stage during cleanup, and carry the active accent into the landing or remove it with the guide.
 - Orbit, fan-out, and fork scenes need enough spacing in proof frames to avoid reading as collisions or loose regrouping.
 - Axis-drop cues should keep the causal drop vertical, hold it, remove it, and only then move the point along any later rail.
 - When a reviewer names a timestamp, validate that exact timestamp and the surrounding transition frames in the promoted video.

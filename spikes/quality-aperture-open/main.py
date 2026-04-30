@@ -24,7 +24,7 @@ from manim import (
     FadeOut,
     Line,
     MoveAlongPath,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
@@ -99,17 +99,17 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def slab(color: str, width: float, height: float, opacity: float = 1) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=opacity)
+def slab(color: str, width: float, height: float, opacity: float = 1) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=opacity)
 
 
 class QualityApertureOpenScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        source_zone = RoundedRectangle(width=4.1, height=4.25, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.22).move_to(LEFT * 3.0)
-        target_zone = RoundedRectangle(width=4.15, height=4.25, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.9)
+        frame = Rectangle(width=12.9, height=5.8, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
+        source_zone = Rectangle(width=4.1, height=4.25, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.22).move_to(LEFT * 3.0)
+        target_zone = Rectangle(width=4.3, height=4.25, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.7)
 
         source = VGroup(
             slab(PRIMARY_GREEN, 2.55, 0.9).move_to(LEFT * 3.3 + UP * 0.7),
@@ -117,25 +117,31 @@ class QualityApertureOpenScene(Scene):
             slab(PRIMARY_PURPLE, 1.4, 0.68).move_to(LEFT * 1.6 + DOWN * 1.0),
         )
 
-        guide = Line(LEFT * 0.95 + DOWN * 0.02, RIGHT * 0.9 + DOWN * 0.02, color=PRIMARY_ORANGE, stroke_width=6)
+        guide = Line(LEFT * 0.85 + DOWN * 0.02, RIGHT * 1.22 + DOWN * 0.02, color=PRIMARY_ORANGE, stroke_width=6)
         accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(guide.get_start())
 
-        shutter_top = slab(GRAY_200, 3.6, 1.08, opacity=0.74).move_to(RIGHT * 2.9 + UP * 0.48)
-        shutter_bottom = slab(GRAY_200, 3.6, 1.08, opacity=0.74).move_to(RIGHT * 2.9 + DOWN * 0.48)
+        target_slots = VGroup(
+            Rectangle(width=2.25, height=0.78, stroke_color=GRAY_200, stroke_width=2, fill_opacity=0).move_to(RIGHT * 2.42 + UP * 0.24),
+            Rectangle(width=1.56, height=0.58, stroke_color=GRAY_200, stroke_width=2, fill_opacity=0).move_to(RIGHT * 3.4 + DOWN * 0.2),
+            Rectangle(width=1.0, height=0.4, stroke_color=GRAY_200, stroke_width=2, fill_opacity=0).move_to(RIGHT * 2.78 + DOWN * 0.82),
+        ).set_opacity(0.45)
 
-        reveal_green = slab(PRIMARY_GREEN, 2.05, 0.72).move_to(RIGHT * 2.58 + UP * 0.02)
-        reveal_blue = slab(PRIMARY_BLUE, 1.56, 0.64).move_to(RIGHT * 3.52 + DOWN * 0.18)
-        reveal_purple = slab(PRIMARY_PURPLE, 1.08, 0.5).move_to(RIGHT * 2.98 + DOWN * 0.72)
+        shutter_top = slab(GRAY_200, 3.75, 1.32, opacity=0.78).move_to(RIGHT * 2.72 + UP * 0.62)
+        shutter_bottom = slab(GRAY_200, 3.75, 1.32, opacity=0.78).move_to(RIGHT * 2.72 + DOWN * 0.62)
 
-        final_green = Circle(radius=0.82, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.48 + UP * 0.4)
-        final_blue = Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.66 + DOWN * 0.02)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 3.0 + DOWN * 0.98)
+        reveal_green = slab(PRIMARY_GREEN, 2.12, 0.72).move_to(RIGHT * 2.42 + UP * 0.24)
+        reveal_blue = slab(PRIMARY_BLUE, 1.52, 0.62).move_to(RIGHT * 3.4 + DOWN * 0.2)
+        reveal_purple = slab(PRIMARY_PURPLE, 0.98, 0.44).move_to(RIGHT * 2.78 + DOWN * 0.82)
 
-        self.add(frame, source_zone, target_zone)
-        self.play(FadeIn(source, lag_ratio=0.08), run_time=0.7)
-        self.play(FadeIn(guide), run_time=0.14)
-        self.play(MoveAlongPath(accent, guide), run_time=0.34)
-        self.play(FadeIn(shutter_top), FadeIn(shutter_bottom), run_time=0.16)
+        final_green = Circle(radius=0.86, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 1.24 + UP * 0.44)
+        final_blue = Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 2.38 + DOWN * 0.02)
+        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 1.66 + DOWN * 0.98)
+
+        self.add(frame, source_zone, target_zone, target_slots, source)
+        self.wait(2.6)
+        self.play(FadeIn(guide), FadeIn(accent), run_time=0.8)
+        self.play(MoveAlongPath(accent, guide), run_time=1.8, rate_func=smooth)
+        self.play(FadeIn(shutter_top), FadeIn(shutter_bottom), target_slots.animate.set_opacity(0.18), run_time=1.0)
         self.play(
             AnimationGroup(
                 Transform(source[0], reveal_green.copy()),
@@ -143,31 +149,45 @@ class QualityApertureOpenScene(Scene):
                 Transform(source[2], reveal_purple.copy()),
                 lag_ratio=0.06,
             ),
-            run_time=0.6,
+            run_time=2.4,
             rate_func=smooth,
         )
+        self.wait(1.0)
         self.play(
-            shutter_top.animate.shift(UP * 0.9),
-            shutter_bottom.animate.shift(DOWN * 0.9),
-            run_time=0.26,
+            shutter_top.animate.shift(UP * 1.15),
+            shutter_bottom.animate.shift(DOWN * 1.15),
+            target_slots.animate.set_opacity(0.34),
+            run_time=2.8,
             rate_func=smooth,
         )
-        self.play(FadeOut(shutter_top), FadeOut(shutter_bottom), FadeOut(guide), run_time=0.12)
+        self.wait(1.2)
+        self.play(
+            FadeOut(shutter_top),
+            FadeOut(shutter_bottom),
+            FadeOut(guide),
+            FadeOut(target_slots),
+            source_zone.animate.set_opacity(0),
+            run_time=1.0,
+        )
         self.play(
             AnimationGroup(
                 Transform(source[0], final_green.copy()),
                 Transform(source[1], final_blue.copy()),
                 Transform(source[2], final_purple.copy()),
+                accent.animate.move_to(RIGHT * 1.62 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1),
+                target_zone.animate.move_to(RIGHT * 1.72),
                 lag_ratio=0.06,
             ),
-            run_time=0.68,
+            run_time=2.6,
             rate_func=smooth,
         )
-        self.play(accent.animate.move_to(RIGHT * 2.88 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=0.16)
-        for item in source:
-            self.play(item.animate.scale(1.05), run_time=0.12, rate_func=there_and_back)
-        self.play(FadeOut(accent), run_time=0.14)
-        self.wait(0.25)
+        self.play(
+            AnimationGroup(*(item.animate.scale(1.05) for item in source), lag_ratio=0.16),
+            run_time=1.2,
+            rate_func=there_and_back,
+        )
+        self.play(FadeOut(accent), run_time=0.8)
+        self.wait(6.8)
 
 
 def render_variant(args: _Args) -> None:

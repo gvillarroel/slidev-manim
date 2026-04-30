@@ -387,6 +387,8 @@ Do not add text before exhausting those fixes.
 - narrow the leader mid-state so it feels contained,
 - delay supports so the reveal or capture owns the beat,
 - remove the device before the resolved landing.
+- if the source zone disappears after an aperture or reveal, recenter the destination stage during cleanup so the final hold does not feel stranded in leftover negative space.
+- move or retire the active accent in the same beat as the landing. A small pulse left at the old aperture edge reads as residue once the guide disappears.
 
 ### Support and force
 

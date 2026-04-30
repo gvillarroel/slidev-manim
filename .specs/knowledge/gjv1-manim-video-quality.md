@@ -269,15 +269,21 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Aperture Open
 
 - **Hypothesis**: A neutral aperture opening can make a reveal feel authored if the shutters disappear before the resolved frame.
-- **Result**: Confirmed after tightening the shutter spacing and restoring a cleaner circular landing.
+- **Result**: Confirmed again after turning a 4.1-second draft into a 26.0-second slide-integration scene with a visible opening breath, sustained aperture proof frames, and a clean final hold.
 - **What worked**:
   - neutral shutters that create a clear before-and-after reveal state,
+  - showing source shapes and faint destination slots during the opening breath instead of starting on an empty frame,
   - a compact reveal stage inside the aperture before the final transform,
+  - carrying the active accent into the landing instead of leaving it at the old guide edge,
+  - recentering the destination stage after the source zone disappears, so the resolved hold owns the frame,
   - full shutter removal before the resolved frame,
   - a final landing that stays cleaner than the reveal mechanics.
 - **What failed first**:
+  - the draft was far below the 25-second pacing floor and had no real final hold,
   - the first reveal still looked like a normal transition with extra props,
   - the reveal shapes stayed too close to the final state,
+  - the target cluster initially stayed too far right after source cleanup,
+  - the accent dot briefly read as residue when it did not travel with the landing,
   - the aperture needed stronger opening separation to feel intentional.
 
 ## Quality Snap Recoil
@@ -894,6 +900,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 141. Animated local backing panels should get explicit z-order below actors and pulses. Otherwise a panel opacity or scale animation can end up visually washing over the final colored mobjects.
 142. Negative-space final holds should remove abandoned source containers. Empty panels read as residue, while plain quiet space lets the resolved active zone own the frame.
 143. In sequential negative-space transfers, retire each completed route scaffold as soon as its handoff lands. Keeping all route lines until the final cleanup can make later proof frames read as guide residue rather than intentional quiet space.
+144. In aperture reveals, move or fade the active accent with the landing cleanup. A pulse left at the former shutter edge reads as residue once the guide disappears.
+145. When a reveal removes the source zone, recenter or rebalance the destination stage before the final hold. Otherwise the final cluster can feel stranded in leftover source-to-target layout space.
 
 # Reusable Process
 
