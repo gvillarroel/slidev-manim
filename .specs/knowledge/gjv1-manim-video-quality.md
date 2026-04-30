@@ -570,16 +570,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Cradle Catch
 
 - **Hypothesis**: A support-assisted catch can make a landing feel more designed if the support forms clearly sit underneath the dominant form before the final resolve.
-- **Result**: Confirmed after lowering the blue and purple supports, shrinking the green form, and keeping a sampled frame where the green shape visibly rests above the cradle.
+- **Result**: Confirmed again after rebuilding the draft into a 28.8-second slide-integration scene with visible opening structure, a held cradle proof frame, and a clean final hold.
 - **What worked**:
+  - faint cradle slots and a shallow arc in the opening breath, so the target zone read as a pending catch instead of empty space,
   - a blue left support and purple right support that read as the base of a shallow cradle,
   - a smaller green form that sits above those supports instead of flattening the whole group,
-  - one guide that suggests descent into the cradle without turning into the main subject,
-  - a resolved landing that removes the cradle logic after the catch has been established.
+  - one guide and accent that suggest descent into the cradle without turning into the main subject,
+  - a resolved landing that removes the cradle logic and backing panels after the catch has been established,
+  - separating the final support dots downward and outward enough that the stricter crowding audit no longer reads the resolved hold as actor contact.
 - **What failed first**:
+  - the draft was only 3.13 seconds and had no slide-integration pacing,
   - the first cradle arrangement looked too much like a generic three-part stack,
   - the green form was too large and visually collapsed the support relationship,
-  - the supports needed to sit lower to read as a catch from below.
+  - the supports needed to sit lower to read as a catch from below,
+  - keeping a pale target panel behind the final cluster made crowding checks ambiguous even when the frame looked intentional.
 
 ## Quality Ramp Lift
 
@@ -830,7 +834,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 56. Sling-style motion only reads when the tether looks taut and the dominant form is visibly stretched in the pullback frame.
 57. The support anchor in a sling composition should sit far enough from the pulled form to create visible stored tension before release.
 58. A cradle catch works better when the support forms stay lower than the dominant form and clearly define the underside of the catch.
-59. If the dominant form in a cradle is too large, the catch stops reading as support and collapses into a generic stacked cluster.
+59. If the dominant form in a cradle is too large, the catch stops reading as support and collapses into a generic stacked cluster. After the catch proof frame, move support dots lower and outward and remove backing panels so the resolved hold keeps clear actor-to-actor spacing.
 60. Ramp-based motion works better when the support line is long enough to read as a surface, not just a directional cue.
 61. In a ramp lift, the useful proof frame is the mid-lift beat where the leader visibly aligns with the ramp rather than the final landing.
 62. A clamp close only reads when the side bars are near enough to create visible pressure around the leader.

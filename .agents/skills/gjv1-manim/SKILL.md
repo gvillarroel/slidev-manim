@@ -399,6 +399,7 @@ Do not add text before exhausting those fixes.
 - keep anchors, pivots, or bumpers visibly separate from the leader.
 - for bumper deflect scenes, let the leader own a held compression frame before supports arrive, then move supports into their separate release lanes before the final morph so they do not cross through each other.
 - retire passive destination slots or scaffolds before the deflected landing. Once the bumper has explained the turn, lingering outlines can read as actor-to-outline crowding instead of useful structure.
+- for cradle catch scenes, hold one frame where the dominant form visibly rests above lower support pads, then separate the final support dots downward and outward. Remove cradle arcs, slots, and backing panels before the final hold so the catch does not become actor-to-actor crowding.
 
 ### Landing and arrangement
 

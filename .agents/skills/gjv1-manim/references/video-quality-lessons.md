@@ -40,6 +40,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Edge-tension scenes read best when the destination edge exists as a temporary pressure surface before arrival, the overshoot is held against it in a proof frame, and abandoned source panels disappear before the final hold.
 - Axis-drop cues should keep the causal drop vertical, hold it, remove it, and only then move the point along any later rail.
 - Bumper deflect scenes read cleaner when the leader owns a held compression frame, supports move into separate release lanes before the final morph, and passive destination slots disappear before the landing.
+- Cradle catch scenes need a held proof frame where lower support pads visibly receive the dominant form. After that proof, separate support dots downward and outward and remove cradle/backing scaffolds so the resolved hold keeps clear actor-to-actor spacing.
 - When a reviewer names a timestamp, validate that exact timestamp and the surrounding transition frames in the promoted video.
 - Poster images must be updated when the terminal video state changes.
 
