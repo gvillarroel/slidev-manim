@@ -630,11 +630,16 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - a proof frame where the blue support, purple support, and accent define the relay before the green form fully joins,
   - a delayed green arrival so the support handoff has its own beat,
   - showing the receiver pads and faint guide legs during the opening breath, so the empty target side reads as prepared structure instead of dead space,
+  - using separated corner-bracket receiver pads with real clearance around settled actors, so strict crowding review reads them as prepared pockets instead of actor-to-outline collisions,
+  - shortening the final relay leg into a freestanding gate between support stages when a full line would pass under the arriving green actor,
+  - fading the traveling baton before the rectangle-to-circle cleanup and using a perimeter terminal pulse, which keeps the final regroup free of stray accent residue,
   - removing the source frame, pads, and relay lines before the final morph, then recentering the resolved cluster so the long hold does not inherit the old left-to-right layout.
 - **What failed first**:
   - the original relay read too much like a normal guide line,
   - the green form arrived too early and hid the handoff,
   - the useful proof frame was earlier than the first convenient landing sample,
+  - closed receiver outlines around support actors created strict actor-to-outline clearance failures,
+  - the third relay route crossed too close to the arriving green actor until it became a short gate cue,
   - the first long render cleared the mechanism but failed off-center audits after the source scaffold disappeared.
 
 ## Quality Sling Release

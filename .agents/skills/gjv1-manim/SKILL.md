@@ -373,6 +373,9 @@ Do not add text before exhausting those fixes.
 - preserve a readable entrance, bridge, slot, or crossing,
 - split one path into explicit legs when the handoff must be staged.
 - for relay handoffs, show receiver pads or faint route legs during the opening breath, hold the support-to-support proof before the dominant form moves, then remove relay scaffolds and recenter the final cluster after the source zone disappears.
+- for relay handoffs, prefer separated bracket pads with real clearance around settled actors. Closed receiver rectangles can read as actor-to-outline crowding in strict proof-frame review.
+- if a relay leg would cross under an arriving actor, shorten it into a freestanding gate or entrance cue between stages rather than drawing the route into the actor.
+- fade the traveling baton before cleanup morphs, then use a perimeter pulse or halo for the terminal artifact so the final hold does not inherit a stray accent dot.
 - for slot-docking scenes, hold one proof frame where the dominant form is visibly compressed inside an open receiver while support forms sit outside the entrance. Remove the slot before the resolved landing, and recenter the final stage if the source zone disappears.
 - for bridge-span scenes, keep rails visible above and below the dominant form in the proof frame. After removing the source zone, recenter the target stage and resolved cluster so the final hold does not stay in the old transfer layout.
 - for arc handoffs, let the dominant form visibly ride the curve before support forms move. Use faint destination slots during the opening breath, then retire the source zone and recenter the resolved cluster after cleanup.
