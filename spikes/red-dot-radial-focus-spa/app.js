@@ -62,8 +62,12 @@ const COLORS = {
   lineGray: "#cfcfcf",
 };
 
+const ROTATION_LIFT = -58;
+const ROTATION_DRIFT_X = -52;
+
 const points = {
   start: { x: 332, y: 450 },
+  ingress: { x: 464, y: 450 },
   hub: { x: 824, y: 450 },
 };
 
@@ -264,7 +268,7 @@ function renderAppearance(progress) {
 
 function renderFanout(progress) {
   const travelProgress = clamp(progress / 0.28, 0, 1);
-  const position = mixPoint(points.start, points.hub, easeInOut(travelProgress));
+  const position = mixPoint(points.ingress, points.hub, easeInOut(travelProgress));
   setDot(position, lerp(19, 18, progress), lerp(82, 112, progress), 1, 0.28 + pulseWave(progress, 1.6) * 0.12);
   setOpacity(narrativeSpine, 0.24);
   setTrailWindow(190 + progress * 330, 0.78);
@@ -292,22 +296,23 @@ function renderFanout(progress) {
 }
 
 function renderFocus(progress) {
+  const focusIn = easeOut(clamp(progress / 0.32, 0, 1));
   setDot(points.hub, 18, 114, 1, 0.22 + pulseWave(progress, 2) * 0.08);
-  setOpacity(narrativeSpine, 0.08);
-  setTrailWindow(160, 0.18);
-  [hubHalo, hubShell, hubRing].forEach((element) => setOpacity(element, element === hubRing ? 0.88 : 0.52));
+  setOpacity(narrativeSpine, lerp(0.24, 0.08, focusIn));
+  setTrailWindow(lerp(520, 160, focusIn), lerp(0.78, 0.18, focusIn));
+  [hubHalo, hubShell, hubRing].forEach((element) => setOpacity(element, element === hubRing ? lerp(0.62, 0.88, focusIn) : lerp(0.62, 0.52, focusIn)));
 
-  [futureSpokeA, futureSpokeB, futureSpokeC, slotA, slotB, slotC].forEach((element) => setOpacity(element, 0.06));
-  setLineEnd(spokeA, localTargets.a, 0.96, COLORS.primaryRed, 6);
-  setLineEnd(spokeB, localTargets.b, 0.72, COLORS.darkGray, 4.5);
-  setLineEnd(spokeC, localTargets.c, 0.72, COLORS.darkGray, 4.5);
+  [futureSpokeA, futureSpokeB, futureSpokeC, slotA, slotB, slotC].forEach((element) => setOpacity(element, lerp(0.36, 0.06, focusIn)));
+  setLineEnd(spokeA, localTargets.a, lerp(1, 0.96, focusIn), focusIn > 0.22 ? COLORS.primaryRed : COLORS.darkGray, lerp(4.5, 6, focusIn));
+  setLineEnd(spokeB, localTargets.b, lerp(1, 0.72, focusIn), COLORS.darkGray, 4.5);
+  setLineEnd(spokeC, localTargets.c, lerp(1, 0.72, focusIn), COLORS.darkGray, 4.5);
   setOpacity(cardA, 1);
-  setOpacity(cardB, 0.84);
-  setOpacity(cardC, 0.84);
+  setOpacity(cardB, lerp(1, 0.84, focusIn));
+  setOpacity(cardC, lerp(1, 0.84, focusIn));
 
   setGroupTransform(focusFrame, localTargets.a.x + 26, localTargets.a.y - 12, 1, 0);
-  setOpacity(focusFrame, 1);
-  setLineEnd(focusBeam, localTargets.a, 1, COLORS.primaryRed, 6);
+  setOpacity(focusFrame, focusIn);
+  setLineEnd(focusBeam, localTargets.a, focusIn, COLORS.primaryRed, 6);
 
   const chipOpacity = clamp((progress - 0.18) / 0.24, 0, 1);
   const chipScale = lerp(0.9, 1, easeOut(chipOpacity));
@@ -316,23 +321,27 @@ function renderFocus(progress) {
 
 function renderRotation(progress) {
   const rotation = lerp(0, 58, easeInOut(progress));
+  const lift = lerp(0, ROTATION_LIFT, easeInOut(progress));
+  const driftX = lerp(0, ROTATION_DRIFT_X, easeInOut(progress));
+  const hubPosition = { x: points.hub.x + driftX, y: points.hub.y + lift };
+  const rotationIn = easeOut(clamp(progress / 0.24, 0, 1));
   const handoff = clamp((progress - 0.16) / 0.62, 0, 1);
   const focusLocal = mixPoint(localTargets.a, localTargets.b, handoff);
   const chipLocal = chipSets.a.map((point, index) => mixPoint(point, chipSets.b[index], handoff));
   const chipAnchor = mixPoint(chipAnchors.a, chipAnchors.b, handoff);
 
-  setDot(points.hub, 18, 108, 1, 0.2 + pulseWave(progress, 2.2) * 0.08);
+  setDot(hubPosition, 18, 108, 1, 0.2 + pulseWave(progress, 2.2) * 0.08);
   setOpacity(narrativeSpine, 0.04);
   setTrailWindow(80, 0.08);
-  setGroupTransform(orbitRig, points.hub.x, points.hub.y, 1, rotation);
+  setGroupTransform(orbitRig, hubPosition.x, hubPosition.y, 1, rotation);
 
   [hubHalo, hubShell, hubRing].forEach((element) => setOpacity(element, element === hubRing ? 0.92 : 0.5));
   setLineEnd(spokeA, localTargets.a, 0.78, handoff < 0.4 ? COLORS.primaryRed : COLORS.darkGray, handoff < 0.4 ? 6 : 4.5);
-  setLineEnd(spokeB, localTargets.b, 0.96, handoff > 0.52 ? COLORS.primaryRed : COLORS.darkGray, handoff > 0.52 ? 6 : 4.5);
-  setLineEnd(spokeC, localTargets.c, 0.74, COLORS.darkGray, 4.5);
-  setOpacity(cardA, 0.92);
-  setOpacity(cardB, 1);
-  setOpacity(cardC, 0.88);
+  setLineEnd(spokeB, localTargets.b, lerp(0.72, 0.96, rotationIn), handoff > 0.52 ? COLORS.primaryRed : COLORS.darkGray, handoff > 0.52 ? 6 : 4.5);
+  setLineEnd(spokeC, localTargets.c, lerp(0.72, 0.74, rotationIn), COLORS.darkGray, 4.5);
+  setOpacity(cardA, lerp(1, 0.92, rotationIn));
+  setOpacity(cardB, lerp(0.84, 1, rotationIn));
+  setOpacity(cardC, lerp(0.84, 0.88, rotationIn));
 
   setGroupTransform(focusFrame, focusLocal.x + 26, focusLocal.y - 12, 1, 0);
   setOpacity(focusFrame, 1);
@@ -344,8 +353,9 @@ function renderRotation(progress) {
 }
 
 function renderResolution(progress) {
+  const resolveIn = easeOut(clamp(progress / 0.36, 0, 1));
   const settleRotation = lerp(58, 24, easeInOut(progress));
-  const settleOffset = mixPoint({ x: 0, y: 0 }, { x: -18, y: -8 }, easeOut(progress));
+  const settleOffset = mixPoint({ x: ROTATION_DRIFT_X, y: ROTATION_LIFT }, { x: -18, y: -8 }, easeOut(progress));
 
   setDot({ x: points.hub.x + settleOffset.x, y: points.hub.y + settleOffset.y }, 17, 96, 1, 0.18 + pulseWave(progress, 1.4) * 0.06);
   setOpacity(narrativeSpine, 0);
@@ -356,20 +366,19 @@ function renderResolution(progress) {
   setLineEnd(spokeB, localTargets.b, 0.58, COLORS.darkGray, 4);
   setLineEnd(spokeC, localTargets.c, 0.58, COLORS.darkGray, 4);
   setOpacity(cardA, 0.92);
-  setOpacity(cardB, 0.92);
-  setOpacity(cardC, 0.92);
-  setOpacity(focusBeam, clamp(0.42 - progress * 0.7, 0, 1));
-  setOpacity(focusFrame, clamp(0.34 - progress * 0.6, 0, 1));
-  [chip1, chip2, chip3, chipLine1, chipLine2, chipLine3].forEach((element) => {
-    setOpacity(element, clamp(0.4 - progress * 0.8, 0, 1));
-  });
+  setOpacity(cardB, lerp(1, 0.92, resolveIn));
+  setOpacity(cardC, lerp(0.88, 0.92, resolveIn));
+  setLineEnd(focusBeam, localTargets.b, clamp(1 - progress * 1.35, 0, 1), COLORS.primaryRed, 6);
+  setGroupTransform(focusFrame, localTargets.b.x + 26, localTargets.b.y - 12, 1, 0);
+  setOpacity(focusFrame, clamp(1 - progress * 1.25, 0, 1));
+  setChipCloud(chipAnchors.b, chipSets.b, clamp(1 - progress * 1.45, 0, 1), 1);
 
   setOpacity(hubHalo, 0.16);
   setOpacity(hubShell, 0.26);
   setOpacity(hubRing, 0.82);
-  setOpacity(resolutionGroup, 1);
-  setOpacity(resolutionShell, 0.48);
-  setOpacity(resolutionOrbit, 0.58);
+  setOpacity(resolutionGroup, resolveIn);
+  setOpacity(resolutionShell, 0.48 * resolveIn);
+  setOpacity(resolutionOrbit, 0.58 * resolveIn);
 }
 
 function render(elapsed) {
