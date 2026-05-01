@@ -86,10 +86,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Layered Reveal
 
 - **Hypothesis**: Asymmetry and layered depth make the result feel more intentional than a centered generic diagram.
-- **Result**: Confirmed again after expanding the short draft into a 25.4-second slide-integration scene with visible opening structure, hollow destination slots, a red reveal gate, staged layer handoffs, cleanup, and a centered final hold.
+- **Result**: Confirmed again after expanding the short draft into a 25.5-second slide-integration scene with visible opening structure, hollow destination slots, lane-sized red gate apertures, staged layer handoffs, cleanup, and a centered final hold.
 - **What worked**:
   - showing source cards, faint destination slots, guide lanes, and the reveal gate before the opening breath, so the first sampled frame is already meaningful,
-  - using one yellow pulse per layer and then transforming only that active layer, which keeps the mechanism readable in still frames,
+  - compressing each active layer into a lane-sized aperture before releasing it to the target, which makes the reveal device visible in still frames instead of looking like a passive divider,
+  - using one active route per layer and then transforming only that active layer, which keeps the mechanism readable in still frames,
+  - widening the resolved cluster and recentering the final panel after support cleanup, so the hold reads as a resolved composition rather than a small knot in leftover transfer space,
   - removing slots, guides, gate, ghost history, and source field before the final hold, so the resolved cluster owns the last frame,
   - shrinking neutral backing strips until the resting mobject audit cleared edge margins.
 - **What failed first**:

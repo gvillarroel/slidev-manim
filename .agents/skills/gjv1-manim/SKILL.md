@@ -395,6 +395,7 @@ Do not add text before exhausting those fixes.
 ### Reveal and conceal
 
 - keep the reveal device visible during the proof frame,
+- for layered reveals, give each lane a visible aperture or slot and compress the active layer into that aperture before releasing it. A passive divider beside a direct transform reads as a route marker, not as the cause of the reveal.
 - narrow the leader mid-state so it feels contained,
 - delay supports so the reveal or capture owns the beat,
 - remove the device before the resolved landing.

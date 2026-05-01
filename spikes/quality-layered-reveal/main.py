@@ -148,6 +148,18 @@ class QualityLayeredRevealScene(Scene):
         reveal_gate[0].move_to(LEFT * 0.18 + DOWN * 0.18)
         reveal_gate[1].move_to(RIGHT * 0.18 + DOWN * 0.18)
         reveal_gate[2].move_to(DOWN * 0.18)
+        gate_slots = VGroup(
+            Rectangle(width=0.62, height=0.62, stroke_color=PRIMARY_RED, stroke_width=2, fill_opacity=0).move_to(
+                DOWN * -0.05 + UP * 1.0
+            ),
+            Rectangle(width=0.62, height=0.62, stroke_color=PRIMARY_RED, stroke_width=2, fill_opacity=0).move_to(
+                DOWN * 0.05
+            ),
+            Rectangle(width=0.62, height=0.62, stroke_color=PRIMARY_RED, stroke_width=2, fill_opacity=0).move_to(
+                DOWN * 1.2
+            ),
+        )
+        gate_slots.set_stroke(opacity=0.32)
 
         left_stack = VGroup(
             card(PRIMARY_GREEN).move_to(LEFT * 3.95 + UP * 1.0),
@@ -168,9 +180,9 @@ class QualityLayeredRevealScene(Scene):
         )
         target_slots.set_stroke(opacity=0.55)
         final_cluster = VGroup(
-            orb(PRIMARY_GREEN, 0.7).move_to(RIGHT * 0.55 + UP * 0.72),
-            orb(PRIMARY_BLUE, 0.56).move_to(RIGHT * 1.55 + DOWN * 0.1),
-            orb(PRIMARY_PURPLE, 0.46).move_to(LEFT * 0.25 + DOWN * 0.78),
+            orb(PRIMARY_GREEN, 0.72).move_to(RIGHT * 0.25 + UP * 0.78),
+            orb(PRIMARY_BLUE, 0.56).move_to(RIGHT * 1.45 + DOWN * 0.16),
+            orb(PRIMARY_PURPLE, 0.46).move_to(LEFT * 0.85 + DOWN * 0.82),
         )
 
         guide_lines = VGroup(
@@ -184,16 +196,39 @@ class QualityLayeredRevealScene(Scene):
         guide_lines.set_z_index(1)
         target_slots.set_z_index(2)
         reveal_gate.set_z_index(3)
+        gate_slots.set_z_index(3)
 
-        self.add(back_strip, front_panel, source_field, target_slots, ghost_stack, guide_lines, reveal_gate, left_stack)
+        self.add(back_strip, front_panel, source_field, target_slots, ghost_stack, guide_lines, reveal_gate, gate_slots, left_stack)
         self.wait(2.5)
 
         for index, segment in enumerate(guide_lines):
             active_segment = segment.copy().set_opacity(1).set_z_index(6)
-            self.play(Create(active_segment), run_time=1.5)
+            active_aperture = Rectangle(
+                width=0.68,
+                height=0.68,
+                stroke_width=0,
+                fill_color=PRIMARY_RED,
+                fill_opacity=0.2,
+            ).move_to(gate_slots[index])
+            active_aperture.set_z_index(3)
+            compressed_layer = card(
+                [PRIMARY_GREEN, PRIMARY_BLUE, PRIMARY_PURPLE][index],
+                width=0.72,
+                height=0.58,
+            ).move_to(gate_slots[index])
+            compressed_layer.set_z_index(6)
+            self.play(
+                Create(active_segment),
+                FadeIn(active_aperture),
+                Transform(left_stack[index], compressed_layer),
+                run_time=1.35,
+                rate_func=smooth,
+            )
+            self.wait(0.25)
             self.play(
                 Transform(left_stack[index], right_cluster[index]),
                 FadeOut(active_segment),
+                FadeOut(active_aperture),
                 run_time=1.45,
                 rate_func=smooth,
             )
@@ -203,6 +238,7 @@ class QualityLayeredRevealScene(Scene):
             FadeOut(guide_lines),
             FadeOut(target_slots),
             FadeOut(reveal_gate),
+            FadeOut(gate_slots),
             FadeOut(ghost_stack),
             FadeOut(source_field),
             FadeOut(back_strip),
@@ -215,7 +251,7 @@ class QualityLayeredRevealScene(Scene):
                 Transform(left_stack[2], final_cluster[2]),
                 lag_ratio=0.12,
             ),
-            front_panel.animate.set_width(7.2).set_height(3.5).move_to(RIGHT * 0.65 + DOWN * 0.05),
+            front_panel.animate.set_width(7.8).set_height(3.7).move_to(RIGHT * 0.25 + DOWN * 0.02),
             run_time=2.2,
             rate_func=smooth,
         )
