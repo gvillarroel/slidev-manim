@@ -11,6 +11,30 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Time Rail Narrative Family
+
+- **Decision**: Name the timeline-like alternative to the red guide dot `time rail`.
+- **Rationale**: The left-side vertical line reads as a line of time, so it can become the narrator instead of a separate moving point. Progress should be shown by the rail itself filling, reaching ticks, and causing cards or branches to resolve.
+- **Reusable rule**:
+  - show the full pending rail, ticks, slots, or branches in the first frame,
+  - grow the active primary-red rail segment through time,
+  - let each destination resolve only after the rail reaches its tick,
+  - avoid adding a separate red dot unless it has a different semantic job,
+  - soften branch or slot scaffolds after their causal beat so the final hold reads as resolved.
+- **New exploration spikes**:
+  - `spikes/time-rail-sequence/` tests time as a vertical progress narrator for sequential cards,
+  - `spikes/time-rail-branching/` tests time as a spine that emits consequence branches,
+  - `spikes/time-rail-point-one/` tests the continuation from agenda into the first detailed point.
+- **Continuation rule**:
+  - treat the first pass as the agenda,
+  - let the rail reach point 1 before any detail appears,
+  - soften future agenda items so the viewer understands the presentation is now inside point 1,
+  - open the active card into a detail panel while keeping the rail fixed as orientation.
+- **Detail-panel correction**:
+  - avoid diagonal red connectors, red row-outline boxes, and extra terminal red rules after point 1 opens,
+  - keep red reserved for the rail, active tick, and active card accent,
+  - use quiet gray row cues when the detail panel needs progressive focus.
+
 ## Split Screen Sync
 
 - **Hypothesis**: A split-screen embed test reads more like a real synchronization mechanism when both panes are visible from the first frame, each receiver slot is prepared before the pulse arrives, and the route pulse stops at the slot entrance instead of sitting inside a hollow outline.
@@ -192,8 +216,11 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - one soft active window on the left for the source state,
   - faint destination slots during the opening breath, so the right-side negative space read as reserved instead of empty,
   - staged one-route-at-a-time pulse travel, with each source tile transforming only after its path was activated,
+  - removing each completed route scaffold once and avoiding a later parent-group `FadeOut`, because fading the parent group after child cleanup reintroduced faint route lines as residue,
   - explicit layer ordering for animated backing panels, which kept the destination panel from washing over the final colored actors,
   - removing the abandoned source panel before the resolved hold, leaving negative space instead of a ghost container,
+  - recentering the resolved destination cluster after source cleanup, so the final hold kept intentional quiet space without stranding the active zone on the old right-side lane,
+  - using a brief perimeter focus cue instead of a lingering accent dot, then removing it before the final hold,
   - a delayed transfer to a second active window on the right,
   - a landing cluster that stayed compact but not timid,
   - large negative space that remained intentional instead of empty.
@@ -202,7 +229,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - the active zone was too weak to justify the empty space around it,
   - the first render was only 6.3 seconds and opened before the source actors were visible,
   - animating the destination backing panel without explicit z-order let it overlay and desaturate the final actors,
-  - leaving a faded source panel in the final hold read as residue rather than deliberate quiet space.
+  - leaving a faded source panel in the final hold read as residue rather than deliberate quiet space,
+  - fading the route scaffold parent after fading individual child guides made the routes briefly reappear during cleanup.
 
 ## Quality Mask Transfer
 

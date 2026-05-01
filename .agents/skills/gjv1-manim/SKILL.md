@@ -49,6 +49,18 @@ Use `sequence handoff` for protocol or Mermaid sequence-diagram animations.
 - Make return paths visibly different from requests, usually red and dashed, while normal request routes stay black or gray. Use additional route colors only when the user asks for a colored protocol view.
 - Give the resolved frame one terminal artifact, such as a token badge, so the final hold has a center of interest after the protocol mechanics finish.
 
+# Time Rail Scenes
+
+Use `time rail` when a left-side timeline or spine should act as the narrator instead of a traveling red dot.
+
+- Treat the rail as elapsed time: show the full pending spine, ticks, slots, or branches in the first frame, then let the active red segment grow through it.
+- Avoid adding a separate guide dot when the rail itself can carry progression. The active segment, tick state, and destination slot should explain causality.
+- Keep the left rail visually stable while content resolves to the right; the viewer should read the rail as an organizing timeline, not as a decorative divider.
+- Branches should emit from the rail only after the active segment reaches the tick. Soften branch guides after their card lands so the final frame does not look mid-transition.
+- Use a terminal rule or final rail state as the resolved artifact. Do not leave disconnected pulses at former tick or branch positions.
+- To continue from agenda into content, keep the rail fixed, activate one tick, soften or remove future agenda items, and let the active card open into a detail panel. The first detailed beat should feel like the selected point now owns the stage, while the rail preserves orientation.
+- Avoid secondary red connector lines, row-outline boxes, or terminal rules inside the detail panel. If the rail is the narrator, extra red lines away from it read as annotation artifacts; use quiet gray local cues for detail rows.
+
 # Data and Formula Scenes
 
 Use `side formula handoff` for table transformations where two or more source cells create a derived value.
@@ -150,6 +162,7 @@ Classify the experiment before coding. This determines what proof frame to sampl
 - `relay handoff`
 - `sequence handoff`
 - `side formula handoff`
+- `time rail`
 - `parallax transfer`
 - `slot docking`
 
@@ -364,6 +377,8 @@ Do not add text before exhausting those fixes.
 - remove any device that remains after it has already explained the motion.
 - if a guide is not still causing the motion, remove it instead of lowering opacity and letting it linger.
 - for sequential negative-space transfers, retire each completed route scaffold as soon as its handoff lands. Keeping all route lines visible until the global cleanup can make later proof frames look like residue instead of intentional quiet space.
+- after fading individual route guides, remove the parent scaffold group instead of fading that parent later. A late parent `FadeOut` can visually reintroduce already-retired child routes during cleanup.
+- after a source container disappears, recenter or rebalance the resolved destination cluster. Negative space should feel intentionally quiet, not like the active zone is stranded in the old transfer lane.
 - remove phase scaffolds in the same cleanup beat as the mechanism they support. Dashed rails, setup guides, and source-zone hints can read as accidental residue if they survive into the next proof frame.
 - for imported SVG remaps, do not assume `ReplacementTransform` is safe across incompatible geometry.
 
