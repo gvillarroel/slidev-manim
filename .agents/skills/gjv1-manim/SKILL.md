@@ -104,6 +104,7 @@ Load only the resource needed for the current task:
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
 - For continuing a resolved composition into two generated project blocks, read [references/continuation-project-breakdowns.md](references/continuation-project-breakdowns.md).
+- For repeatable non-standard connector styles such as `cellular sprout line`, `organic fractal line`, and `scale spine line`, read [references/motion-line-styles.md](references/motion-line-styles.md).
 - For repo-wide video review, promoted-output counting, and contact sheets, read [references/repo-wide-video-audit.md](references/repo-wide-video-audit.md).
 - For a copyable new spike shape, start from [examples/quality-spike-template.py](examples/quality-spike-template.py).
 - For a reusable all-video contact sheet command, run or adapt [examples/contact-sheet-review.py](examples/contact-sheet-review.py).
@@ -184,6 +185,12 @@ Classify the experiment before coding. This determines what proof frame to sampl
 - `staged convergence`
 - `fork diverge`
 - `axis drop`
+
+### Procedural line styles
+
+- `cellular sprout line`
+- `organic fractal line`
+- `scale spine line`
 
 If the experiment fits more than one family, choose the one whose mechanism must survive in a still frame.
 

@@ -1,0 +1,11 @@
+%%{init: {"theme":"base", "flowchart":{"htmlLabels":false}, "themeVariables":{"fontFamily":"Open Sans, Arial, sans-serif","textColor":"#333e48"}}}%%
+flowchart TB
+    mmd[diagram.mmd] --- cli[mmdc]
+    cli --- svg[diagram.svg]
+    svg --- manim[SVGMobject]
+
+    style mmd fill:#45842a,stroke:#45842a,color:#ffffff
+    style cli fill:#007298,stroke:#007298,color:#ffffff
+    style svg fill:#652f6c,stroke:#652f6c,color:#ffffff
+    style manim fill:#9e1b32,stroke:#9e1b32,color:#ffffff
+    linkStyle default stroke:#e77204,stroke-width:5px,fill:none

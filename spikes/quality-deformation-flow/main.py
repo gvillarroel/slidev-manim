@@ -18,23 +18,21 @@ from manim import (
     DOWN,
     LEFT,
     ORIGIN,
+    PI,
     RIGHT,
     UP,
-    AnimationGroup,
     Circle,
+    Create,
     FadeIn,
     FadeOut,
-    GrowFromCenter,
     Line,
-    MoveAlongPath,
+    Rectangle,
     RoundedRectangle,
     Scene,
     Transform,
     VGroup,
     WHITE,
-    linear,
     smooth,
-    there_and_back,
 )
 
 SPIKE_DIR = Path(__file__).resolve().parent
@@ -50,6 +48,7 @@ PRIMARY_GREEN = "#45842a"
 PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
 GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b7b7b7"
 GRAY_700 = "#4f4f4f"
 
 
@@ -129,75 +128,133 @@ def capsule(color: str, width: float = 2.1, height: float = 0.96) -> VGroup:
     return VGroup(shadow, body)
 
 
-def node(color: str, radius: float = 0.58) -> VGroup:
+def node(color: str, radius: float = 0.54) -> VGroup:
     shadow = Circle(radius=radius, stroke_width=0, fill_color=GRAY_200, fill_opacity=0.4).shift(DOWN * 0.08 + RIGHT * 0.08)
     body = Circle(radius=radius, stroke_width=0, fill_color=color, fill_opacity=1)
     return VGroup(shadow, body)
+
+
+def slot(radius: float = 0.72) -> VGroup:
+    mark_style = {
+        "color": GRAY_300,
+        "stroke_width": 2,
+        "stroke_opacity": 0.68,
+    }
+    vertical = 0.46
+    gap = 0.22
+    return VGroup(
+        Line(LEFT * radius + UP * vertical, LEFT * radius + UP * gap, **mark_style),
+        Line(LEFT * radius + DOWN * gap, LEFT * radius + DOWN * vertical, **mark_style),
+        Line(RIGHT * radius + UP * vertical, RIGHT * radius + UP * gap, **mark_style),
+        Line(RIGHT * radius + DOWN * gap, RIGHT * radius + DOWN * vertical, **mark_style),
+    )
 
 
 class QualityDeformationFlowScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        guide = RoundedRectangle(
-            width=13.2,
-            height=5.4,
-            corner_radius=0.32,
-            stroke_color=GRAY_200,
-            stroke_width=2,
-            fill_color=WHITE,
-            fill_opacity=0,
-        )
-
-        start_positions = [LEFT * 4.6 + DOWN * 0.2, LEFT * 2.2 + DOWN * 0.2, ORIGIN + DOWN * 0.2]
-        end_positions = [RIGHT * 2.85 + UP * 1.2, RIGHT * 2.85 + DOWN * 0.05, RIGHT * 2.85 + DOWN * 1.3]
+        layout_shift = RIGHT * 1.35
+        start_positions = [
+            LEFT * 4.9 + DOWN * 0.05 + layout_shift,
+            LEFT * 2.55 + DOWN * 0.05 + layout_shift,
+            LEFT * 0.2 + DOWN * 0.05 + layout_shift,
+        ]
+        end_positions = [RIGHT * 2.25 + UP * 1.75 + layout_shift, RIGHT * 2.25 + layout_shift, RIGHT * 2.25 + DOWN * 1.75 + layout_shift]
+        throat_center = RIGHT * 0.9 + layout_shift
+        throat_positions = [throat_center + UP * 0.78, throat_center, throat_center + DOWN * 0.78]
         colors = [PRIMARY_GREEN, PRIMARY_BLUE, PRIMARY_PURPLE]
 
         source_capsules = VGroup(*[capsule(color).move_to(pos) for color, pos in zip(colors, start_positions, strict=True)])
         target_nodes = VGroup(*[node(color).move_to(pos) for color, pos in zip(colors, end_positions, strict=True)])
+        target_slots = VGroup(*[slot().move_to(pos) for pos in end_positions])
 
         source_links = VGroup(
             Line(source_capsules[0].get_right(), source_capsules[1].get_left(), color=PRIMARY_ORANGE, stroke_width=7),
             Line(source_capsules[1].get_right(), source_capsules[2].get_left(), color=PRIMARY_ORANGE, stroke_width=7),
         )
 
+        link_clearance = 0.28
+        link_offset = 0.54 + link_clearance
         target_links = VGroup(
-            Line(target_nodes[0].get_bottom(), target_nodes[1].get_top(), color=PRIMARY_ORANGE, stroke_width=6),
-            Line(target_nodes[1].get_bottom(), target_nodes[2].get_top(), color=PRIMARY_ORANGE, stroke_width=6),
+            Line(end_positions[0] + DOWN * link_offset, end_positions[1] + UP * link_offset, color=PRIMARY_ORANGE, stroke_width=6),
+            Line(end_positions[1] + DOWN * link_offset, end_positions[2] + UP * link_offset, color=PRIMARY_ORANGE, stroke_width=6),
         )
+        target_links.set_z_index(1)
+        target_nodes.set_z_index(3)
+        target_slots.set_z_index(0)
 
-        pulse = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1)
-        pulse.move_to(source_capsules[0].get_left() + RIGHT * 0.3)
-        flow_path = Line(source_capsules[0].get_left() + RIGHT * 0.25, source_capsules[2].get_right() + RIGHT * 0.65)
+        source_links.set_z_index(1)
+        source_capsules.set_z_index(3)
 
-        self.add(guide)
+        source_rail = Line(LEFT * 5.95 + DOWN * 0.98 + layout_shift, LEFT * 0.95 + DOWN * 0.98 + layout_shift, color=GRAY_200, stroke_width=3)
+        route_in = Line(source_capsules[2].get_right() + RIGHT * 0.18, throat_center + LEFT * 0.36, color=GRAY_200, stroke_width=3)
+        route_out = Line(throat_center + RIGHT * 0.36, end_positions[1] + LEFT * 0.78, color=GRAY_200, stroke_width=3)
+        routes = VGroup(source_rail, route_in, route_out)
+        routes.set_opacity(0.74)
+
+        throat_left = Rectangle(
+            width=0.12,
+            height=2.95,
+            stroke_width=0,
+            fill_color=PRIMARY_RED,
+            fill_opacity=0.82,
+        ).move_to(throat_center + LEFT * 0.28)
+        throat_right = throat_left.copy().move_to(throat_center + RIGHT * 0.28)
+        throat_fill = Rectangle(
+            width=0.34,
+            height=2.66,
+            stroke_width=0,
+            fill_color=PRIMARY_RED,
+            fill_opacity=0.08,
+        ).move_to(throat_center)
+        throat = VGroup(throat_fill, throat_left, throat_right)
+        throat.set_z_index(2)
+
+        self.add(routes, target_slots, throat, source_links, source_capsules)
+        self.wait(2.6)
+
+        for index, source in enumerate(source_capsules):
+            if index < len(source_links):
+                self.play(source_links[index].animate.set_color(PRIMARY_RED).set_stroke(width=9), run_time=0.45)
+
+            self.play(
+                target_slots[index].animate.set_stroke(PRIMARY_RED, width=4, opacity=0.92),
+                throat_fill.animate.set_fill(PRIMARY_RED, opacity=0.2),
+                run_time=0.45,
+            )
+            self.play(
+                source.animate.move_to(throat_positions[index]).stretch(0.34, dim=0).stretch(1.18, dim=1),
+                run_time=1.25,
+                rate_func=smooth,
+            )
+            self.wait(0.55)
+            self.play(
+                Transform(source, target_nodes[index], path_arc=-PI / 3),
+                FadeOut(target_slots[index]),
+                throat_fill.animate.set_fill(PRIMARY_RED, opacity=0.08),
+                run_time=1.55,
+                rate_func=smooth,
+            )
+
+            if index == 0:
+                self.wait(0.25)
+            else:
+                self.play(Create(target_links[index - 1]), run_time=0.45)
+
+            if index < len(source_links):
+                self.play(FadeOut(source_links[index]), run_time=0.35)
+
+        resolved_stack = VGroup(source_capsules, target_links)
+        self.wait(0.7)
         self.play(
-            FadeIn(source_capsules, shift=UP * 0.18, lag_ratio=0.06),
-            FadeIn(source_links, lag_ratio=0.1),
-            run_time=0.9,
-        )
-        self.play(GrowFromCenter(pulse), run_time=0.35)
-        self.play(MoveAlongPath(pulse, flow_path), run_time=0.8, rate_func=linear)
-
-        transforms = [Transform(source_capsules[index], target_nodes[index]) for index in range(3)]
-        self.play(
-            AnimationGroup(
-                *[source_links[i].animate.set_opacity(0.0) for i in range(2)],
-                *transforms,
-                lag_ratio=0.08,
-            ),
-            run_time=2.0,
+            FadeOut(routes),
+            FadeOut(throat),
+            resolved_stack.animate.move_to(ORIGIN),
+            run_time=1.6,
             rate_func=smooth,
         )
-        self.play(FadeIn(target_links, lag_ratio=0.12), run_time=0.35)
-        self.play(pulse.animate.move_to(end_positions[0] + UP * 0.92).set_fill(PRIMARY_RED, opacity=1), run_time=0.22)
-
-        for target in target_nodes:
-            self.play(target.animate.scale(1.06), run_time=0.18, rate_func=there_and_back)
-
-        self.wait(0.35)
-        self.play(FadeOut(pulse), run_time=0.2)
-        self.wait(0.25)
+        self.wait(6.2)
 
 
 def render_variant(args: _Args) -> None:

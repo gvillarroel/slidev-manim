@@ -1,0 +1,71 @@
+:root {
+  --primary-red: #9e1b32;
+  --primary-orange: #e77204;
+  --primary-yellow: #f1c319;
+  --primary-green: #45842a;
+  --primary-blue: #007298;
+  --primary-purple: #652f6c;
+  --highlight-red: #ffccd5;
+  --highlight-orange: #ffe5cc;
+  --highlight-yellow: #fff4cc;
+  --highlight-green: #dbffcc;
+  --highlight-blue: #cdf3ff;
+  --highlight-purple: #f9ccff;
+  --gray: #333e48;
+  --gray-100: #e7e7e7;
+  --gray-200: #cfcfcf;
+  --gray-400: #9c9c9c;
+  --page-background: #f7f7f7;
+  --white: #ffffff;
+  --black: #000000;
+}
+
+.slidev-layout {
+  background: var(--page-background);
+  color: var(--gray);
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.gjv-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  height: 100%;
+}
+
+.gjv-panel {
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 16px;
+  overflow: hidden;
+}
+
+.gjv-kicker {
+  margin: 0 0 8px;
+  color: var(--primary-blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gjv-title {
+  margin: 0;
+  color: var(--gray);
+  font-size: 34px;
+  line-height: 1.08;
+  font-weight: 700;
+}
+
+.gjv-code pre,
+.gjv-code .slidev-code {
+  max-height: 270px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.gjv-mermaid :where(svg) {
+  max-width: 100%;
+  max-height: 285px;
+}

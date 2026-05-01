@@ -1,0 +1,4 @@
+interface:
+  display_name: "GJV1 Slidev"
+  short_description: "Create Slidev decks and record them to video"
+  default_prompt: "Use $gjv1-slidev to create a polished Slidev deck and convert it into a timed video."
