@@ -37,7 +37,9 @@
     "build:mermaid-layout-gallery": "slidev build spikes/mermaid-layout-gallery/slides.md",
     "dev:slidev-transition-showcase": "slidev spikes/slidev-transition-showcase/slides.md",
     "build:slidev-transition-showcase": "slidev build spikes/slidev-transition-showcase/slides.md",
-    "video:slidev-transition-showcase": "uv run --script spikes/slidev-transition-showcase/main.py"
+    "video:slidev-transition-showcase": "uv run --script spikes/slidev-transition-showcase/main.py",
+    "dev:red-point-narrative-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa",
+    "video:red-point-narrative-spa": "uv run --script spikes/red-point-narrative-spa/main.py"
   },
   "devDependencies": {
     "@slidev/cli": "^52.3.0",
