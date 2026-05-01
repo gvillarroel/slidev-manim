@@ -24,13 +24,11 @@ from manim import (
     FadeIn,
     FadeOut,
     Line,
-    MoveAlongPath,
     Rectangle,
     Scene,
     Transform,
     VGroup,
     WHITE,
-    linear,
     smooth,
 )
 
@@ -42,7 +40,6 @@ STAGING_DIR = OUTPUT_DIR / ".manim"
 
 PRIMARY_RED = "#9e1b32"
 PRIMARY_ORANGE = "#e77204"
-PRIMARY_YELLOW = "#f1c319"
 PRIMARY_GREEN = "#45842a"
 PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
@@ -182,8 +179,6 @@ class QualityLayeredRevealScene(Scene):
             Line(left_stack[2].get_right(), right_cluster[2].get_left(), color=PRIMARY_ORANGE, stroke_width=5),
         )
         guide_lines.set_opacity(0.22)
-        pulse = Circle(radius=0.14, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(guide_lines[0].get_start())
-        pulse.set_z_index(6)
         left_stack.set_z_index(4)
         right_cluster.set_z_index(5)
         guide_lines.set_z_index(1)
@@ -194,18 +189,15 @@ class QualityLayeredRevealScene(Scene):
         self.wait(2.5)
 
         for index, segment in enumerate(guide_lines):
-            active_segment = segment.copy().set_opacity(1)
-            self.play(FadeIn(pulse), run_time=0.12)
-            self.play(Create(active_segment), run_time=0.65)
-            self.play(MoveAlongPath(pulse, active_segment), run_time=1.35, rate_func=linear)
+            active_segment = segment.copy().set_opacity(1).set_z_index(6)
+            self.play(Create(active_segment), run_time=1.5)
             self.play(
                 Transform(left_stack[index], right_cluster[index]),
-                FadeOut(pulse),
                 FadeOut(active_segment),
-                run_time=1.25,
+                run_time=1.45,
                 rate_func=smooth,
             )
-            self.wait(0.45)
+            self.wait(0.85)
 
         self.play(
             FadeOut(guide_lines),

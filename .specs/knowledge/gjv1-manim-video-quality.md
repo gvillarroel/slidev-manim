@@ -967,6 +967,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 148. For hollow target slots, set stroke opacity directly instead of applying group opacity. Group opacity can fill stroke-only shapes and make scaffolds look like active actors.
 149. Decorative neutral strips and review frames still need rest-state edge clearance. If the audit flags them, shrink the strip or widen the camera even when the colored actors are comfortably inside the frame.
 150. Once a support scaffold or backing strip disappears, do not animate it back for a late transition beat. A one-second return reads like a continuity error even when the object is subtle.
+151. Do not reuse one transient pulse across separated handoffs if it disappears between them. Draw the active route or use persistent markers instead, because a vanishing dot that returns later reads like a continuity error.
 
 # Reusable Process
 

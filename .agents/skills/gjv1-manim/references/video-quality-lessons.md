@@ -54,6 +54,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - When target slots or receiver outlines must stay hollow, set stroke opacity directly instead of applying group opacity. Group opacity can turn stroke-only placeholders into filled disks and make the opening breath look like unresolved actors.
 - Decorative backing strips and review frames still count as rest-state composition objects. If a resting audit flags low edge clearance on neutral structure, shrink the structure or widen the camera before accepting the hold.
 - Once a scaffold or backing shape disappears, it should not reappear for a late transition beat. Fade the support once and let the landing continue without that object.
+- Avoid reusing a transient pulse across separated handoffs if it must disappear between them. A route that draws itself once usually reads cleaner than a dot that vanishes, reappears, and vanishes again.
 
 ## Maintenance Rule
 
