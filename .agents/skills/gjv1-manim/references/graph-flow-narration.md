@@ -36,6 +36,8 @@ Use this sequence for route-choice scenes:
 7. Fade out non-selected edges, non-selected vertices, source/target rings, pulse, halo, and trace in the same cleanup beat.
 8. Move or settle the selected vertices into a compact route for the final hold.
 
+When the selected path sits in a lower or side lane during the full-network phase, do not hold that route alone for several seconds after cleanup. Replace it quickly with a newly laid out simplified route, or recenter it in the same cleanup beat. The interim selected route can pass as a graph path while alternatives are visible but become visibly off-center once the network context disappears.
+
 ## Manim API Notes
 
 - `DiGraph` is a strong default for route narration because edge direction matters. Use `Graph` only when direction would add noise.
@@ -45,6 +47,7 @@ Use this sequence for route-choice scenes:
 - Use `MoveAlongPath(pulse, route_path)` for one authored traversal.
 - Use `ShowPassingFlash(route_path.copy(), time_width=...)` as an ephemeral emphasis layer. Do not leave the flash mobject in the final composition.
 - Use an updater for follower geometry such as a halo: the halo should follow the pulse, then clear the updater before fading out.
+- For the final hold, creating a fresh `Graph` or `DiGraph` with only the selected vertices is often cleaner than trying to animate the original graph into place. It avoids stale edge geometry, lingering hidden vertices, and off-center path holds.
 
 ## Proof Frames
 
@@ -67,3 +70,10 @@ If any sampled frame reads as an undifferentiated network, patch in this order: 
 - Moving several particles through the graph creates ambient flow, not a chosen path.
 - A vector field or `StreamLines` layer can be useful for environmental context, but it usually weakens route-choice narration unless it fades before the route is selected.
 - Final holds often stay off-center after non-selected vertices disappear; recenter the surviving route during cleanup.
+- Text headers can create edge-clearance and rest-centering audit failures without improving the route mechanism. Remove them unless the title carries information the graph cannot express.
+
+## Validation
+
+- Extract proof frames on a white review background and inspect the pulse/trace frame and final hold at full size.
+- Run the frame composition audit after the cleanup timing is final. Treat `off_center_content` during cleanup as a patch prompt, not as harmless transition noise.
+- Run the resting mobject audit for graph-flow scenes with waits. Titles, route labels, and final simplified graphs can all create rest-state issues that the contact sheet may hide.

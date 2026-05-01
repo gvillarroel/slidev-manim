@@ -15,10 +15,6 @@ from pathlib import Path
 
 import numpy as np
 from manim import (
-    DOWN,
-    LEFT,
-    RIGHT,
-    UP,
     AnimationGroup,
     Circle,
     DiGraph,
@@ -26,7 +22,6 @@ from manim import (
     FadeOut,
     LaggedStart,
     MoveAlongPath,
-    Rectangle,
     Scene,
     ShowPassingFlash,
     Text,
@@ -45,19 +40,12 @@ STAGING_DIR = OUTPUT_DIR / ".manim"
 
 PRIMARY_RED = "#9e1b32"
 HIGHLIGHT_RED = "#ffccd5"
-BLACK = "#000000"
 WHITE = "#ffffff"
 GRAY = "#333e48"
-GRAY_100 = "#e7e7e7"
-GRAY_200 = "#cfcfcf"
-GRAY_300 = "#b5b5b5"
 GRAY_400 = "#9c9c9c"
 GRAY_500 = "#828282"
-GRAY_600 = "#696969"
-GRAY_700 = "#4f4f4f"
 GRAY_800 = "#363636"
 GRAY_900 = "#1c1c1c"
-PAGE_BACKGROUND = "#f7f7f7"
 
 FONT = "Arial"
 
@@ -93,11 +81,11 @@ INITIAL_LAYOUT = {
 }
 
 FINAL_LAYOUT = {
-    "S": np.array([-4.35, -0.22, 0.0]),
-    "B": np.array([-2.15, -0.22, 0.0]),
-    "D": np.array([0.05, -0.22, 0.0]),
-    "E": np.array([2.25, -0.22, 0.0]),
-    "T": np.array([4.45, -0.22, 0.0]),
+    "S": np.array([-4.35, 0.0, 0.0]),
+    "B": np.array([-2.15, 0.0, 0.0]),
+    "D": np.array([0.05, 0.0, 0.0]),
+    "E": np.array([2.25, 0.0, 0.0]),
+    "T": np.array([4.45, 0.0, 0.0]),
 }
 
 
@@ -197,14 +185,6 @@ class GraphFlowLabScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        title = label("One path becomes the story", size=32, color=BLACK).to_edge(UP, buff=0.36)
-        rule = Rectangle(width=12.4, height=0.035, stroke_width=0, fill_color=GRAY_200, fill_opacity=1).next_to(
-            title, DOWN, buff=0.18
-        )
-        subtitle = label("Alternatives stay present but subordinate until the route earns focus.", size=19, color=GRAY_700).next_to(
-            rule, DOWN, buff=0.16
-        )
-
         vertex_mobjects = {vertex: make_vertex(vertex) for vertex in VERTICES}
         graph = DiGraph(
             VERTICES,
@@ -230,7 +210,7 @@ class GraphFlowLabScene(Scene):
             graph.vertices["T"]
         )
 
-        self.add(title, rule, subtitle, graph, source_ring, target_ring)
+        self.add(graph, source_ring, target_ring)
         self.wait(2.7)
 
         competing_flashes = []
@@ -299,43 +279,44 @@ class GraphFlowLabScene(Scene):
             rate_func=linear,
         )
         pulse_halo.clear_updaters()
-        self.wait(0.9)
+        self.wait(0.3)
 
         non_selected_edges = [graph.edges[edge] for edge in EDGES if edge not in SELECTED_EDGES]
         non_selected_vertices = [graph.vertices[vertex] for vertex in VERTICES if vertex not in SELECTED_VERTICES]
-        cleanup_group = VGroup(*non_selected_edges, *non_selected_vertices, source_ring, target_ring, pulse_group, trace)
-
-        selected_edge_settle = [
-            graph.edges[edge].animate.set_color(PRIMARY_RED).set_stroke(color=PRIMARY_RED, width=6.2, opacity=1)
-            for edge in SELECTED_EDGES
-        ]
-        self.play(
-            FadeOut(cleanup_group),
-            AnimationGroup(*selected_edge_settle, lag_ratio=0.07),
-            run_time=2.5,
-            rate_func=smooth,
+        selected_current = VGroup(
+            *[graph.edges[edge] for edge in SELECTED_EDGES],
+            *[graph.vertices[vertex] for vertex in SELECTED_VERTICES],
+        )
+        cleanup_group = VGroup(
+            *non_selected_edges,
+            *non_selected_vertices,
+            source_ring,
+            target_ring,
+            pulse_group,
+            trace,
+            selected_current,
         )
 
-        final_moves = [graph.vertices[vertex].animate.move_to(FINAL_LAYOUT[vertex]) for vertex in SELECTED_VERTICES]
-        final_vertex_styles = []
+        final_graph = DiGraph(
+            SELECTED_VERTICES,
+            SELECTED_EDGES,
+            layout=FINAL_LAYOUT,
+            vertex_mobjects={vertex: make_vertex(vertex) for vertex in SELECTED_VERTICES},
+            edge_config={
+                "stroke_color": PRIMARY_RED,
+                "stroke_width": 6.2,
+                "tip_config": {"tip_length": 0.17, "tip_width": 0.17},
+            },
+        )
+        for edge in SELECTED_EDGES:
+            style_edge(final_graph.edges[edge], PRIMARY_RED, 6.2, 1)
         for vertex in SELECTED_VERTICES:
-            vertex_mob = graph.vertices[vertex]
-            final_vertex_styles.extend(
-                [
-                    vertex_mob[0].animate.set_stroke(color=PRIMARY_RED, width=3.8),
-                    vertex_mob[1].animate.set_color(GRAY_900),
-                ]
-            )
-
-        final_rule = Rectangle(width=9.35, height=0.035, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
-        final_rule.move_to(DOWN * 1.12)
+            style_vertex(final_graph.vertices[vertex], PRIMARY_RED, GRAY_900, 3.8, 1)
 
         self.play(
-            AnimationGroup(*final_moves, lag_ratio=0.04),
-            AnimationGroup(*final_vertex_styles, lag_ratio=0.04),
-            FadeOut(subtitle),
-            FadeIn(final_rule),
-            run_time=3.6,
+            FadeOut(cleanup_group),
+            FadeIn(final_graph),
+            run_time=1.6,
             rate_func=smooth,
         )
         self.wait(6.4)

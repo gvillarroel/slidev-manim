@@ -10,6 +10,7 @@ Use this reference when a Manim scene uses `Transform`, `ReplacementTransform`, 
 - Use `ReplacementTransform` when a temporary proof, guide, or intermediate object should become the resolved object with no duplicate residue left behind.
 - Use `TransformMatchingShapes` for rearrangements where identical shapes or repeated glyphs should preserve continuity. Keep unmatched parts few, or the transition becomes a noisy regroup.
 - Use `TransformMatchingTex` for formulas when matching tokens carry mathematical meaning. Split the expression into explicit tokens and color or space them so the preserved symbols are readable in the middle frame.
+- Prefer additive or near-in-place `TransformMatchingTex` changes for narration. If a formula must be severely reordered, split it into smaller beats or add visible landing slots; a single crossing reorder often turns the proof frame into token soup.
 - Use `FadeTransform` when topology or meaning changes enough that direct morphing would imply false identity. Fade the incompatible source out while the target lands cleanly.
 
 ## Proof Frames

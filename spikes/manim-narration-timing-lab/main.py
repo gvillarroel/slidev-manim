@@ -135,7 +135,9 @@ def zone(label: str, center) -> VGroup:
         fill_opacity=0.92,
     )
     panel.move_to(center)
-    title = text(label, 22, GRAY).move_to(center + DOWN * 0.02)
+    title = text(label, 22, GRAY).move_to(center + UP * 0.31)
+    panel.set_z_index(1)
+    title.set_z_index(3)
     return VGroup(panel, title)
 
 
@@ -174,6 +176,17 @@ def metadata_chip(index: int, cue: ScriptedCue) -> VGroup:
     return VGroup(body, label_group)
 
 
+def metadata_slot() -> Rectangle:
+    return Rectangle(
+        width=2.02,
+        height=0.48,
+        stroke_color=GRAY_500,
+        stroke_width=2.0,
+        fill_color=WHITE,
+        fill_opacity=0.82,
+    )
+
+
 def slow_motion_inner_run_time(target_duration: float) -> float:
     probe = ChangeSpeed(Wait(run_time=1), speedinfo=SLOW_SPEEDINFO, rate_func=linear, affects_speed_updaters=False)
     return target_duration / probe.get_scaled_total_time()
@@ -204,11 +217,11 @@ class NarrationTimingLabScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = PAGE_BACKGROUND
 
-        stage = Rectangle(width=14.22, height=8.0, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=1)
+        stage = Rectangle(width=14.22, height=8.0, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=1).set_z_index(0)
         title = text("Narration timing", 34, GRAY_900).to_edge(UP).shift(DOWN * 0.36)
-        subtitle = text("scripted durations, section cues, sparse motion", 18, GRAY_700).next_to(title, DOWN, buff=0.16)
+        title.set_z_index(5)
 
-        centers = [LEFT * 4.35 + UP * 1.35, LEFT * 1.45 + UP * 1.35, RIGHT * 1.45 + UP * 1.35, RIGHT * 4.35 + UP * 1.35]
+        centers = [LEFT * 4.35 + UP * 1.0, LEFT * 1.45 + UP * 1.0, RIGHT * 1.45 + UP * 1.0, RIGHT * 4.35 + UP * 1.0]
         zones = VGroup(
             zone("breath", centers[0]),
             zone("beats", centers[1]),
@@ -216,30 +229,33 @@ class NarrationTimingLabScene(Scene):
             zone("sections", centers[3]),
         )
         zone_boxes = VGroup(*[item[0] for item in zones])
+        zone_labels = VGroup(*[item[1] for item in zones])
 
-        rail_y = -0.42
+        rail_y = -0.77
         marker_targets = [center[0] * RIGHT + rail_y * UP for center in centers]
-        rail = Line(marker_targets[0] + LEFT * 0.45, marker_targets[-1] + RIGHT * 0.45, color=GRAY_300, stroke_width=7)
+        rail = Line(marker_targets[0] + LEFT * 0.45, marker_targets[-1] + RIGHT * 0.45, color=GRAY_300, stroke_width=7).set_z_index(1)
         ticks = VGroup(
             *[
                 Line(point + UP * 0.24, point + DOWN * 0.24, color=GRAY_500, stroke_width=3)
                 for point in marker_targets
             ]
-        )
-        active_rail = Line(marker_targets[0] + LEFT * 0.01, marker_targets[0], color=PRIMARY_RED, stroke_width=8)
-        timing_marker = Dot(radius=0.15, color=PRIMARY_RED).move_to(marker_targets[0])
+        ).set_z_index(2)
+        active_rail = Line(marker_targets[0] + LEFT * 0.01, marker_targets[0], color=PRIMARY_RED, stroke_width=8).set_z_index(2)
+        timing_marker = Dot(radius=0.15, color=PRIMARY_RED).move_to(marker_targets[0]).set_z_index(4)
 
         metadata_panel = Rectangle(
             width=11.6,
             height=1.12,
-            stroke_color=GRAY_200,
-            stroke_width=1.5,
+            stroke_color=GRAY_300,
+            stroke_width=1.6,
             fill_color=WHITE,
             fill_opacity=0.72,
-        ).move_to(DOWN * 2.64)
-        metadata_label = text("section cue metadata", 17, GRAY_700).next_to(metadata_panel, UP, buff=0.14)
+        ).move_to(DOWN * 2.64).set_z_index(1)
+        metadata_slots = VGroup(*[metadata_slot() for _ in SCRIPTED_CUES])
+        metadata_slots.arrange(RIGHT, buff=0.12).move_to(metadata_panel)
+        metadata_slots.set_z_index(2)
 
-        self.add(stage, title, subtitle, zones, rail, ticks, active_rail, timing_marker, metadata_panel, metadata_label)
+        self.add(stage, title, zones, rail, ticks, active_rail, timing_marker, metadata_panel, metadata_slots)
 
         self.next_section(name=SCRIPTED_CUES[0].section_name)
         with self.scripted_voiceover(SCRIPTED_CUES[0]) as cue:
@@ -247,7 +263,8 @@ class NarrationTimingLabScene(Scene):
 
         self.next_section(name=SCRIPTED_CUES[1].section_name)
         beat_groups = VGroup(*[beat_cluster() for _ in range(3)]).arrange(RIGHT, buff=0.26)
-        beat_groups.move_to(centers[1] + DOWN * 0.02)
+        beat_groups.move_to(centers[1] + DOWN * 0.22)
+        beat_groups.set_z_index(4)
         beat_echo = Rectangle(
             width=2.1,
             height=0.84,
@@ -255,7 +272,7 @@ class NarrationTimingLabScene(Scene):
             stroke_width=2,
             fill_color=HIGHLIGHT_RED,
             fill_opacity=0.22,
-        ).move_to(centers[1])
+        ).move_to(centers[1]).set_z_index(2)
         with self.scripted_voiceover(SCRIPTED_CUES[1]) as cue:
             self.play(
                 Succession(
@@ -288,12 +305,13 @@ class NarrationTimingLabScene(Scene):
             stroke_width=3,
             fill_color=HIGHLIGHT_RED,
             fill_opacity=0.16,
-        ).move_to(centers[2])
+        ).move_to(centers[2]).set_z_index(2)
         pause_marks = VGroup(
             Rectangle(width=0.16, height=0.68, stroke_width=0, fill_color=SHADOW_RED, fill_opacity=1),
             Rectangle(width=0.16, height=0.68, stroke_width=0, fill_color=SHADOW_RED, fill_opacity=1),
         ).arrange(RIGHT, buff=0.18)
-        pause_marks.move_to(centers[2] + DOWN * 0.02)
+        pause_marks.move_to(centers[2] + DOWN * 0.22)
+        pause_marks.set_z_index(4)
 
         with self.scripted_voiceover(SCRIPTED_CUES[2]) as cue:
             self.play(FadeIn(slow_frame), zone_boxes[2].animate.set_stroke(PRIMARY_RED, width=4), run_time=0.75)
@@ -317,46 +335,54 @@ class NarrationTimingLabScene(Scene):
         self.next_section(name=SCRIPTED_CUES[3].section_name)
         chips = VGroup(*[metadata_chip(index, cue) for index, cue in enumerate(SCRIPTED_CUES, start=1)])
         chips.arrange(RIGHT, buff=0.12).move_to(metadata_panel)
+        chips.set_z_index(4)
 
         with self.scripted_voiceover(SCRIPTED_CUES[3]) as cue:
             self.play(
-                Succession(
-                    AnimationGroup(
-                        timing_marker.animate.move_to(marker_targets[3]),
-                        active_rail.animate.put_start_and_end_on(marker_targets[0], marker_targets[3]),
-                        zone_boxes[3].animate.set_stroke(PRIMARY_RED, width=4),
-                        run_time=1.0,
-                    ),
-                    LaggedStart(
-                        *[FadeIn(chip, shift=RIGHT * 0.12) for chip in chips],
-                        lag_ratio=0.16,
-                        run_time=3.2,
-                    ),
-                    AnimationGroup(
-                        timing_marker.animate.scale(1.12),
-                        metadata_panel.animate.set_stroke(PRIMARY_RED, width=2.5),
-                        run_time=0.8,
-                    ),
+                AnimationGroup(
+                    timing_marker.animate.move_to(marker_targets[3]),
+                    active_rail.animate.put_start_and_end_on(marker_targets[0], marker_targets[3]),
+                    zone_boxes[3].animate.set_stroke(PRIMARY_RED, width=4),
+                    run_time=1.0,
                 ),
-                run_time=cue.duration,
             )
+            self.play(
+                LaggedStart(
+                    *[
+                        AnimationGroup(FadeOut(slot), FadeIn(chip, shift=RIGHT * 0.12), run_time=1.0)
+                        for slot, chip in zip(metadata_slots, chips)
+                    ],
+                    lag_ratio=0.16,
+                    run_time=3.2,
+                )
+            )
+            self.play(metadata_panel.animate.set_stroke(PRIMARY_RED, width=2.5), run_time=cue.duration - 4.2)
 
         self.next_section(name=SCRIPTED_CUES[4].section_name)
         final_badge_box = Rectangle(width=2.55, height=0.48, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
         final_badge_text = text("narration-ready", 18, WHITE).move_to(final_badge_box)
-        final_badge = VGroup(final_badge_box, final_badge_text).move_to(DOWN * 1.32)
+        final_badge = VGroup(final_badge_box, final_badge_text).move_to(DOWN * 1.2)
+        final_badge.set_z_index(5)
 
         with self.scripted_voiceover(SCRIPTED_CUES[4]) as cue:
+            cleanup_duration = 0.45
+            final_lift = UP * 0.35
             self.play(
                 FadeOut(slow_frame),
                 FadeOut(pause_marks),
-                *[box.animate.set_stroke(GRAY_300, width=2) for box in zone_boxes],
-                metadata_panel.animate.set_stroke(GRAY_200, width=1.5),
+                zone_boxes.animate.set_stroke(GRAY_300, width=2).shift(final_lift),
+                zone_labels.animate.shift(final_lift),
+                beat_groups.animate.shift(final_lift),
+                rail.animate.shift(final_lift),
+                ticks.animate.shift(final_lift),
+                active_rail.animate.shift(final_lift),
+                metadata_panel.animate.shift(UP * 0.6).set_stroke(GRAY_200, width=1.5),
+                chips.animate.shift(UP * 0.6),
                 FadeIn(final_badge, shift=UP * 0.14),
-                timing_marker.animate.set_fill(PRIMARY_RED, opacity=1).scale(1.06),
-                run_time=1.0,
+                timing_marker.animate.move_to(marker_targets[3] + final_lift).set_fill(PRIMARY_RED, opacity=1).scale(1.06),
+                run_time=cleanup_duration,
             )
-            self.wait(cue.duration - 1.0)
+            self.wait(cue.duration - cleanup_duration)
 
         self.write_scripted_cues()
 

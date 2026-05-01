@@ -2,12 +2,15 @@
 # /// script
 # dependencies = [
 #   "manim>=0.20.0",
+#   "pillow>=10.0.0",
+#   "pygments>=2.17.0",
 # ]
 # ///
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import shutil
 import subprocess
@@ -20,27 +23,31 @@ from manim import (
     LEFT,
     RIGHT,
     UP,
-    Code,
     Create,
     FadeIn,
     FadeOut,
     GrowFromCenter,
+    Group,
+    ImageMobject,
     Indicate,
     Rectangle,
     Scene,
-    SurroundingRectangle,
     Text,
     VGroup,
     VMobject,
     Write,
     rate_functions,
 )
+from pygments import highlight
+from pygments.formatters import ImageFormatter
+from pygments.lexers import get_lexer_by_name
 
 SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parent.parent
 SPIKE_NAME = SPIKE_DIR.name
 OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
+ASSET_DIR = OUTPUT_DIR / "code-assets"
 VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
 
@@ -52,7 +59,6 @@ PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
 WHITE = "#ffffff"
 GRAY = "#333e48"
-GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
 GRAY_300 = "#b5b5b5"
 GRAY_600 = "#696969"
@@ -81,9 +87,15 @@ class LanguageSpec:
 
 
 @dataclass(frozen=True)
+class CodePreview:
+    image: ImageMobject
+    line_count: int
+
+
+@dataclass(frozen=True)
 class CodeCard:
-    group: VGroup
-    listing: Code
+    group: Group
+    preview: CodePreview
     header: Rectangle
     label: Text
     spec: LanguageSpec
@@ -91,9 +103,9 @@ class CodeCard:
 
 @dataclass(frozen=True)
 class OptionPanel:
-    group: VGroup
+    group: Group
     rows: list[VGroup]
-    swatches: VGroup
+    swatches: Group
 
 
 LANGUAGES = [
@@ -104,16 +116,18 @@ LANGUAGES = [
         highlight=HIGHLIGHT_RED,
         key_line=1,
         code='''def eligible(user):
-    return user["active"] and not user["locked"]''',
+    return user.active and not user.locked''',
     ),
     LanguageSpec(
         name="TypeScript",
         language="typescript",
         accent=PRIMARY_ORANGE,
         highlight=HIGHLIGHT_ORANGE,
-        key_line=1,
-        code="""export const total = (items) =>
-  items.reduce((sum, item) => sum + item.price, 0)""",
+        key_line=2,
+        code="""const total = items.reduce(
+  (sum, item) => sum + item.price,
+  0,
+)""",
     ),
     LanguageSpec(
         name="Rust",
@@ -239,38 +253,54 @@ def fit(mob: VMobject, max_width: float, max_height: float) -> VMobject:
     return mob
 
 
-def make_listing(
+def code_asset_path(code: str, language: str, style: str, line_numbers: bool) -> Path:
+    digest = hashlib.sha1(f"{language}:{style}:{line_numbers}:{code}".encode("utf-8")).hexdigest()[:10]
+    return ASSET_DIR / f"{language}-{style}-{digest}.png"
+
+
+def ensure_code_asset(
+    code: str,
+    language: str,
+    *,
+    style: str = "friendly",
+    line_numbers: bool = True,
+    font_size: int = 28,
+) -> Path:
+    ASSET_DIR.mkdir(parents=True, exist_ok=True)
+    path = code_asset_path(code, language, style, line_numbers)
+    if path.exists():
+        return path
+
+    lexer = get_lexer_by_name(language)
+    formatter = ImageFormatter(
+        style=style,
+        line_numbers=line_numbers,
+        line_number_bg=PAGE_BACKGROUND,
+        line_number_fg=GRAY_600,
+        font_name=CODE_FONT,
+        font_size=font_size,
+        line_pad=5,
+        image_pad=14,
+    )
+    path.write_bytes(highlight(code, lexer, formatter))
+    return path
+
+
+def make_preview(
     spec: LanguageSpec,
     *,
-    font_size: int = 15,
-    formatter_style: str = "friendly",
-    background: str = "rectangle",
-    add_line_numbers: bool = True,
-    fill_color: str = WHITE,
-    stroke_color: str = GRAY_200,
-) -> Code:
-    listing = Code(
-        code_string=spec.code,
-        language=spec.language,
-        formatter_style=formatter_style,
-        tab_width=2,
-        add_line_numbers=add_line_numbers,
-        line_numbers_from=1,
-        background=background,
-        background_config={
-            "fill_color": fill_color,
-            "fill_opacity": 1,
-            "stroke_color": stroke_color,
-            "stroke_width": 1.15,
-            "buff": 0.13,
-        },
-        paragraph_config={
-            "font": CODE_FONT,
-            "font_size": font_size,
-            "line_spacing": 0.35,
-        },
+    style: str = "friendly",
+    line_numbers: bool = True,
+    font_size: int = 28,
+) -> CodePreview:
+    path = ensure_code_asset(
+        spec.code,
+        spec.language,
+        style=style,
+        line_numbers=line_numbers,
+        font_size=font_size,
     )
-    return listing
+    return CodePreview(image=ImageMobject(str(path)), line_count=len(spec.code.splitlines()))
 
 
 def build_code_card(spec: LanguageSpec, width: float = 3.62, height: float = 1.56) -> CodeCard:
@@ -293,15 +323,15 @@ def build_code_card(spec: LanguageSpec, width: float = 3.62, height: float = 1.5
     label = text(spec.name, size=15, color=WHITE, weight="BOLD")
     label.move_to(header.get_center())
 
-    listing = make_listing(spec)
-    fit(listing, width - 0.32, height - 0.48)
-    listing.move_to(frame.get_center() + DOWN * 0.18)
+    preview = make_preview(spec)
+    fit(preview.image, width - 0.32, height - 0.49)
+    preview.image.move_to(frame.get_center() + DOWN * 0.18)
 
-    group = VGroup(frame, header, label, listing)
-    return CodeCard(group=group, listing=listing, header=header, label=label, spec=spec)
+    group = Group(frame, header, label, preview.image)
+    return CodeCard(group=group, preview=preview, header=header, label=label, spec=spec)
 
 
-def build_language_grid() -> tuple[VGroup, list[CodeCard]]:
+def build_language_grid() -> tuple[Group, list[CodeCard]]:
     cards = [build_code_card(spec) for spec in LANGUAGES]
     positions = [
         LEFT * 4.3 + UP * 1.88,
@@ -313,41 +343,55 @@ def build_language_grid() -> tuple[VGroup, list[CodeCard]]:
     ]
     for card, position in zip(cards, positions, strict=True):
         card.group.move_to(position)
-    return VGroup(*[card.group for card in cards]), cards
+    return Group(*[card.group for card in cards]), cards
 
 
-def line_wash(listing: Code, line_index: int, color: str, opacity: float = 0.76) -> Rectangle:
-    line = listing.code_lines[line_index]
+def line_metrics(preview: CodePreview, line_index: int) -> tuple[float, float, float, float]:
+    image = preview.image
+    line_height = image.height / (preview.line_count + 0.82)
+    y = image.get_top()[1] - line_height * (0.68 + line_index)
+    left_x = image.get_left()[0] + image.width * 0.18
+    right_x = image.get_right()[0] - image.width * 0.045
+    return y, line_height, left_x, right_x
+
+
+def line_wash(card: CodeCard, color: str, opacity: float = 0.76) -> Rectangle:
+    y, line_height, left_x, right_x = line_metrics(card.preview, card.spec.key_line)
     wash = Rectangle(
-        width=listing.width - 0.24,
-        height=max(line.height + 0.13, 0.18),
+        width=right_x - left_x,
+        height=max(line_height * 0.72, 0.18),
         stroke_width=0,
         fill_color=color,
         fill_opacity=opacity,
     )
-    wash.move_to([listing.get_center()[0] + 0.06, line.get_center()[1], 0])
+    wash.move_to([(left_x + right_x) / 2, y, 0])
     return wash
 
 
-def line_cursor(listing: Code, line_index: int, color: str = PRIMARY_RED) -> Rectangle:
-    line = listing.code_lines[line_index]
+def line_cursor(card: CodeCard, color: str = PRIMARY_RED) -> Rectangle:
+    y, line_height, left_x, _ = line_metrics(card.preview, card.spec.key_line)
     cursor = Rectangle(
         width=0.045,
-        height=max(line.height + 0.2, 0.22),
+        height=max(line_height * 0.88, 0.22),
         stroke_width=0,
         fill_color=color,
         fill_opacity=1,
     )
-    cursor.move_to([line.get_left()[0] - 0.12, line.get_center()[1], 0])
+    cursor.move_to([left_x + 0.04, y, 0])
     return cursor
 
 
-def token_box(listing: Code, line_index: int, start: int, end: int, color: str = PRIMARY_RED) -> SurroundingRectangle:
-    line = listing.code_lines[line_index]
-    pieces = [line[index] for index in range(start, min(end, len(line)))]
-    target = VGroup(*pieces) if pieces else line
-    box = SurroundingRectangle(target, buff=0.045, color=color, stroke_width=2.4)
-    box.set_fill(color, opacity=0)
+def region_box(card: CodeCard, color: str = PRIMARY_RED) -> Rectangle:
+    y, line_height, left_x, right_x = line_metrics(card.preview, card.spec.key_line)
+    box = Rectangle(
+        width=(right_x - left_x) * 0.32,
+        height=max(line_height * 0.8, 0.23),
+        stroke_color=color,
+        stroke_width=2.4,
+        fill_color=color,
+        fill_opacity=0,
+    )
+    box.move_to([left_x + (right_x - left_x) * 0.47, y, 0])
     return box
 
 
@@ -355,11 +399,10 @@ def option_row(name: str, detail: str, color: str = GRAY_700) -> VGroup:
     key = mono(name, size=13, color=color)
     value = text(detail, size=13, color=GRAY_600)
     value.next_to(key, RIGHT, buff=0.16)
-    row = VGroup(key, value)
-    return row
+    return VGroup(key, value)
 
 
-def style_swatch(style: str, fill_color: str, label_color: str = GRAY) -> VGroup:
+def style_swatch(style: str, label_color: str = GRAY) -> Group:
     snippet = LanguageSpec(
         name=style,
         language="python",
@@ -369,18 +412,11 @@ def style_swatch(style: str, fill_color: str, label_color: str = GRAY) -> VGroup
         code="""if ok:
   ship()""",
     )
-    listing = make_listing(
-        snippet,
-        font_size=10,
-        formatter_style=style,
-        add_line_numbers=False,
-        fill_color=fill_color,
-        stroke_color=GRAY_300,
-    )
-    fit(listing, 1.26, 0.54)
+    preview = make_preview(snippet, style=style, line_numbers=False, font_size=20)
+    fit(preview.image, 1.25, 0.55)
     label = mono(style, size=10, color=label_color)
-    label.next_to(listing, DOWN, buff=0.05)
-    return VGroup(listing, label)
+    label.next_to(preview.image, DOWN, buff=0.05)
+    return Group(preview.image, label)
 
 
 def build_option_panel() -> OptionPanel:
@@ -403,27 +439,28 @@ def build_option_panel() -> OptionPanel:
         option_row("line_numbers", "on, off, or shifted", PRIMARY_GREEN),
         option_row("background", "rectangle or window", PRIMARY_ORANGE),
         option_row("paragraph_config", "mono font + size", PRIMARY_RED),
-        option_row("line wash", "Rectangle behind code_lines[n]", PRIMARY_RED),
-        option_row("token box", "SurroundingRectangle(region)", PRIMARY_RED),
-        option_row("cursor pulse", "animated mobject overlay", PRIMARY_RED),
+        option_row("line wash", "Rectangle behind line n", PRIMARY_RED),
+        option_row("token box", "outline a text region", PRIMARY_RED),
+        option_row("cursor pulse", "animated overlay mobject", PRIMARY_RED),
     ]
     row_group = VGroup(*rows)
     row_group.arrange(DOWN, aligned_edge=LEFT, buff=0.14)
     row_group.move_to(panel.get_center() + UP * 0.52)
     row_group.align_to(panel, LEFT).shift(RIGHT * 0.32)
 
-    swatches = VGroup(
-        style_swatch("friendly", WHITE),
-        style_swatch("monokai", GRAY_900, WHITE),
-        style_swatch("github-dark", "#0d1117", WHITE),
+    swatches = Group(
+        style_swatch("friendly"),
+        style_swatch("monokai", WHITE),
+        style_swatch("github-dark", WHITE),
     )
     swatches.arrange(RIGHT, buff=0.16)
     swatches.move_to(panel.get_bottom() + UP * 0.72)
 
-    note = text("syntax from Pygments; emphasis from normal Manim mobjects", size=12, color=GRAY_600)
+    note = text("syntax from Code/Pygments; emphasis from Manim geometry", size=11, color=GRAY_600)
+    fit(note, 4.36, 0.24)
     note.move_to(panel.get_bottom() + UP * 0.18)
 
-    group = VGroup(panel, heading, row_group, swatches, note)
+    group = Group(panel, heading, row_group, swatches, note)
     return OptionPanel(group=group, rows=rows, swatches=swatches)
 
 
@@ -445,8 +482,8 @@ class ManimCodeHighlightOptionsScene(Scene):
         self.camera.background_color = PAGE_BACKGROUND
 
         stage = Rectangle(
-            width=12.95,
-            height=7.18,
+            width=12.65,
+            height=6.9,
             stroke_color=GRAY_200,
             stroke_width=1.35,
             fill_color=PAGE_BACKGROUND,
@@ -456,18 +493,23 @@ class ManimCodeHighlightOptionsScene(Scene):
         self.add(stage)
 
         title = text("Programming code in Manim", size=31, color=GRAY, weight="BOLD")
-        subtitle = mono("one Code() listing per language; overlays handle the extra emphasis", size=15, color=GRAY_600)
+        subtitle = mono("one listing per language; overlays handle extra emphasis", size=15, color=GRAY_600)
         header = VGroup(title, subtitle).arrange(DOWN, buff=0.09)
-        header.move_to(UP * 3.33)
+        header.move_to(UP * 2.88)
 
         language_grid, cards = build_language_grid()
         option_panel = build_option_panel()
 
-        self.play(FadeIn(header, shift=DOWN * 0.08), FadeIn(language_grid, shift=UP * 0.08), run_time=0.9)
+        self.play(
+            FadeIn(header, shift=DOWN * 0.08),
+            FadeIn(language_grid, shift=UP * 0.08),
+            FadeIn(option_panel.group),
+            run_time=0.9,
+        )
         self.wait(2.25)
 
         for card in cards:
-            wash = line_wash(card.listing, card.spec.key_line, card.spec.highlight)
+            wash = line_wash(card, card.spec.highlight)
             marker = Rectangle(
                 width=0.065,
                 height=wash.height + 0.04,
@@ -485,35 +527,34 @@ class ManimCodeHighlightOptionsScene(Scene):
             self.wait(0.42)
             self.play(FadeOut(pulse), card.header.animate.set_fill(card.spec.accent, opacity=1), run_time=0.24)
 
-        self.play(FadeIn(option_panel.group, shift=LEFT * 0.12), run_time=0.62)
-        self.wait(0.65)
+        self.wait(0.95)
 
         for index, row in enumerate(option_panel.rows[:5]):
             color = HIGHLIGHT_BLUE if index < 4 else HIGHLIGHT_RED
             focus = row_focus(row, color=color)
-            self.play(FadeIn(focus), row.animate.set_color(PRIMARY_RED), run_time=0.22)
+            self.play(FadeIn(focus), run_time=0.22)
             self.wait(0.3)
-            self.play(FadeOut(focus), row.animate.set_color(GRAY_700), run_time=0.18)
+            self.play(FadeOut(focus), run_time=0.18)
 
         python_card = cards[0]
-        active_wash = line_wash(python_card.listing, 1, HIGHLIGHT_RED, opacity=0.84)
+        active_wash = line_wash(python_card, HIGHLIGHT_RED, opacity=0.84)
         wash_row_focus = row_focus(option_panel.rows[5], color=HIGHLIGHT_RED)
         self.play(FadeIn(wash_row_focus), FadeIn(active_wash), run_time=0.3)
         self.wait(0.6)
         self.play(FadeOut(wash_row_focus), run_time=0.18)
 
-        region_box = token_box(python_card.listing, 1, 6, 20, color=PRIMARY_RED)
+        box = region_box(python_card, color=PRIMARY_RED)
         token_row_focus = row_focus(option_panel.rows[6], color=HIGHLIGHT_RED)
-        self.play(FadeIn(token_row_focus), Create(region_box), run_time=0.48)
+        self.play(FadeIn(token_row_focus), Create(box), run_time=0.48)
         self.wait(0.52)
         self.play(FadeOut(token_row_focus), run_time=0.18)
 
-        cursor = line_cursor(python_card.listing, 1, color=PRIMARY_RED)
+        cursor = line_cursor(python_card, color=PRIMARY_RED)
         cursor_row_focus = row_focus(option_panel.rows[7], color=HIGHLIGHT_RED)
-        line = python_card.listing.code_lines[1]
+        _, _, _, right_x = line_metrics(python_card.preview, python_card.spec.key_line)
         self.play(FadeIn(cursor_row_focus), GrowFromCenter(cursor), run_time=0.28)
         self.play(
-            cursor.animate.move_to([line.get_right()[0] + 0.12, line.get_center()[1], 0]),
+            cursor.animate.move_to([right_x + 0.07, cursor.get_center()[1], 0]),
             run_time=1.0,
             rate_func=rate_functions.linear,
         )
@@ -522,16 +563,14 @@ class ManimCodeHighlightOptionsScene(Scene):
         self.play(Indicate(option_panel.swatches, color=PRIMARY_PURPLE, scale_factor=1.02), run_time=0.85)
         self.wait(0.35)
 
-        final_tag = VGroup(
-            Rectangle(width=6.45, height=0.44, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1),
-            text("Use Code for syntax; use Manim geometry for narrative highlights.", size=15, color=WHITE),
-        )
-        final_tag[1].move_to(final_tag[0].get_center())
-        final_tag[0].set_z_index(0)
-        final_tag[1].set_z_index(1)
-        final_tag.move_to(DOWN * 3.36)
-        self.play(Write(final_tag[1]), FadeIn(final_tag[0]), run_time=0.65)
-        self.wait(6.35)
+        final_box = Rectangle(width=6.45, height=0.44, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
+        final_text = text("Use Code for syntax; use Manim geometry for narrative highlights.", size=15, color=WHITE)
+        final_text.move_to(final_box.get_center())
+        final_box.set_z_index(0)
+        final_text.set_z_index(1)
+        final_tag = VGroup(final_box, final_text).move_to(DOWN * 3.24)
+        self.play(FadeIn(final_box), Write(final_text), run_time=0.65)
+        self.wait(7.65)
 
 
 def render_variant(args: _Args) -> None:

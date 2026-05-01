@@ -67,6 +67,6 @@ The scene is intended for slide integration and therefore follows the repository
 - progressive beat groups: 6.5 seconds,
 - deliberate slow-down and hold: 7.5 seconds,
 - section cue metadata reveal: 5.0 seconds,
-- resolved final hold: 1.0 second cleanup plus a 6.0 second stable hold.
+- resolved final hold: 0.45 second cleanup plus a 6.55 second stable hold.
 
 The scripted cue helper mirrors the useful part of a voiceover tracker: every beat has a planned duration and caption, but the render does not require audio recording or external TTS.

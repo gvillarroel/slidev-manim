@@ -101,9 +101,17 @@ Use `side formula handoff` for table transformations where two or more source ce
 Load only the resource needed for the current task:
 
 - For preferred color styles and exact Manim token names, read [references/preferred-color-styles.md](references/preferred-color-styles.md).
+- For programming-code snippets, Manim `Code` options, syntax-highlighting styles, and performance-safe code galleries, read [references/code-options-and-highlighting.md](references/code-options-and-highlighting.md).
+- For timing beats, `Succession`, `LaggedStart`, `ChangeSpeed`, scene sections, and audio-free voiceover cue patterns, read [references/narration-timing-and-cues.md](references/narration-timing-and-cues.md).
+- For semantic transforms, matching-parts handoffs, identity preservation, and avoiding morph soup, read [references/semantic-transform-narration.md](references/semantic-transform-narration.md).
+- For callout, reveal, indication, broadcast, and text-attention patterns, read [references/callout-reveal-narration.md](references/callout-reveal-narration.md).
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
 - For nested camera tours where a red guide marker becomes a pinned pointer for a solid detail panel, read [references/red-guide-detail-tour.md](references/red-guide-detail-tour.md).
+- For camera-led narration, destination scaffolds, zoom discipline, and final recentering, read [references/camera-focus-narration.md](references/camera-focus-narration.md).
+- For table-derived values, counters, row cues, formula side zones, and chart synchronization, read [references/data-counter-narration.md](references/data-counter-narration.md).
+- For graph route selection, path pulses, traces, subordinate alternatives, and flow cleanup, read [references/graph-flow-narration.md](references/graph-flow-narration.md).
+- For `ThreeDScene`, depth reveals, surface/column evidence, and disciplined 3D camera motion, read [references/3d-depth-narration.md](references/3d-depth-narration.md).
 - For choosing Manim `Table` options, helper methods, and table-scene patterns, read [references/table-options-and-usage.md](references/table-options-and-usage.md).
 - For Manim arrow scenes, `GrowArrow`, start/end anchors, curved routes, and connector label clarity, read [references/arrow-growth-and-connectors.md](references/arrow-growth-and-connectors.md).
 - For continuing a resolved composition into two generated project blocks, read [references/continuation-project-breakdowns.md](references/continuation-project-breakdowns.md).

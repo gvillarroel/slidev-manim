@@ -160,6 +160,7 @@ class CalloutRevealNarrationScene(Scene):
         )
         title = label_text("Callout reveal", max_width=5.4, font_size=30, color=BLACK).move_to(UP * 3.14 + LEFT * 4.15)
         rule = Line(title.get_right() + RIGHT * 0.34, RIGHT * 5.72 + UP * 3.14, color=PRIMARY_RED, stroke_width=5)
+        floor_rule = Line(LEFT * 5.7 + DOWN * 2.86, RIGHT * 5.7 + DOWN * 2.86, color=GRAY_500, stroke_width=3)
 
         noisy_panel = Rectangle(width=5.05, height=4.25, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0.72)
         noisy_panel.move_to(LEFT * 3.35 + DOWN * 0.2)
@@ -170,14 +171,14 @@ class CalloutRevealNarrationScene(Scene):
         guided_label = label_text("receiver first", max_width=2.6, font_size=18, color=GRAY_700).move_to(guided_panel.get_top() + DOWN * 0.34)
 
         noisy_cards = VGroup(
-            card("source", -4.45, 0.45, accent=GRAY_500),
-            card("review", -3.35, -0.72, accent=GRAY_500),
-            card("ship", -2.25, 0.45, accent=GRAY_500),
+            card("source", -4.45, -0.22, accent=GRAY_500),
+            card("review", -3.35, -1.62, accent=GRAY_500),
+            card("ship", -2.25, -0.22, accent=GRAY_500),
         )
         guided_cards = VGroup(
-            card("source", 2.25, 0.45, accent=GRAY_500),
-            card("review", 3.35, -0.72, accent=PRIMARY_BLUE),
-            card("ship", 4.45, 0.45, accent=GRAY_500),
+            card("source", 2.25, -0.22, accent=GRAY_500),
+            card("review", 3.35, -1.62, accent=PRIMARY_BLUE),
+            card("ship", 4.45, -0.22, accent=GRAY_500),
         )
 
         noisy_routes = VGroup(
@@ -208,6 +209,7 @@ class CalloutRevealNarrationScene(Scene):
         self.play(
             FadeIn(title, shift=UP * 0.1),
             FadeIn(rule),
+            FadeIn(floor_rule),
             FadeIn(noisy_panel),
             FadeIn(guided_panel),
             FadeIn(noisy_label),
@@ -279,6 +281,7 @@ class CalloutRevealNarrationScene(Scene):
             guided_routes.animate.shift(LEFT * 3.35).set_opacity(0.34),
             terminal_group.animate.shift(LEFT * 3.35),
             rule.animate.set_stroke(width=4),
+            floor_rule.animate.set_opacity(0.45),
             run_time=1.8,
         )
         self.play(guided_cards[1][0].animate.set_stroke(GRAY_300, width=2), run_time=0.5)
