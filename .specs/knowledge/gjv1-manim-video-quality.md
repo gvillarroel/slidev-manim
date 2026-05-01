@@ -624,16 +624,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Relay Handoff
 
 - **Hypothesis**: A support-to-support relay can make the final regroup feel more designed if the accent clearly passes from one support role to another before the dominant form arrives.
-- **Result**: Confirmed after separating the accent move into two beats and sampling the mid-relay frame before the green form settles.
+- **Result**: Confirmed again after expanding the draft into a 25.5-second slide-integration scene with visible opening pads, held support-to-support proof frames, delayed green arrival, cleanup, and a recentered final hold.
 - **What worked**:
   - a two-segment relay path that gives the handoff a visible first and second leg,
   - a proof frame where the blue support, purple support, and accent define the relay before the green form fully joins,
   - a delayed green arrival so the support handoff has its own beat,
-  - a final cluster that removes the relay device after the transfer has been established.
+  - showing the receiver pads and faint guide legs during the opening breath, so the empty target side reads as prepared structure instead of dead space,
+  - removing the source frame, pads, and relay lines before the final morph, then recentering the resolved cluster so the long hold does not inherit the old left-to-right layout.
 - **What failed first**:
   - the original relay read too much like a normal guide line,
   - the green form arrived too early and hid the handoff,
-  - the useful proof frame was earlier than the first convenient landing sample.
+  - the useful proof frame was earlier than the first convenient landing sample,
+  - the first long render cleared the mechanism but failed off-center audits after the source scaffold disappeared.
 
 ## Quality Sling Release
 

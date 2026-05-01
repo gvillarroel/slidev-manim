@@ -1,6 +1,6 @@
 ---
 title: Quality Relay Handoff
-status: draft
+status: active
 date: 2026-04-16
 ---
 
@@ -11,6 +11,10 @@ Test whether a relay handoff between support forms makes the final regroup feel 
 # Hypothesis
 
 If control appears to pass from the blue support to the purple support before the dominant form arrives, the sequence should feel more designed than a direct leader-only transfer.
+
+# Current Result
+
+The current render is a 25.5-second slide-integration scene with visible opening receiver pads, held relay proof frames, delayed dominant-form arrival, scaffold cleanup, and a long recentered final hold.
 
 # Run
 
