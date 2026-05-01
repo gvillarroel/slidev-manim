@@ -213,6 +213,7 @@ class QualityLayeredRevealScene(Scene):
             FadeOut(reveal_gate),
             FadeOut(ghost_stack),
             FadeOut(source_field),
+            FadeOut(back_strip),
             run_time=1.1,
         )
         self.play(
@@ -222,7 +223,6 @@ class QualityLayeredRevealScene(Scene):
                 Transform(left_stack[2], final_cluster[2]),
                 lag_ratio=0.12,
             ),
-            back_strip.animate.set_opacity(0.18).shift(DOWN * 0.2),
             front_panel.animate.set_width(7.2).set_height(3.5).move_to(RIGHT * 0.65 + DOWN * 0.05),
             run_time=2.2,
             rate_func=smooth,

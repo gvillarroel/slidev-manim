@@ -966,6 +966,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 147. Bridge-span scenes should hold a proof frame where the dominant form is inside the passage while bridge rails remain visible above and below it. If the source zone is removed during cleanup, recenter the target stage and resolved cluster before the final hold.
 148. For hollow target slots, set stroke opacity directly instead of applying group opacity. Group opacity can fill stroke-only shapes and make scaffolds look like active actors.
 149. Decorative neutral strips and review frames still need rest-state edge clearance. If the audit flags them, shrink the strip or widen the camera even when the colored actors are comfortably inside the frame.
+150. Once a support scaffold or backing strip disappears, do not animate it back for a late transition beat. A one-second return reads like a continuity error even when the object is subtle.
 
 # Reusable Process
 
