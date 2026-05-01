@@ -26,6 +26,9 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Decorative transparent loops can stay transparent when the slide surface supplies contrast and the clip has no labels or diagram text.
 - Device-frame or browser-frame embeds should not duplicate the surrounding Slidev frame inside the transparent Manim asset. Animate the content region only, and let the slide layout provide the chrome.
 - For short transparent UI loops, keep receiver labels or result text hidden until the pulse or active route reaches the destination. Ghosted future text can make the handoff look like a static mockup instead of a mechanism.
+- Step-reveal sequence loops need visible source states, receiver slots, and quiet route scaffolds in the opening breath. A single moving dot on an otherwise empty track reads as a placeholder, while prepared receivers make each handoff causal in still frames.
+- Fade traveling pulses during cleanup before drawing a final outline, terminal arrow, or other resolved-frame device. Even when broad composition audits pass, a small pulse that lingers at the edge of a cleanup frame reads as disconnected residue in full-size review.
+- When the preferred text font is not installed, choose an installed fallback before constructing `Text` mobjects. Repeated font fallback warnings make render logs noisy and can hide real Manim issues.
 - Validate transparent VP9 WebM proof frames with the `libvpx-vp9` decoder, not only PyAV or the native FFmpeg decoder. Those paths can report `yuv420p` and opaque alpha even when the stream metadata has `alpha_mode=1` and libvpx exposes real alpha.
 - Contact sheets are useful for broad passes, but suspicious thumbnails must be opened full size before patching.
 - Camera-focus passes should hide or fully contextualize neighboring panels. Cropped fragments at the frame edge read as accidental unless they clearly remain context.
