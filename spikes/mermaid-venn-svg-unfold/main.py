@@ -41,7 +41,6 @@ from manim import (
 from mermaid_svg_unfold_engine import (
     GRAY,
     GRAY_200,
-    PAGE_BACKGROUND,
     PRIMARY_BLUE,
     PRIMARY_GREEN,
     PRIMARY_RED,
@@ -88,22 +87,12 @@ def lens_shape(radius: float, half_distance: float, samples: int = 56) -> VMobje
 
 class MermaidSvgUnfoldScene(_BaseMermaidSvgUnfoldScene):
     def construct(self) -> None:
-        self.camera.background_color = PAGE_BACKGROUND
+        self.camera.background_color = WHITE
         poster_mode = env_value("SPIKE_RENDER_TARGET") == "poster"
         force_assets = env_value("SPIKE_FORCE_MERMAID") == "1"
 
         svg_path, _png_path = ensure_mermaid_assets(force=force_assets)
         ensure_fragments(svg_path, force=force_assets)
-
-        stage = Rectangle(
-            width=11.65,
-            height=6.35,
-            stroke_color=GRAY_200,
-            stroke_width=2,
-            fill_color=WHITE,
-            fill_opacity=0.78,
-        ).move_to(DOWN * 0.22)
-        stage.set_z_index(-4)
 
         title = build_title()
         radius = 1.86
@@ -160,10 +149,10 @@ class MermaidSvgUnfoldScene(_BaseMermaidSvgUnfoldScene):
         scaffold = VGroup(left_slot, right_slot, center_slot)
 
         if poster_mode:
-            self.add(stage, title, left_set, right_set, overlap, corners)
+            self.add(title, left_set, right_set, overlap, corners)
             return
 
-        self.add(stage, title, scaffold)
+        self.add(title, scaffold)
         self.wait(2.4)
 
         self.play(
