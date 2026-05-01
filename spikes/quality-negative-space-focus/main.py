@@ -99,7 +99,7 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
 
 
 def promote(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"), key=lambda path: path.stat().st_mtime)
     if not matches:
         raise FileNotFoundError(target_name)
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -204,25 +204,41 @@ class QualityNegativeSpaceFocusScene(Scene):
                 self.play(pulse.animate.move_to(source_tiles[index + 1].get_center() + RIGHT * 0.2), run_time=0.55)
                 self.wait(0.35)
 
+        self.remove(route_scaffold)
+        resolve_shift = LEFT * 1.15
         self.play(
             AnimationGroup(
-                FadeOut(route_scaffold),
                 FadeOut(source_zone),
-                destination_zone.animate.set_fill(opacity=0.44).scale(1.04),
-                pulse.animate.move_to(RIGHT * 3.25 + DOWN * 0.15).set_fill(PRIMARY_RED, opacity=1),
-                lag_ratio=0.08,
+                destination_zone.animate.set_fill(opacity=0.42).scale(1.06).shift(resolve_shift),
+                source_tiles.animate.shift(resolve_shift),
+                FadeOut(pulse),
+                lag_ratio=0.05,
             ),
-            run_time=1.6,
+            run_time=1.35,
             rate_func=smooth,
         )
+        terminal_focus = Rectangle(
+            width=3.5,
+            height=3.95,
+            stroke_color=PRIMARY_RED,
+            stroke_width=4,
+            stroke_opacity=0.68,
+            fill_opacity=0,
+        ).move_to(destination_zone)
+        terminal_focus.set_z_index(2)
+        self.play(FadeIn(terminal_focus), run_time=0.4)
         for dot in source_tiles:
             self.play(dot.animate.scale(1.08), run_time=0.42, rate_func=there_and_back)
-        self.play(FadeOut(pulse), run_time=0.45)
+        self.play(terminal_focus.animate.set_stroke(opacity=0.18).scale(1.04), run_time=0.55)
+        self.play(FadeOut(terminal_focus), run_time=0.4)
         self.wait(6.2)
 
 
 def render_variant(args: _Args) -> None:
     video_path, poster_path = output_paths()
+
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
 
     result = subprocess.run(render_command(args, video_path.stem, poster=False), check=False)
     if result.returncode != 0:
