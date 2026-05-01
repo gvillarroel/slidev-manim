@@ -40,7 +40,8 @@
     "video:slidev-transition-showcase": "uv run --script spikes/slidev-transition-showcase/main.py",
     "video:red-dot-resonance-spa": "uv run --script spikes/red-dot-resonance-spa/main.py",
     "video:red-dot-lens-spa": "uv run --script spikes/red-dot-lens-spa/main.py",
-    "video:red-dot-radial-focus-spa": "uv run --script spikes/red-dot-radial-focus-spa/main.py"
+    "video:red-dot-radial-focus-spa": "uv run --script spikes/red-dot-radial-focus-spa/main.py",
+    "video:red-dot-thread-spa": "uv run --script spikes/red-dot-thread-spa/main.py"
   },
   "devDependencies": {
     "@slidev/cli": "^52.3.0",
