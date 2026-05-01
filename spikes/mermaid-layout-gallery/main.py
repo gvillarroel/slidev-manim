@@ -103,7 +103,7 @@ def render_command(args: _Args, scene_name: str, resolution: str, stem: str, pos
 
 
 def promote(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"), key=lambda path: path.stat().st_mtime)
     if not matches:
         raise FileNotFoundError(f"Could not find {target_name}")
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -139,6 +139,8 @@ def render_variant(args: _Args, name: str) -> None:
 
 def main() -> int:
     args = parse_args()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
     for name in VARIANTS:
         render_variant(args, name)
     return 0
@@ -154,11 +156,13 @@ from manim import (
     Circle,
     Dot,
     FadeIn,
+    FadeOut,
     LEFT,
     Line,
     MoveAlongPath,
     PI,
     RIGHT,
+    Rectangle,
     RoundedRectangle,
     Scene,
     Sector,
@@ -364,11 +368,52 @@ class HeroSupportScene(Scene):
 class DeviceFrameScene(Scene):
     def construct(self) -> None:
         prep(self)
-        shell = RoundedRectangle(width=6.2, height=4.3, corner_radius=0.28)
-        shell.set_stroke(PRIMARY_BLUE, width=8, opacity=0.9)
-        shell.set_fill(HIGHLIGHT_BLUE, opacity=0.10)
-        top = card("Search", 2.0, 0.7, PRIMARY_ORANGE, HIGHLIGHT_ORANGE).shift(UP * 1.0)
-        bottom = card("Checkout", 2.4, 0.8, PRIMARY_GREEN, HIGHLIGHT_GREEN).shift(DOWN * 1.1)
-        arrow = Arrow(top.get_bottom(), bottom.get_top(), buff=0.12, color=PRIMARY_RED, stroke_width=8)
-        self.add(shell, top, bottom, arrow)
-        self.wait(1.0)
+
+        def flat_card(label: str, width: float, stroke: str, fill: str) -> VGroup:
+            box = Rectangle(width=width, height=0.72)
+            box.set_stroke(stroke, width=5, opacity=0.92)
+            box.set_fill(fill, opacity=0.95)
+            text = Text(label, font_size=24, color=GRAY).move_to(box)
+            return VGroup(box, text)
+
+        search = flat_card("Search", 2.0, PRIMARY_ORANGE, HIGHLIGHT_ORANGE).shift(LEFT * 3.25 + UP * 0.72)
+        cart = flat_card("Cart", 1.8, PRIMARY_BLUE, HIGHLIGHT_BLUE).shift(UP * 0.72)
+        pay = flat_card("Pay", 1.65, PRIMARY_GREEN, HIGHLIGHT_GREEN).shift(RIGHT * 3.05 + UP * 0.72)
+
+        route_a = Line(search.get_right(), cart.get_left(), color=PRIMARY_BLUE, stroke_width=7).set_stroke(opacity=0.35)
+        route_b = Line(cart.get_right(), pay.get_left(), color=PRIMARY_BLUE, stroke_width=7).set_stroke(opacity=0.35)
+        receipt_slot = Rectangle(width=4.6, height=0.58)
+        receipt_slot.set_stroke(PRIMARY_GREEN, width=4, opacity=0.26)
+        receipt_slot.set_fill(HIGHLIGHT_GREEN, opacity=0.10)
+        receipt_slot.shift(DOWN * 1.05)
+
+        pulse = Dot(color=PRIMARY_RED, radius=0.16).move_to(search.get_right())
+        confirmation = flat_card("Confirmed", 3.0, PRIMARY_GREEN, HIGHLIGHT_GREEN).move_to(receipt_slot)
+
+        self.add(search, cart, pay, route_a, route_b, receipt_slot, pulse)
+        self.wait(0.8)
+        self.play(
+            MoveAlongPath(pulse, route_a),
+            route_a.animate.set_stroke(PRIMARY_RED, opacity=0.9),
+            cart[0].animate.set_stroke(PRIMARY_RED, width=7, opacity=0.96),
+            run_time=1.35,
+        )
+        self.play(
+            MoveAlongPath(pulse, route_b),
+            route_b.animate.set_stroke(PRIMARY_RED, opacity=0.9),
+            cart[0].animate.set_stroke(PRIMARY_BLUE, width=5, opacity=0.72),
+            pay[0].animate.set_stroke(PRIMARY_RED, width=7, opacity=0.96),
+            run_time=1.35,
+        )
+        self.play(
+            pulse.animate.move_to(receipt_slot.get_left() + RIGHT * 0.32),
+            receipt_slot.animate.set_stroke(PRIMARY_GREEN, width=5, opacity=0.62).set_fill(HIGHLIGHT_GREEN, opacity=0.18),
+            route_a.animate.set_stroke(PRIMARY_BLUE, opacity=0.22),
+            route_b.animate.set_stroke(PRIMARY_BLUE, opacity=0.22),
+            pay[0].animate.set_stroke(PRIMARY_GREEN, width=5, opacity=0.92),
+            run_time=0.55,
+        )
+        self.remove(receipt_slot)
+        self.add(confirmation)
+        self.play(FadeOut(pulse), run_time=0.25)
+        self.wait(1.4)
