@@ -43,6 +43,7 @@ REVIEW_CAPTURE_NAMES = (
     "04-transformation.png",
     "05-resolution.png",
 )
+MOBILE_CAPTURE_NAME = "mobile-resolution.png"
 
 
 class SilentHandler(SimpleHTTPRequestHandler):
@@ -236,6 +237,7 @@ def write_summary(metrics: dict[str, float | int | None], port: int) -> None:
         "video": str(VIDEO_PATH),
         "poster": str(POSTER_PATH),
         "screenshots": [str(SCREENSHOTS_DIR / name) for name in REVIEW_CAPTURE_NAMES if (SCREENSHOTS_DIR / name).exists()],
+        "mobile_screenshot": str(SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME) if (SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME).exists() else None,
         "metrics": metrics,
         "browser_validation": browser_validation,
     }

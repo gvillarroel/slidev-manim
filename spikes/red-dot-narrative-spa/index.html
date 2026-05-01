@@ -15,143 +15,148 @@
   <body>
     <main class="app-shell">
       <section class="stage-panel" aria-label="Red dot visual narrative">
-        <svg
-          id="stage"
-          class="stage"
-          viewBox="0 0 1600 900"
-          role="img"
-          aria-labelledby="stage-title stage-desc"
-        >
-          <title id="stage-title">Red dot narrative</title>
-          <desc id="stage-desc">
-            A single red point appears, searches for structure, passes through a visual conflict,
-            transforms into a connective system, and settles into a centered final composition.
-          </desc>
+        <div class="stage-frame">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot narrative</title>
+            <desc id="stage-desc">
+              A single red point appears, searches for structure, passes through a visual conflict,
+              transforms into a connective system, and settles into a centered final composition.
+            </desc>
 
-          <defs>
-            <linearGradient id="grid-fade" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
-              <stop offset="25%" stop-color="#f7f7f7" stop-opacity="1" />
-              <stop offset="75%" stop-color="#f7f7f7" stop-opacity="1" />
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
-            </linearGradient>
-            <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.78" />
-              <stop offset="70%" stop-color="#ffccd5" stop-opacity="0.18" />
-              <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
-            </radialGradient>
-            <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.08" />
-            </filter>
-          </defs>
+            <defs>
+              <linearGradient id="grid-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+                <stop offset="25%" stop-color="#f7f7f7" stop-opacity="1" />
+                <stop offset="75%" stop-color="#f7f7f7" stop-opacity="1" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </linearGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.78" />
+                <stop offset="70%" stop-color="#ffccd5" stop-opacity="0.18" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.08" />
+              </filter>
+            </defs>
 
-          <rect x="0" y="0" width="1600" height="900" fill="#f7f7f7" />
-          <rect x="80" y="96" width="1440" height="708" rx="0" fill="#ffffff" stroke="#cfcfcf" stroke-width="2" filter="url(#soft-shadow)" />
-          <rect x="124" y="132" width="1352" height="636" fill="url(#grid-fade)" opacity="0.82" />
+            <rect x="0" y="0" width="1600" height="900" fill="#f7f7f7" />
+            <rect x="80" y="96" width="1440" height="708" rx="0" fill="#ffffff" stroke="#cfcfcf" stroke-width="2" filter="url(#soft-shadow)" />
+            <rect x="124" y="132" width="1352" height="636" fill="url(#grid-fade)" opacity="0.82" />
 
-          <g id="ambient-grid" opacity="0.12" stroke="#cfcfcf" stroke-width="1">
-            <path d="M 240 180 H 1360" />
-            <path d="M 240 450 H 1360" />
-            <path d="M 240 720 H 1360" />
-            <path d="M 320 180 V 720" />
-            <path d="M 800 180 V 720" />
-            <path d="M 1280 180 V 720" />
-          </g>
-
-          <path
-            id="narrative-spine"
-            d="M 220 450 C 300 450, 340 450, 420 450 C 520 450, 600 450, 700 450 C 790 450, 900 450, 1010 450 C 1090 450, 1180 450, 1260 450"
-            fill="none"
-            stroke="#cfcfcf"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-dasharray="10 14"
-            opacity="0"
-          />
-          <path
-            id="active-trail"
-            d="M 220 450 C 300 450, 340 450, 420 450 C 520 450, 600 450, 700 450 C 790 450, 900 450, 1010 450 C 1090 450, 1180 450, 1260 450"
-            fill="none"
-            stroke="#9e1b32"
-            stroke-width="8"
-            stroke-linecap="round"
-            stroke-dasharray="0 1200"
-            opacity="0"
-          />
-
-          <g id="search-group">
-            <circle id="search-circle" cx="395" cy="308" r="48" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
-            <rect id="search-square" x="410" y="390" width="104" height="104" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
-            <g id="search-card" opacity="0">
-              <rect x="360" y="554" width="182" height="102" fill="#ffffff" stroke="#b5b5b5" stroke-width="6" />
-              <path d="M 394 590 H 502" stroke="#9c9c9c" stroke-width="6" stroke-linecap="round" />
-              <path d="M 394 624 H 468" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+            <g id="ambient-grid" opacity="0.12" stroke="#cfcfcf" stroke-width="1">
+              <path d="M 240 180 H 1360" />
+              <path d="M 240 450 H 1360" />
+              <path d="M 240 720 H 1360" />
+              <path d="M 320 180 V 720" />
+              <path d="M 800 180 V 720" />
+              <path d="M 1280 180 V 720" />
             </g>
-            <path id="search-arc-top" d="M 280 450 C 320 400, 342 350, 392 308" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
-            <path id="search-arc-mid" d="M 392 308 C 418 346, 440 372, 462 442" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
-            <path id="search-arc-bottom" d="M 462 442 C 432 500, 408 534, 452 604" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
-          </g>
 
-          <g id="tension-group" opacity="0">
-            <rect id="clamp-top" x="628" y="248" width="324" height="126" fill="#333e48" opacity="0.94" />
-            <rect id="clamp-bottom" x="628" y="526" width="324" height="126" fill="#333e48" opacity="0.94" />
-            <rect id="clamp-gate" x="730" y="332" width="120" height="236" fill="none" stroke="#9c9c9c" stroke-width="3" opacity="0.5" />
-            <path id="clamp-track" d="M 590 450 H 1010" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0.65" />
-          </g>
+            <path
+              id="narrative-spine"
+              d="M 220 450 C 300 450, 340 450, 420 450 C 520 450, 600 450, 700 450 C 790 450, 900 450, 1010 450 C 1090 450, 1180 450, 1260 450"
+              fill="none"
+              stroke="#cfcfcf"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-dasharray="10 14"
+              opacity="0"
+            />
+            <path
+              id="active-trail"
+              d="M 220 450 C 300 450, 340 450, 420 450 C 520 450, 600 450, 700 450 C 790 450, 900 450, 1010 450 C 1090 450, 1180 450, 1260 450"
+              fill="none"
+              stroke="#9e1b32"
+              stroke-width="8"
+              stroke-linecap="round"
+              stroke-dasharray="0 1200"
+              opacity="0"
+            />
 
-          <g id="transform-group" opacity="0">
-            <circle id="transform-ring" cx="1080" cy="450" r="88" fill="none" stroke="#9e1b32" stroke-width="10" opacity="0" />
-            <circle id="transform-ring-secondary" cx="1080" cy="450" r="132" fill="none" stroke="#ffccd5" stroke-width="6" opacity="0" />
-            <path id="connector-a" d="M 1080 450 L 964 306" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
-            <path id="connector-b" d="M 1080 450 L 1258 392" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
-            <path id="connector-c" d="M 1080 450 L 978 620" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
-
-            <g id="card-a" opacity="0">
-              <rect x="890" y="226" width="150" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-              <path d="M 924 264 H 1002" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
-              <path d="M 924 298 H 986" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+            <g id="search-group">
+              <circle id="search-circle" cx="395" cy="308" r="48" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
+              <rect id="search-square" x="410" y="390" width="104" height="104" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
+              <g id="search-card" opacity="0">
+                <rect x="360" y="554" width="182" height="102" fill="#ffffff" stroke="#b5b5b5" stroke-width="6" />
+                <path d="M 394 590 H 502" stroke="#9c9c9c" stroke-width="6" stroke-linecap="round" />
+                <path d="M 394 624 H 468" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+              </g>
+              <circle id="search-echo-top" cx="394" cy="308" r="10" fill="#9e1b32" opacity="0" />
+              <circle id="search-echo-mid" cx="462" cy="442" r="10" fill="#9e1b32" opacity="0" />
+              <circle id="search-echo-bottom" cx="452" cy="604" r="10" fill="#9e1b32" opacity="0" />
+              <path id="search-arc-top" d="M 280 450 C 320 400, 342 350, 392 308" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
+              <path id="search-arc-mid" d="M 392 308 C 418 346, 440 372, 462 442" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
+              <path id="search-arc-bottom" d="M 462 442 C 432 500, 408 534, 452 604" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
             </g>
-            <g id="card-b" opacity="0">
-              <rect x="1192" y="328" width="162" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-              <path d="M 1226 366 H 1318" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
-              <path d="M 1226 400 H 1288" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+
+            <g id="tension-group" opacity="0">
+              <rect id="clamp-top" x="628" y="248" width="324" height="126" fill="#333e48" opacity="0.94" />
+              <rect id="clamp-bottom" x="628" y="526" width="324" height="126" fill="#333e48" opacity="0.94" />
+              <rect id="clamp-gate" x="730" y="332" width="120" height="236" fill="none" stroke="#9c9c9c" stroke-width="3" opacity="0.5" />
+              <path id="clamp-track" d="M 590 450 H 1010" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0.65" />
             </g>
-            <g id="card-c" opacity="0">
-              <rect x="900" y="576" width="166" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-              <path d="M 934 614 H 1028" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
-              <path d="M 934 648 H 998" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+
+            <g id="transform-group" opacity="0">
+              <circle id="transform-ring" cx="1080" cy="450" r="88" fill="none" stroke="#9e1b32" stroke-width="10" opacity="0" />
+              <circle id="transform-ring-secondary" cx="1080" cy="450" r="132" fill="none" stroke="#ffccd5" stroke-width="6" opacity="0" />
+              <path id="connector-a" d="M 1080 450 L 964 306" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+              <path id="connector-b" d="M 1080 450 L 1258 392" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+              <path id="connector-c" d="M 1080 450 L 978 620" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+
+              <g id="card-a" opacity="0">
+                <rect x="890" y="226" width="150" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
+                <path d="M 924 264 H 1002" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                <path d="M 924 298 H 986" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+              </g>
+              <g id="card-b" opacity="0">
+                <rect x="1192" y="328" width="162" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
+                <path d="M 1226 366 H 1318" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                <path d="M 1226 400 H 1288" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+              </g>
+              <g id="card-c" opacity="0">
+                <rect x="900" y="576" width="166" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
+                <path d="M 934 614 H 1028" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                <path d="M 934 648 H 998" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+              </g>
             </g>
-          </g>
 
-          <g id="resolution-group" opacity="0">
-            <circle id="resolution-aura" cx="820" cy="450" r="150" fill="none" stroke="#ffccd5" stroke-width="4" opacity="0" />
-          </g>
+            <g id="resolution-group" opacity="0">
+              <circle id="resolution-aura" cx="820" cy="450" r="150" fill="none" stroke="#ffccd5" stroke-width="4" opacity="0" />
+            </g>
 
-          <circle id="dot-halo" cx="220" cy="450" r="76" fill="url(#halo-gradient)" opacity="0" />
-          <circle id="dot-core" cx="220" cy="450" r="18" fill="#9e1b32" opacity="0" />
-        </svg>
-      </section>
+            <circle id="dot-halo" cx="220" cy="450" r="76" fill="url(#halo-gradient)" opacity="0" />
+            <circle id="dot-core" cx="220" cy="450" r="18" fill="#9e1b32" opacity="0" />
+          </svg>
 
-      <section class="hud" aria-label="Narrative controls">
-        <div class="hud-copy">
-          <p class="eyebrow">Red point narrative</p>
-          <p id="phase-label" class="phase-label">appearance</p>
-        </div>
-        <div class="timeline" aria-hidden="true">
-          <div class="timeline-track">
-            <div id="timeline-fill" class="timeline-fill"></div>
+          <div class="phase-chip" aria-live="polite">
+            <p class="eyebrow">Red point narrative</p>
+            <p id="phase-label" class="phase-label">appearance</p>
           </div>
-          <div class="timeline-dots">
-            <span class="timeline-dot" data-phase-dot="appearance"></span>
-            <span class="timeline-dot" data-phase-dot="search"></span>
-            <span class="timeline-dot" data-phase-dot="tension"></span>
-            <span class="timeline-dot" data-phase-dot="transformation"></span>
-            <span class="timeline-dot" data-phase-dot="resolution"></span>
+
+          <div class="timeline-overlay" aria-hidden="true">
+            <div class="timeline-track">
+              <div id="timeline-fill" class="timeline-fill"></div>
+            </div>
+            <div class="timeline-dots">
+              <span class="timeline-dot" data-phase-dot="appearance"></span>
+              <span class="timeline-dot" data-phase-dot="search"></span>
+              <span class="timeline-dot" data-phase-dot="tension"></span>
+              <span class="timeline-dot" data-phase-dot="transformation"></span>
+              <span class="timeline-dot" data-phase-dot="resolution"></span>
+            </div>
           </div>
-        </div>
-        <div class="hud-actions">
-          <button id="toggle-button" class="hud-button" type="button" aria-label="Pause narrative">pause</button>
-          <button id="replay-button" class="hud-button" type="button" aria-label="Replay narrative">replay</button>
+
+          <div class="control-cluster" aria-label="Narrative controls">
+            <button id="toggle-button" class="hud-button" type="button" aria-label="Pause narrative">pause</button>
+            <button id="replay-button" class="hud-button" type="button" aria-label="Replay narrative">replay</button>
+          </div>
         </div>
       </section>
     </main>

@@ -38,6 +38,12 @@ const captures = [
   { file: "04-transformation.png", at: 20300 },
   { file: "05-resolution.png", at: 28600 },
 ];
+const mobileCapture = {
+  file: "mobile-resolution.png",
+  at: 28600,
+  width: 430,
+  height: 932,
+};
 
 rmSync(args.screenshotDir, { recursive: true, force: true });
 mkdirSync(args.screenshotDir, { recursive: true });
@@ -98,6 +104,23 @@ if (args.durationMs > lastCapture) {
 const finalState = await page.evaluate(() => window.__RED_DOT_APP?.getState?.() ?? null);
 await context.close();
 
+const mobileContext = await browser.newContext({
+  viewport: { width: mobileCapture.width, height: mobileCapture.height },
+  deviceScaleFactor: 2,
+});
+const mobilePage = await mobileContext.newPage();
+await mobilePage.goto(args.url, { waitUntil: "domcontentloaded" });
+await mobilePage.waitForFunction(() => Boolean(window.__RED_DOT_READY));
+await mobilePage.evaluate((at) => {
+  window.__RED_DOT_APP?.pause?.();
+  window.__RED_DOT_APP?.seek?.(at);
+}, mobileCapture.at);
+await mobilePage.waitForTimeout(80);
+await mobilePage.screenshot({
+  path: join(args.screenshotDir, mobileCapture.file),
+});
+await mobileContext.close();
+
 const recordedVideo = await pageVideo.path();
 copyFileSync(recordedVideo, args.outputVideo);
 await browser.close();
@@ -109,6 +132,7 @@ const summary = {
   height: args.height,
   durationMs: args.durationMs,
   captures,
+  mobileCapture,
   consoleMessages,
   pageErrors,
   finalState,

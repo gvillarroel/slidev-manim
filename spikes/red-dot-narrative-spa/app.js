@@ -23,6 +23,12 @@ const activeTrail = document.getElementById("active-trail");
 const searchCircle = document.getElementById("search-circle");
 const searchSquare = document.getElementById("search-square");
 const searchCard = document.getElementById("search-card");
+const searchCardRect = searchCard.querySelector("rect");
+const searchCardLead = searchCard.querySelectorAll("path")[0];
+const searchCardTrail = searchCard.querySelectorAll("path")[1];
+const searchEchoTop = document.getElementById("search-echo-top");
+const searchEchoMid = document.getElementById("search-echo-mid");
+const searchEchoBottom = document.getElementById("search-echo-bottom");
 const searchArcTop = document.getElementById("search-arc-top");
 const searchArcMid = document.getElementById("search-arc-mid");
 const searchArcBottom = document.getElementById("search-arc-bottom");
@@ -43,6 +49,15 @@ const cardB = document.getElementById("card-b");
 const cardC = document.getElementById("card-c");
 const resolutionGroup = document.getElementById("resolution-group");
 const resolutionAura = document.getElementById("resolution-aura");
+const ACTIVE_TRAIL_LENGTH = activeTrail.getTotalLength();
+
+const COLORS = {
+  primaryRed: "#9e1b32",
+  mutedRed: "#c97a89",
+  highlightRed: "#ffccd5",
+  passiveGray: "#b5b5b5",
+  lineGray: "#cfcfcf",
+};
 
 const points = {
   start: { x: 220, y: 450 },
@@ -117,6 +132,13 @@ function setStrokeColor(element, color) {
   element.setAttribute("stroke", color);
 }
 
+function setTrailWindow(visibleLength, opacity) {
+  const clampedLength = clamp(visibleLength, 0, ACTIVE_TRAIL_LENGTH);
+  activeTrail.style.strokeDasharray = `${clampedLength.toFixed(2)} ${(ACTIVE_TRAIL_LENGTH + 240).toFixed(2)}`;
+  activeTrail.style.strokeDashoffset = "0";
+  setOpacity(activeTrail, opacity);
+}
+
 function phaseForElapsed(elapsed) {
   let cursor = 0;
   for (let index = 0; index < PHASES.length; index += 1) {
@@ -177,10 +199,19 @@ function setGroupTranslation(group, xOffset) {
 function resetScene() {
   applyDot(points.start, 18, 76, 0, 0);
   setOpacity(narrativeSpine, 0);
-  setOpacity(activeTrail, 0);
-  activeTrail.style.strokeDasharray = "0 1400";
+  setTrailWindow(0, 0);
 
-  [searchCircle, searchSquare, searchCard, searchArcTop, searchArcMid, searchArcBottom].forEach((element) => {
+  [
+    searchCircle,
+    searchSquare,
+    searchCard,
+    searchEchoTop,
+    searchEchoMid,
+    searchEchoBottom,
+    searchArcTop,
+    searchArcMid,
+    searchArcBottom,
+  ].forEach((element) => {
     setOpacity(element, 0);
   });
 
@@ -214,7 +245,7 @@ function renderAppearance(progress) {
 
   applyDot(points.start, radius, haloRadius, dotOpacity, haloPulse * dotOpacity);
   setOpacity(narrativeSpine, clamp((progress - 0.2) * 1.2, 0, 0.34));
-  setOpacity(activeTrail, 0.0);
+  setTrailWindow(0, 0);
 
   setOpacity(searchCircle, clamp((progress - 0.42) * 1.6, 0, 0.4));
   setOpacity(searchSquare, clamp((progress - 0.5) * 1.6, 0, 0.32));
@@ -250,9 +281,8 @@ function renderSearch(progress) {
   }
 
   applyDot(position, 18, 74, 1, 0.34 + pulseWave(progress, 2.2) * 0.18, stretchX, stretchY);
-  setOpacity(narrativeSpine, 0.28);
-  setOpacity(activeTrail, 0.85);
-  activeTrail.style.strokeDasharray = `${160 + progress * 280} 1400`;
+  setOpacity(narrativeSpine, 0.24);
+  setTrailWindow(110 + progress * 165, 0.72);
 
   setOpacity(searchCircle, 0.66);
   setOpacity(searchSquare, 0.58);
@@ -261,11 +291,19 @@ function renderSearch(progress) {
   setOpacity(searchArcMid, 0.56);
   setOpacity(searchArcBottom, 0.56);
 
-  const activeRed = "#9e1b32";
-  const passiveGray = "#b5b5b5";
-  setStrokeColor(searchCircle, progress < 0.36 ? activeRed : passiveGray);
-  setStrokeColor(searchSquare, progress >= 0.36 && progress < 0.68 ? activeRed : passiveGray);
-  searchCard.querySelector("rect").setAttribute("stroke", progress >= 0.68 ? activeRed : passiveGray);
+  setStrokeColor(searchCircle, progress < 0.36 ? COLORS.primaryRed : COLORS.mutedRed);
+  setStrokeColor(searchSquare, progress >= 0.36 && progress < 0.68 ? COLORS.primaryRed : progress >= 0.68 ? COLORS.mutedRed : COLORS.passiveGray);
+  searchCardRect.setAttribute("stroke", progress >= 0.68 ? COLORS.primaryRed : progress >= 0.5 ? COLORS.mutedRed : COLORS.passiveGray);
+  searchCardLead.setAttribute("stroke", progress >= 0.68 ? COLORS.primaryRed : COLORS.passiveGray);
+  searchCardTrail.setAttribute("stroke", COLORS.lineGray);
+
+  setStrokeColor(searchArcTop, progress < 0.36 ? COLORS.primaryRed : COLORS.mutedRed);
+  setStrokeColor(searchArcMid, progress >= 0.36 && progress < 0.68 ? COLORS.primaryRed : progress >= 0.68 ? COLORS.mutedRed : COLORS.lineGray);
+  setStrokeColor(searchArcBottom, progress >= 0.68 ? COLORS.primaryRed : COLORS.lineGray);
+
+  setOpacity(searchEchoTop, progress >= 0.34 ? 0.42 : 0);
+  setOpacity(searchEchoMid, progress >= 0.56 ? 0.38 : 0);
+  setOpacity(searchEchoBottom, progress >= 0.82 ? 0.34 : 0);
 }
 
 function renderTension(progress) {
@@ -280,22 +318,27 @@ function renderTension(progress) {
     : progress < 0.72
       ? 1
       : 1 - easeInOut((progress - 0.72) / 0.28);
+  const pressurePulse = progress > 0.3 && progress < 0.72
+    ? (pulseWave((progress - 0.3) / 0.42, 2.4) - 0.5) * 10
+    : 0;
 
-  const gap = lerp(186, 78, squeezeStrength);
+  const gap = lerp(186, 78, squeezeStrength) + pressurePulse;
   const topY = 450 - gap / 2 - 126;
   const bottomY = 450 + gap / 2;
-  const gateWidth = lerp(160, 94, squeezeStrength);
+  const gateWidth = lerp(160, 94, squeezeStrength) - pressurePulse * 0.5;
   const dotScaleX = lerp(1.02, 1.7, squeezeStrength);
   const dotScaleY = lerp(0.98, 0.72, squeezeStrength);
 
   applyDot(travel, 18, lerp(76, 96, squeezeStrength), 1, 0.36 + squeezeStrength * 0.14, dotScaleX, dotScaleY);
   setOpacity(narrativeSpine, 0.16);
-  setOpacity(activeTrail, 0.92);
-  activeTrail.style.strokeDasharray = `${500 + progress * 260} 1400`;
+  setTrailWindow(420 + progress * 130, 0.84);
 
   setOpacity(searchCircle, 0.12);
   setOpacity(searchSquare, 0.12);
   setOpacity(searchCard, 0.12);
+  setOpacity(searchEchoTop, 0.16);
+  setOpacity(searchEchoMid, 0.14);
+  setOpacity(searchEchoBottom, 0.12);
   setOpacity(searchArcTop, 0.1);
   setOpacity(searchArcMid, 0.1);
   setOpacity(searchArcBottom, 0.1);
@@ -311,23 +354,26 @@ function renderTransformation(progress) {
   const entryMove = progress < 0.2
     ? mixPoint(points.corridorExit, points.transformCenter, easeOut(progress / 0.2))
     : points.transformCenter;
+  const systemShift = lerp(0, -110, easeOut(clamp((progress - 0.18) / 0.72, 0, 1)));
   const ringGrow = clamp((progress - 0.12) / 0.28, 0, 1);
   const connectorGrow = clamp((progress - 0.24) / 0.48, 0, 1);
   const cardsGrow = clamp((progress - 0.42) / 0.38, 0, 1);
-  const trailAmount = 780 + connectorGrow * 240;
+  const focusPosition = { x: entryMove.x + systemShift, y: entryMove.y };
 
-  applyDot(entryMove, lerp(18, 16, progress), lerp(86, 120, ringGrow), 1, 0.26 + pulseWave(progress, 2.4) * 0.12);
+  applyDot(focusPosition, lerp(18, 16, progress), lerp(86, 120, ringGrow), 1, 0.26 + pulseWave(progress, 2.4) * 0.12);
   setOpacity(narrativeSpine, 0.08);
-  setOpacity(activeTrail, 0.42);
-  activeTrail.style.strokeDasharray = `${trailAmount} 1400`;
+  setTrailWindow(280 + (1 - connectorGrow) * 120, 0.22 + (1 - connectorGrow) * 0.1);
 
   setOpacity(searchCircle, 0.0);
   setOpacity(searchSquare, 0.0);
   setOpacity(searchCard, 0.0);
+  setOpacity(searchEchoTop, 0.0);
+  setOpacity(searchEchoMid, 0.0);
+  setOpacity(searchEchoBottom, 0.0);
   setOpacity(searchArcTop, 0.0);
   setOpacity(searchArcMid, 0.0);
   setOpacity(searchArcBottom, 0.0);
-  setOpacity(tensionGroup, 0.24);
+  setOpacity(tensionGroup, 0.14 + (1 - progress) * 0.08);
 
   setOpacity(transformGroup, 1);
   transformRing.setAttribute("r", lerp(40, 88, easeOut(ringGrow)).toFixed(2));
@@ -346,18 +392,19 @@ function renderTransformation(progress) {
     const center = index === 0 ? points.connectorA : index === 1 ? points.connectorB : points.connectorC;
     setTransform(card, center, lerp(0.92, 1, easeOut(cardProgress)), lerp(0.92, 1, easeOut(cardProgress)));
   });
+  setGroupTranslation(transformGroup, systemShift);
 }
 
 function renderResolution(progress) {
   const settle = easeInOut(progress);
-  const shift = lerp(0, points.finalCenter.x - points.transformCenter.x, settle);
+  const shift = lerp(-110, points.finalCenter.x - points.transformCenter.x, settle);
   const haloPulse = 0.22 + pulseWave(progress, 1.8) * 0.1;
 
   applyDot({ x: points.transformCenter.x + shift, y: points.finalCenter.y }, 16, lerp(104, 82, progress), 1, haloPulse);
   setOpacity(narrativeSpine, 0);
-  setOpacity(activeTrail, 0);
+  setTrailWindow(0, 0);
 
-  setOpacity(tensionGroup, 1 - easeOut(progress) * 0.96);
+  setOpacity(tensionGroup, clamp(0.16 - easeOut(progress) * 0.2, 0, 1));
   setOpacity(transformGroup, 1);
   setGroupTranslation(transformGroup, shift);
 
@@ -471,6 +518,13 @@ window.__RED_DOT_APP = {
   duration: TOTAL_DURATION,
   reset() {
     resetTimeline();
+  },
+  seek(milliseconds) {
+    const nextElapsed = ((milliseconds % TOTAL_DURATION) + TOTAL_DURATION) % TOTAL_DURATION;
+    state.elapsedBeforePause = nextElapsed;
+    state.currentElapsed = nextElapsed;
+    state.startAt = performance.now();
+    render(nextElapsed);
   },
   pause() {
     state.elapsedBeforePause = state.currentElapsed;

@@ -42,6 +42,7 @@ videos/red-dot-narrative-spa/screenshots/02-search.png
 videos/red-dot-narrative-spa/screenshots/03-tension.png
 videos/red-dot-narrative-spa/screenshots/04-transformation.png
 videos/red-dot-narrative-spa/screenshots/05-resolution.png
+videos/red-dot-narrative-spa/screenshots/mobile-resolution.png
 videos/red-dot-narrative-spa/review-frames/frame-start.png
 videos/red-dot-narrative-spa/review-frames/frame-middle.png
 videos/red-dot-narrative-spa/review-frames/frame-final.png
@@ -65,4 +66,5 @@ Then open the printed local URL in a browser.
 - The SPA loops automatically after the final hold.
 - Press `Space` to pause or resume.
 - Press `R` to restart the narrative.
+- The narrative overlays now live inside the stage so the primary composition fits fully inside the viewport on desktop and mobile.
 - The final composition recenters after the earlier search and tension devices retire so the resolved hold stays calm and legible.
