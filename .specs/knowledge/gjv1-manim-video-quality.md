@@ -11,6 +11,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Split Screen Sync
+
+- **Hypothesis**: A split-screen embed test reads more like a real synchronization mechanism when both panes are visible from the first frame, each receiver slot is prepared before the pulse arrives, and the route pulse stops at the slot entrance instead of sitting inside a hollow outline.
+- **Result**: Confirmed after replacing a 3.2-second single-circle slide with a 25.4-second staged three-row sync render.
+- **What worked**:
+  - showing the source cards, faint routes, and empty receiver slots before the opening breath, so the first sampled frames explain the pending split-screen relationship,
+  - moving one red pulse at a time along shortened connector segments with visible clearance from both source and target cards,
+  - fading each receiver slot out as the target card lands, which avoids actor-to-outline crowding while keeping the receiver causal,
+  - using a complete fading terminal outline instead of drawing the outline stroke around the final hold, because partially drawn edge fragments looked like residue in 0.3-second frames,
+  - promoting rendered files by newest modification time so reused Manim staging folders cannot copy stale renders.
+- **Validation note**:
+  - strict crowding audit findings on cue rectangles were useful, not noise. Wrapping red cue boxes around actors created zero-clearance actor-to-outline contacts; replacing those cues with separated route segments cleared composition, rest, and crowding audits.
+
 ## Mermaid Treemap SVG Unfold
 
 - **Hypothesis**: A chart-like Mermaid SVG unfold reads better when the final chart is rebuilt as native Manim geometry with visible slots in the opening breath, rather than imported as tiny SVG fragments that fade into place.
@@ -1047,6 +1060,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 150. Once a support scaffold or backing strip disappears, do not animate it back for a late transition beat. A one-second return reads like a continuity error even when the object is subtle.
 151. Do not reuse one transient pulse across separated handoffs if it disappears between them. Draw the active route or use persistent markers instead, because a vanishing dot that returns later reads like a continuity error.
 152. Text-bearing terminal cores should use perimeter halos or behind-core rings for pulses. A filled accent crossing the glyph can make the proof frame unreadable even when the pulse is visually centered and intentional.
+153. For split-screen or source-to-target sync handoffs, stop the traveling pulse at the receiver entrance when a hollow slot is the cue. Let the target actor appear after the pulse arrives, then fade the slot immediately so strict crowding checks do not see the actor as touching its outline.
+154. Red cue rectangles wrapped around active cards can create actor-to-outline crowding even when they look harmless in thumbnails. Prefer separated route segments, corner marks, or a terminal perimeter artifact with real clearance.
 
 # Reusable Process
 
