@@ -20,12 +20,12 @@ from manim import (
     UP,
     AnimationGroup,
     Circle,
+    Create,
     FadeIn,
     FadeOut,
     Line,
     MoveAlongPath,
     Rectangle,
-    RoundedRectangle,
     Scene,
     Transform,
     VGroup,
@@ -106,11 +106,10 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def card(color: str, width: float = 2.1, height: float = 1.25, opacity: float = 1.0) -> RoundedRectangle:
-    return RoundedRectangle(
+def card(color: str, width: float = 2.15, height: float = 1.18, opacity: float = 1.0) -> Rectangle:
+    return Rectangle(
         width=width,
         height=height,
-        corner_radius=0.28,
         stroke_width=0,
         fill_color=color,
         fill_opacity=opacity,
@@ -127,58 +126,108 @@ class QualityLayeredRevealScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        back_strip = Rectangle(width=13.5, height=2.0, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.55).shift(UP * 0.8)
-        front_panel = RoundedRectangle(
-            width=12.8,
-            height=4.25,
-            corner_radius=0.35,
+        back_strip = Rectangle(width=12.0, height=1.4, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.5).shift(UP * 1.1)
+        front_panel = Rectangle(
+            width=12.4,
+            height=4.9,
             stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=WHITE,
             fill_opacity=0.92,
-        ).shift(DOWN * 0.95)
+        ).shift(DOWN * 0.25)
+        source_field = Rectangle(
+            width=3.55,
+            height=3.65,
+            stroke_color=GRAY_100,
+            stroke_width=2,
+            fill_color=GRAY_100,
+            fill_opacity=0.32,
+        ).move_to(LEFT * 3.65 + DOWN * 0.25)
+        reveal_gate = VGroup(
+            Rectangle(width=0.16, height=3.85, stroke_width=0, fill_color=GRAY_200, fill_opacity=0.78),
+            Rectangle(width=0.16, height=3.85, stroke_width=0, fill_color=GRAY_200, fill_opacity=0.78),
+            Rectangle(width=0.22, height=3.1, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=0.12),
+        )
+        reveal_gate[0].move_to(LEFT * 0.18 + DOWN * 0.18)
+        reveal_gate[1].move_to(RIGHT * 0.18 + DOWN * 0.18)
+        reveal_gate[2].move_to(DOWN * 0.18)
 
         left_stack = VGroup(
-            card(PRIMARY_GREEN).move_to(LEFT * 3.35 + UP * 0.95),
-            card(PRIMARY_BLUE).move_to(LEFT * 2.35 + UP * 0.02),
-            card(PRIMARY_PURPLE).move_to(LEFT * 1.35 + DOWN * 0.95),
+            card(PRIMARY_GREEN).move_to(LEFT * 3.95 + UP * 1.0),
+            card(PRIMARY_BLUE).move_to(LEFT * 3.25 + DOWN * 0.1),
+            card(PRIMARY_PURPLE).move_to(LEFT * 2.55 + DOWN * 1.2),
         )
-        ghost_stack = left_stack.copy().set_fill(color=GRAY_200, opacity=0.14).set_z_index(-1).shift(RIGHT * 0.18 + DOWN * 0.12)
+        ghost_stack = left_stack.copy().set_fill(color=GRAY_200, opacity=0.16).set_z_index(-1).shift(RIGHT * 0.22 + DOWN * 0.16)
 
         right_cluster = VGroup(
-            orb(PRIMARY_GREEN, 0.62).move_to(RIGHT * 2.9 + UP * 0.9),
-            orb(PRIMARY_BLUE, 0.54).move_to(RIGHT * 3.95 + DOWN * 0.05),
-            orb(PRIMARY_PURPLE, 0.46).move_to(RIGHT * 2.7 + DOWN * 0.95),
+            orb(PRIMARY_GREEN, 0.62).move_to(RIGHT * 3.0 + UP * 0.95),
+            orb(PRIMARY_BLUE, 0.54).move_to(RIGHT * 4.0 + DOWN * 0.05),
+            orb(PRIMARY_PURPLE, 0.46).move_to(RIGHT * 2.85 + DOWN * 1.0),
+        )
+        target_slots = VGroup(
+            Circle(radius=0.82, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(right_cluster[0]),
+            Circle(radius=0.72, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(right_cluster[1]),
+            Circle(radius=0.62, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(right_cluster[2]),
+        )
+        target_slots.set_stroke(opacity=0.55)
+        final_cluster = VGroup(
+            orb(PRIMARY_GREEN, 0.7).move_to(RIGHT * 0.55 + UP * 0.72),
+            orb(PRIMARY_BLUE, 0.56).move_to(RIGHT * 1.55 + DOWN * 0.1),
+            orb(PRIMARY_PURPLE, 0.46).move_to(LEFT * 0.25 + DOWN * 0.78),
         )
 
         guide_lines = VGroup(
-            Line(left_stack[0].get_right(), right_cluster[0].get_left(), color=PRIMARY_ORANGE, stroke_width=6),
-            Line(left_stack[1].get_right(), right_cluster[1].get_left(), color=PRIMARY_ORANGE, stroke_width=6),
-            Line(left_stack[2].get_right(), right_cluster[2].get_left(), color=PRIMARY_ORANGE, stroke_width=6),
+            Line(left_stack[0].get_right(), right_cluster[0].get_left(), color=PRIMARY_ORANGE, stroke_width=5),
+            Line(left_stack[1].get_right(), right_cluster[1].get_left(), color=PRIMARY_ORANGE, stroke_width=5),
+            Line(left_stack[2].get_right(), right_cluster[2].get_left(), color=PRIMARY_ORANGE, stroke_width=5),
         )
+        guide_lines.set_opacity(0.22)
         pulse = Circle(radius=0.14, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(guide_lines[0].get_start())
+        pulse.set_z_index(6)
+        left_stack.set_z_index(4)
+        right_cluster.set_z_index(5)
+        guide_lines.set_z_index(1)
+        target_slots.set_z_index(2)
+        reveal_gate.set_z_index(3)
 
-        self.add(back_strip, front_panel, ghost_stack)
-        self.play(FadeIn(left_stack, shift=UP * 0.15, lag_ratio=0.1), run_time=0.9)
-        self.play(FadeIn(guide_lines, lag_ratio=0.12), run_time=0.45)
+        self.add(back_strip, front_panel, source_field, target_slots, ghost_stack, guide_lines, reveal_gate, left_stack)
+        self.wait(2.5)
 
-        for segment in guide_lines:
+        for index, segment in enumerate(guide_lines):
+            active_segment = segment.copy().set_opacity(1)
             self.play(FadeIn(pulse), run_time=0.12)
-            self.play(MoveAlongPath(pulse, segment), run_time=0.55, rate_func=linear)
-            self.play(FadeOut(pulse), run_time=0.08)
+            self.play(Create(active_segment), run_time=0.65)
+            self.play(MoveAlongPath(pulse, active_segment), run_time=1.35, rate_func=linear)
+            self.play(
+                Transform(left_stack[index], right_cluster[index]),
+                FadeOut(pulse),
+                FadeOut(active_segment),
+                run_time=1.25,
+                rate_func=smooth,
+            )
+            self.wait(0.45)
 
         self.play(
+            FadeOut(guide_lines),
+            FadeOut(target_slots),
+            FadeOut(reveal_gate),
+            FadeOut(ghost_stack),
+            FadeOut(source_field),
+            run_time=1.1,
+        )
+        self.play(
             AnimationGroup(
-                Transform(left_stack[0], right_cluster[0]),
-                Transform(left_stack[1], right_cluster[1]),
-                Transform(left_stack[2], right_cluster[2]),
-                lag_ratio=0.08,
+                Transform(left_stack[0], final_cluster[0]),
+                Transform(left_stack[1], final_cluster[1]),
+                Transform(left_stack[2], final_cluster[2]),
+                lag_ratio=0.12,
             ),
-            run_time=1.7,
+            back_strip.animate.set_opacity(0.18).shift(DOWN * 0.2),
+            front_panel.animate.set_width(7.2).set_height(3.5).move_to(RIGHT * 0.65 + DOWN * 0.05),
+            run_time=2.2,
             rate_func=smooth,
         )
-        self.play(FadeOut(guide_lines), run_time=0.22)
-        self.wait(0.35)
+        self.wait(8.0)
 
 
 def render_variant(args: _Args) -> None:

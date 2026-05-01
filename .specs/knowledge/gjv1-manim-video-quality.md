@@ -82,16 +82,17 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Layered Reveal
 
 - **Hypothesis**: Asymmetry and layered depth make the result feel more intentional than a centered generic diagram.
-- **Result**: Confirmed after one revision.
+- **Result**: Confirmed again after expanding the short draft into a 25.4-second slide-integration scene with visible opening structure, hollow destination slots, a red reveal gate, staged layer handoffs, cleanup, and a centered final hold.
 - **What worked**:
-  - a soft background strip behind the active panel,
-  - faint ghost history instead of strong duplicated shapes,
-  - diagonal source cards transforming into smaller orbit-like targets,
-  - orange guide lines kept long enough to read direction but short enough to avoid clutter.
+  - showing source cards, faint destination slots, guide lanes, and the reveal gate before the opening breath, so the first sampled frame is already meaningful,
+  - using one yellow pulse per layer and then transforming only that active layer, which keeps the mechanism readable in still frames,
+  - removing slots, guides, gate, ghost history, and source field before the final hold, so the resolved cluster owns the last frame,
+  - shrinking neutral backing strips until the resting mobject audit cleared edge margins.
 - **What failed first**:
-  - the first version was too top-left heavy,
-  - ghost shapes were too visible,
-  - the target cluster was not balanced.
+  - the legacy version was only about 5.8 seconds and had no real final hold,
+  - fading the initial cards in made the earliest review frames feel too blank for a slide-integration scene,
+  - applying opacity to a stroke-only target-slot group filled the slots and made them read as unfinished actors,
+  - the full-width decorative strip was visually subtle but still failed rest-state edge clearance.
 
 ## Quality Negative Space Focus
 
@@ -963,6 +964,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 145. When a reveal removes the source zone, recenter or rebalance the destination stage before the final hold. Otherwise the final cluster can feel stranded in leftover source-to-target layout space.
 146. Arc handoff scenes need a proof frame where the dominant form is visibly riding the curve while supports remain calmer. After the source zone disappears, recenter the resolved cluster instead of leaving it stranded in the old target lane.
 147. Bridge-span scenes should hold a proof frame where the dominant form is inside the passage while bridge rails remain visible above and below it. If the source zone is removed during cleanup, recenter the target stage and resolved cluster before the final hold.
+148. For hollow target slots, set stroke opacity directly instead of applying group opacity. Group opacity can fill stroke-only shapes and make scaffolds look like active actors.
+149. Decorative neutral strips and review frames still need rest-state edge clearance. If the audit flags them, shrink the strip or widen the camera even when the colored actors are comfortably inside the frame.
 
 # Reusable Process
 

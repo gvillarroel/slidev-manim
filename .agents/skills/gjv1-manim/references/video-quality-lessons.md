@@ -51,6 +51,8 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Magnet capture scenes should show a prepared receiver during the opening breath, hold the leader compressed inside the pocket before supports move, retire target slots and field rails immediately after their causal beat, and fade the receiver/core before the landing morph. If a bracket receiver is audited strictly, separated strokes or clear corner gaps prevent one U-shaped guide from becoming a false overlap box.
 - When a reviewer names a timestamp, validate that exact timestamp and the surrounding transition frames in the promoted video.
 - Poster images must be updated when the terminal video state changes.
+- When target slots or receiver outlines must stay hollow, set stroke opacity directly instead of applying group opacity. Group opacity can turn stroke-only placeholders into filled disks and make the opening breath look like unresolved actors.
+- Decorative backing strips and review frames still count as rest-state composition objects. If a resting audit flags low edge clearance on neutral structure, shrink the structure or widen the camera before accepting the hold.
 
 ## Maintenance Rule
 
