@@ -49,6 +49,17 @@ Use `sequence handoff` for protocol or Mermaid sequence-diagram animations.
 - Make return paths visibly different from requests, usually red and dashed, while normal request routes stay black or gray. Use additional route colors only when the user asks for a colored protocol view.
 - Give the resolved frame one terminal artifact, such as a token badge, so the final hold has a center of interest after the protocol mechanics finish.
 
+# Comparison Panel Scenes
+
+Use `side-by-side comparison asset` when a Slidev comparison page embeds two related Manim clips.
+
+- Treat each side as a complete slide-integration scene, not as a short decorative loop. Budget a visible opening breath, a mechanism proof beat, cleanup, and a 5 to 7 second final hold.
+- Make the difference between the two sides visible through mechanism grammar. For example, one side can use a direct transfer while the other uses a prepared receiver, guide path, halo, or other causal scaffold.
+- Keep the title band outside the motion lane. If the actor crosses under the title, lower the stage or add a quiet divider so sampled frames do not read as text collision.
+- Use restrained square stage geometry and gray structure by default; let the actor, active route, receiver cue, or terminal halo carry the comparison.
+- Remove route scaffolds and empty source slots before the resolved hold, then recenter the final actor or cluster so the clip does not end stranded in an old transfer layout.
+- Resting audits may report route-to-actor or route-to-slot notices for the guided side. Inspect the full-size frame and treat the notice as acceptable only when the route is visibly the track being followed and does not obscure the actor or receiver.
+
 # Time Rail Scenes
 
 Use `time rail` when a left-side timeline or spine should act as the narrator instead of a traveling red dot.

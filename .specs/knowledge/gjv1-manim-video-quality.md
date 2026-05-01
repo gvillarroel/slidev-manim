@@ -11,6 +11,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Side-by-Side Comparison Assets
+
+- **Hypothesis**: A comparison-slide asset reads better when each side is a complete slide-integration clip with its own opening structure, mechanism proof, and final hold, instead of a short generic loop.
+- **Result**: Confirmed on `spikes/compare-two-approaches/` after replacing 3.13-second direct loops with 26.1-second and 28.6-second paced clips.
+- **What worked**:
+  - keeping the title band clear by moving the motion stage below a quiet divider,
+  - using square stage geometry and subdued gray structure so the actor and handoff path own the hierarchy,
+  - making Approach A a plain direct transfer while Approach B uses a prepared receiver, guide path, and halo, so the comparison is visible in still frames,
+  - removing route scaffolds before the resolved hold and recentering the final actor so neither clip ends stranded in a transfer layout,
+  - promoting Manim outputs by latest modified time so rerenders do not copy stale files from reused staging folders.
+- **Validation note**:
+  - broad 0.3-second composition audits can clear while resting-mobject audits report expected path-to-actor or path-to-slot notices. For guided handoffs, inspect whether those notices are the route being followed before treating them as defects.
+
 ## Time Rail Narrative Family
 
 - **Decision**: Name the timeline-like alternative to the red guide dot `time rail`.

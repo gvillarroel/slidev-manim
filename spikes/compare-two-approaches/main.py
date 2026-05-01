@@ -42,6 +42,7 @@ HIGHLIGHT_BLUE = "#cdf3ff"
 HIGHLIGHT_PURPLE = "#f9ccff"
 SHADOW_BLUE = "#004d66"
 PAGE_BACKGROUND = "#f7f7f7"
+TEXT_FONT = "Arial"
 
 VARIANTS = {
     "approach-a": "approach-a",
@@ -115,7 +116,7 @@ def build_command(args: _Args, *, variant: str, poster: bool) -> list[str]:
 
 
 def promote_rendered_file(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"), key=lambda path: path.stat().st_mtime)
     if not matches:
         raise FileNotFoundError(f"Could not find {target_name} under {STAGING_DIR}")
 
@@ -152,7 +153,24 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 
-from manim import DOWN, LEFT, RIGHT, Scene, UP, WHITE, Circle, Dot, Line, RoundedRectangle, Text, linear
+from manim import (
+    DOWN,
+    LEFT,
+    ORIGIN,
+    RIGHT,
+    Scene,
+    UP,
+    Circle,
+    CubicBezier,
+    Dot,
+    FadeOut,
+    Line,
+    MoveAlongPath,
+    Rectangle,
+    Text,
+    VGroup,
+    rate_functions,
+)
 
 
 class CompareTwoApproachesScene(Scene):
@@ -170,69 +188,175 @@ class CompareTwoApproachesScene(Scene):
         else:
             self.render_approach_a()
 
-    def common_frame(self) -> tuple[RoundedRectangle, Line, Dot, Dot, Circle]:
-        frame = RoundedRectangle(
+    def common_frame(self) -> tuple[Rectangle, Line, Rectangle, Rectangle, Circle]:
+        frame = Rectangle(
             width=self.panel_width,
             height=self.panel_height,
-            corner_radius=0.36,
-            stroke_color=PRIMARY_BLUE,
-            stroke_width=6,
+            stroke_color=GRAY_200,
+            stroke_width=3,
             fill_color=PAGE_BACKGROUND,
             fill_opacity=0.96,
         )
+        title_rule = Line(
+            LEFT * 4.65 + UP * 1.55,
+            RIGHT * 4.65 + UP * 1.55,
+            color=GRAY_200,
+            stroke_width=2,
+        ).set_opacity(0.7)
         lane = Line(
-            LEFT * 4.65 + DOWN * 0.25,
-            RIGHT * 4.65 + DOWN * 0.25,
+            LEFT * 4.05 + DOWN * 0.45,
+            RIGHT * 4.05 + DOWN * 0.45,
             color=GRAY_300,
-            stroke_width=8,
+            stroke_width=5,
         )
-        start_marker = Dot(point=LEFT * 4.65 + DOWN * 0.25, color=GRAY_600, radius=0.075)
-        end_marker = Dot(point=RIGHT * 4.65 + DOWN * 0.25, color=GRAY_600, radius=0.075)
+        start_slot = Rectangle(
+            width=1.05,
+            height=1.05,
+            stroke_color=GRAY_400,
+            stroke_width=2.4,
+            fill_opacity=0,
+        ).move_to(LEFT * 4.05 + DOWN * 0.45)
+        end_slot = Rectangle(
+            width=1.05,
+            height=1.05,
+            stroke_color=GRAY_400,
+            stroke_width=2.4,
+            fill_opacity=0,
+        ).move_to(RIGHT * 4.05 + DOWN * 0.45)
+        start_slot.set_stroke(opacity=0.34)
+        end_slot.set_stroke(opacity=0.34)
         moving_circle = (
-            Circle(radius=0.82, color=PRIMARY_GREEN, stroke_width=10)
+            Circle(radius=0.46, color=PRIMARY_GREEN, stroke_width=5)
             .set_fill(PRIMARY_GREEN, opacity=0.94)
-            .move_to(LEFT * 4.35 + UP * 0.88)
+            .move_to(start_slot)
         )
-        return frame, lane, start_marker, end_marker, moving_circle
+        frame.add(title_rule)
+        return frame, lane, start_slot, end_slot, moving_circle
+
+    def title_group(self, title: str, subtitle: str) -> VGroup:
+        title_mob = Text(title, font=TEXT_FONT, font_size=28, weight="BOLD", color=GRAY).move_to(UP * 2.27)
+        subtitle_mob = Text(subtitle, font=TEXT_FONT, font_size=18, color=GRAY_700).move_to(UP * 1.94)
+        return VGroup(title_mob, subtitle_mob)
 
     def render_approach_a(self) -> None:
-        frame, lane, start_marker, end_marker, moving_circle = self.common_frame()
-        title = Text("Approach A", font_size=28, weight="BOLD", color=GRAY).move_to(
-            UP * 2.18
-        )
-        subtitle = Text("minimal motion", font_size=20, color=GRAY).move_to(UP * 1.82)
+        frame, lane, start_slot, end_slot, moving_circle = self.common_frame()
+        title = self.title_group("Approach A", "direct transfer")
+        direct_route = Line(
+            start_slot.get_center(),
+            end_slot.get_center(),
+            color=PRIMARY_RED,
+            stroke_width=5,
+        ).set_opacity(0.0)
+        terminal_ring = Circle(radius=0.62, color=PRIMARY_RED, stroke_width=4).move_to(end_slot)
+        terminal_ring.set_stroke(opacity=0)
 
-        self.add(frame, lane, start_marker, end_marker, title, subtitle, moving_circle)
+        self.add(frame, lane, start_slot, end_slot, title, moving_circle)
+        self.wait(2.7)
+        self.add(direct_route)
         self.play(
-            moving_circle.animate.move_to(RIGHT * 4.35 + UP * 0.88),
-            run_time=3.0,
-            rate_func=linear,
+            direct_route.animate.set_opacity(0.38),
+            end_slot.animate.set_stroke(color=PRIMARY_RED, opacity=0.62),
+            run_time=1.25,
+            rate_func=rate_functions.ease_out_cubic,
         )
-        self.wait(0.15)
+        self.wait(1.25)
+        self.play(
+            MoveAlongPath(moving_circle, direct_route),
+            run_time=9.2,
+            rate_func=rate_functions.ease_in_out_sine,
+        )
+        self.wait(1.45)
+        self.add(terminal_ring)
+        self.play(
+            terminal_ring.animate.set_stroke(opacity=0.95),
+            direct_route.animate.set_opacity(0.12),
+            start_slot.animate.set_stroke(opacity=0.08),
+            run_time=1.1,
+            rate_func=rate_functions.ease_out_cubic,
+        )
+        resolved = VGroup(moving_circle, terminal_ring)
+        self.play(
+            FadeOut(lane),
+            FadeOut(direct_route),
+            FadeOut(start_slot),
+            FadeOut(end_slot),
+            resolved.animate.move_to(ORIGIN + DOWN * 0.2),
+            run_time=2.1,
+            rate_func=rate_functions.ease_in_out_cubic,
+        )
+        self.wait(7.1)
 
     def render_approach_b(self) -> None:
-        frame, lane, start_marker, end_marker, moving_circle = self.common_frame()
-        title = Text("Approach B", font_size=28, weight="BOLD", color=GRAY).move_to(
-            UP * 2.18
+        frame, lane, start_slot, end_slot, moving_circle = self.common_frame()
+        title = self.title_group("Approach B", "receiver-guided handoff")
+        guide_path = CubicBezier(
+            start_slot.get_center(),
+            LEFT * 1.8 + UP * 0.95,
+            RIGHT * 1.8 + UP * 0.95,
+            end_slot.get_center(),
         )
-        subtitle = Text("same motion, more emphasis", font_size=20, color=GRAY).move_to(
-            UP * 1.82
-        )
+        guide_path.set_stroke(color=PRIMARY_ORANGE, width=4, opacity=0.16)
+        active_guide = Dot(point=guide_path.get_start(), radius=0.075, color=PRIMARY_RED)
         halo = Circle(radius=1.03, color=PRIMARY_YELLOW, stroke_width=8).set_stroke(opacity=0.42)
         halo.move_to(moving_circle.get_center())
-        trail = Line(
-            LEFT * 4.05 + UP * 0.88,
-            LEFT * 3.0 + UP * 0.88,
-            color=PRIMARY_ORANGE,
-            stroke_width=12,
-            sheen_factor=0.2,
-        ).set_opacity(0.6)
+        receiver_cue = Rectangle(
+            width=1.35,
+            height=1.35,
+            stroke_color=PRIMARY_RED,
+            stroke_width=3.5,
+            fill_opacity=0,
+        ).move_to(end_slot)
+        receiver_cue.set_stroke(opacity=0)
+        terminal_ring = Circle(radius=0.66, color=PRIMARY_RED, stroke_width=4.4).move_to(end_slot)
+        terminal_ring.set_stroke(opacity=0)
 
-        self.add(frame, lane, start_marker, end_marker, title, subtitle, trail, halo, moving_circle)
+        self.add(frame, lane, start_slot, end_slot, title, guide_path, halo, moving_circle)
+        self.wait(2.6)
         self.play(
-            moving_circle.animate.move_to(RIGHT * 4.35 + UP * 0.88),
-            halo.animate.move_to(RIGHT * 4.35 + UP * 0.88),
-            run_time=3.0,
-            rate_func=linear,
+            guide_path.animate.set_stroke(opacity=0.38),
+            end_slot.animate.set_stroke(color=PRIMARY_ORANGE, opacity=0.62),
+            run_time=1.3,
+            rate_func=rate_functions.ease_out_cubic,
         )
-        self.wait(0.15)
+        self.wait(0.9)
+        self.add(active_guide)
+        self.play(
+            MoveAlongPath(active_guide, guide_path),
+            run_time=3.2,
+            rate_func=rate_functions.ease_in_out_sine,
+        )
+        self.add(receiver_cue)
+        self.play(
+            receiver_cue.animate.set_stroke(opacity=0.78),
+            FadeOut(active_guide),
+            run_time=0.85,
+            rate_func=rate_functions.ease_out_cubic,
+        )
+        self.wait(0.8)
+        self.play(
+            MoveAlongPath(moving_circle, guide_path),
+            MoveAlongPath(halo, guide_path),
+            run_time=7.8,
+            rate_func=rate_functions.ease_in_out_sine,
+        )
+        self.wait(1.15)
+        self.add(terminal_ring)
+        self.play(
+            terminal_ring.animate.set_stroke(opacity=0.95),
+            receiver_cue.animate.set_stroke(opacity=0.0),
+            guide_path.animate.set_opacity(0.1),
+            run_time=1.1,
+            rate_func=rate_functions.ease_out_cubic,
+        )
+        resolved = VGroup(moving_circle, halo, terminal_ring)
+        self.play(
+            FadeOut(lane),
+            FadeOut(guide_path),
+            FadeOut(start_slot),
+            FadeOut(end_slot),
+            FadeOut(receiver_cue),
+            resolved.animate.move_to(ORIGIN + DOWN * 0.2),
+            run_time=2.15,
+            rate_func=rate_functions.ease_in_out_cubic,
+        )
+        self.wait(6.7)
