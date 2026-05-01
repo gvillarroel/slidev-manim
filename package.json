@@ -44,6 +44,8 @@
     "video:red-dot-radial-focus-spa": "uv run --script spikes/red-dot-radial-focus-spa/main.py",
     "video:red-dot-thread-spa": "uv run --script spikes/red-dot-thread-spa/main.py",
     "video:red-dot-bridge-spa": "uv run --script spikes/red-dot-bridge-spa/main.py",
+    "dev:red-dot-alignment-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-alignment-spa",
+    "video:red-dot-alignment-spa": "uv run --script spikes/red-dot-alignment-spa/main.py",
     "dev:red-dot-compass-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-compass-spa",
     "video:red-dot-compass-spa": "uv run --script spikes/red-dot-compass-spa/main.py",
     "dev:red-dot-fold-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-fold-spa",
