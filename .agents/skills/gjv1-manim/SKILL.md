@@ -113,6 +113,37 @@ Use `side formula handoff` for table transformations where two or more source ce
 - Keep only the experiments whose still frames remain intentional without narration.
 - Respect the project pacing floor: at least 25 seconds for slide-integration scenes, with 2 to 3 seconds of visible opening breath and 5 to 7 seconds of final hold unless a shorter micro-loop is explicitly documented.
 
+# Pre-Finish Review Protocol
+
+Do not say the video is finished just because the render succeeded or one audit passed. Treat finish as a review decision based on rendered evidence.
+
+## Required review order
+
+1. Watch or scrub the rendered video once for overall rhythm, continuity, and whether the main mechanism reads without explanation.
+2. Inspect the chosen proof frame for each act or mechanism beat at full size, not only in a thumbnail contact sheet.
+3. Inspect the resolved final hold at full size and confirm that guides, slots, rails, masks, shutters, scaffolds, and travel residue are gone or clearly subordinate.
+4. Inspect the opening breath and confirm the first meaningful composition is already visible and balanced.
+5. Inspect the highest-risk transition family at 0.5 second intervals. This is mandatory for remaps, imported SVGs, dense cleanups, and any beat a human flagged as abrupt or suspicious.
+6. Run the relevant automated audits for the scene type before declaring there are no framing or overlap problems.
+7. If the spike is browser-native or responsive, inspect at least one mobile proof frame or mobile screenshot before declaring the composition finished.
+
+## What must be true before “done”
+
+- The mechanism reads in motion and in still frames.
+- The proof frames answer the causal question of the scene, not just that something moved.
+- The final hold is calmer and simpler than the mechanism beat.
+- No obvious residue, clipped fragments, off-center drift, or support-device leftovers remain in the reviewed frames.
+- The rendered output matches the current source. If there was a patch, rerender and re-review the video itself.
+- Automated audits and human review agree, or any disagreement has been checked at full size and explained.
+
+## What is not enough
+
+- A successful render by itself.
+- One clean contact sheet without full-size frame review.
+- One passing composition audit without checking the frames it sampled.
+- A source-only code review of the animation logic.
+- Saying a suspicious frame is “probably fine” without opening that exact frame full size.
+
 # Skill-Local Sources
 
 - Treat this file and the bundled resources below as the canonical source for the skill.
@@ -471,7 +502,7 @@ Do not add text before exhausting those fixes.
 - keep anchors, pivots, or bumpers visibly separate from the leader.
 - for bumper deflect scenes, let the leader own a held compression frame before supports arrive, then move supports into their separate release lanes before the final morph so they do not cross through each other.
 - retire passive destination slots or scaffolds before the deflected landing. Once the bumper has explained the turn, lingering outlines can read as actor-to-outline crowding instead of useful structure.
-- for cradle catch scenes, hold one frame where the dominant form visibly rests above lower support pads, then separate the final support dots downward and outward. Remove cradle arcs, slots, and backing panels before the final hold so the catch does not become actor-to-actor crowding.
+- for cradle catch scenes, hold one frame where the dominant form visibly rests above lower support pads, then separate the final support dots downward and outward. Retire hollow slots before colored supports occupy the same lane, and remove guide arcs, accents, and backing panels before the settle morph or final hold so the catch does not become actor-to-guide or actor-to-actor crowding.
 
 ### Landing and arrangement
 
@@ -544,6 +575,7 @@ Ship the video only if most of these are true:
 - one accent motion clearly carries the beat,
 - the final frame feels resolved,
 - sampled frames look intentional on their own,
+- the rendered video has been reviewed with the pre-finish protocol above, not only by successful render or audit output,
 - table or formula scenes keep terms aligned, high contrast, and clear of source and destination cells,
 - the video would still make sense once narration is added later.
 
@@ -598,5 +630,6 @@ For each experiment:
 3. extract proof frames,
 4. extract half-second frames for component remaps or any transition that might hide artifacts between one-second samples,
 5. iterate at least once if the first pass is not clearly decent,
-6. record reusable lessons in this skill, preferably [references/video-quality-lessons.md](references/video-quality-lessons.md) or the most relevant skill-local reference,
-7. fold recurring lessons back into this skill instead of letting them accumulate outside the skill.
+6. run the pre-finish review protocol and do not declare the result done until the rendered evidence passes it,
+7. record reusable lessons in this skill, preferably [references/video-quality-lessons.md](references/video-quality-lessons.md) or the most relevant skill-local reference,
+8. fold recurring lessons back into this skill instead of letting them accumulate outside the skill.

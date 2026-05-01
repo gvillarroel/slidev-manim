@@ -778,12 +778,14 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Cradle Catch
 
 - **Hypothesis**: A support-assisted catch can make a landing feel more designed if the support forms clearly sit underneath the dominant form before the final resolve.
-- **Result**: Confirmed again after rebuilding the draft into a 28.8-second slide-integration scene with visible opening structure, a held cradle proof frame, and a clean final hold.
+- **Result**: Confirmed again after rebuilding the draft into a 30.1-second slide-integration scene with visible opening structure, a held cradle proof frame, explicit scaffold cleanup, and a clean final hold.
 - **What worked**:
   - faint cradle slots and a shallow arc in the opening breath, so the target zone read as a pending catch instead of empty space,
   - a blue left support and purple right support that read as the base of a shallow cradle,
   - a smaller green form that sits above those supports instead of flattening the whole group,
   - one guide and accent that suggest descent into the cradle without turning into the main subject,
+  - removing hollow receiver slots before the colored support pads move into them, which prevents one-frame slot/actor contacts during the mechanism proof,
+  - removing the guide, arc, and accent before the circle settle instead of fading them through the settle, which cleared strict 0.3-second crowding checks,
   - a resolved landing that removes the cradle logic and backing panels after the catch has been established,
   - separating the final support dots downward and outward enough that the stricter crowding audit no longer reads the resolved hold as actor contact.
 - **What failed first**:
@@ -791,7 +793,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - the first cradle arrangement looked too much like a generic three-part stack,
   - the green form was too large and visually collapsed the support relationship,
   - the supports needed to sit lower to read as a catch from below,
-  - keeping a pale target panel behind the final cluster made crowding checks ambiguous even when the frame looked intentional.
+  - keeping a pale target panel behind the final cluster made crowding checks ambiguous even when the frame looked intentional,
+  - fading cradle slots, arcs, guides, or accents through the settle can pass broad composition review while failing strict actor-to-guide clearance.
 
 ## Quality Ramp Lift
 
@@ -1143,6 +1146,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 153. For split-screen or source-to-target sync handoffs, stop the traveling pulse at the receiver entrance when a hollow slot is the cue. Let the target actor appear after the pulse arrives, then fade the slot immediately so strict crowding checks do not see the actor as touching its outline.
 154. Red cue rectangles wrapped around active cards can create actor-to-outline crowding even when they look harmless in thumbnails. Prefer separated route segments, corner marks, or a terminal perimeter artifact with real clearance.
 155. If a terminal artifact must remain visible through the final hold around a resolved stack, use separated corner brackets instead of a closed rectangle. A closed outline encloses the actors and can fail strict crowding review even when the frame looks visually balanced.
+156. In cradle-catch scenes, retire hollow slots before colored support pads occupy that lane, then remove guide arcs and accents before the settle morph. Fading scaffolds through the settle can leave strict 0.3-second crowding failures even when the contact sheet looks acceptable.
 
 # Reusable Process
 
