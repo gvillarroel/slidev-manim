@@ -1,26 +1,24 @@
 ---
 title: Red Point Narrative SPA
 status: active
-date: 2026-04-30
+date: 2026-05-01
 ---
 
 # Red Point Narrative SPA
 
 ## Purpose
 
-This spike explores a minimal single-page visual narrative where a red point acts as the only strong narrator.
+This spike builds a one-screen experimental SPA where a single red point carries the whole narrative. The page avoids explanatory copy and relies on pacing, form search, conflict, transformation, and a calm resolved structure to guide attention.
 
-The experience is structured in five acts:
+## Narrative beats
 
-- appearance
-- search for form
-- tension
-- transformation
-- resolution
+1. Appearance: the point arrives with breathing room and a faint reserved destination zone.
+2. Search: the point probes several candidate shapes without committing.
+3. Tension: the stage narrows into a gate and the point visibly compresses under pressure.
+4. Transformation: the point breaks through and starts drawing a structured route.
+5. Resolution: the route settles into a balanced connected composition with the point as the anchor.
 
-The stage keeps text to a minimum and relies on motion, spacing, and contrast to guide attention.
-
-## Run the SPA Capture
+## Build the SPA output
 
 From the repository root:
 
@@ -28,43 +26,48 @@ From the repository root:
 uv run --script spikes/red-point-narrative-spa/main.py
 ```
 
-This validates the JavaScript sources, serves the spike locally, records the SPA to WebM with Playwright, and captures screenshot evidence.
-
-Expected outputs:
+This copies the spike's static site into:
 
 ```text
-videos/red-point-narrative-spa/red-point-narrative-spa.webm
-videos/red-point-narrative-spa/screenshots/act-01-appearance.png
-videos/red-point-narrative-spa/screenshots/act-02-search.png
-videos/red-point-narrative-spa/screenshots/act-03-tension.png
-videos/red-point-narrative-spa/screenshots/act-04-transformation.png
-videos/red-point-narrative-spa/screenshots/act-05-resolution.png
-videos/red-point-narrative-spa/screenshots/poster-final.png
-videos/red-point-narrative-spa/review-frames/frame-appearance.png
-videos/red-point-narrative-spa/review-frames/frame-search.png
-videos/red-point-narrative-spa/review-frames/frame-tension.png
-videos/red-point-narrative-spa/review-frames/frame-transformation.png
-videos/red-point-narrative-spa/review-frames/frame-resolution.png
-videos/red-point-narrative-spa/capture-summary.json
-videos/red-point-narrative-spa/recording-summary.json
+videos/red-point-narrative-spa/site/
 ```
 
-## Run the SPA Locally
+## Serve the built output locally
 
 From the repository root:
 
 ```bash
-python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa
+python -m http.server 4173 --directory videos/red-point-narrative-spa/site
 ```
 
 Then open:
 
 ```text
-http://127.0.0.1:4173/index.html
+http://127.0.0.1:4173/
 ```
 
-## Notes
+## Stable review phases
 
-- The visual system follows the repository palette: `primary-red`, grayscale structure, and a light stage.
-- The video is authored as a normal slide-ready sequence, so it keeps a slow opening breath and a long resolved hold.
-- The capture workflow intentionally separates browser screenshots from the recorded video so still-frame review is deterministic.
+For visual review and screenshot capture, the SPA can freeze on a specific phase:
+
+- `/?phase=appearance`
+- `/?phase=search`
+- `/?phase=tension`
+- `/?phase=transform`
+- `/?phase=resolution`
+
+## Validation
+
+From the repository root, after starting the local server:
+
+```bash
+node spikes/red-point-narrative-spa/validate.mjs --base-url http://127.0.0.1:4173
+```
+
+This writes screenshots and a validation summary to:
+
+```text
+videos/red-point-narrative-spa/review/desktop/
+videos/red-point-narrative-spa/review/mobile/
+videos/red-point-narrative-spa/review/validation-summary.json
+```

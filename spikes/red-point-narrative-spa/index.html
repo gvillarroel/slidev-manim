@@ -1,64 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Red Point Narrative SPA</title>
-  <link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-  <main class="experience-shell">
-    <header class="hud">
-      <p class="eyebrow">visual experiment</p>
-      <h1>red point narrative</h1>
-      <p class="act-label" id="act-label">appearance</p>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Red Point Narrative</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app" data-phase="appearance">
+      <header class="hud" aria-label="Narrative controls">
+        <div class="hud__title">
+          <span class="hud__eyebrow">visual spike</span>
+          <h1>red point narrative</h1>
+        </div>
+        <div class="hud__controls">
+          <button type="button" class="hud__button" data-action="previous" aria-label="Previous phase">
+            prev
+          </button>
+          <button type="button" class="hud__button" data-action="replay" aria-label="Replay narrative">
+            replay
+          </button>
+          <button type="button" class="hud__button" data-action="next" aria-label="Next phase">
+            next
+          </button>
+        </div>
+      </header>
 
-    <section class="stage" aria-label="Red point visual narrative stage">
-      <div class="stage-glow stage-glow-a"></div>
-      <div class="stage-glow stage-glow-b"></div>
-      <div class="grid grid-x"></div>
-      <div class="grid grid-y"></div>
-      <div class="candidate candidate-circle"></div>
-      <div class="candidate candidate-square"></div>
-      <div class="candidate candidate-arc"></div>
-      <div class="gate gate-left"></div>
-      <div class="gate gate-right"></div>
-      <div class="gate-lane"></div>
-      <div class="constellation-zone"></div>
+      <section class="stage-shell" aria-label="Animated red point narrative">
+        <div class="stage-glow"></div>
+        <div class="stage-noise"></div>
+        <svg
+          class="stage"
+          viewBox="0 0 1200 675"
+          role="img"
+          aria-labelledby="narrativeTitle narrativeDesc"
+        >
+          <title id="narrativeTitle">Red point narrative</title>
+          <desc id="narrativeDesc">
+            A single red point appears, searches for form, passes through a gate,
+            and resolves into a connected structure.
+          </desc>
 
-      <div class="trail trail-a"></div>
-      <div class="trail trail-b"></div>
-      <div class="trail trail-c"></div>
+          <defs>
+            <filter id="softBlur">
+              <feGaussianBlur stdDeviation="10" />
+            </filter>
+            <filter id="grainGlow">
+              <feGaussianBlur stdDeviation="24" />
+            </filter>
+            <linearGradient id="panelWash" x1="0%" x2="100%" y1="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96" />
+              <stop offset="100%" stop-color="#f2f2f2" stop-opacity="0.94" />
+            </linearGradient>
+          </defs>
 
-      <div class="probe-line"></div>
-      <div class="line line-a"></div>
-      <div class="line line-b"></div>
-      <div class="line line-c"></div>
-      <div class="line line-d"></div>
+          <g class="frame-layer">
+            <rect class="frame-outline" x="38" y="38" width="1124" height="599" rx="0" />
+            <line class="frame-rule frame-rule--top" x1="96" y1="112" x2="1104" y2="112" />
+            <line class="frame-rule frame-rule--bottom" x1="96" y1="563" x2="1104" y2="563" />
+          </g>
 
-      <div class="node node-a"></div>
-      <div class="node node-b"></div>
-      <div class="node node-c"></div>
-      <div class="node node-d"></div>
-      <div class="node node-e"></div>
+          <g class="reserved-zone">
+            <rect class="zone-panel" x="574" y="146" width="386" height="238" rx="0" />
+            <path class="zone-slot slot-a" d="M635 220 h18 M635 220 v48 M635 268 h18" />
+            <path class="zone-slot slot-b" d="M790 334 h18 M790 334 v48 M790 382 h18" />
+            <path class="zone-slot slot-c" d="M928 242 h18 M928 242 v48 M928 290 h18" />
+          </g>
 
-      <div class="red-halo"></div>
-      <div class="red-ring"></div>
-      <div class="red-point"></div>
-      <div class="pulse pulse-a"></div>
-      <div class="pulse pulse-b"></div>
-    </section>
+          <g class="search-layer">
+            <circle class="ghost ghost-circle" cx="320" cy="186" r="72" />
+            <rect class="ghost ghost-square" x="470" y="146" width="132" height="132" rx="0" />
+            <path class="ghost ghost-triangle" d="M330 472 L460 360 L522 502 Z" />
+            <path
+              class="search-trail"
+              d="M268 340 C320 214, 420 176, 500 212 S620 296, 640 332"
+            />
+            <path
+              class="search-trail search-trail--secondary"
+              d="M270 342 C334 446, 416 470, 482 432 S602 364, 640 332"
+            />
+          </g>
 
-    <footer class="timeline" aria-hidden="true">
-      <span class="timeline-tick is-active"></span>
-      <span class="timeline-tick"></span>
-      <span class="timeline-tick"></span>
-      <span class="timeline-tick"></span>
-      <span class="timeline-tick"></span>
-    </footer>
-  </main>
+          <g class="conflict-layer">
+            <path class="gate-guide gate-guide--upper" d="M308 190 L520 286 L640 332" />
+            <path class="gate-guide gate-guide--lower" d="M314 476 L524 386 L640 332" />
+            <path class="gate-bracket gate-bracket--left" d="M618 254 h-26 M618 254 v156 M618 410 h-26" />
+            <path class="gate-bracket gate-bracket--right" d="M662 254 h26 M662 254 v156 M662 410 h26" />
+            <line class="gate-pressure gate-pressure--top" x1="640" y1="222" x2="640" y2="248" />
+            <line class="gate-pressure gate-pressure--bottom" x1="640" y1="416" x2="640" y2="442" />
+          </g>
 
-  <script type="module" src="./app.js"></script>
-</body>
+          <g class="resolution-layer">
+            <path
+              class="network-route"
+              d="M640 332 C692 294, 720 258, 742 228 S820 196, 852 222
+                 S864 304, 818 332 S744 374, 730 398
+                 S756 450, 826 430 S946 338, 962 270"
+            />
+            <path class="network-branch" d="M818 332 C878 330, 916 302, 948 274" />
+            <circle class="node node-anchor" cx="640" cy="332" r="11" />
+            <circle class="node node-mid" cx="742" cy="228" r="9" />
+            <circle class="node node-low" cx="826" cy="430" r="9" />
+            <circle class="node node-far" cx="962" cy="270" r="9" />
+            <path class="calm-rule" d="M604 470 H1002" />
+          </g>
+
+        </svg>
+        <div class="dot-overlay" aria-hidden="true">
+          <span class="dot-overlay__shell">
+            <span class="dot-overlay__aura"></span>
+            <span class="dot-overlay__ring dot-overlay__ring--outer"></span>
+            <span class="dot-overlay__ring dot-overlay__ring--inner"></span>
+            <span class="dot-overlay__core"></span>
+          </span>
+        </div>
+      </section>
+
+      <footer class="phase-bar" aria-label="Narrative phases">
+        <button class="phase-dot" data-phase-target="appearance" aria-label="Appearance phase"></button>
+        <button class="phase-dot" data-phase-target="search" aria-label="Search phase"></button>
+        <button class="phase-dot" data-phase-target="tension" aria-label="Tension phase"></button>
+        <button class="phase-dot" data-phase-target="transform" aria-label="Transformation phase"></button>
+        <button class="phase-dot" data-phase-target="resolution" aria-label="Resolution phase"></button>
+      </footer>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
 </html>
