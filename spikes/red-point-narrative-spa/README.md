@@ -71,3 +71,22 @@ videos/red-point-narrative-spa/review/desktop/
 videos/red-point-narrative-spa/review/mobile/
 videos/red-point-narrative-spa/review/validation-summary.json
 ```
+
+## Record the narrative video
+
+From the repository root, after starting the local server:
+
+```bash
+node spikes/red-point-narrative-spa/record-spa-video.mjs ^
+  --url http://127.0.0.1:4173/ ^
+  --output C:\Users\villa\dev\slidev-manim\videos\red-point-narrative-spa\red-point-narrative-spa.webm ^
+  --video-dir C:\Users\villa\dev\slidev-manim\videos\red-point-narrative-spa\recording-temp ^
+  --screenshots-dir C:\Users\villa\dev\slidev-manim\videos\red-point-narrative-spa\screenshots ^
+  --summary C:\Users\villa\dev\slidev-manim\videos\red-point-narrative-spa\recording-summary.json
+```
+
+This records the autoplay narrative into:
+
+```text
+videos/red-point-narrative-spa/red-point-narrative-spa.webm
+```

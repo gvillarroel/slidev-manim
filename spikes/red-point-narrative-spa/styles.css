@@ -28,6 +28,7 @@
   --zone-opacity: 0.2;
   --zone-shift: 20px;
   --zone-scale: 0.985;
+  --orbit-opacity: 0;
   --calm-rule-opacity: 0;
   --focus-x: 34%;
   --focus-y: 48%;
@@ -44,10 +45,13 @@ body {
 }
 
 body {
+  display: grid;
+  place-items: center;
   background:
     radial-gradient(circle at 18% 16%, rgba(158, 27, 50, 0.08), transparent 24%),
-    radial-gradient(circle at 76% 26%, rgba(51, 62, 72, 0.07), transparent 26%),
-    linear-gradient(180deg, #fbfbfb 0%, #f0f0f0 100%);
+    radial-gradient(circle at 76% 26%, rgba(51, 62, 72, 0.08), transparent 28%),
+    radial-gradient(circle at 58% 82%, rgba(158, 27, 50, 0.04), transparent 26%),
+    linear-gradient(180deg, #fbfbfb 0%, #efefef 100%);
   color: var(--gray);
   font-family: "Open Sans", "Segoe UI", sans-serif;
 }
@@ -58,10 +62,10 @@ button {
 
 .app {
   min-height: 100vh;
-  padding: 28px 24px 24px;
+  width: 100%;
+  padding: 16px;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 18px;
+  place-items: center;
   transition:
     --dot-left 1600ms cubic-bezier(0.22, 1, 0.36, 1),
     --dot-top 1600ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -76,93 +80,27 @@ button {
     --zone-opacity 900ms ease,
     --zone-shift 1600ms cubic-bezier(0.22, 1, 0.36, 1),
     --zone-scale 1600ms cubic-bezier(0.22, 1, 0.36, 1),
+    --orbit-opacity 900ms ease,
     --calm-rule-opacity 900ms ease;
-}
-
-.hud {
-  width: min(1240px, 100%);
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.hud__title {
-  display: grid;
-  gap: 6px;
-}
-
-.hud__eyebrow {
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  font-size: 0.64rem;
-  color: var(--gray-500);
-}
-
-.hud__title h1 {
-  margin: 0;
-  font-size: clamp(1.18rem, 1.55vw, 1.55rem);
-  font-weight: 680;
-  letter-spacing: 0.02em;
-  text-transform: lowercase;
-}
-
-.hud__controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.hud__button,
-.phase-dot {
-  border: 1px solid rgba(79, 79, 79, 0.18);
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(12px);
-  color: var(--gray);
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease,
-    color 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.hud__button {
-  padding: 8px 13px;
-  font-size: 0.92rem;
-  text-transform: lowercase;
-  cursor: pointer;
-}
-
-.hud__button:hover,
-.hud__button:focus-visible,
-.phase-dot:hover,
-.phase-dot:focus-visible {
-  outline: none;
-  transform: translateY(-1px);
-  border-color: rgba(158, 27, 50, 0.42);
-  box-shadow: 0 10px 30px rgba(51, 62, 72, 0.12);
 }
 
 .stage-shell {
   position: relative;
-  width: min(1240px, 100%);
-  margin: 0 auto;
+  width: min(1240px, calc(100vw - 32px), calc((100vh - 32px) * 1.77777778));
   aspect-ratio: 16 / 9;
   border: 1px solid rgba(51, 62, 72, 0.12);
   background:
-    radial-gradient(circle at var(--focus-x) var(--focus-y), rgba(158, 27, 50, 0.07), transparent 26%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 244, 244, 0.96));
+    radial-gradient(circle at var(--focus-x) var(--focus-y), rgba(158, 27, 50, 0.075), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(244, 244, 244, 0.97));
   overflow: hidden;
   box-shadow:
-    0 40px 90px rgba(51, 62, 72, 0.12),
+    0 44px 120px rgba(51, 62, 72, 0.13),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .stage-glow,
-.stage-noise {
+.stage-noise,
+.stage-vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -176,12 +114,18 @@ button {
 }
 
 .stage-noise {
-  opacity: 0.18;
+  opacity: 0.16;
   background-image:
     linear-gradient(rgba(51, 62, 72, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(51, 62, 72, 0.03) 1px, transparent 1px);
   background-size: 18px 18px;
   mask-image: linear-gradient(180deg, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+.stage-vignette {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 46%, rgba(255, 255, 255, 0.46) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.28));
 }
 
 .stage {
@@ -199,8 +143,10 @@ button {
 .gate-guide,
 .gate-bracket,
 .gate-pressure,
+.gate-axis,
 .network-route,
 .network-branch,
+.anchor-orbit,
 .node,
 .calm-rule {
   vector-effect: non-scaling-stroke;
@@ -208,12 +154,12 @@ button {
 
 .frame-outline {
   fill: none;
-  stroke: rgba(130, 130, 130, 0.36);
+  stroke: rgba(130, 130, 130, 0.4);
   stroke-width: 2;
 }
 
 .frame-rule {
-  stroke: rgba(130, 130, 130, 0.22);
+  stroke: rgba(130, 130, 130, 0.24);
   stroke-width: 2;
 }
 
@@ -301,7 +247,8 @@ button {
 }
 
 .gate-bracket,
-.gate-pressure {
+.gate-pressure,
+.gate-axis {
   stroke: rgba(158, 27, 50, 0.92);
   stroke-width: 6;
   stroke-linecap: square;
@@ -328,6 +275,11 @@ button {
   transform: translateY(calc(var(--gate-squeeze) * 0.65));
 }
 
+.gate-axis {
+  stroke-width: 2;
+  opacity: calc(var(--gate-opacity) * 0.42);
+}
+
 .network-route {
   stroke: rgba(158, 27, 50, 0.98);
   stroke-width: 7;
@@ -348,6 +300,14 @@ button {
   transition:
     opacity 900ms ease,
     stroke-dashoffset 1900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.anchor-orbit {
+  fill: none;
+  stroke: rgba(158, 27, 50, 0.12);
+  stroke-width: 2.5;
+  opacity: var(--orbit-opacity);
+  transition: opacity 900ms ease;
 }
 
 .node {
@@ -438,20 +398,93 @@ button {
   width: 26px;
   height: 26px;
   background: var(--primary-red);
-  box-shadow: 0 10px 16px rgba(109, 18, 34, 0.18);
+  box-shadow: 0 12px 24px rgba(109, 18, 34, 0.22);
+}
+
+.assist-controls,
+.phase-bar {
+  position: absolute;
+  z-index: 2;
+}
+
+.assist-controls {
+  top: 18px;
+  right: 18px;
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.stage-shell:hover .assist-controls,
+.stage-shell:focus-within .assist-controls {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.assist-button,
+.phase-dot {
+  border: 1px solid rgba(79, 79, 79, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  color: var(--gray);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.assist-button {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.assist-button--replay {
+  color: var(--primary-red);
+}
+
+.assist-button:hover,
+.assist-button:focus-visible,
+.phase-dot:hover,
+.phase-dot:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  border-color: rgba(158, 27, 50, 0.42);
+  box-shadow: 0 10px 30px rgba(51, 62, 72, 0.12);
 }
 
 .phase-bar {
-  width: min(1240px, 100%);
-  margin: 0 auto;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   gap: 12px;
 }
 
+.phase-bar::before {
+  content: "";
+  position: absolute;
+  inset: 50% -22px auto;
+  height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent, rgba(130, 130, 130, 0.24), transparent);
+  z-index: -1;
+}
+
 .phase-dot {
-  width: 16px;
-  height: 16px;
+  width: 13px;
+  height: 13px;
   padding: 0;
   border-radius: 999px;
   cursor: pointer;
@@ -460,7 +493,7 @@ button {
 .phase-dot.is-active {
   background: var(--primary-red);
   border-color: rgba(158, 27, 50, 0.55);
-  box-shadow: 0 0 0 8px rgba(158, 27, 50, 0.08);
+  box-shadow: 0 0 0 10px rgba(158, 27, 50, 0.08);
 }
 
 .app[data-phase="appearance"] {
@@ -478,14 +511,15 @@ button {
   --zone-opacity: 0.18;
   --zone-shift: 26px;
   --zone-scale: 0.975;
+  --orbit-opacity: 0;
   --calm-rule-opacity: 0;
-  --focus-x: 30%;
+  --focus-x: 29%;
   --focus-y: 50%;
 }
 
 .app[data-phase="search"] {
-  --dot-left: 27.667%;
-  --dot-top: 27.556%;
+  --dot-left: 28.667%;
+  --dot-top: 29.63%;
   --dot-ring-scale: 1.12;
   --dot-aura-opacity: 0.3;
   --ghost-opacity: 0.78;
@@ -498,29 +532,31 @@ button {
   --zone-opacity: 0.18;
   --zone-shift: 22px;
   --zone-scale: 0.98;
+  --orbit-opacity: 0;
   --calm-rule-opacity: 0;
   --focus-x: 36%;
-  --focus-y: 28%;
+  --focus-y: 30%;
 }
 
 .app[data-phase="tension"] {
   --dot-left: 53.333%;
   --dot-top: 49.185%;
-  --dot-scale-x: 0.7;
-  --dot-scale-y: 1.48;
-  --dot-ring-scale: 0.88;
-  --dot-aura-opacity: 0.22;
-  --ghost-opacity: 0.16;
-  --search-opacity: 0.32;
-  --search-progress: 0.45;
+  --dot-scale-x: 0.64;
+  --dot-scale-y: 1.58;
+  --dot-ring-scale: 0.82;
+  --dot-aura-opacity: 0.18;
+  --ghost-opacity: 0.12;
+  --search-opacity: 0.26;
+  --search-progress: 0.52;
   --gate-opacity: 1;
-  --gate-squeeze: 10px;
+  --gate-squeeze: 8px;
   --route-opacity: 0;
   --route-progress: 1;
   --branch-progress: 1;
-  --zone-opacity: 0.12;
+  --zone-opacity: 0.1;
   --zone-shift: 16px;
   --zone-scale: 0.99;
+  --orbit-opacity: 0;
   --calm-rule-opacity: 0;
   --focus-x: 53%;
   --focus-y: 50%;
@@ -541,9 +577,10 @@ button {
   --route-opacity: 1;
   --route-progress: 0.28;
   --branch-progress: 0.7;
-  --zone-opacity: 0.84;
+  --zone-opacity: 0.74;
   --zone-shift: 0px;
   --zone-scale: 1;
+  --orbit-opacity: 0.36;
   --calm-rule-opacity: 0.22;
   --focus-x: 67%;
   --focus-y: 46%;
@@ -564,12 +601,25 @@ button {
   --route-opacity: 1;
   --route-progress: 0;
   --branch-progress: 0;
-  --zone-opacity: 0.92;
+  --zone-opacity: 0.44;
   --zone-shift: 0px;
   --zone-scale: 1;
+  --orbit-opacity: 0.82;
   --calm-rule-opacity: 1;
   --focus-x: 70%;
   --focus-y: 42%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @keyframes ringPulse {
@@ -602,20 +652,9 @@ button {
 
 @media (max-width: 900px) {
   .app {
-    padding: 18px 14px 18px;
-  }
-
-  .hud {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .hud__controls {
-    justify-content: flex-start;
-  }
-
-  .hud__button {
-    padding: 8px 12px;
+    padding: 12px;
+    place-items: start center;
+    padding-top: min(18vh, 120px);
   }
 
   .dot-overlay__aura {
@@ -636,5 +675,27 @@ button {
   .dot-overlay__core {
     width: 20px;
     height: 20px;
+  }
+
+  .assist-controls {
+    top: 14px;
+    right: 14px;
+  }
+
+  .assist-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .phase-bar {
+    bottom: 16px;
+    gap: 10px;
+  }
+}
+
+@media (hover: none) {
+  .assist-controls {
+    opacity: 0.38;
+    transform: translateY(0);
   }
 }

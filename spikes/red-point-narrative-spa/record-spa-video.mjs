@@ -63,28 +63,27 @@ async function captureScreenshots(browser, options) {
     deviceScaleFactor: 1,
   });
   const page = await context.newPage();
-  await page.goto(options.url, { waitUntil: "networkidle" });
-  await page.waitForFunction(() => Boolean(window.redPointNarrative));
-  await page.evaluate(() => window.redPointNarrative.pause());
-
-  const acts = await page.evaluate(() => window.redPointNarrative.acts);
+  const phases = ["appearance", "search", "tension", "transform", "resolution"];
   const screenshotPlan = [];
-  for (const [index, act] of acts.entries()) {
-    await page.evaluate((progress) => window.redPointNarrative.setProgress(progress), act.progress);
+  for (const [index, phase] of phases.entries()) {
+    await page.goto(`${options.url}?phase=${phase}`, { waitUntil: "networkidle" });
+    await page.waitForSelector(`.app[data-phase="${phase}"]`);
+    await page.waitForTimeout(200);
     await page.screenshot({
       path: path.join(
         options.screenshotsDir,
-        `act-${String(index + 1).padStart(2, "0")}-${act.label}.png`,
+        `act-${String(index + 1).padStart(2, "0")}-${phase}.png`,
       ),
       fullPage: false,
     });
     screenshotPlan.push({
-      label: act.label,
-      progress: act.progress,
+      label: phase,
     });
   }
 
-  await page.evaluate(() => window.redPointNarrative.setProgress(1));
+  await page.goto(`${options.url}?phase=resolution`, { waitUntil: "networkidle" });
+  await page.waitForSelector(`.app[data-phase="resolution"]`);
+  await page.waitForTimeout(200);
   await page.screenshot({
     path: path.join(options.screenshotsDir, "poster-final.png"),
     fullPage: false,
@@ -110,8 +109,7 @@ async function recordVideo(browser, options) {
   const page = await context.newPage();
   await page.goto(options.url, { waitUntil: "networkidle" });
   await page.waitForFunction(() => Boolean(window.redPointNarrative));
-  await page.evaluate(() => window.redPointNarrative.play(0));
-  await page.waitForFunction(() => window.redPointNarrative.getState().progress >= 1, null, {
+  await page.waitForFunction(() => window.redPointNarrative.getState().finished === true, null, {
     timeout: 45000,
   });
 
@@ -139,7 +137,7 @@ async function main() {
     await recordVideo(browser, options);
     const summary = {
       capturedAt: new Date().toISOString(),
-      durationSeconds: 30,
+      durationSeconds: 26.2,
       screenshots,
       output: options.output,
       viewport: {

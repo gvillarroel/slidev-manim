@@ -11,27 +11,15 @@
   </head>
   <body>
     <main class="app" data-phase="appearance">
-      <header class="hud" aria-label="Narrative controls">
-        <div class="hud__title">
-          <span class="hud__eyebrow">visual spike</span>
-          <h1>red point narrative</h1>
-        </div>
-        <div class="hud__controls">
-          <button type="button" class="hud__button" data-action="previous" aria-label="Previous phase">
-            prev
-          </button>
-          <button type="button" class="hud__button" data-action="replay" aria-label="Replay narrative">
-            replay
-          </button>
-          <button type="button" class="hud__button" data-action="next" aria-label="Next phase">
-            next
-          </button>
-        </div>
-      </header>
+      <h1 class="sr-only">Red point narrative</h1>
+      <p class="sr-only" data-phase-status>
+        Appearance phase
+      </p>
 
       <section class="stage-shell" aria-label="Animated red point narrative">
         <div class="stage-glow"></div>
         <div class="stage-noise"></div>
+        <div class="stage-vignette"></div>
         <svg
           class="stage"
           viewBox="0 0 1200 675"
@@ -64,48 +52,52 @@
           </g>
 
           <g class="reserved-zone">
-            <rect class="zone-panel" x="574" y="146" width="386" height="238" rx="0" />
-            <path class="zone-slot slot-a" d="M635 220 h18 M635 220 v48 M635 268 h18" />
-            <path class="zone-slot slot-b" d="M790 334 h18 M790 334 v48 M790 382 h18" />
-            <path class="zone-slot slot-c" d="M928 242 h18 M928 242 v48 M928 290 h18" />
+            <rect class="zone-panel" x="592" y="148" width="392" height="244" rx="0" />
+            <path class="zone-slot slot-a" d="M656 210 h18 M656 210 v50 M656 260 h18" />
+            <path class="zone-slot slot-b" d="M812 320 h18 M812 320 v50 M812 370 h18" />
+            <path class="zone-slot slot-c" d="M948 230 h18 M948 230 v50 M948 280 h18" />
           </g>
 
           <g class="search-layer">
-            <circle class="ghost ghost-circle" cx="320" cy="186" r="72" />
-            <rect class="ghost ghost-square" x="470" y="146" width="132" height="132" rx="0" />
-            <path class="ghost ghost-triangle" d="M330 472 L460 360 L522 502 Z" />
+            <circle class="ghost ghost-circle" cx="328" cy="204" r="74" />
+            <rect class="ghost ghost-square" x="480" y="164" width="140" height="140" rx="0" />
+            <path class="ghost ghost-triangle" d="M340 486 L472 370 L534 516 Z" />
             <path
               class="search-trail"
-              d="M268 340 C320 214, 420 176, 500 212 S620 296, 640 332"
+              d="M270 342 C332 222, 430 182, 518 214 S622 292, 642 332"
             />
             <path
               class="search-trail search-trail--secondary"
-              d="M270 342 C334 446, 416 470, 482 432 S602 364, 640 332"
+              d="M272 344 C338 448, 424 480, 492 444 S606 374, 642 332"
             />
           </g>
 
           <g class="conflict-layer">
-            <path class="gate-guide gate-guide--upper" d="M308 190 L520 286 L640 332" />
-            <path class="gate-guide gate-guide--lower" d="M314 476 L524 386 L640 332" />
+            <path class="gate-guide gate-guide--upper" d="M320 210 L520 288 L640 332" />
+            <path class="gate-guide gate-guide--lower" d="M326 490 L530 392 L640 332" />
             <path class="gate-bracket gate-bracket--left" d="M618 254 h-26 M618 254 v156 M618 410 h-26" />
             <path class="gate-bracket gate-bracket--right" d="M662 254 h26 M662 254 v156 M662 410 h26" />
             <line class="gate-pressure gate-pressure--top" x1="640" y1="222" x2="640" y2="248" />
             <line class="gate-pressure gate-pressure--bottom" x1="640" y1="416" x2="640" y2="442" />
+            <line class="gate-axis" x1="640" y1="202" x2="640" y2="470" />
           </g>
 
           <g class="resolution-layer">
             <path
               class="network-route"
-              d="M640 332 C692 294, 720 258, 742 228 S820 196, 852 222
-                 S864 304, 818 332 S744 374, 730 398
-                 S756 450, 826 430 S946 338, 962 270"
+              d="M640 332 C690 300, 728 252, 774 214
+                 S876 212, 888 270
+                 S842 368, 780 408
+                 S710 472, 792 444
+                 S926 382, 952 344"
             />
-            <path class="network-branch" d="M818 332 C878 330, 916 302, 948 274" />
+            <path class="network-branch" d="M820 432 C878 430, 920 404, 952 348" />
+            <circle class="anchor-orbit" cx="640" cy="332" r="42" />
             <circle class="node node-anchor" cx="640" cy="332" r="11" />
-            <circle class="node node-mid" cx="742" cy="228" r="9" />
-            <circle class="node node-low" cx="826" cy="430" r="9" />
-            <circle class="node node-far" cx="962" cy="270" r="9" />
-            <path class="calm-rule" d="M604 470 H1002" />
+            <circle class="node node-mid" cx="774" cy="214" r="9" />
+            <circle class="node node-low" cx="792" cy="444" r="9" />
+            <circle class="node node-far" cx="952" cy="344" r="9" />
+            <path class="calm-rule" d="M620 474 H1026" />
           </g>
 
         </svg>
@@ -117,15 +109,25 @@
             <span class="dot-overlay__core"></span>
           </span>
         </div>
+        <div class="assist-controls" aria-label="Narrative controls">
+          <button type="button" class="assist-button" data-action="previous" aria-label="Previous phase">
+            <span aria-hidden="true">&#8592;</span>
+          </button>
+          <button type="button" class="assist-button assist-button--replay" data-action="replay" aria-label="Replay narrative">
+            <span aria-hidden="true">&#8635;</span>
+          </button>
+          <button type="button" class="assist-button" data-action="next" aria-label="Next phase">
+            <span aria-hidden="true">&#8594;</span>
+          </button>
+        </div>
+        <footer class="phase-bar" aria-label="Narrative phases">
+          <button class="phase-dot" data-phase-target="appearance" aria-label="Appearance phase"></button>
+          <button class="phase-dot" data-phase-target="search" aria-label="Search phase"></button>
+          <button class="phase-dot" data-phase-target="tension" aria-label="Tension phase"></button>
+          <button class="phase-dot" data-phase-target="transform" aria-label="Transformation phase"></button>
+          <button class="phase-dot" data-phase-target="resolution" aria-label="Resolution phase"></button>
+        </footer>
       </section>
-
-      <footer class="phase-bar" aria-label="Narrative phases">
-        <button class="phase-dot" data-phase-target="appearance" aria-label="Appearance phase"></button>
-        <button class="phase-dot" data-phase-target="search" aria-label="Search phase"></button>
-        <button class="phase-dot" data-phase-target="tension" aria-label="Tension phase"></button>
-        <button class="phase-dot" data-phase-target="transform" aria-label="Transformation phase"></button>
-        <button class="phase-dot" data-phase-target="resolution" aria-label="Resolution phase"></button>
-      </footer>
     </main>
 
     <script type="module" src="./app.js"></script>

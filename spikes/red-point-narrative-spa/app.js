@@ -10,10 +10,12 @@ const phaseIds = phases.map((phase) => phase.id);
 const root = document.querySelector(".app");
 const phaseDots = Array.from(document.querySelectorAll(".phase-dot"));
 const controlButtons = Array.from(document.querySelectorAll("[data-action]"));
+const phaseStatus = document.querySelector("[data-phase-status]");
 
 let phaseIndex = 0;
 let autoplay = true;
 let timerId = 0;
+let finished = false;
 
 function phaseFromQuery() {
   const params = new URLSearchParams(window.location.search);
@@ -31,13 +33,21 @@ function updateActiveDots(activePhase) {
   }
 }
 
+function phaseLabel(phase) {
+  return phase.charAt(0).toUpperCase() + phase.slice(1);
+}
+
 function setPhase(nextIndex, options = {}) {
   const { silent = false } = options;
   phaseIndex = ((nextIndex % phases.length) + phases.length) % phases.length;
   const activePhase = phases[phaseIndex].id;
   root.dataset.phase = activePhase;
   root.dataset.index = String(phaseIndex);
+  root.dataset.finished = String(finished);
   updateActiveDots(activePhase);
+  if (phaseStatus) {
+    phaseStatus.textContent = `${phaseLabel(activePhase)} phase`;
+  }
   if (!silent) {
     window.dispatchEvent(
       new CustomEvent("red-point-phase-change", {
@@ -62,6 +72,13 @@ function scheduleNextPhase() {
     const isLastPhase = phaseIndex === phases.length - 1;
     if (isLastPhase) {
       autoplay = false;
+      finished = true;
+      root.dataset.finished = "true";
+      window.dispatchEvent(
+        new CustomEvent("red-point-complete", {
+          detail: { phase: phases[phaseIndex].id, index: phaseIndex },
+        }),
+      );
       return;
     }
     setPhase(phaseIndex + 1);
@@ -71,6 +88,7 @@ function scheduleNextPhase() {
 
 function replay() {
   autoplay = true;
+  finished = false;
   setPhase(0);
   scheduleNextPhase();
 }
@@ -127,15 +145,33 @@ function exposeDebugApi() {
     get index() {
       return phaseIndex;
     },
+    get finished() {
+      return finished;
+    },
     phases: [...phaseIds],
+    getState() {
+      return {
+        phase: phases[phaseIndex].id,
+        index: phaseIndex,
+        autoplay,
+        finished,
+      };
+    },
     setPhase(target) {
       const nextIndex =
         typeof target === "number" ? target : phaseIds.indexOf(String(target));
       if (nextIndex >= 0) {
         autoplay = false;
+        finished = nextIndex === phases.length - 1;
         clearTimer();
         setPhase(nextIndex);
       }
+    },
+    next() {
+      move(1);
+    },
+    previous() {
+      move(-1);
     },
     replay,
   };
@@ -148,10 +184,12 @@ function init() {
   const frozenPhase = phaseFromQuery();
   if (frozenPhase) {
     autoplay = false;
+    finished = frozenPhase === phaseIds[phaseIds.length - 1];
     setPhase(phaseIds.indexOf(frozenPhase), { silent: true });
     return;
   }
 
+  finished = false;
   setPhase(0, { silent: true });
   scheduleNextPhase();
 }
