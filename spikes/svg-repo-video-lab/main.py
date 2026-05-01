@@ -578,12 +578,17 @@ class SvgRepoVideoLabScene(MovingCameraScene):
             run_time=3.75,
             rate_func=smooth,
         )
-        accent = Circle(radius=0.18, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1)
+        accent = Circle(
+            radius=0.62,
+            stroke_color=PRIMARY_YELLOW,
+            stroke_width=7,
+            fill_opacity=0,
+        )
         accent.move_to(core[0].get_center())
-        accent.set_z_index(8)
-        self.play(FadeIn(accent, scale=0.7), run_time=0.32)
+        accent.set_z_index(6)
+        self.play(FadeIn(accent, scale=0.72), run_time=0.32)
         self.play(
-            accent.animate.scale(1.9).set_fill(PRIMARY_ORANGE, opacity=0),
+            accent.animate.scale(1.45).set_stroke(PRIMARY_ORANGE, opacity=0),
             FadeOut(fan_guides),
             run_time=0.8,
         )
@@ -653,9 +658,9 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         self.play(FadeIn(output_pulse, scale=0.7), run_time=0.25)
         self.play(
             output_pulse.animate.scale(2.4).set_fill(PRIMARY_ORANGE, opacity=0),
-            trunk.animate.set_opacity(0.22),
-            top_branch.animate.set_opacity(0.22),
-            bottom_branch.animate.set_opacity(0.22),
+            trunk.animate.set_opacity(0.14),
+            top_branch.animate.set_opacity(0.14),
+            bottom_branch.animate.set_opacity(0.14),
             run_time=0.85,
             rate_func=smooth,
         )
@@ -1008,7 +1013,7 @@ class SvgRepoVideoLabScene(MovingCameraScene):
         input_group = VGroup(*final.values(), core, label).scale(0.6).move_to(LEFT * 3.82 + DOWN * 0.12)
         input_panel = self.subproject_input_panel()
         guides = self.subproject_guides()
-        guides.set_opacity(0.22)
+        guides.set_opacity(0.14)
         top_block, top_items = self.project_block(
             "SVG Asset Pipeline",
             PRIMARY_BLUE,
