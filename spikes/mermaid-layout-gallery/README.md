@@ -52,3 +52,5 @@ npx @slidev/cli build spikes/mermaid-layout-gallery/slides.md
 - White `.png` posters are also generated for review and fallback.
 - The deck uses the canonical project color system.
 - Mermaid diagrams are themed to match the same palette used in the videos.
+- The gallery videos are short autoplay loop embeds, not full 25-second narration scenes; the surrounding Slidev slide supplies the full reading time.
+- For device-frame embeds, the Manim video should animate the content region only because the Slidev slide already provides the browser/device frame.

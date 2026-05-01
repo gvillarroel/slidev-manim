@@ -23,6 +23,8 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Text should try `Open Sans` first, with Arial or the system sans-serif as fallback.
 - Transparent clips with labels, diagram text, timeline cards, or captioned arrows need a local `page-background` stage so they remain inspectable outside a slide.
 - Decorative transparent loops can stay transparent when the slide surface supplies contrast and the clip has no labels or diagram text.
+- Device-frame or browser-frame embeds should not duplicate the surrounding Slidev frame inside the transparent Manim asset. Animate the content region only, and let the slide layout provide the chrome.
+- For short transparent UI loops, keep receiver labels or result text hidden until the pulse or active route reaches the destination. Ghosted future text can make the handoff look like a static mockup instead of a mechanism.
 - Validate transparent VP9 WebM proof frames with the `libvpx-vp9` decoder, not only PyAV or the native FFmpeg decoder. Those paths can report `yuv420p` and opaque alpha even when the stream metadata has `alpha_mode=1` and libvpx exposes real alpha.
 - Contact sheets are useful for broad passes, but suspicious thumbnails must be opened full size before patching.
 - Camera-focus passes should hide or fully contextualize neighboring panels. Cropped fragments at the frame edge read as accidental unless they clearly remain context.
@@ -76,6 +78,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - When a reviewer names a timestamp, validate that exact timestamp and the surrounding transition frames in the promoted video.
 - Poster images must be updated when the terminal video state changes.
 - Promote rendered videos and posters by latest modified time, not lexicographic path order. Manim can leave reused quality folders such as `900p30` and `900p15` beside each other, and sorted path order can copy a stale render.
+- When a spike reuses one fixed Manim staging directory for several transparent loop variants, clear that staging directory before a review render so cached partial movies and stale promoted outputs cannot contaminate the proof sheet.
 - When target slots or receiver outlines must stay hollow, set stroke opacity directly instead of applying group opacity. Group opacity can turn stroke-only placeholders into filled disks and make the opening breath look like unresolved actors.
 - Do not animate `set_opacity()` on a group that contains `always_redraw`, `TracedPath`, or other dynamic mobjects. The child family can change between frames and raise interpolation errors; reveal those systems with a preview-to-real handoff, `FadeIn` or `FadeOut`, or explicit opacity changes on stable static children.
 - Decorative backing strips and review frames still count as rest-state composition objects. If a resting audit flags low edge clearance on neutral structure, shrink the structure or widen the camera before accepting the hold.
