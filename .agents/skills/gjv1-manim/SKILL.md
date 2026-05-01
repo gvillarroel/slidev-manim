@@ -500,6 +500,8 @@ Do not add text before exhausting those fixes.
 - make beams tilt enough to read as load transfer,
 - stretch the dominant form more when tension is the point,
 - keep anchors, pivots, or bumpers visibly separate from the leader.
+- for counterlift balance scenes, keep rise and drop lanes visibly separate before the beam tilts. Curve setup handoffs around the beam, hold one proof frame where the leader is above one end while the opposing support drops on the other, and keep any counter actor in its own pocket near the pivot.
+- remove or demote broad pale stage panels if the beam, pivot, receiver marks, and actors already explain the mechanism. Large panels behind actors can create strict crowding support-envelope findings without improving the still frame.
 - for bumper deflect scenes, let the leader own a held compression frame before supports arrive, then move supports into their separate release lanes before the final morph so they do not cross through each other.
 - retire passive destination slots or scaffolds before the deflected landing. Once the bumper has explained the turn, lingering outlines can read as actor-to-outline crowding instead of useful structure.
 - for cradle catch scenes, hold one frame where the dominant form visibly rests above lower support pads, then separate the final support dots downward and outward. Retire hollow slots before colored supports occupy the same lane, and remove guide arcs, accents, and backing panels before the settle morph or final hold so the catch does not become actor-to-guide or actor-to-actor crowding.

@@ -508,16 +508,21 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Counterlift Balance
 
 - **Hypothesis**: A counterlift should feel more deliberate if a visible beam tilts while one side rises and the other drops.
-- **Result**: Confirmed after turning the balance line into an actual tilted mechanism.
+- **Result**: Confirmed again after expanding the draft into a 25.17-second slide-integration scene with a visible setup, curved setup paths, held counterlift proof, cleanup, and final hold.
 - **What worked**:
   - the orange beam tilting enough to read as load transfer instead of decoration,
   - the green leader rising on one end while the blue support drops on the other,
   - a yellow pivot that stays visible through the proof frame,
-  - a simpler final cluster after the mechanism disappears.
+  - using faint receiver marks in the opening breath so the rise/drop lanes are prepared before motion,
+  - curving setup handoffs around the beam so actors do not cross the support surface in sampled frames,
+  - keeping the purple counter actor in a separate pocket near the pivot instead of letting the beam cut through it,
+  - removing broad pale staging panels and retiring the beam before the final cluster, so the hold has no support residue.
 - **What failed first**:
+  - the original render was only 2.47 seconds and had no opening breath or final hold,
   - the first version kept the beam too static,
   - the opposing motions looked like regrouping instead of weighted exchange,
-  - the support roles were too close together to read as separate ends of a mechanism.
+  - the support roles were too close together to read as separate ends of a mechanism,
+  - broad pale target panels created noisy strict-crowding findings because the audit treated them as one support envelope behind the actors.
 
 ## Quality Fork Diverge
 
