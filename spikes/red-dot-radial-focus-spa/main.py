@@ -42,7 +42,7 @@ REVIEW_CAPTURE_NAMES = (
     "05-resolution.png",
 )
 MOBILE_CAPTURE_NAME = "mobile-resolution.png"
-AUDIT_TIMES = "4.2,10.5,18,24.5,33.3"
+AUDIT_TIMES = "6.2,10.5,18,24.5,31.6"
 
 
 class SilentHandler(SimpleHTTPRequestHandler):
@@ -64,7 +64,7 @@ def parse_args() -> Args:
     parser.add_argument("--port", type=int, default=4173, help="Preferred local server port.")
     parser.add_argument("--width", type=int, default=1600, help="Capture width.")
     parser.add_argument("--height", type=int, default=900, help="Capture height.")
-    parser.add_argument("--duration-ms", type=int, default=34_000, help="Recorded browser duration in milliseconds.")
+    parser.add_argument("--duration-ms", type=int, default=32_500, help="Recorded browser duration in milliseconds.")
     return parser.parse_args(namespace=Args())
 
 

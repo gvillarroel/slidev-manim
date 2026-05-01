@@ -11,7 +11,7 @@ function parseArgs(argv) {
     summary: resolve("videos/red-dot-radial-focus-spa/browser-validation.json"),
     width: 1600,
     height: 900,
-    durationMs: 34000,
+    durationMs: 32500,
   };
 
   for (let index = 2; index < argv.length; index += 2) {
@@ -36,11 +36,11 @@ const captures = [
   { file: "02-fanout.png", at: 10500 },
   { file: "03-focus.png", at: 18000 },
   { file: "04-rotation.png", at: 24500 },
-  { file: "05-resolution.png", at: 33300 },
+  { file: "05-resolution.png", at: 32000 },
 ];
 const mobileCapture = {
   file: "mobile-resolution.png",
-  at: 33300,
+  at: 32000,
   width: 430,
   height: 932,
 };

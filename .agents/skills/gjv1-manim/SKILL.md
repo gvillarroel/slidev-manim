@@ -118,6 +118,7 @@ Load only the resource needed for the current task:
 - For choosing Manim `Table` options, helper methods, and table-scene patterns, read [references/table-options-and-usage.md](references/table-options-and-usage.md).
 - For Manim arrow scenes, `GrowArrow`, start/end anchors, curved routes, and connector label clarity, read [references/arrow-growth-and-connectors.md](references/arrow-growth-and-connectors.md).
 - For continuing a resolved composition into two generated project blocks, read [references/continuation-project-breakdowns.md](references/continuation-project-breakdowns.md).
+- For red-hub radial fan-out scenes where focus moves between branches, read [references/radial-fanout-focus.md](references/radial-fanout-focus.md).
 - For repeatable non-standard connector styles such as `cellular sprout line`, `organic fractal line`, and `scale spine line`, read [references/motion-line-styles.md](references/motion-line-styles.md).
 - For repo-wide video review, promoted-output counting, and contact sheets, read [references/repo-wide-video-audit.md](references/repo-wide-video-audit.md).
 - For a copyable new spike shape, start from [examples/quality-spike-template.py](examples/quality-spike-template.py).
