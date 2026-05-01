@@ -65,6 +65,7 @@ Use `time rail` when a left-side timeline or spine should act as the narrator in
 
 Use `side formula handoff` for table transformations where two or more source cells create a derived value.
 
+- Treat a table-to-counter handoff as a promising transformation grammar: source values cue first, the side mechanism produces one result token, and the live counter changes only while that token is visibly in flight.
 - Establish source values with cell pulses, row cursors, or color-coded table roles before showing the formula.
 - Do not put abstract markers directly on top of source numbers when the lesson depends on those exact values.
 - Avoid enlarged moving copies over original cell text; they create double text, baseline mismatch, and unreadable overlaps.
@@ -116,6 +117,7 @@ Load only the resource needed for the current task:
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
 - For choosing Manim `Table` options, helper methods, and table-scene patterns, read [references/table-options-and-usage.md](references/table-options-and-usage.md).
+- For data handoffs that transform source values into a live counter, read [references/data-handoff-live-counter.md](references/data-handoff-live-counter.md).
 - For Manim arrow scenes, `GrowArrow`, start/end anchors, curved routes, and connector label clarity, read [references/arrow-growth-and-connectors.md](references/arrow-growth-and-connectors.md).
 - For continuing a resolved composition into two generated project blocks, read [references/continuation-project-breakdowns.md](references/continuation-project-breakdowns.md).
 - For red-hub radial fan-out scenes where focus moves between branches, read [references/radial-fanout-focus.md](references/radial-fanout-focus.md).
