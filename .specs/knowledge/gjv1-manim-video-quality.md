@@ -108,6 +108,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - strict crowding overlays can flag text/card internals and connector-to-card contacts in labeled block diagrams. Treat those as full-size inspection prompts; for this spike, the rest-state audit cleared and a header-aware composition audit with `--center-tolerance 0.18` cleared with zero blocking frames.
 
+## Mermaid Venn SVG Unfold
+
+- **Hypothesis**: A Venn diagram reads better when the generated SVG remains an inspectable artifact, but the video is rebuilt as native Manim circles, prepared slots, and an explicit overlap lens instead of fading generic SVG fragments.
+- **Result**: Confirmed on `spikes/mermaid-venn-svg-unfold/` after replacing a mostly static fragment reveal and late rectangle accent with a 26.46-second native Venn composition.
+- **What worked**:
+  - showing both pending circle slots and the center overlap slot in the first frame, so the opening breath starts with the actual Venn mechanism,
+  - activating the left set, right set, and shared lens in sequence with the cue attached to the current slot rather than to a separate route line,
+  - removing temporary slot scaffolds before the terminal hold and using separated corner brackets instead of a closed rectangle around the diagram,
+  - keeping the raw Mermaid SVG and fragment output generation path intact while making the promoted video use simpler native geometry.
+- **Validation note**:
+  - strict frame-crowding audits are a poor blocking signal for Venn and overlap diagrams because zero-clearance overlap is the subject. Use them only as full-size review prompts; rely on contact sheets, exact proof-frame inspection, composition audit, and resting-mobject audit for actual acceptance.
+
 ## Timeline Stack
 
 - **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.
