@@ -475,6 +475,8 @@ Do not add text before exhausting those fixes.
 - treat closed filled shapes to open stroked paths as semantic handoffs, not geometric morphs,
 - establish the new primary body before moving smaller child roles so they do not appear to float,
 - use `FadeOut` plus `Create` for incompatible primary-body handoffs,
+- for chart-like Mermaid SVG outputs such as treemaps, prefer rebuilding the visible chart as native Manim geometry when imported text and values land on edges or become tiny fragments. Keep the generated SVG as an inspectable artifact, but let native rectangles, slots, labels, and values carry the video.
+- for staged chart unfolds, show parent frames and faint child slots in the opening breath, activate each next slot with a temporary red outline, then remove that outline as the filled cell lands. Use a perimeter terminal accent instead of a filled pulse over text-bearing chart cells.
 - scale native Manim labels to the current imported SVG body when they are attached to an icon. A fixed label minimum can overpower compact document or badge icons after the icon becomes part of a source cluster.
 - for Mermaid-generated diagram SVGs, keep the `.mmd` source as the inspectable diagram definition, render it with Mermaid CLI's `mmdc -i input.mmd -o output.svg` command. When avoiding a global install, use `npx -y -p @mermaid-js/mermaid-cli mmdc -i input.mmd -o output.svg -b transparent`. Normalize only the node groups that need to become video actors into stable top-level ids before extracting fragments.
 - for generated diagram SVGs, write whole source/target SVGs for inspection but animate per-role fragments extracted from stable top-level ids. Attach native Manim labels to imported node bodies instead of relying on SVG text import.

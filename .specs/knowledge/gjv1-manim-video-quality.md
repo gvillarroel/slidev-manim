@@ -11,6 +11,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Mermaid Treemap SVG Unfold
+
+- **Hypothesis**: A chart-like Mermaid SVG unfold reads better when the final chart is rebuilt as native Manim geometry with visible slots in the opening breath, rather than imported as tiny SVG fragments that fade into place.
+- **Result**: Confirmed after replacing the generic fragment fade-in with a 25.9-second staged treemap reveal.
+- **What worked**:
+  - showing both parent section frames and faint child slots in the first frame, so the opening breath reads as a pending treemap instead of an empty stage,
+  - centering native labels and values inside each treemap cell, which removed imported SVG edge labels and tiny numeric fragments,
+  - using a red active outline around the next slot, then removing it as each cell lands, so the mechanism survives 0.3-second still-frame review without contaminating the resolved hold,
+  - reserving the terminal red accent for a perimeter outline around the complete chart, avoiding a filled pulse over text-bearing cells,
+  - keeping the local stage and title band separated enough that the header no longer competes with the chart frame.
+- **Validation note**:
+  - broad composition and resting-mobject audits can pass even when the render is too short for slide integration; duration remains a separate blocking check.
+
 ## Timeline Stack
 
 - **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.
