@@ -109,6 +109,9 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - For browser-native SVG narratives that use a fixed review card or stage plate, portrait compensation should usually transform the full layout root, not only the animated actors. Scaling just the scene content can leave the structural card stranded in a short desktop-sized band with large dead zones above and below on mobile proof frames.
 - For split-screen or source-to-target sync handoffs, stop the traveling pulse at the receiver entrance when a hollow slot is the cue. Let the target actor appear after the pulse arrives, then fade the slot immediately so strict crowding checks do not see the actor as touching its outline.
 - Red cue rectangles wrapped around active cards can create actor-to-outline crowding even when they look harmless in thumbnails. Prefer separated route segments, corner marks, or a terminal perimeter artifact with real clearance.
+- Overlap-free treemap videos should treat leaf cells as the only filled chart area. Show parent categories with header rules, labels, or separate bands outside the leaf rectangles, not with broad backing frames that share area with child cells.
+- Treemap staging works best with real gutters, faint leaf slots during the opening breath, and temporary active outlines that disappear on landing. Remove stage plates and terminal enclosing outlines when strict crowding review reads them as actor-to-outline contact.
+- When a polish cycle produces a strong reusable pattern, copy a self-contained version into `examples/` and link it from `SKILL.md`. Good examples should not live only in a repo spike, because future skill use needs a local starting point after context is gone.
 
 ## Maintenance Rule
 

@@ -109,6 +109,7 @@ Load only the resource needed for the current task:
 - For repeatable non-standard connector styles such as `cellular sprout line`, `organic fractal line`, and `scale spine line`, read [references/motion-line-styles.md](references/motion-line-styles.md).
 - For repo-wide video review, promoted-output counting, and contact sheets, read [references/repo-wide-video-audit.md](references/repo-wide-video-audit.md).
 - For a copyable new spike shape, start from [examples/quality-spike-template.py](examples/quality-spike-template.py).
+- For a copyable overlap-free treemap pattern, start from [examples/overlap-free-treemap-unfold.py](examples/overlap-free-treemap-unfold.py).
 - For a reusable all-video contact sheet command, run or adapt [examples/contact-sheet-review.py](examples/contact-sheet-review.py).
 - For a prioritized edge, center, and near-clipping candidate pass, run or adapt [examples/frame-safety-audit.py](examples/frame-safety-audit.py).
 - For exact timestamp margin, side-fragment, and broad overlap/crowding checks, run [scripts/frame-composition-audit.py](scripts/frame-composition-audit.py).
@@ -477,6 +478,9 @@ Do not add text before exhausting those fixes.
 - use `FadeOut` plus `Create` for incompatible primary-body handoffs,
 - for chart-like Mermaid SVG outputs such as treemaps, prefer rebuilding the visible chart as native Manim geometry when imported text and values land on edges or become tiny fragments. Keep the generated SVG as an inspectable artifact, but let native rectangles, slots, labels, and values carry the video.
 - for staged chart unfolds, show parent frames and faint child slots in the opening breath, activate each next slot with a temporary red outline, then remove that outline as the filled cell lands. Use a perimeter terminal accent instead of a filled pulse over text-bearing chart cells.
+- for overlap-free treemaps, let leaf cells be the only filled area. Express parent groups with thin header rules, labels, or separate bands outside the child cell bodies; large parent backing rectangles, stage plates, and enclosing final outlines can read as actor-to-outline collisions even when they look like harmless structure.
+- in treemaps, preserve real gutters between every leaf cell and remove active slot outlines as soon as the cell lands. If a terminal perimeter accent touches the chart in strict crowding review, prefer a clean final hold or an accent with visible clearance over a decorative enclosing outline.
+- when a treemap polish cycle succeeds, copy the reusable structure into a skill-local example and link it from this file. Do not leave the only good pattern inside a spike directory.
 - scale native Manim labels to the current imported SVG body when they are attached to an icon. A fixed label minimum can overpower compact document or badge icons after the icon becomes part of a source cluster.
 - for Mermaid-generated diagram SVGs, keep the `.mmd` source as the inspectable diagram definition, render it with Mermaid CLI's `mmdc -i input.mmd -o output.svg` command. When avoiding a global install, use `npx -y -p @mermaid-js/mermaid-cli mmdc -i input.mmd -o output.svg -b transparent`. Normalize only the node groups that need to become video actors into stable top-level ids before extracting fragments.
 - for generated diagram SVGs, write whole source/target SVGs for inspection but animate per-role fragments extracted from stable top-level ids. Attach native Manim labels to imported node bodies instead of relying on SVG text import.

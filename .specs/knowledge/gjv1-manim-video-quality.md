@@ -34,6 +34,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - using a red active outline around the next slot, then removing it as each cell lands, so the mechanism survives 0.3-second still-frame review without contaminating the resolved hold,
   - reserving the terminal red accent for a perimeter outline around the complete chart, avoiding a filled pulse over text-bearing cells,
   - keeping the local stage and title band separated enough that the header no longer competes with the chart frame.
+- **Overlap-free refinement**:
+  - when the target is a zero-overlap treemap, let only leaf cells own filled area and keep parent categories as thin header rules, labels, or separate bands outside the child cell bodies,
+  - avoid large parent backing rectangles, local stage plates, and enclosing final outlines if strict crowding review reads them as actor-to-outline contact with the chart,
+  - use real gutters between every leaf cell, faint slot previews during the opening breath, and a temporary active outline that disappears as soon as the filled cell lands,
+  - if a terminal accent creates chart-outline contact, prefer a clean final hold or a perimeter accent with visible clearance over an outline that touches the treemap.
+- **Reusable artifact**: The self-contained skill example `examples/overlap-free-treemap-unfold.py` preserves this pattern for future treemap videos.
 - **Validation note**:
   - broad composition and resting-mobject audits can pass even when the render is too short for slide integration; duration remains a separate blocking check.
 
