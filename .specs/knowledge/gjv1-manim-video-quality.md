@@ -11,6 +11,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Timeline Stack
+
+- **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.
+- **Result**: Confirmed after replacing a 2.1-second quick reveal with a 26.2-second slide-integration render for both wide and portrait variants.
+- **What worked**:
+  - showing the full timeline scaffold on frame zero and using the opening breath for reading, not for fading in structure,
+  - giving each card a prepared slot, then using a single primary-red progress rail, marker, and card accent to make the handoff causal in still frames,
+  - switching timeline text to an explicit sans-serif font and square-corner cards so the visual language matches the project default,
+  - giving portrait and wide variants separate stage/card sizing while sharing the same timing grammar,
+  - adding spike-local audit setup functions so rest-state geometry checks use the same frame aspect ratio as the render command.
+- **Validation note**:
+  - resting-mobject audits for non-default aspect-ratio renders need matching `config.pixel_width`, `config.pixel_height`, and derived `config.frame_height`; otherwise portrait scenes can falsely report outside-frame objects even when the promoted render is visually safe.
+
 ## Step Reveal Sequence
 
 - **Hypothesis**: A slide-sequence loop reads as a mechanism instead of a moving dot when the opening frame already shows source states, receiver slots, and quiet route scaffolds.

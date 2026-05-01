@@ -92,6 +92,8 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - For `GrowArrow` teaching scenes, treat the animation as an `Arrow` or `DoubleArrow` introduction from the declared start point. If the lesson needs a curved route, use `Create(CurvedArrow(...))` unless the specific curved object has already been rendered successfully with `GrowArrow`; non-`Arrow` tipable routes can stall or become brittle.
 - When code-like labels are part of the visual lesson, use a monospaced font for those labels. Underscores and punctuation can become too faint or visually ambiguous in proportional diagram text.
 - For `Broadcast` teaching scenes, treat `focal_point` as the visual center of the emitted copies; the passed mobject supplies size and style, not a preserved destination position. Stroke-only mobjects read as clean shells, while any nonzero fill opacity makes the broadcast fade filled sheets. Use `remover=False` only when the final residue is the point of the lesson, because expanded copies remain in the scene and need their own composition budget.
+- For non-default aspect-ratio renders, make resting-mobject audits use the same frame shape as the real render. Add a spike-local setup function that sets `config.pixel_width`, `config.pixel_height`, and `config.frame_height = config.frame_width * pixel_height / pixel_width`, then pass it with `--setup-call`; otherwise portrait variants can produce false outside-frame findings.
+- Run dry-run resting audits for multiple variants sequentially or give each audit a separate `--media-dir`. Parallel Manim text rendering can share cache/staging paths and produce transient empty-SVG parse failures that are unrelated to the composition.
 
 ## Maintenance Rule
 
