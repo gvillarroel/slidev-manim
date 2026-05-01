@@ -66,6 +66,6 @@ Then open the printed local URL in a browser.
 - The SPA loops automatically after the final hold.
 - Press `Space` to pause or resume.
 - Press `R` to restart the narrative.
-- The narrative now uses a full-bleed stage with hover-only utility controls so the red point remains the primary subject in proof frames.
-- On narrow screens the stage scales up slightly to keep the resolution cluster and progress rail readable without turning the experience into a text-heavy mobile layout.
+- The narrative now keeps the phase chip, progress rail, and utility controls off-stage until hover or keyboard focus so the red point remains the primary subject in proof frames.
+- On narrow screens the stage scales the active scene upward and nudges it higher while preserving the full 16:9 story field, keeping the resolution cluster legible without cropping the earlier left-to-right beats.
 - The final composition recenters after the earlier search and tension devices retire so the resolved hold stays calm and legible.

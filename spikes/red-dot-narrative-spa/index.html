@@ -71,80 +71,82 @@
               <path d="M 1264 200 V 700" />
             </g>
 
-            <path
-              id="narrative-spine"
-              d="M 310 450 C 400 450, 444 450, 520 450 C 610 450, 680 450, 752 450 C 828 450, 910 450, 992 450 C 1080 450, 1168 450, 1260 450"
-              fill="none"
-              stroke="#cfcfcf"
-              stroke-width="5"
-              stroke-linecap="round"
-              stroke-dasharray="10 14"
-              opacity="0"
-            />
-            <path
-              id="active-trail"
-              d="M 310 450 C 400 450, 444 450, 520 450 C 610 450, 680 450, 752 450 C 828 450, 910 450, 992 450 C 1080 450, 1168 450, 1260 450"
-              fill="none"
-              stroke="#9e1b32"
-              stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="0 1200"
-              opacity="0"
-            />
+            <g id="scene-root">
+              <path
+                id="narrative-spine"
+                d="M 310 450 C 400 450, 444 450, 520 450 C 610 450, 680 450, 752 450 C 828 450, 910 450, 992 450 C 1080 450, 1168 450, 1260 450"
+                fill="none"
+                stroke="#cfcfcf"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-dasharray="10 14"
+                opacity="0"
+              />
+              <path
+                id="active-trail"
+                d="M 310 450 C 400 450, 444 450, 520 450 C 610 450, 680 450, 752 450 C 828 450, 910 450, 992 450 C 1080 450, 1168 450, 1260 450"
+                fill="none"
+                stroke="#9e1b32"
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-dasharray="0 1200"
+                opacity="0"
+              />
 
-            <g id="search-group">
-              <circle id="search-circle" cx="486" cy="304" r="56" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
-              <rect id="search-square" x="534" y="388" width="120" height="120" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
-              <g id="search-card" opacity="0">
-                <rect x="430" y="548" width="204" height="116" fill="#ffffff" stroke="#b5b5b5" stroke-width="6" />
-                <path d="M 468 590 H 588" stroke="#9c9c9c" stroke-width="6" stroke-linecap="round" />
-                <path d="M 468 626 H 552" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+              <g id="search-group">
+                <circle id="search-circle" cx="486" cy="304" r="56" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
+                <rect id="search-square" x="534" y="388" width="120" height="120" fill="none" stroke="#b5b5b5" stroke-width="6" opacity="0" />
+                <g id="search-card" opacity="0">
+                  <rect x="430" y="548" width="204" height="116" fill="#ffffff" stroke="#b5b5b5" stroke-width="6" />
+                  <path d="M 468 590 H 588" stroke="#9c9c9c" stroke-width="6" stroke-linecap="round" />
+                  <path d="M 468 626 H 552" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+                </g>
+                <circle id="search-echo-top" cx="486" cy="304" r="10" fill="#9e1b32" opacity="0" />
+                <circle id="search-echo-mid" cx="594" cy="448" r="10" fill="#9e1b32" opacity="0" />
+                <circle id="search-echo-bottom" cx="518" cy="606" r="10" fill="#9e1b32" opacity="0" />
+                <path id="search-arc-top" d="M 348 450 C 392 398, 432 340, 486 304" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
+                <path id="search-arc-mid" d="M 486 304 C 540 350, 560 388, 594 448" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
+                <path id="search-arc-bottom" d="M 594 448 C 566 508, 542 548, 518 606" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
               </g>
-              <circle id="search-echo-top" cx="486" cy="304" r="10" fill="#9e1b32" opacity="0" />
-              <circle id="search-echo-mid" cx="594" cy="448" r="10" fill="#9e1b32" opacity="0" />
-              <circle id="search-echo-bottom" cx="518" cy="606" r="10" fill="#9e1b32" opacity="0" />
-              <path id="search-arc-top" d="M 348 450 C 392 398, 432 340, 486 304" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
-              <path id="search-arc-mid" d="M 486 304 C 540 350, 560 388, 594 448" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
-              <path id="search-arc-bottom" d="M 594 448 C 566 508, 542 548, 518 606" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
-            </g>
 
-            <g id="tension-group" opacity="0">
-              <rect id="clamp-top" x="706" y="234" width="316" height="132" fill="#333e48" opacity="0.94" />
-              <rect id="clamp-bottom" x="706" y="534" width="316" height="132" fill="#333e48" opacity="0.94" />
-              <rect id="clamp-gate" x="800" y="315" width="96" height="270" fill="none" stroke="#9c9c9c" stroke-width="3" opacity="0.5" />
-              <path id="clamp-track" d="M 670 450 H 1048" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0.65" />
-            </g>
-
-            <g id="transform-group" opacity="0">
-              <circle id="transform-ring" cx="1070" cy="450" r="92" fill="none" stroke="#9e1b32" stroke-width="10" opacity="0" />
-              <circle id="transform-ring-secondary" cx="1070" cy="450" r="138" fill="none" stroke="#ffccd5" stroke-width="6" opacity="0" />
-              <path id="connector-a" d="M 1070 450 L 980 300" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
-              <path id="connector-b" d="M 1070 450 L 1270 392" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
-              <path id="connector-c" d="M 1070 450 L 986 628" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
-
-              <g id="card-a" opacity="0">
-                <rect x="902" y="224" width="156" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-                <path d="M 936 262 H 1016" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
-                <path d="M 936 296 H 996" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+              <g id="tension-group" opacity="0">
+                <rect id="clamp-top" x="706" y="234" width="316" height="132" fill="#333e48" opacity="0.94" />
+                <rect id="clamp-bottom" x="706" y="534" width="316" height="132" fill="#333e48" opacity="0.94" />
+                <rect id="clamp-gate" x="800" y="315" width="96" height="270" fill="none" stroke="#9c9c9c" stroke-width="3" opacity="0.5" />
+                <path id="clamp-track" d="M 670 450 H 1048" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0.65" />
               </g>
-              <g id="card-b" opacity="0">
-                <rect x="1198" y="336" width="162" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-                <path d="M 1232 374 H 1324" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
-                <path d="M 1232 408 H 1296" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
-              </g>
-              <g id="card-c" opacity="0">
-                <rect x="906" y="572" width="166" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-                <path d="M 940 610 H 1034" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
-                <path d="M 940 644 H 1004" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
-              </g>
-            </g>
 
-            <g id="resolution-group" opacity="0">
-              <circle id="resolution-aura" cx="820" cy="450" r="150" fill="none" stroke="#ffccd5" stroke-width="4" opacity="0" />
-            </g>
+              <g id="transform-group" opacity="0">
+                <circle id="transform-ring" cx="1070" cy="450" r="92" fill="none" stroke="#9e1b32" stroke-width="10" opacity="0" />
+                <circle id="transform-ring-secondary" cx="1070" cy="450" r="138" fill="none" stroke="#ffccd5" stroke-width="6" opacity="0" />
+                <path id="connector-a" d="M 1070 450 L 980 300" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <path id="connector-b" d="M 1070 450 L 1270 392" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <path id="connector-c" d="M 1070 450 L 986 628" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
 
-            <circle id="dot-halo" cx="310" cy="450" r="76" fill="url(#halo-gradient)" opacity="0" />
-            <circle id="dot-core" cx="310" cy="450" r="18" fill="#9e1b32" opacity="0" />
+                <g id="card-a" opacity="0">
+                  <rect x="902" y="224" width="156" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
+                  <path d="M 936 262 H 1016" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                  <path d="M 936 296 H 996" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+                </g>
+                <g id="card-b" opacity="0">
+                  <rect x="1198" y="336" width="162" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
+                  <path d="M 1232 374 H 1324" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                  <path d="M 1232 408 H 1296" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+                </g>
+                <g id="card-c" opacity="0">
+                  <rect x="906" y="572" width="166" height="112" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
+                  <path d="M 940 610 H 1034" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                  <path d="M 940 644 H 1004" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+                </g>
+              </g>
+
+              <g id="resolution-group" opacity="0">
+                <circle id="resolution-aura" cx="820" cy="450" r="150" fill="none" stroke="#ffccd5" stroke-width="4" opacity="0" />
+              </g>
+
+              <circle id="dot-halo" cx="310" cy="450" r="76" fill="url(#halo-gradient)" opacity="0" />
+              <circle id="dot-core" cx="310" cy="450" r="18" fill="#9e1b32" opacity="0" />
+            </g>
           </svg>
 
           <div class="phase-chip" aria-live="polite">

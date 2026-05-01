@@ -63,6 +63,9 @@ body {
 .control-cluster {
   position: absolute;
   z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
 }
 
 .phase-chip {
@@ -99,7 +102,6 @@ body {
   bottom: 4.4%;
   display: grid;
   gap: 6px;
-  opacity: 0.42;
 }
 
 .timeline-track {
@@ -152,14 +154,15 @@ body {
   border: 1px solid rgba(207, 207, 207, 0.52);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
   backdrop-filter: blur(16px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease;
 }
 
+.stage-frame:hover .phase-chip,
+.stage-frame:focus-within .phase-chip,
+.stage-frame:hover .timeline-overlay,
+.stage-frame:focus-within .timeline-overlay,
 .stage-frame:hover .control-cluster,
 .stage-frame:focus-within .control-cluster {
-  opacity: 1;
+  opacity: 0.88;
   pointer-events: auto;
 }
 
@@ -207,7 +210,7 @@ body {
 
 @media (max-width: 640px) {
   .stage {
-    transform: scale(1.2);
+    transform: scale(1.08) translateY(-2.5%);
     transform-origin: center center;
   }
 

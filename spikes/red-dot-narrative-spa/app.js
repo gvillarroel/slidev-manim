@@ -9,6 +9,7 @@ const PHASES = [
 ];
 
 const svg = document.getElementById("stage");
+const sceneRoot = document.getElementById("scene-root");
 const phaseLabel = document.getElementById("phase-label");
 const timelineFill = document.getElementById("timeline-fill");
 const toggleButton = document.getElementById("toggle-button");
@@ -80,6 +81,20 @@ const state = {
   elapsedBeforePause: 0,
   currentElapsed: 0,
 };
+
+function applyLayout() {
+  const viewportRatio = window.innerWidth / window.innerHeight;
+  if (viewportRatio < 0.9) {
+    sceneRoot.setAttribute(
+      "transform",
+      "translate(0 -56) translate(800 450) scale(1.16) translate(-800 -450)",
+    );
+    svg.dataset.layout = "portrait";
+  } else {
+    sceneRoot.setAttribute("transform", "");
+    svg.dataset.layout = "landscape";
+  }
+}
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -547,6 +562,8 @@ window.__RED_DOT_APP = {
   },
 };
 
+applyLayout();
+window.addEventListener("resize", applyLayout);
 resetScene();
 render(0);
 window.__RED_DOT_READY = true;
