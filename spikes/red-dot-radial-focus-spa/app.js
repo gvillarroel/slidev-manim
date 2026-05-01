@@ -75,20 +75,26 @@ const localTargets = {
 
 const chipSets = {
   a: [
-    { x: 224, y: -190 },
-    { x: 252, y: -146 },
-    { x: 212, y: -102 },
+    { x: 286, y: -220 },
+    { x: 322, y: -176 },
+    { x: 278, y: -132 },
   ],
   b: [
-    { x: 330, y: -10 },
-    { x: 308, y: 34 },
-    { x: 270, y: 78 },
+    { x: 404, y: -34 },
+    { x: 440, y: 10 },
+    { x: 396, y: 54 },
   ],
   c: [
-    { x: -278, y: 96 },
-    { x: -302, y: 138 },
-    { x: -262, y: 180 },
+    { x: -364, y: 88 },
+    { x: -400, y: 132 },
+    { x: -356, y: 176 },
   ],
+};
+
+const chipAnchors = {
+  a: { x: 194, y: -182 },
+  b: { x: 336, y: 12 },
+  c: { x: -250, y: 140 },
 };
 
 function clamp(value, min, max) {
@@ -159,13 +165,13 @@ function setLineEnd(line, target, opacity, color = COLORS.darkGray, width = 4.5)
   setOpacity(line, opacity);
 }
 
-function setChipCloud(pointsLocal, opacity, scale = 1) {
+function setChipCloud(anchor, pointsLocal, opacity, scale = 1) {
   const chips = [chip1, chip2, chip3];
   const lines = [chipLine1, chipLine2, chipLine3];
   pointsLocal.forEach((point, index) => {
     setGroupTransform(chips[index], point.x, point.y, scale, 0);
-    lines[index].setAttribute("x1", "0");
-    lines[index].setAttribute("y1", "0");
+    lines[index].setAttribute("x1", anchor.x.toFixed(2));
+    lines[index].setAttribute("y1", anchor.y.toFixed(2));
     lines[index].setAttribute("x2", point.x.toFixed(2));
     lines[index].setAttribute("y2", point.y.toFixed(2));
     setOpacity(chips[index], opacity * 0.92);
@@ -305,7 +311,7 @@ function renderFocus(progress) {
 
   const chipOpacity = clamp((progress - 0.18) / 0.24, 0, 1);
   const chipScale = lerp(0.9, 1, easeOut(chipOpacity));
-  setChipCloud(chipSets.a, chipOpacity, chipScale);
+  setChipCloud(chipAnchors.a, chipSets.a, chipOpacity, chipScale);
 }
 
 function renderRotation(progress) {
@@ -313,6 +319,7 @@ function renderRotation(progress) {
   const handoff = clamp((progress - 0.16) / 0.62, 0, 1);
   const focusLocal = mixPoint(localTargets.a, localTargets.b, handoff);
   const chipLocal = chipSets.a.map((point, index) => mixPoint(point, chipSets.b[index], handoff));
+  const chipAnchor = mixPoint(chipAnchors.a, chipAnchors.b, handoff);
 
   setDot(points.hub, 18, 108, 1, 0.2 + pulseWave(progress, 2.2) * 0.08);
   setOpacity(narrativeSpine, 0.04);
@@ -330,7 +337,7 @@ function renderRotation(progress) {
   setGroupTransform(focusFrame, focusLocal.x + 26, focusLocal.y - 12, 1, 0);
   setOpacity(focusFrame, 1);
   setLineEnd(focusBeam, focusLocal, 1, COLORS.primaryRed, 6);
-  setChipCloud(chipLocal, 1, 1);
+  setChipCloud(chipAnchor, chipLocal, 1, 1);
 
   const shellPulse = 0.34 + pulseWave(progress, 1.6) * 0.08;
   setOpacity(hubShell, shellPulse);
