@@ -46,6 +46,8 @@
     "video:red-dot-bridge-spa": "uv run --script spikes/red-dot-bridge-spa/main.py",
     "dev:red-dot-fold-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-fold-spa",
     "video:red-dot-fold-spa": "uv run --script spikes/red-dot-fold-spa/main.py",
+    "dev:red-dot-iris-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-iris-spa",
+    "video:red-dot-iris-spa": "uv run --script spikes/red-dot-iris-spa/main.py",
     "dev:red-dot-knot-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-knot-spa",
     "video:red-dot-knot-spa": "uv run --script spikes/red-dot-knot-spa/main.py",
     "dev:red-point-narrative-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa",
