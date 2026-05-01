@@ -126,6 +126,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Overlap-free treemap videos should treat leaf cells as the only filled chart area. Show parent categories with header rules, labels, or separate bands outside the leaf rectangles, not with broad backing frames that share area with child cells.
 - Treemap staging works best with real gutters, faint leaf slots during the opening breath, and temporary active outlines that disappear on landing. Remove stage plates and terminal enclosing outlines when strict crowding review reads them as actor-to-outline contact.
 - When a polish cycle produces a strong reusable pattern, copy a self-contained version into `examples/` and link it from `SKILL.md`. Good examples should not live only in a repo spike, because future skill use needs a local starting point after context is gone.
+- Small Mermaid block or pipeline diagrams often fail as generic SVG fragment unfolds because text and card bodies arrive as separate fragments. Keep the `.mmd` and SVG for inspection, but rebuild the video with native Manim cards, faint labeled receiver slots, short connectors, and one active pulse; fade each slot with its landing card and let separated terminal rules replace enclosing boxes or extra badge text.
 
 ## Maintenance Rule
 
