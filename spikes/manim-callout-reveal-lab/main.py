@@ -170,14 +170,14 @@ class CalloutRevealNarrationScene(Scene):
         guided_label = label_text("receiver first", max_width=2.6, font_size=18, color=GRAY_700).move_to(guided_panel.get_top() + DOWN * 0.34)
 
         noisy_cards = VGroup(
-            card("source", -4.45, 0.82, accent=GRAY_500),
-            card("review", -3.35, -0.18, accent=GRAY_500),
-            card("ship", -2.25, 0.82, accent=GRAY_500),
+            card("source", -4.45, 0.45, accent=GRAY_500),
+            card("review", -3.35, -0.72, accent=GRAY_500),
+            card("ship", -2.25, 0.45, accent=GRAY_500),
         )
         guided_cards = VGroup(
-            card("source", 2.25, 0.82, accent=GRAY_500),
-            card("review", 3.35, -0.18, accent=PRIMARY_BLUE),
-            card("ship", 4.45, 0.82, accent=GRAY_500),
+            card("source", 2.25, 0.45, accent=GRAY_500),
+            card("review", 3.35, -0.72, accent=PRIMARY_BLUE),
+            card("ship", 4.45, 0.45, accent=GRAY_500),
         )
 
         noisy_routes = VGroup(
