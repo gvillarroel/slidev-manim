@@ -66,5 +66,6 @@ Then open the printed local URL in a browser.
 - The SPA loops automatically after the final hold.
 - Press `Space` to pause or resume.
 - Press `R` to restart the narrative.
-- The narrative overlays now live inside the stage so the primary composition fits fully inside the viewport on desktop and mobile.
+- The narrative now uses a full-bleed stage with hover-only utility controls so the red point remains the primary subject in proof frames.
+- On narrow screens the stage scales up slightly to keep the resolution cluster and progress rail readable without turning the experience into a text-heavy mobile layout.
 - The final composition recenters after the earlier search and tension devices retire so the resolved hold stays calm and legible.

@@ -211,9 +211,9 @@ def build_contact_sheet() -> None:
         image.close()
 
 
-def run_composition_audit(video: Path) -> None:
+def run_composition_audit(video: Path) -> int | None:
     if not COMPOSITION_AUDIT.exists():
-        return
+        return None
     command = [
         "uv",
         "run",
@@ -226,10 +226,11 @@ def run_composition_audit(video: Path) -> None:
         "--write-overlays",
     ]
     print("Running:", " ".join(command))
-    subprocess.run(command, cwd=REPO_ROOT, check=True)
+    result = subprocess.run(command, cwd=REPO_ROOT, check=False)
+    return result.returncode
 
 
-def write_summary(metrics: dict[str, float | int | None], port: int) -> None:
+def write_summary(metrics: dict[str, float | int | None], port: int, composition_audit_exit_code: int | None) -> None:
     browser_validation = json.loads(BROWSER_VALIDATION.read_text(encoding="utf-8")) if BROWSER_VALIDATION.exists() else {}
     summary = {
         "spike": SPIKE_NAME,
@@ -240,6 +241,7 @@ def write_summary(metrics: dict[str, float | int | None], port: int) -> None:
         "mobile_screenshot": str(SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME) if (SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME).exists() else None,
         "metrics": metrics,
         "browser_validation": browser_validation,
+        "composition_audit_exit_code": composition_audit_exit_code,
     }
     SUMMARY_PATH.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 
@@ -264,10 +266,10 @@ def main() -> int:
         extract_review_frames(VIDEO_PATH, metrics["duration_seconds"])
         copy_final_poster()
         build_contact_sheet()
-        run_composition_audit(VIDEO_PATH)
-        write_summary(metrics, port)
+        composition_audit_exit_code = run_composition_audit(VIDEO_PATH)
+        write_summary(metrics, port, composition_audit_exit_code)
         print(json.dumps(metrics, indent=2))
-        return 0
+        return composition_audit_exit_code or 0
     finally:
         server.shutdown()
         server.server_close()
