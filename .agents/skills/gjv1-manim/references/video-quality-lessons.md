@@ -17,6 +17,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - A mechanism must survive in a still frame. If the sampled proof frame does not show the cause of the motion, resample or strengthen the mechanism.
 - The opening breath should show the initial structure first; do not spend it on a blank transparent frame.
 - Final holds are part of the composition. Remove guides, slots, sleeves, shutters, or scaffolds once they stop causing the motion.
+- When a narrative depends on one dominant accent actor, demote transport controls and labels until they are clearly secondary. Persistent header chrome can compete with the actor in proof frames; small in-stage controls or hover-only assist affordances preserve interactivity without stealing the beat.
 - In sequential negative-space transfers, retire each completed route scaffold as soon as its handoff lands. Keeping all route lines until the global cleanup can turn later proof frames into a residue field instead of quiet space.
 - When route scaffolds are removed child-by-child, do not later fade the original parent group. In Manim this can bring faint child routes back into the cleanup frames; remove the parent group instead.
 - After source cleanup in a negative-space transfer, recenter or rebalance the resolved destination cluster so the final hold reads as deliberate quiet space rather than an abandoned transfer layout.

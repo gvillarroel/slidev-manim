@@ -116,6 +116,7 @@ Load only the resource needed for the current task:
 - For preferred color styles and exact Manim token names, read [references/preferred-color-styles.md](references/preferred-color-styles.md).
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
+- For minimal five-act narratives driven by one lead actor, act-specific proof frames, and conflict-to-resolution cleanup, read [references/minimal-act-proof-frames.md](references/minimal-act-proof-frames.md).
 - For choosing Manim `Table` options, helper methods, and table-scene patterns, read [references/table-options-and-usage.md](references/table-options-and-usage.md).
 - For data handoffs that transform source values into a live counter, read [references/data-handoff-live-counter.md](references/data-handoff-live-counter.md).
 - For Manim arrow scenes, `GrowArrow`, start/end anchors, curved routes, and connector label clarity, read [references/arrow-growth-and-connectors.md](references/arrow-growth-and-connectors.md).

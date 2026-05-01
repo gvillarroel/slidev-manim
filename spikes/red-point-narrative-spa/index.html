@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Red Point Narrative</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app" data-phase="appearance">
+      <h1 class="sr-only">Red point narrative</h1>
+      <p class="sr-only" data-phase-status>
+        Appearance phase
+      </p>
+
+      <section class="stage-shell" aria-label="Animated red point narrative">
+        <div class="stage-glow"></div>
+        <div class="stage-noise"></div>
+        <div class="stage-vignette"></div>
+        <svg
+          class="stage"
+          viewBox="0 0 1200 675"
+          role="img"
+          aria-labelledby="narrativeTitle narrativeDesc"
+        >
+          <title id="narrativeTitle">Red point narrative</title>
+          <desc id="narrativeDesc">
+            A single red point appears, searches for form, passes through a gate,
+            and resolves into a connected structure.
+          </desc>
+
+          <defs>
+            <filter id="softBlur">
+              <feGaussianBlur stdDeviation="10" />
+            </filter>
+            <filter id="grainGlow">
+              <feGaussianBlur stdDeviation="24" />
+            </filter>
+            <linearGradient id="panelWash" x1="0%" x2="100%" y1="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96" />
+              <stop offset="100%" stop-color="#f2f2f2" stop-opacity="0.94" />
+            </linearGradient>
+          </defs>
+
+          <g class="frame-layer">
+            <rect class="frame-outline" x="38" y="38" width="1124" height="599" rx="0" />
+            <line class="frame-rule frame-rule--top" x1="96" y1="112" x2="1104" y2="112" />
+            <line class="frame-rule frame-rule--bottom" x1="96" y1="563" x2="1104" y2="563" />
+          </g>
+
+          <g class="reserved-zone">
+            <rect class="zone-panel" x="592" y="148" width="392" height="244" rx="0" />
+            <path class="zone-slot slot-a" d="M656 210 h18 M656 210 v50 M656 260 h18" />
+            <path class="zone-slot slot-b" d="M812 320 h18 M812 320 v50 M812 370 h18" />
+            <path class="zone-slot slot-c" d="M948 230 h18 M948 230 v50 M948 280 h18" />
+          </g>
+
+          <g class="search-layer">
+            <circle class="ghost ghost-circle" cx="328" cy="204" r="74" />
+            <rect class="ghost ghost-square" x="480" y="164" width="140" height="140" rx="0" />
+            <path class="ghost ghost-triangle" d="M340 486 L472 370 L534 516 Z" />
+            <path
+              class="search-trail"
+              d="M270 342 C332 222, 430 182, 518 214 S622 292, 642 332"
+            />
+            <path
+              class="search-trail search-trail--secondary"
+              d="M272 344 C338 448, 424 480, 492 444 S606 374, 642 332"
+            />
+          </g>
+
+          <g class="conflict-layer">
+            <path class="gate-guide gate-guide--upper" d="M320 210 L520 288 L640 332" />
+            <path class="gate-guide gate-guide--lower" d="M326 490 L530 392 L640 332" />
+            <path class="gate-bracket gate-bracket--left" d="M618 254 h-26 M618 254 v156 M618 410 h-26" />
+            <path class="gate-bracket gate-bracket--right" d="M662 254 h26 M662 254 v156 M662 410 h26" />
+            <line class="gate-pressure gate-pressure--top" x1="640" y1="222" x2="640" y2="248" />
+            <line class="gate-pressure gate-pressure--bottom" x1="640" y1="416" x2="640" y2="442" />
+            <line class="gate-axis" x1="640" y1="202" x2="640" y2="470" />
+          </g>
+
+          <g class="resolution-layer">
+            <path
+              class="network-route"
+              d="M640 332 C690 300, 728 252, 774 214
+                 S876 212, 888 270
+                 S842 368, 780 408
+                 S710 472, 792 444
+                 S926 382, 952 344"
+            />
+            <path class="network-branch" d="M820 432 C878 430, 920 404, 952 348" />
+            <circle class="anchor-orbit" cx="640" cy="332" r="42" />
+            <circle class="node node-anchor" cx="640" cy="332" r="11" />
+            <circle class="node node-mid" cx="774" cy="214" r="9" />
+            <circle class="node node-low" cx="792" cy="444" r="9" />
+            <circle class="node node-far" cx="952" cy="344" r="9" />
+            <path class="calm-rule" d="M620 474 H1026" />
+          </g>
+
+        </svg>
+        <div class="dot-overlay" aria-hidden="true">
+          <span class="dot-overlay__shell">
+            <span class="dot-overlay__aura"></span>
+            <span class="dot-overlay__ring dot-overlay__ring--outer"></span>
+            <span class="dot-overlay__ring dot-overlay__ring--inner"></span>
+            <span class="dot-overlay__core"></span>
+          </span>
+        </div>
+        <div class="assist-controls" aria-label="Narrative controls">
+          <button type="button" class="assist-button" data-action="previous" aria-label="Previous phase">
+            <span aria-hidden="true">&#8592;</span>
+          </button>
+          <button type="button" class="assist-button assist-button--replay" data-action="replay" aria-label="Replay narrative">
+            <span aria-hidden="true">&#8635;</span>
+          </button>
+          <button type="button" class="assist-button" data-action="next" aria-label="Next phase">
+            <span aria-hidden="true">&#8594;</span>
+          </button>
+        </div>
+        <footer class="phase-bar" aria-label="Narrative phases">
+          <button class="phase-dot" data-phase-target="appearance" aria-label="Appearance phase"></button>
+          <button class="phase-dot" data-phase-target="search" aria-label="Search phase"></button>
+          <button class="phase-dot" data-phase-target="tension" aria-label="Tension phase"></button>
+          <button class="phase-dot" data-phase-target="transform" aria-label="Transformation phase"></button>
+          <button class="phase-dot" data-phase-target="resolution" aria-label="Resolution phase"></button>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -43,6 +43,8 @@
     "video:red-dot-lens-spa": "uv run --script spikes/red-dot-lens-spa/main.py",
     "video:red-dot-radial-focus-spa": "uv run --script spikes/red-dot-radial-focus-spa/main.py",
     "video:red-dot-thread-spa": "uv run --script spikes/red-dot-thread-spa/main.py",
+    "dev:red-point-narrative-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa",
+    "video:red-point-narrative-spa": "uv run --script spikes/red-point-narrative-spa/main.py",
     "record:mp4": "node scripts/record-slidev-to-mp4.mjs",
     "export:static-mp4": "scripts/slidev-to-mp4.sh"
   },
