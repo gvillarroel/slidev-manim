@@ -124,6 +124,8 @@ def promote_rendered_file(target_name: str, destination: Path) -> None:
 
 def main() -> int:
     args = parse_args()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
 
     video_env = os.environ.copy()
     video_env["SPIKE_RENDER_TARGET"] = "video"
@@ -204,6 +206,9 @@ class SplitScreenSyncScene(Scene):
             fill_color=WHITE,
             fill_opacity=0.36,
         ).move_to(RIGHT * 2.9)
+        left_stage.set_z_index(0)
+        right_stage.set_z_index(0)
+        divider.set_z_index(1)
 
         source_cards = VGroup()
         target_slots = VGroup()
@@ -241,14 +246,22 @@ class SplitScreenSyncScene(Scene):
                 for index in range(len(source_cards))
             ]
         )
-        final_outline = Rectangle(
-            width=4.72,
-            height=4.72,
-            stroke_color=PRIMARY_RED,
+        final_outline = self._corner_marks(
+            width=3.35,
+            height=4.12,
+            length=0.48,
+            color=PRIMARY_RED,
             stroke_width=6,
-            fill_opacity=0,
         ).move_to(RIGHT * 2.9)
         final_outline.set_z_index(5)
+        target_halo = Rectangle(
+            width=3.38,
+            height=4.12,
+            stroke_color=HIGHLIGHT_RED,
+            stroke_width=10,
+            fill_opacity=0,
+        ).move_to(RIGHT * 2.9)
+        target_halo.set_z_index(4)
 
         self.add(
             frame,
@@ -302,12 +315,17 @@ class SplitScreenSyncScene(Scene):
 
         self.play(
             target_slots.animate.set_opacity(0.0),
-            final_links.animate.set_opacity(0.64),
-            FadeIn(final_outline),
-            run_time=1.2,
+            routes.animate.set_opacity(0.0),
+            final_links.animate.set_opacity(0.22),
+            source_cards.animate.set_opacity(0.44),
+            left_stage.animate.set_opacity(0.2),
+            divider.animate.set_opacity(0.36),
+            run_time=0.9,
             rate_func=linear,
         )
-        self.wait(6.6)
+        self.play(FadeIn(target_halo), Create(final_outline), run_time=1.0)
+        self.play(FadeOut(target_halo), run_time=0.7)
+        self.wait(6.1)
 
     def _source_card(self, color: str) -> VGroup:
         body = Rectangle(
@@ -343,13 +361,16 @@ class SplitScreenSyncScene(Scene):
             fill_color=WHITE,
             fill_opacity=0.18,
         )
+        outer.set_stroke(opacity=0.58)
+        outer.set_fill(opacity=0.10)
         open_left = Line(
             outer.get_left() + UP * 0.31,
             outer.get_left() + DOWN * 0.31,
             color=PAGE_BACKGROUND,
             stroke_width=7,
         )
-        return VGroup(outer, open_left).set_opacity(0.58)
+        open_left.set_stroke(opacity=1.0)
+        return VGroup(outer, open_left)
 
     def _target_card(self, color: str) -> VGroup:
         body = Rectangle(
@@ -363,3 +384,33 @@ class SplitScreenSyncScene(Scene):
         terminal = Circle(radius=0.1, stroke_width=0).set_fill(PRIMARY_YELLOW, opacity=1)
         terminal.move_to(body.get_right() + LEFT * 0.33)
         return VGroup(body, terminal)
+
+    def _corner_marks(
+        self,
+        *,
+        width: float,
+        height: float,
+        length: float,
+        color: str,
+        stroke_width: float,
+    ) -> VGroup:
+        x = width / 2
+        y = height / 2
+        marks = VGroup()
+        for sx in (-1, 1):
+            for sy in (-1, 1):
+                corner = RIGHT * (sx * x) + UP * (sy * y)
+                horizontal = Line(
+                    corner,
+                    corner + LEFT * (sx * length),
+                    color=color,
+                    stroke_width=stroke_width,
+                )
+                vertical = Line(
+                    corner,
+                    corner + DOWN * (sy * length),
+                    color=color,
+                    stroke_width=stroke_width,
+                )
+                marks.add(horizontal, vertical)
+        return marks

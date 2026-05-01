@@ -60,6 +60,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - promoting rendered files by newest modification time so reused Manim staging folders cannot copy stale renders.
 - **Validation note**:
   - strict crowding audit findings on cue rectangles were useful, not noise. Wrapping red cue boxes around actors created zero-clearance actor-to-outline contacts; replacing those cues with separated route segments cleared composition, rest, and crowding audits.
+- **Terminal-hold refinement**:
+  - a closed terminal rectangle can work as a brief fading completion cue, but it becomes actor-to-outline crowding when it holds around the resolved cards,
+  - for a held terminal state, prefer separated corner brackets or other broken perimeter marks with real clearance; they keep the completion signal without enclosing the actors in one audit bounding box.
 
 ## Mermaid Treemap SVG Unfold
 
@@ -1115,6 +1118,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 152. Text-bearing terminal cores should use perimeter halos or behind-core rings for pulses. A filled accent crossing the glyph can make the proof frame unreadable even when the pulse is visually centered and intentional.
 153. For split-screen or source-to-target sync handoffs, stop the traveling pulse at the receiver entrance when a hollow slot is the cue. Let the target actor appear after the pulse arrives, then fade the slot immediately so strict crowding checks do not see the actor as touching its outline.
 154. Red cue rectangles wrapped around active cards can create actor-to-outline crowding even when they look harmless in thumbnails. Prefer separated route segments, corner marks, or a terminal perimeter artifact with real clearance.
+155. If a terminal artifact must remain visible through the final hold around a resolved stack, use separated corner brackets instead of a closed rectangle. A closed outline encloses the actors and can fail strict crowding review even when the frame looks visually balanced.
 
 # Reusable Process
 
