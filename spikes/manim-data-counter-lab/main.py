@@ -23,7 +23,9 @@ from manim import (
     BarChart,
     ChangeDecimalToValue,
     Create,
+    CubicBezier,
     DecimalNumber,
+    Dot,
     FadeIn,
     FadeOut,
     Line,
@@ -387,17 +389,19 @@ def make_counter_panel() -> tuple[VGroup, dict[str, VMobject | ValueTracker | Ba
     return group, parts
 
 
-def source_token(start: VMobject, target: VMobject) -> tuple[Rectangle, Line]:
-    token = Rectangle(
-        width=0.14,
-        height=0.14,
-        stroke_width=0,
-        fill_color=PRIMARY_RED,
-        fill_opacity=1,
+def source_token(start: VMobject, target: VMobject) -> tuple[Dot, CubicBezier]:
+    start_point = start.get_top() + UP * 0.08
+    end_point = target.get_left() + LEFT * 0.06
+    path = CubicBezier(
+        start_point,
+        start_point + RIGHT * 0.75 + UP * 0.34,
+        end_point + LEFT * 0.75 + UP * 0.24,
+        end_point,
     )
-    token.move_to(start.get_right() + RIGHT * 0.08)
-    path = Line(token.get_center(), target.get_center(), color=PRIMARY_RED, stroke_width=2.0)
-    path.set_opacity(0.34)
+    path.set_stroke(color=PRIMARY_RED, width=1.5, opacity=0.16)
+    path.set_z_index(4)
+    token = Dot(point=start_point, radius=0.055, color=PRIMARY_RED)
+    token.set_z_index(12)
     return token, path
 
 
@@ -435,10 +439,10 @@ class DataCounterNarrationScene(Scene):
             fill_color=PRIMARY_RED,
             fill_opacity=1,
         )
-        row_marker.move_to(active_row.get_left() + LEFT * 1.22)
+        row_marker.move_to([table.get_left()[0] - 0.13, active_row.get_y(), 0])
         row_rule = Line(
-            start=active_row.get_left() + LEFT * 1.32 + DOWN * 0.39,
-            end=active_row.get_right() + RIGHT * 0.18 + DOWN * 0.39,
+            start=[table.get_left()[0] + 0.07, active_row.get_bottom()[1] - 0.15, 0],
+            end=[table.get_right()[0] - 0.08, active_row.get_bottom()[1] - 0.15, 0],
             color=PRIMARY_RED,
             stroke_width=3,
         )
@@ -496,20 +500,25 @@ class DataCounterNarrationScene(Scene):
         self.play(
             formula["result_term"].animate.set_opacity(1),
             formula["result_slot"].animate.set_stroke(color=PRIMARY_RED, width=3),
+            units_ring.animate.set_stroke(opacity=0.16),
+            price_ring.animate.set_stroke(opacity=0.16),
             run_time=0.9,
             rate_func=rate_functions.ease_out_cubic,
         )
         self.wait(0.85)
 
-        count_token = Rectangle(width=0.18, height=0.18, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
-        count_token.move_to(formula["result_slot"].get_right() + RIGHT * 0.08)
-        count_path = Line(
-            count_token.get_center(),
-            counter["readout_box"].get_left() + LEFT * 0.05,
-            color=PRIMARY_RED,
-            stroke_width=2.2,
+        count_start = formula["result_slot"].get_bottom() + DOWN * 0.04
+        count_end = counter["readout_box"].get_top() + UP * 0.05
+        count_token = Dot(point=count_start, radius=0.065, color=PRIMARY_RED)
+        count_token.set_z_index(12)
+        count_path = CubicBezier(
+            count_start,
+            count_start + DOWN * 0.54 + RIGHT * 0.08,
+            count_end + UP * 0.32 + RIGHT * 0.12,
+            count_end,
         )
-        count_path.set_opacity(0.42)
+        count_path.set_stroke(color=PRIMARY_RED, width=1.7, opacity=0.18)
+        count_path.set_z_index(4)
         self.add(count_path, count_token)
         self.play(
             MoveAlongPath(count_token, count_path),
@@ -522,43 +531,65 @@ class DataCounterNarrationScene(Scene):
         self.play(FadeOut(count_token), count_path.animate.set_opacity(0.0), run_time=0.35)
         self.wait(0.9)
 
-        result_copy = paint_text(number_text(TARGET_VALUE, 28, PRIMARY_RED, "BOLD"), PRIMARY_RED)
-        result_copy.move_to(counter["readout_box"])
-        table_path = Line(
-            result_copy.get_center(),
-            cells["launch_revenue"].get_right() + LEFT * 0.25,
-            color=PRIMARY_RED,
-            stroke_width=2.3,
+        self.play(
+            formula["units_term"].animate.set_opacity(0.0),
+            formula["price_term"].animate.set_opacity(0.0),
+            formula["result_term"].animate.set_opacity(0.38),
+            formula["result_slot"].animate.set_stroke(width=1.7),
+            run_time=0.45,
         )
-        table_path.set_opacity(0.38)
-        self.add(table_path, result_copy)
+        return_start = counter["readout_box"].get_left() + LEFT * 0.05
+        return_end = cells["launch_revenue"].get_right() + RIGHT * 0.12
+        return_token = Dot(point=return_start, radius=0.065, color=PRIMARY_RED)
+        return_token.set_z_index(12)
+        table_path = CubicBezier(
+            return_start,
+            return_start + LEFT * 0.9 + UP * 0.35,
+            return_end + RIGHT * 0.95 + UP * 0.38,
+            return_end,
+        )
+        table_path.set_stroke(color=PRIMARY_RED, width=1.8, opacity=0.18)
+        table_path.set_z_index(4)
+        self.add(table_path, return_token)
         self.play(
             result_ring.animate.set_stroke(opacity=1),
             cells["launch_revenue"].animate.set_opacity(0),
             run_time=0.45,
         )
         self.play(
-            MoveAlongPath(result_copy, table_path),
+            MoveAlongPath(return_token, table_path),
             run_time=1.45,
             rate_func=rate_functions.ease_in_out_cubic,
         )
         final_value.move_to(cells["launch_revenue"])
-        self.play(FadeOut(result_copy), FadeIn(final_value), table_path.animate.set_opacity(0.0), run_time=0.18)
-        table.add(final_value)
-        self.wait(0.55)
-
-        terminal = VGroup(table, row_marker, row_rule, result_ring)
         self.play(
-            FadeOut(formula_panel, shift=RIGHT * 0.12),
-            FadeOut(counter_panel, shift=RIGHT * 0.12),
+            FadeOut(return_token),
+            FadeIn(final_value),
+            table_path.animate.set_opacity(0.0),
+            formula["result_term"].animate.set_opacity(0.0),
+            run_time=0.22,
+        )
+        table.add(final_value)
+        self.wait(1.78)
+
+        terminal = VGroup(table, result_ring)
+        self.play(
             FadeOut(units_ring),
             FadeOut(price_ring),
-            terminal.animate.move_to(DOWN * 0.55).scale(1.06, scale_stroke=True),
-            heading.animate.move_to(UP * 2.55),
-            run_time=1.35,
+            FadeOut(row_marker),
+            FadeOut(row_rule),
+            run_time=0.04,
             rate_func=rate_functions.ease_out_cubic,
         )
-        self.play(result_ring.animate.set_stroke(width=4.2, opacity=1), run_time=0.42)
+        self.play(
+            FadeOut(formula_panel, shift=RIGHT * 0.22),
+            FadeOut(counter_panel, shift=RIGHT * 0.22),
+            terminal.animate.move_to(DOWN * 0.55).scale(1.06, scale_stroke=True),
+            heading.animate.move_to(UP * 2.55),
+            run_time=0.16,
+            rate_func=rate_functions.ease_out_cubic,
+        )
+        self.play(result_ring.animate.set_stroke(width=3.4, opacity=0.88), run_time=0.42)
         self.wait(6.35)
 
 

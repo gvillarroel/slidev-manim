@@ -26,6 +26,8 @@ Use this pattern when a table, list, or source row needs to express a transforma
 - Fade source-side terms before the result token crosses back to the destination.
 - Recenter or rebalance the final hold after the side mechanism disappears.
 - Prefer a single counter and one active handoff token per beat; extra animated terms can make the transformation read as bookkeeping.
+- Use a token for the return-to-table handoff instead of flying a duplicate number across the stage. Reveal the destination value only when the token lands.
+- Hold the landed result briefly before cleanup, then remove temporary panels and row scaffolding quickly enough that proof frames do not capture ghosted supports.
 
 ## Good Uses
 

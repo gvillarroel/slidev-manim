@@ -14,7 +14,7 @@ If a source row is cued before data moves, the aggregation lives in a separate s
 
 # Assessment
 
-This video is a good direction for expressing transformations. The table-to-side-formula-to-live-counter handoff makes the change visible as a narrated state transition instead of a static result. It still needs polish around spacing, pacing, and the final resolved hold, but the mechanism should be treated as a promising pattern candidate.
+This video is a good direction for expressing transformations. The table-to-side-formula-to-live-counter handoff makes the change visible as a narrated state transition instead of a static result. The polished pass keeps handoffs token-led, removes temporary row scaffolding before the final hold, and treats the clean table with the resolved value as the landing state.
 
 # Feature Coverage
 
