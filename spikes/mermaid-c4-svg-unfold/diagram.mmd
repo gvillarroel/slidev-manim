@@ -1,0 +1,8 @@
+%%{init: {"theme":"base","htmlLabels":false,"themeVariables":{"fontFamily":"Open Sans, Arial, sans-serif","primaryColor":"#9e1b32","primaryTextColor":"#ffffff","primaryBorderColor":"#9e1b32","lineColor":"#333e48","textColor":"#333e48"}}}%%
+C4Context
+    title Mermaid to Manim context
+    Person(author, "Author")
+    System(mermaid, "Mermaid CLI")
+    System(manim, "Manim")
+    Rel(author, mermaid, "writes source")
+    Rel(mermaid, manim, "passes SVG fragments")

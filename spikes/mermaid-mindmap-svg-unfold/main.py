@@ -22,6 +22,7 @@ import numpy as np
 from manim import (
     DOWN,
     ORIGIN,
+    RIGHT,
     UP,
     AnimationGroup,
     Circle,
@@ -477,11 +478,15 @@ def svg_point_to_manim(point: tuple[float, float], view_box: SvgBox, diagram_cen
     return diagram_center + np.array([(point[0] - center_x) * scale, -(point[1] - center_y) * scale, 0.0])
 
 
-def label_for_node(spec: NodeSpec, view_box: SvgBox, diagram_center: np.ndarray, scale: float) -> Text:
+def label_for_node(spec: NodeSpec, view_box: SvgBox, diagram_center: np.ndarray, scale: float) -> Group:
     font_size = 25 if spec.depth == 0 else 21 if spec.depth == 1 else 17
-    label = Text(spec.label, font=TEXT_FONT, font_size=font_size, color=WHITE, weight="BOLD")
-    max_width = spec.body_width * scale * (0.68 if spec.depth == 0 else 0.78)
-    max_height = min(spec.body_height * scale * 0.56, spec.label_height * scale * 1.05)
+    words = [
+        Text(word, font=TEXT_FONT, font_size=font_size, color=WHITE, weight="BOLD")
+        for word in spec.label.split()
+    ]
+    label = Group(*words).arrange(RIGHT, buff=0.12 if spec.depth > 0 else 0.14)
+    max_width = spec.body_width * scale * (0.78 if spec.depth == 0 else 0.92)
+    max_height = min(spec.body_height * scale * 0.7, spec.label_height * scale * 1.1)
     if label.width > max_width:
         label.scale_to_fit_width(max_width)
     if label.height > max_height:
@@ -496,10 +501,10 @@ def build_imported_fragments(
     *,
     target_height: float,
     diagram_center: np.ndarray,
-) -> tuple[dict[str, SVGMobject], dict[str, Text], dict[str, SVGMobject], float]:
+) -> tuple[dict[str, SVGMobject], dict[str, Group], dict[str, SVGMobject], float]:
     scale = target_height / spec.view_box.height
     node_bodies: dict[str, SVGMobject] = {}
-    node_labels: dict[str, Text] = {}
+    node_labels: dict[str, Group] = {}
     edge_bodies: dict[str, SVGMobject] = {}
 
     for node_id, node_spec in spec.nodes.items():

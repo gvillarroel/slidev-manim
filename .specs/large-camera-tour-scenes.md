@@ -11,11 +11,12 @@ date: 2026-04-30
 - **Hook**: The viewer starts with the whole map, then discovers that each distant segment has its own motion logic.
 - **Target Audience**: Slide authoring and animation workflow viewers.
 - **Estimated Length**: 35 to 40 seconds.
+- **Narrative Pattern**: `red guide tour`.
 - **Key Insight**: A wide static diagram can feel authored if the camera treats each region as a local mechanism instead of a passive detail.
 
 # Narrative Arc
 
-The scene begins with the complete map visible. The camera then moves through four distant segments: compression, orbit, fork, and merge. Each local beat changes only a few actors, then hands the eye to the next remote region through a route pulse.
+The scene begins with the complete map visible. The camera then follows one primary-red companion marker through four distant segments: compression, orbit, fork, and merge. Each local beat changes only a few actors, then hands the eye to the next remote region through the guide's travel path.
 
 # Scene
 

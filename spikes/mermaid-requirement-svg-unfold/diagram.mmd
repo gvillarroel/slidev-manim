@@ -1,0 +1,12 @@
+%%{init: {"theme":"base","htmlLabels":false,"themeVariables":{"fontFamily":"Open Sans, Arial, sans-serif","primaryColor":"#9e1b32","primaryTextColor":"#ffffff","primaryBorderColor":"#9e1b32","lineColor":"#333e48","textColor":"#333e48"}}}%%
+requirementDiagram
+    requirement svg_unfold {
+      id: 1
+      text: Decompose Mermaid SVG into video actors
+      risk: medium
+      verifymethod: test
+    }
+    element manim_video {
+      type: file
+    }
+    manim_video - satisfies -> svg_unfold

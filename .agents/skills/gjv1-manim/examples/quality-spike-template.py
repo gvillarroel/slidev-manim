@@ -90,11 +90,11 @@ def render_command(args: argparse.Namespace, poster: bool) -> list[str]:
 
 
 def promote(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = list(STAGING_DIR.glob(f"**/{target_name}"))
     if not matches:
         raise FileNotFoundError(target_name)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(matches[-1], destination)
+    shutil.copy2(max(matches, key=lambda path: path.stat().st_mtime), destination)
 
 
 def slab(color: str, width: float, height: float) -> Rectangle:

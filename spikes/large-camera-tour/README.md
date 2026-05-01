@@ -4,6 +4,10 @@ status: draft
 date: 2026-04-30
 ---
 
+# Narrative Pattern
+
+This spike uses a `red guide tour`: one primary-red companion marker leads the viewer through a large diagram, visits distant zones, and occasionally interacts with the local mechanism at each stop.
+
 # Purpose
 
 Test a large Manim diagram where the camera repeatedly zooms into distant segments, animates a local mechanism, and then travels to the next remote segment.

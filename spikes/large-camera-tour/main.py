@@ -33,6 +33,7 @@ from manim import (
     MoveAlongPath,
     MovingCameraScene,
     Rectangle,
+    Restore,
     Rotate,
     Text,
     Transform,
@@ -186,6 +187,7 @@ class LargeCameraTourScene(MovingCameraScene):
         c_panel, c_group = self._build_fork_segment()
         d_panel, d_group = self._build_merge_segment()
         hub = self._build_hub_segment()
+        world = VGroup(stage, grid, routes, hub, a_panel, b_panel, c_panel, d_panel, a_group, b_group, c_group, d_group)
 
         traveler = Dot(A_CENTER + RIGHT * 2.85, radius=0.13, color=PRIMARY_RED)
         traveler.set_z_index(10)
@@ -196,7 +198,15 @@ class LargeCameraTourScene(MovingCameraScene):
         self.play(self.camera.frame.animate.set(width=8.25).move_to(A_CENTER), run_time=2.0, rate_func=smooth)
         self._animate_compression_segment(a_group, traveler)
         self.wait(0.6)
-        self.play(self.camera.frame.animate.set(width=13.5).move_to(A_CENTER), run_time=0.8, rate_func=smooth)
+        a_panel.save_state()
+        a_group.save_state()
+        self.play(
+            FadeOut(a_panel),
+            FadeOut(a_group),
+            self.camera.frame.animate.set(width=13.5).move_to(A_CENTER),
+            run_time=0.8,
+            rate_func=smooth,
+        )
 
         self.play(
             self.camera.frame.animate.set(width=13.5).move_to(B_CENTER),
@@ -204,6 +214,9 @@ class LargeCameraTourScene(MovingCameraScene):
             run_time=2.8,
             rate_func=smooth,
         )
+        a_panel.restore()
+        a_group.restore()
+        self.add(a_panel, a_group)
         self.play(self.camera.frame.animate.set(width=9.2).move_to(B_CENTER), run_time=0.9, rate_func=smooth)
         self._animate_orbit_segment(b_group, traveler)
         self.wait(0.6)
@@ -231,12 +244,26 @@ class LargeCameraTourScene(MovingCameraScene):
             route_cd.copy().set_stroke(PRIMARY_RED, width=5, opacity=0.9),
         )
         final_route.set_z_index(4)
+        reset_marker = Dot(D_CENTER, radius=0.11, color=PRIMARY_RED).set_opacity(0)
+        self.add(reset_marker)
+        world.save_state()
         self.play(
-            self.camera.frame.animate.set(width=FULL_MAP_WIDTH).move_to(ORIGIN),
-            traveler.animate.move_to(D_CENTER + RIGHT * 2.38).scale(1.25),
-            run_time=2.4,
+            world.animate.set_opacity(0),
+            traveler.animate.set_opacity(0),
+            reset_marker.animate.set_opacity(1),
+            run_time=0.35,
             rate_func=smooth,
         )
+        self.camera.frame.set(width=FULL_MAP_WIDTH).move_to(ORIGIN)
+        reset_marker.move_to(ORIGIN)
+        self.play(
+            Restore(world),
+            reset_marker.animate.set_opacity(0),
+            traveler.animate.set_opacity(1).move_to(D_CENTER + RIGHT * 2.38).scale(1.25),
+            run_time=0.85,
+            rate_func=smooth,
+        )
+        self.remove(reset_marker)
         self.play(Create(final_route), run_time=1.1, rate_func=smooth)
         self.play(traveler.animate.scale(1 / 1.25), run_time=0.35, rate_func=there_and_back)
         self.wait(6.6)

@@ -233,7 +233,7 @@ def make_surface_icon() -> VGroup:
         stroke_width=1.5,
         fill_color=WHITE,
         fill_opacity=0.52,
-    ).move_to(center + DOWN * 0.02)
+    ).move_to(DOWN * 0.02)
     contour_specs = [
         (PRIMARY_BLUE, -0.48, 0.05),
         (PRIMARY_GREEN, -0.26, 0.45),
@@ -277,23 +277,24 @@ def make_field_icon() -> VGroup:
         (0.78, PRIMARY_GREEN, 2.9),
         (1.56, PRIMARY_ORANGE, 2.5),
     ]:
-        spiral.add(
-            ParametricFunction(
-                lambda t, curve_phase=phase: np.array(
-                    [
-                        0.11 * t * np.cos(t + curve_phase),
-                        0.08 * t * np.sin(t + curve_phase),
-                        0.0,
-                    ]
-                ),
-                t_range=[0.8, 8.2],
-                color=color,
-                stroke_width=width,
-            )
+        arm = ParametricFunction(
+            lambda t, curve_phase=phase: np.array(
+                [
+                    0.11 * t * np.cos(t + curve_phase),
+                    0.08 * t * np.sin(t + curve_phase),
+                    0.0,
+                ]
+            ),
+            t_range=[0.8, 8.2],
+            color=color,
+            stroke_width=width,
         )
+        arm.set_stroke(opacity=0.48)
+        spiral.add(arm)
     guide = Circle(radius=0.86, stroke_color=GRAY_300, stroke_width=2.0, fill_opacity=0)
+    guide.set_stroke(opacity=0.34)
+    guide.set_fill(opacity=0.0)
     icon = VGroup(guide, spiral).scale(0.9).move_to(DOWN * 0.04)
-    icon.set_opacity(0.38)
     icon.set_z_index(8)
     return icon
 
@@ -317,7 +318,11 @@ def make_trace_icon() -> VGroup:
     )
     cursor = Dot(RIGHT * 0.52 + UP * 0.16, radius=0.055, color=PRIMARY_RED)
     icon = VGroup(window, axis, curve, cursor).move_to(center)
-    icon.set_opacity(0.38)
+    window.set_stroke(opacity=0.5)
+    window.set_fill(opacity=0.08)
+    axis.set_stroke(opacity=0.42)
+    curve.set_stroke(opacity=0.48)
+    cursor.set_opacity(0.62)
     icon.set_z_index(8)
     return icon
 
@@ -429,7 +434,9 @@ class ManimComplexColorLabScene(ThreeDScene):
 
     def construct(self) -> None:
         self.camera.background_color = WHITE
+        self.camera.background_opacity = 0.0
         self.set_camera_orientation(phi=64 * DEGREES, theta=-48 * DEGREES, gamma=0)
+        layout_shift = UP * 0.1
 
         stage = Rectangle(
             width=12.9,
@@ -444,7 +451,6 @@ class ManimComplexColorLabScene(ThreeDScene):
             panel(0.0, "field", PRIMARY_GREEN),
             panel(4.14, "trace", PRIMARY_PURPLE),
         )
-        bottom_rule = Line(LEFT * 5.7 + DOWN * 2.55, RIGHT * 5.7 + DOWN * 2.55, color=GRAY_300, stroke_width=2)
         surface_highlight = panel_highlight(-4.14, PRIMARY_BLUE)
         field_highlight = panel_highlight(0.0, PRIMARY_GREEN)
         trace_highlight = panel_highlight(4.14, PRIMARY_PURPLE)
@@ -470,10 +476,25 @@ class ManimComplexColorLabScene(ThreeDScene):
         trace_icon = make_trace_icon()
         field_cluster = make_field_cluster()
         trace_cluster, phase, cursor, _curve_y = make_trace_cluster()
+        VGroup(
+            stage,
+            slots,
+            surface_highlight,
+            field_highlight,
+            trace_highlight,
+            surface_badges,
+            field_badges,
+            trace_badges,
+            surface_icon,
+            field_icon,
+            trace_icon,
+            surface_cluster,
+            field_cluster,
+            trace_cluster,
+        ).shift(layout_shift)
 
         stage.set_z_index(-30)
         slots.set_z_index(-20)
-        bottom_rule.set_z_index(-20)
         surface_highlight.set_z_index(-18)
         field_highlight.set_z_index(-18)
         trace_highlight.set_z_index(-18)
@@ -489,7 +510,6 @@ class ManimComplexColorLabScene(ThreeDScene):
             surface_highlight,
             field_highlight,
             trace_highlight,
-            bottom_rule,
             surface_badges,
             field_badges,
             trace_badges,
@@ -497,17 +517,17 @@ class ManimComplexColorLabScene(ThreeDScene):
             field_icon,
             trace_icon,
         )
-        surface_badges.set_opacity(0.18)
-        field_badges.set_opacity(0.18)
-        trace_badges.set_opacity(0.18)
+        surface_badges.set_opacity(0.0)
+        field_badges.set_opacity(0.0)
+        trace_badges.set_opacity(0.0)
 
         self.wait(2.6)
-        self.play(surface_badges.animate.set_opacity(1.0), surface_icon.animate.set_opacity(0.0), run_time=0.55)
+        self.play(surface_badges.animate.set_opacity(1.0), FadeOut(surface_icon), run_time=0.55)
         self.play(FadeIn(surface_cluster), run_time=0.6)
         self.play(surface_cluster.animate.scale(1.05).shift(DOWN * 0.04), run_time=3.8, rate_func=smooth)
         self.play(
             FadeOut(surface_cluster),
-            surface_icon.animate.set_opacity(1.0),
+            FadeIn(surface_icon),
             surface_badges.animate.set_opacity(0.38),
             surface_highlight.animate.set_fill(opacity=0.0).set_stroke(opacity=0.0),
             field_highlight.animate.set_fill(opacity=0.045).set_stroke(opacity=0.75),
@@ -524,7 +544,7 @@ class ManimComplexColorLabScene(ThreeDScene):
         self.add_frame_fixed(field_cluster)
         self.play(
             AnimationGroup(
-                field_icon.animate.set_opacity(0.0),
+                FadeOut(field_icon),
                 streams.animate.set_opacity(0.52),
                 arrows.animate.set_opacity(0.82),
                 field_badges.animate.set_opacity(1.0),
@@ -546,7 +566,7 @@ class ManimComplexColorLabScene(ThreeDScene):
             color=PRIMARY_RED,
             stroke_opacity=0,
         )
-        field_path.move_to(DOWN * 0.08)
+        field_path.move_to(DOWN * 0.08 + layout_shift)
         traveler = VGroup(
             Circle(radius=0.19, stroke_color=PRIMARY_RED, stroke_width=3.0, fill_opacity=0),
             Dot(radius=0.075, color=PRIMARY_RED),
@@ -564,11 +584,9 @@ class ManimComplexColorLabScene(ThreeDScene):
             run_time=0.55,
         )
 
-        trace_cluster.set_opacity(0.0)
         self.add_frame_fixed(trace_cluster)
         self.play(
-            trace_icon.animate.set_opacity(0.0),
-            trace_cluster.animate.set_opacity(1.0),
+            FadeOut(trace_icon),
             trace_badges.animate.set_opacity(1.0),
             run_time=1.0,
         )
@@ -592,6 +610,8 @@ class ManimComplexColorLabScene(ThreeDScene):
 
 def main() -> int:
     args = parse_args()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
     for poster in (False, True):
         env = {**os.environ, "SPIKE_RENDER_TARGET": "poster" if poster else "video"}
         result = subprocess.run(render_command(args, poster), check=False, env=env)

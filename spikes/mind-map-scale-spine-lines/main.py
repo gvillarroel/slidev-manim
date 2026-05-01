@@ -43,6 +43,7 @@ VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
 
 PRIMARY_RED = "#9e1b32"
+DARK_RED = "#5f0d1e"
 WHITE = "#ffffff"
 GRAY = "#333e48"
 GRAY_100 = "#e7e7e7"
@@ -59,6 +60,20 @@ DEFAULT_ROOT_TEXT = "Generator"
 DEFAULT_MAP = "Input text:prompt,context;Idea groups:themes,clusters;Branch logic:routes,weights;Review loop:frames,audit"
 CATEGORY_FILLS = (GRAY_800, GRAY_700, GRAY_600, GRAY, GRAY_500)
 FONT_FAMILY = "Open Sans" if "Open Sans" in list_fonts() else "Arial"
+
+
+def spine_stroke_for(color: str) -> str:
+    return DARK_RED if color == PRIMARY_RED else GRAY_500
+
+
+def spine_stroke_width(opacity: float) -> float:
+    return 1.15 if opacity >= 0.5 else 0.45
+
+
+def spine_stroke_opacity(opacity: float) -> float:
+    if opacity >= 0.5:
+        return min(0.9, opacity * 0.82 + 0.12)
+    return opacity * 0.75
 
 
 @dataclass(frozen=True)
@@ -313,7 +328,19 @@ def scale_spine_shape(
     tail = center_point - tangent_vector * length * 0.48 + normal_vector * side_bias * width * 0.08
     root_b = center_point - tangent_vector * length * 0.34 - normal_vector * width * (0.28 + 0.1 * max(-side_bias, 0))
     shoulder_b = center_point + tangent_vector * length * 0.04 - normal_vector * width * (0.82 + 0.18 * max(-side_bias, 0))
-    shape = Polygon(tip, shoulder_a, root_a, tail, root_b, shoulder_b, stroke_width=0, fill_color=color, fill_opacity=opacity)
+    shape = Polygon(
+        tip,
+        shoulder_a,
+        root_a,
+        tail,
+        root_b,
+        shoulder_b,
+        stroke_color=spine_stroke_for(color),
+        stroke_width=spine_stroke_width(opacity),
+        stroke_opacity=spine_stroke_opacity(opacity),
+        fill_color=color,
+        fill_opacity=opacity,
+    )
     shape.set_z_index(z_index)
     return shape
 
@@ -428,7 +455,9 @@ class MindMapScaleSpineLinesScene(Scene):
         )
         self.play(
             *[
-                spine.animate.move_to(focus_center + (spine.get_center() - focus_center) * 1.42).set_fill(PRIMARY_RED, opacity=0)
+                spine.animate.move_to(focus_center + (spine.get_center() - focus_center) * 1.42)
+                .set_fill(PRIMARY_RED, opacity=0)
+                .set_stroke(color=DARK_RED, opacity=0, width=0.8)
                 for spine in focus_spines
             ],
             seed.animate.scale(1 / 1.55),
@@ -475,7 +504,12 @@ class MindMapScaleSpineLinesScene(Scene):
             self.play(
                 FadeOut(terminal_bud, scale=1.42),
                 FadeIn(category_card[0], scale=0.82),
-                *[spine.animate.set_fill(GRAY_400, opacity=0.21).scale(0.76) for spine in trunk],
+                *[
+                    spine.animate.scale(0.76)
+                    .set_fill(GRAY_400, opacity=0.21)
+                    .set_stroke(color=GRAY_600, opacity=0.3, width=0.72)
+                    for spine in trunk
+                ],
                 FadeOut(category_slots[index]),
                 run_time=0.62,
                 rate_func=rate_functions.ease_out_cubic,
@@ -539,7 +573,12 @@ class MindMapScaleSpineLinesScene(Scene):
                 self.play(
                     FadeOut(child_bud, scale=1.35),
                     FadeIn(child_card[0], scale=0.82),
-                    *[spine.animate.set_fill(GRAY_300, opacity=0.17).scale(0.72) for spine in child_line],
+                    *[
+                        spine.animate.scale(0.72)
+                        .set_fill(GRAY_300, opacity=0.17)
+                        .set_stroke(color=GRAY_500, opacity=0.22, width=0.58)
+                        for spine in child_line
+                    ],
                     run_time=0.3,
                     rate_func=rate_functions.ease_out_cubic,
                 )
@@ -551,8 +590,20 @@ class MindMapScaleSpineLinesScene(Scene):
         self.play(FadeIn(pulse, scale=0.7), run_time=0.2)
         self.play(
             pulse.animate.scale(3.15).set_fill(PRIMARY_RED, opacity=0),
-            *[spine.animate.set_fill(GRAY_300, opacity=0.13).scale(0.84) for trunk in active_trunks for spine in trunk],
-            *[spine.animate.set_fill(GRAY_300, opacity=0.1).scale(0.84) for child in active_children for spine in child],
+            *[
+                spine.animate.scale(0.84)
+                .set_fill(GRAY_300, opacity=0.13)
+                .set_stroke(color=GRAY_500, opacity=0.17, width=0.5)
+                for trunk in active_trunks
+                for spine in trunk
+            ],
+            *[
+                spine.animate.scale(0.84)
+                .set_fill(GRAY_300, opacity=0.1)
+                .set_stroke(color=GRAY_500, opacity=0.13, width=0.42)
+                for child in active_children
+                for spine in child
+            ],
             run_time=0.85,
             rate_func=rate_functions.ease_out_cubic,
         )

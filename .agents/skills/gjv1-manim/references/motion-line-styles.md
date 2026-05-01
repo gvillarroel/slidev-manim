@@ -182,8 +182,18 @@ Use a `scale spine line` when the user wants a connection made from many visible
 - Use wide lance-shaped polygons with a sharp forward tip, broad shoulders, and a narrower tail.
 - Use several side offsets, such as center, far left, far right, near left, and near right, instead of simple left/right alternation.
 - Let active trunk units overlap heavily so the route reads like layered succulent leaves.
+- Add a darker, narrow stroke to each active leaf when dense overlap starts reading as one irregular ribbon.
+- Fade the stroke down with the fill after landing so the final hold keeps leaf separation without becoming a hard connector.
 - Reduce settled opacity after the node appears; aloe-like density becomes a soft structural residue quickly if it stays too strong.
 - Keep the project accent color unless the spike explicitly tests botanical color. The aloe reference is about growth density and leaf shape, not necessarily green.
+
+### Non-Diamond Token Comparison Variant
+
+- Compare alternate token shapes on the same implicit route before choosing a new connector grammar.
+- Include at least one directional token, such as rectangles or triangles, and at least one non-directional token, such as squares or circles.
+- Keep all variants on screen in the final hold with low but visible gray opacity so the comparison does not depend on memory.
+- Rectangles and triangles tend to preserve path direction; squares and circles read more like generic beads or pixels; stars are distinctive but can become decorative noise.
+- Use the same active color, settle color, count range, and target-card structure for every candidate so shape is the tested variable.
 
 ### Review Frames
 

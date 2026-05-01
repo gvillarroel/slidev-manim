@@ -103,6 +103,8 @@ Load only the resource needed for the current task:
 - For preferred color styles and exact Manim token names, read [references/preferred-color-styles.md](references/preferred-color-styles.md).
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
+- For choosing Manim `Table` options, helper methods, and table-scene patterns, read [references/table-options-and-usage.md](references/table-options-and-usage.md).
+- For Manim arrow scenes, `GrowArrow`, start/end anchors, curved routes, and connector label clarity, read [references/arrow-growth-and-connectors.md](references/arrow-growth-and-connectors.md).
 - For continuing a resolved composition into two generated project blocks, read [references/continuation-project-breakdowns.md](references/continuation-project-breakdowns.md).
 - For repeatable non-standard connector styles such as `cellular sprout line`, `organic fractal line`, and `scale spine line`, read [references/motion-line-styles.md](references/motion-line-styles.md).
 - For repo-wide video review, promoted-output counting, and contact sheets, read [references/repo-wide-video-audit.md](references/repo-wide-video-audit.md).
@@ -192,6 +194,10 @@ Classify the experiment before coding. This determines what proof frame to sampl
 - `organic fractal line`
 - `scale spine line`
 
+### Camera-led narrative families
+
+- `red guide tour`
+
 If the experiment fits more than one family, choose the one whose mechanism must survive in a still frame.
 
 ## 3. Build the first pass
@@ -210,6 +216,7 @@ Follow these baseline rules:
 - make the landing state simpler than the source state,
 - keep support elements subordinate to the mechanism being tested.
 - budget time before coding: opening breath, mechanism beats, and final hold should add up to at least 25 seconds for normal slide-integration scenes.
+- for a `red guide tour`, use one primary-red companion marker as the viewer's guide through a large diagram. The marker should travel between distant zones, pause as the camera frames each stop, and sometimes trigger or participate in the local mechanism before moving on.
 
 ## 4. Render and extract proof frames
 

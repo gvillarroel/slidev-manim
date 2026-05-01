@@ -1,0 +1,9 @@
+%%{init: {"theme":"base","htmlLabels":false,"themeVariables":{"fontFamily":"Open Sans, Arial, sans-serif","primaryColor":"#9e1b32","primaryTextColor":"#ffffff","primaryBorderColor":"#9e1b32","lineColor":"#333e48","textColor":"#333e48"}}}%%
+sequenceDiagram
+    participant Author
+    participant Mermaid
+    participant Manim
+    Author->>Mermaid: diagram.mmd
+    Mermaid-->>Author: diagram.svg
+    Author->>Manim: fragments
+    Manim-->>Author: video.webm
