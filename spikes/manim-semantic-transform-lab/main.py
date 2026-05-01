@@ -36,6 +36,7 @@ from manim import (
     Rectangle,
     ReplacementTransform,
     Scene,
+    Succession,
     Text,
     Transform,
     TransformFromCopy,
@@ -144,7 +145,7 @@ def label(text: str, size: int = 23, color: str = GRAY_700) -> Text:
     return Text(text, font=FONT, font_size=size, color=color)
 
 
-def tex_token(text: str, size: int = 44) -> Text:
+def tex_token(text: str, size: int = 40) -> Text:
     token = Text(text, font=FONT, font_size=size, color=BLACK)
     token.tex_string = text
     for part in token.submobjects:
@@ -181,8 +182,7 @@ def shape_pack() -> VGroup:
 
 class SemanticTransformNarrationScene(Scene):
     def construct(self) -> None:
-        if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = WHITE
+        self.camera.background_color = WHITE
 
         stage = Rectangle(
             width=13.35,
@@ -251,9 +251,12 @@ class SemanticTransformNarrationScene(Scene):
         self.wait(1.8)
 
         proof_card = story_card("proof", "A + B = C").move_to(proof_slot)
-        proof_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(proof_card[0].get_right() + LEFT * 0.41)
+        proof_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(proof_card[0].get_right() + LEFT * 0.18)
         self.play(
-            ReplacementTransform(source, proof_card),
+            Succession(
+                FadeOut(source, shift=LEFT * 0.12, run_time=0.7),
+                FadeIn(proof_card, shift=RIGHT * 0.12, run_time=0.9),
+            ),
             ReplacementTransform(handoff_badge, proof_mark),
             FadeOut(proof_line),
             anchor.animate.set_opacity(0.18),
@@ -276,10 +279,10 @@ class SemanticTransformNarrationScene(Scene):
         )
         self.wait(0.9)
 
-        equation_source = tex_row(["A", "+", "B", "=", "C"]).move_to(RIGHT * 1.45 + DOWN * 1.25)
-        equation_target = tex_row(["C", "-", "B", "=", "A"]).move_to(RIGHT * 4.35 + DOWN * 1.25)
+        equation_source = tex_row(["A", "+", "B", "=", "C"]).move_to(RIGHT * 3.35 + DOWN * 1.25)
+        equation_target = tex_row(["A", "+", "B", "+", "D", "=", "C", "+", "D"]).move_to(RIGHT * 3.35 + DOWN * 1.25)
         equation_caption = label("same symbols", size=20).next_to(equation_source, UP, buff=0.3)
-        equation_caption_target = label("new role", size=20).next_to(equation_target, UP, buff=0.3)
+        equation_caption_target = label("context added", size=20).next_to(equation_target, UP, buff=0.3)
         self.play(FadeIn(equation_source), FadeIn(equation_caption), run_time=0.8)
         self.play(
             TransformMatchingTex(equation_source, equation_target, path_arc=-PI / 5),
@@ -313,9 +316,12 @@ class SemanticTransformNarrationScene(Scene):
         self.wait(1.0)
 
         final_card = story_card("decision", "keep identity").move_to(final_slot)
-        final_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(final_card[0].get_right() + LEFT * 0.41)
+        final_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(final_card[0].get_right() + LEFT * 0.18)
         self.play(
-            ReplacementTransform(proof_card, final_card),
+            Succession(
+                FadeOut(proof_card, shift=LEFT * 0.12, run_time=0.7),
+                FadeIn(final_card, shift=RIGHT * 0.12, run_time=0.9),
+            ),
             ReplacementTransform(proof_mark, final_mark),
             FadeOut(anchor),
             FadeOut(VGroup(shape_target, shape_caption_target, equation_target, equation_caption_target)),

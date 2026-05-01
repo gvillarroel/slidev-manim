@@ -14,7 +14,7 @@ If `Code` examples are grouped by language and paired with normal Manim overlay 
 
 # Coverage
 
-This spike exercises the Manim Community v0.20.1 `Code` mobject documented at:
+This spike visualizes the Manim Community v0.20.1 `Code` mobject options documented at:
 
 <https://docs.manim.community/en/stable/reference/manim.mobject.text.code_mobject.Code.html>
 
@@ -38,6 +38,12 @@ Covered overlay tactics:
 - token or region outline from `code_lines`,
 - style swatches for `formatter_style`,
 - persistent final summary suitable for slide review.
+
+# Implementation Note
+
+The scene uses rasterized Pygments previews for the six compact code cards, because animating many native `Code` mobjects keeps hundreds of glyph paths live on every frame. This preserves the same syntax-highlighting source that `Code` uses, while the explanatory emphasis remains normal Manim geometry.
+
+Use native `Code` directly when the scene has one or two code blocks that need vector-level transforms. Use the rasterized preview pattern when the slide needs a dense gallery of languages or styles.
 
 # Languages
 

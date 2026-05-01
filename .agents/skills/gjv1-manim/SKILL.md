@@ -114,9 +114,18 @@ Use `side formula handoff` for table transformations where two or more source ce
 Load only the resource needed for the current task:
 
 - For preferred color styles and exact Manim token names, read [references/preferred-color-styles.md](references/preferred-color-styles.md).
+- For programming-code snippets, Manim `Code` options, syntax-highlighting styles, and performance-safe code galleries, read [references/code-options-and-highlighting.md](references/code-options-and-highlighting.md).
+- For timing beats, `Succession`, `LaggedStart`, `ChangeSpeed`, scene sections, and audio-free voiceover cue patterns, read [references/narration-timing-and-cues.md](references/narration-timing-and-cues.md).
+- For semantic transforms, matching-parts handoffs, identity preservation, and avoiding morph soup, read [references/semantic-transform-narration.md](references/semantic-transform-narration.md).
+- For callout, reveal, indication, broadcast, and text-attention patterns, read [references/callout-reveal-narration.md](references/callout-reveal-narration.md).
 - For palette, local stage, and transparency decisions, read [references/palette-stage-and-transparency.md](references/palette-stage-and-transparency.md).
 - For choosing proof frames and patching a specific motion family, read [references/proof-frame-selection.md](references/proof-frame-selection.md).
 - For minimal five-act narratives driven by one lead actor, act-specific proof frames, and conflict-to-resolution cleanup, read [references/minimal-act-proof-frames.md](references/minimal-act-proof-frames.md).
+- For nested camera tours where a red guide marker becomes a pinned pointer for a solid detail panel, read [references/red-guide-detail-tour.md](references/red-guide-detail-tour.md).
+- For camera-led narration, destination scaffolds, zoom discipline, and final recentering, read [references/camera-focus-narration.md](references/camera-focus-narration.md).
+- For table-derived values, counters, row cues, formula side zones, and chart synchronization, read [references/data-counter-narration.md](references/data-counter-narration.md).
+- For graph route selection, path pulses, traces, subordinate alternatives, and flow cleanup, read [references/graph-flow-narration.md](references/graph-flow-narration.md).
+- For `ThreeDScene`, depth reveals, surface/column evidence, and disciplined 3D camera motion, read [references/3d-depth-narration.md](references/3d-depth-narration.md).
 - For choosing Manim `Table` options, helper methods, and table-scene patterns, read [references/table-options-and-usage.md](references/table-options-and-usage.md).
 - For data handoffs that transform source values into a live counter, read [references/data-handoff-live-counter.md](references/data-handoff-live-counter.md).
 - For Manim arrow scenes, `GrowArrow`, start/end anchors, curved routes, and connector label clarity, read [references/arrow-growth-and-connectors.md](references/arrow-growth-and-connectors.md).
@@ -234,7 +243,7 @@ Follow these baseline rules:
 - make the landing state simpler than the source state,
 - keep support elements subordinate to the mechanism being tested.
 - budget time before coding: opening breath, mechanism beats, and final hold should add up to at least 25 seconds for normal slide-integration scenes.
-- for a `red guide tour`, use one primary-red companion marker as the viewer's guide through a large diagram. The marker should travel between distant zones, pause as the camera frames each stop, and sometimes trigger or participate in the local mechanism before moving on.
+- for a `red guide tour`, use one primary-red companion marker as the viewer's guide through a large diagram. The marker should travel between distant zones, pause as the camera frames each stop, and sometimes trigger or participate in the local mechanism before moving on. If the tour needs a nested explanation, use [references/red-guide-detail-tour.md](references/red-guide-detail-tour.md) so the marker can become a pinned upper-left pointer before a solid detail panel opens.
 
 ## 4. Render and extract proof frames
 

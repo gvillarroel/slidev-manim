@@ -89,7 +89,12 @@ When the total duration matters, calculate the inner animation duration from the
 
 ```python
 speedinfo = {0.0: 1.0, 0.4: 1.0, 0.5: 0.15, 0.75: 0.15, 1.0: 1.0}
-scale = ChangeSpeed(Wait(run_time=1), speedinfo=speedinfo, rate_func=linear).get_scaled_total_time()
+scale = ChangeSpeed(
+    Wait(run_time=1),
+    speedinfo=speedinfo,
+    rate_func=linear,
+    affects_speed_updaters=False,
+).get_scaled_total_time()
 inner_run_time = target_duration / scale
 
 self.play(
@@ -97,11 +102,14 @@ self.play(
         AnimationGroup(marker.animate.move_to(target), run_time=inner_run_time),
         speedinfo=speedinfo,
         rate_func=linear,
+        affects_speed_updaters=False,
     )
 )
 ```
 
 Do not use many slowdowns in one slide clip. Multiple slowdowns remove the narrative signal.
+
+If the scene does not intentionally speed-control mobject updaters, set `affects_speed_updaters=False` on both the duration probe and the real `ChangeSpeed`. Otherwise a probe can leave Manim's speed-updater guard in a bad state before the real animation starts.
 
 ## Section Metadata
 
@@ -129,3 +137,4 @@ Remove transient timing devices unless they still explain the final state. The f
 - Scripted cue durations and actual section durations are close enough to support later audio alignment.
 - The local stage is opaque when text, labels, or metadata are present.
 - A single primary-red marker or accent carries the timing story.
+- Early section metadata should have visible placeholder slots or scaffolds if the bottom row will matter later; otherwise the opening breath can read as top-heavy even when the final metadata reveal is correct.

@@ -26,7 +26,6 @@ from manim import (
     DecimalNumber,
     FadeIn,
     FadeOut,
-    GrowFromCenter,
     Line,
     MobjectTable,
     MoveAlongPath,
@@ -142,6 +141,15 @@ def number_text(value: int | str, size: int = 25, color: str = GRAY, weight: str
     return label(str(value), size=size, color=color, weight=weight)
 
 
+def paint_text(mob: VMobject, color: str) -> VMobject:
+    mob.set_color(color, family=True)
+    if hasattr(mob, "set_fill"):
+        mob.set_fill(color=color, opacity=1, family=True)
+    if hasattr(mob, "set_stroke"):
+        mob.set_stroke(color=color, width=0, opacity=0, family=True)
+    return mob
+
+
 def fixed_decimal(value: int, size: int = 58, color: str = PRIMARY_RED) -> DecimalNumber:
     number = DecimalNumber(
         value,
@@ -168,6 +176,17 @@ def fit(mob: VMobject, max_width: float, max_height: float) -> VMobject:
 
 
 def make_source_table() -> tuple[MobjectTable, dict[str, VMobject]]:
+    row_labels = [
+        label("trial", 20, GRAY_700),
+        label("baseline", 20, GRAY_700),
+        label("launch", 21, BLACK, "BOLD"),
+    ]
+    col_labels = [
+        label("units", 19, GRAY_700, "BOLD"),
+        label("price", 19, GRAY_700, "BOLD"),
+        label("revenue", 19, GRAY_700, "BOLD"),
+    ]
+    corner = label("row", 18, GRAY_700, "BOLD")
     cells = {
         "trial_units": number_text(14, 23, GRAY_700),
         "trial_price": number_text(22, 23, GRAY_700),
@@ -185,17 +204,9 @@ def make_source_table() -> tuple[MobjectTable, dict[str, VMobject]]:
             [cells["base_units"], cells["base_price"], cells["base_revenue"]],
             [cells["launch_units"], cells["launch_price"], cells["launch_revenue"]],
         ],
-        row_labels=[
-            label("trial", 20, GRAY_700),
-            label("baseline", 20, GRAY_700),
-            label("launch", 21, BLACK, "BOLD"),
-        ],
-        col_labels=[
-            label("units", 19, GRAY_700, "BOLD"),
-            label("price", 19, GRAY_700, "BOLD"),
-            label("revenue", 19, GRAY_700, "BOLD"),
-        ],
-        top_left_entry=label("row", 18, GRAY_700, "BOLD"),
+        row_labels=row_labels,
+        col_labels=col_labels,
+        top_left_entry=corner,
         element_to_mobject=mobject_table_cell,
         include_outer_lines=True,
         h_buff=0.72,
@@ -203,8 +214,18 @@ def make_source_table() -> tuple[MobjectTable, dict[str, VMobject]]:
         arrange_in_grid_config={"cell_alignment": RIGHT},
         line_config={"color": GRAY_300, "stroke_width": 1.6},
     )
+    for entry in table.get_entries():
+        paint_text(entry, GRAY_700)
+    for entry in (*row_labels, *col_labels, corner):
+        paint_text(entry, GRAY_700)
+    paint_text(row_labels[-1], BLACK)
+    for key in ("launch_units", "launch_price"):
+        paint_text(cells[key], BLACK)
+    paint_text(cells["launch_revenue"], GRAY_600)
+    for key in ("trial_revenue", "base_revenue"):
+        paint_text(cells[key], GRAY_700)
     table.scale(0.88, scale_stroke=True)
-    table.move_to(LEFT * 2.55 + DOWN * 0.12)
+    table.move_to(LEFT * 3.05 + DOWN * 0.55)
     return table, cells
 
 
@@ -217,7 +238,7 @@ def make_formula_panel(table: MobjectTable) -> tuple[VGroup, dict[str, VMobject]
         fill_color=WHITE,
         fill_opacity=0.96,
     )
-    panel.move_to(RIGHT * 3.93 + UP * 1.12)
+    panel.move_to(RIGHT * 3.35 + UP * 0.7)
 
     title = label("side aggregation", 18, GRAY_700, "BOLD")
     title.move_to(panel.get_top() + DOWN * 0.27)
@@ -292,7 +313,7 @@ def make_counter_panel() -> tuple[VGroup, dict[str, VMobject | ValueTracker | Ba
         fill_color=WHITE,
         fill_opacity=0.96,
     )
-    panel.move_to(RIGHT * 3.93 + DOWN * 1.52)
+    panel.move_to(RIGHT * 3.35 + DOWN * 1.94)
 
     title = label("counter landing", 18, GRAY_700, "BOLD")
     title.move_to(panel.get_top() + DOWN * 0.28)
@@ -395,7 +416,7 @@ class DataCounterNarrationScene(Scene):
         self.add(stage)
 
         heading = label("data handoff to a live counter", 29, GRAY, "BOLD")
-        heading.to_edge(UP, buff=0.38)
+        heading.to_edge(UP, buff=0.85)
 
         table, cells = make_source_table()
         formula_panel, formula = make_formula_panel(table)
@@ -429,11 +450,12 @@ class DataCounterNarrationScene(Scene):
         result_ring = SurroundingRectangle(cells["launch_revenue"], color=PRIMARY_RED, buff=0.13, stroke_width=3)
         for ring in (units_ring, price_ring, result_ring):
             ring.set_fill(opacity=0)
-            ring.set_opacity(0)
+            ring.set_stroke(opacity=0)
+            ring.set_z_index(6)
 
-        final_value = number_text(TARGET_VALUE, 26, PRIMARY_RED, "BOLD")
+        final_value = paint_text(number_text(TARGET_VALUE, 26, PRIMARY_RED, "BOLD"), PRIMARY_RED)
         final_value.move_to(cells["launch_revenue"])
-        final_value.set_opacity(0)
+        final_value.set_z_index(8)
 
         self.add(heading, table, formula_panel, counter_panel, row_marker, row_rule, units_ring, price_ring, result_ring)
         self.wait(2.65)
@@ -446,7 +468,7 @@ class DataCounterNarrationScene(Scene):
         )
         self.wait(1.0)
 
-        self.play(units_ring.animate.set_opacity(1), run_time=0.42)
+        self.play(units_ring.animate.set_stroke(opacity=1), run_time=0.42)
         self.wait(0.25)
         unit_token, unit_path = source_token(cells["launch_units"], formula["units_slot"])
         self.add(unit_path, unit_token)
@@ -456,9 +478,9 @@ class DataCounterNarrationScene(Scene):
             run_time=1.15,
             rate_func=rate_functions.ease_in_out_cubic,
         )
-        self.play(FadeOut(unit_token), unit_path.animate.set_opacity(0.0), units_ring.animate.set_opacity(0.22), run_time=0.35)
+        self.play(FadeOut(unit_token), unit_path.animate.set_opacity(0.0), units_ring.animate.set_stroke(opacity=0.42), run_time=0.35)
 
-        self.play(price_ring.animate.set_opacity(1), run_time=0.42)
+        self.play(price_ring.animate.set_stroke(opacity=1), run_time=0.42)
         self.wait(0.25)
         price_token, price_path = source_token(cells["launch_price"], formula["price_slot"])
         self.add(price_path, price_token)
@@ -468,7 +490,7 @@ class DataCounterNarrationScene(Scene):
             run_time=1.15,
             rate_func=rate_functions.ease_in_out_cubic,
         )
-        self.play(FadeOut(price_token), price_path.animate.set_opacity(0.0), price_ring.animate.set_opacity(0.22), run_time=0.35)
+        self.play(FadeOut(price_token), price_path.animate.set_opacity(0.0), price_ring.animate.set_stroke(opacity=0.42), run_time=0.35)
         self.wait(1.05)
 
         self.play(
@@ -500,7 +522,7 @@ class DataCounterNarrationScene(Scene):
         self.play(FadeOut(count_token), count_path.animate.set_opacity(0.0), run_time=0.35)
         self.wait(0.9)
 
-        result_copy = number_text(TARGET_VALUE, 28, PRIMARY_RED, "BOLD")
+        result_copy = paint_text(number_text(TARGET_VALUE, 28, PRIMARY_RED, "BOLD"), PRIMARY_RED)
         result_copy.move_to(counter["readout_box"])
         table_path = Line(
             result_copy.get_center(),
@@ -511,7 +533,7 @@ class DataCounterNarrationScene(Scene):
         table_path.set_opacity(0.38)
         self.add(table_path, result_copy)
         self.play(
-            result_ring.animate.set_opacity(1),
+            result_ring.animate.set_stroke(opacity=1),
             cells["launch_revenue"].animate.set_opacity(0),
             run_time=0.45,
         )
@@ -521,8 +543,7 @@ class DataCounterNarrationScene(Scene):
             rate_func=rate_functions.ease_in_out_cubic,
         )
         final_value.move_to(cells["launch_revenue"])
-        final_value.set_opacity(1)
-        self.play(FadeOut(result_copy), final_value.animate.set_opacity(1), table_path.animate.set_opacity(0.0), run_time=0.18)
+        self.play(FadeOut(result_copy), FadeIn(final_value), table_path.animate.set_opacity(0.0), run_time=0.18)
         table.add(final_value)
         self.wait(0.55)
 
@@ -532,12 +553,12 @@ class DataCounterNarrationScene(Scene):
             FadeOut(counter_panel, shift=RIGHT * 0.12),
             FadeOut(units_ring),
             FadeOut(price_ring),
-            terminal.animate.move_to(DOWN * 0.06).scale(1.06, scale_stroke=True),
-            heading.animate.move_to(UP * 3.05),
+            terminal.animate.move_to(DOWN * 0.55).scale(1.06, scale_stroke=True),
+            heading.animate.move_to(UP * 2.55),
             run_time=1.35,
             rate_func=rate_functions.ease_out_cubic,
         )
-        self.play(GrowFromCenter(result_ring), run_time=0.42)
+        self.play(result_ring.animate.set_stroke(width=4.2, opacity=1), run_time=0.42)
         self.wait(6.35)
 
 

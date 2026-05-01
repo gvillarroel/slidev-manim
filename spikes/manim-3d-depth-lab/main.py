@@ -17,28 +17,19 @@ from pathlib import Path
 import numpy as np
 from manim import (
     DEGREES,
-    DOWN,
-    LEFT,
-    RIGHT,
-    UL,
-    UP,
-    Circle,
-    Dot,
-    FadeIn,
     GrowFromPoint,
     LaggedStart,
-    Line,
     MoveAlongPath,
     ParametricFunction,
     Prism,
     Rectangle,
     Sphere,
     Surface,
-    Text,
     ThreeDAxes,
     ThreeDScene,
     VGroup,
     WHITE,
+    config,
     linear,
     smooth,
 )
@@ -53,17 +44,16 @@ POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
 
 BLACK = "#000000"
 PRIMARY_RED = "#9e1b32"
-WHITE_TOKEN = "#ffffff"
 PAGE_BACKGROUND = "#f7f7f7"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
 GRAY_300 = "#b5b5b5"
 GRAY_400 = "#9c9c9c"
 GRAY_500 = "#828282"
-GRAY_600 = "#696969"
 GRAY_700 = "#4f4f4f"
-GRAY_900 = "#1c1c1c"
-FONT_FAMILY = "Open Sans"
+
+config.transparent = True
+config.background_opacity = 0.0
 
 X_MIN = -2.35
 X_MAX = 2.35
@@ -119,41 +109,10 @@ def ridge_height(x: float, y: float = 0.0) -> float:
     return 1.05 + 0.42 * np.sin(1.15 * x) + 0.18 * np.cos(2.0 * x) - 0.14 * y * y
 
 
-def fixed_reference() -> tuple[VGroup, Dot, Line]:
-    panel = Rectangle(
-        width=3.55,
-        height=1.05,
-        stroke_color=GRAY_200,
-        stroke_width=1.4,
-        fill_color=WHITE_TOKEN,
-        fill_opacity=0.92,
-    )
-    label = Text("2D projection", font=FONT_FAMILY, font_size=19, color=GRAY_700)
-    label.next_to(panel.get_top(), DOWN, buff=0.16)
-
-    track = Line(LEFT * 1.25, RIGHT * 1.25, color=GRAY_500, stroke_width=5)
-    track.move_to(panel.get_center() + DOWN * 0.2)
-    ticks = VGroup(
-        *[
-            Circle(radius=0.045, color=GRAY_500, stroke_width=0, fill_color=GRAY_500, fill_opacity=1).move_to(
-                track.point_from_proportion(index / 4)
-            )
-            for index in range(5)
-        ]
-    )
-    active_dot = Dot(track.get_start(), radius=0.075, color=PRIMARY_RED)
-    active_dot.set_z_index(30)
-
-    reference = VGroup(panel, label, track, ticks, active_dot)
-    reference.to_corner(UL, buff=0.34)
-    reference.set_z_index(30)
-    return reference, active_dot, track
-
-
 class DepthNarrationScene(ThreeDScene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
-        self.set_camera_orientation(phi=0 * DEGREES, theta=-90 * DEGREES, zoom=1.02)
+        self.camera.background_opacity = 0
 
         axes = ThreeDAxes(
             x_range=(-3, 3, 1),
@@ -165,6 +124,8 @@ class DepthNarrationScene(ThreeDScene):
             axis_config={"color": GRAY_400, "stroke_width": 2, "include_ticks": False},
             tips=False,
         )
+        depth_focus = axes.c2p(0, 0, 0.35)
+        self.set_camera_orientation(phi=0 * DEGREES, theta=-90 * DEGREES, zoom=1.02, frame_center=depth_focus)
 
         floor = Rectangle(
             width=6.2,
@@ -238,9 +199,6 @@ class DepthNarrationScene(ThreeDScene):
         active_probe.set_color(PRIMARY_RED)
         active_probe.set_shade_in_3d(True)
 
-        reference, reference_dot, reference_track = fixed_reference()
-        self.add_fixed_in_frame_mobjects(reference)
-
         self.add(floor, axes, surface, shadow_path, ridge_path, sample_points, active_probe)
         self.wait(2.8)
 
@@ -255,7 +213,8 @@ class DepthNarrationScene(ThreeDScene):
         self.move_camera(
             phi=63 * DEGREES,
             theta=-49 * DEGREES,
-            zoom=0.98,
+            zoom=1.05,
+            frame_center=depth_focus,
             run_time=5.2,
             rate_func=smooth,
             added_anims=[column_reveal],
@@ -265,7 +224,6 @@ class DepthNarrationScene(ThreeDScene):
         self.begin_ambient_camera_rotation(rate=0.035, about="theta")
         self.play(
             MoveAlongPath(active_probe, ridge_path),
-            MoveAlongPath(reference_dot, reference_track),
             run_time=6.8,
             rate_func=linear,
         )
@@ -274,7 +232,8 @@ class DepthNarrationScene(ThreeDScene):
         self.move_camera(
             phi=62 * DEGREES,
             theta=-42 * DEGREES,
-            zoom=1.0,
+            zoom=1.05,
+            frame_center=depth_focus,
             run_time=2.6,
             rate_func=smooth,
         )

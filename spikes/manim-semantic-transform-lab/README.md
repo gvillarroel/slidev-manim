@@ -29,7 +29,7 @@ The scene uses one red identity marker and a sparse grayscale stage:
 - `TransformFromCopy` creates a visible handoff proof frame while the original marker remains in place.
 - `ReplacementTransform` promotes a transient proof into a new resolved object.
 - `TransformMatchingShapes` reorders identical geometric parts.
-- `TransformMatchingTex` reorders tex-like tokens by `tex_string` without requiring a local LaTeX installation.
+- `TransformMatchingTex` preserves tex-like tokens through an additive formula change without requiring a local LaTeX installation.
 - `FadeTransform` handles incompatible topology where a direct morph would become ambiguous.
 
 # Run

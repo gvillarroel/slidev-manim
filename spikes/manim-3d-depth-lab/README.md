@@ -4,7 +4,7 @@ This spike tests a narration-ready use of Manim 3D features: a flat 2D projectio
 
 ## Hypothesis
 
-3D adds narrative value when the camera reveals a relationship that is invisible from the opening view. The useful beat is not rotation itself; it is the moment when the viewer can compare the fixed 2D projection with the newly visible depth columns, surface ridge, and final stopped 3D view.
+3D adds narrative value when the camera reveals a relationship that is invisible from the opening view. The useful beat is not rotation itself; it is the moment when the viewer can compare the ground-plane projection with the newly visible depth columns, surface ridge, and final stopped 3D view.
 
 ## Feature Coverage
 
@@ -13,7 +13,7 @@ This spike tests a narration-ready use of Manim 3D features: a flat 2D projectio
 - `Surface` as the hidden relationship being revealed.
 - `Sphere` probes and samples for readable point locations.
 - `Prism` columns that connect the flat projection to the elevated ridge.
-- `set_camera_orientation`, `move_camera`, fixed-in-frame reference overlay, and a short ambient camera rotation used only during the inspection beat.
+- `set_camera_orientation`, `move_camera`, a stable ground-plane 2D projection, and a short ambient camera rotation used only during the inspection beat.
 
 ## Run
 
@@ -35,3 +35,10 @@ uv run --script spikes/manim-3d-depth-lab/main.py --quality high
 ## Review Plan
 
 Review the opening, camera tilt, mid-depth proof frame, ambient inspection, and final hold. The frame should fail if the camera movement reads as ornamental rotation, if the depth columns do not explain the height relation, or if the final hold is not readable after the camera stops.
+
+Validated output:
+
+- Duration: 25.000 seconds.
+- Frame count: 750 frames at 30fps.
+- Transparency: VP9 alpha present when decoded with `libvpx-vp9`; extracted alpha range is 0 to 255.
+- Composition audit: 0 findings across 51 sampled frames.

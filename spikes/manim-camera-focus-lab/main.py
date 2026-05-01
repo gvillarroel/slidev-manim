@@ -30,7 +30,6 @@ from manim import (
     MoveAlongPath,
     MovingCameraScene,
     Rectangle,
-    Restore,
     Text,
     Transform,
     VGroup,
@@ -147,10 +146,10 @@ def polyline(points: list, color: str, stroke_width: float, opacity: float = 1.0
 
 def grid_lines() -> VGroup:
     lines = VGroup()
-    for x in range(-12, 13, 2):
-        lines.add(Line([x, -6.8, 0], [x, 6.8, 0], color=GRAY_100, stroke_width=1).set_opacity(0.72))
-    for y in range(-6, 7, 2):
-        lines.add(Line([-12.4, y, 0], [12.4, y, 0], color=GRAY_100, stroke_width=1).set_opacity(0.72))
+    for x in range(-16, 17, 2):
+        lines.add(Line([x, -10.6, 0], [x, 10.6, 0], color=GRAY_100, stroke_width=1).set_opacity(0.72))
+    for y in range(-10, 11, 2):
+        lines.add(Line([-15.8, y, 0], [15.8, y, 0], color=GRAY_100, stroke_width=1).set_opacity(0.72))
     return lines
 
 
@@ -161,8 +160,8 @@ class CameraFocusNarrationScene(MovingCameraScene):
         self.camera.frame.save_state()
 
         stage = Rectangle(
-            width=25.8,
-            height=14.1,
+            width=32.0,
+            height=22.0,
             stroke_color=GRAY_100,
             stroke_width=1,
             fill_color=PAGE_BACKGROUND,
@@ -215,7 +214,8 @@ class CameraFocusNarrationScene(MovingCameraScene):
         traveler_halo.move_to(traveler).set_z_index(11)
         traveler_halo.add_updater(lambda halo: halo.move_to(traveler))
 
-        world = VGroup(stage, grid, route_group, station_a, station_b, station_c)
+        diagram = VGroup(grid, route_group, station_a, station_b, station_c)
+        world = VGroup(stage, diagram)
         self.add(stage, grid, route_group, station_a, station_b, station_c, traveler_halo, traveler)
         self.wait(2.7)
 
@@ -226,11 +226,18 @@ class CameraFocusNarrationScene(MovingCameraScene):
             rate_func=smooth,
         )
         self._focus_intake(a_parts, traveler)
+        station_b.set_opacity(0)
+        station_c.set_opacity(0)
+        route_ab.set_stroke(opacity=0)
+        route_bc.set_stroke(opacity=0)
+        route_ca.set_stroke(opacity=0)
         self.wait(0.55)
 
         active_ab = route_ab.copy().set_stroke(PRIMARY_RED, width=5.0, opacity=0.9).set_z_index(4)
         self.play(
-            self.camera.frame.animate.set(width=18.2).move_to((A_CENTER + B_CENTER) / 2 + UP * 0.15),
+            station_b.animate.set_opacity(1),
+            route_ab.animate.set_stroke(opacity=0.46),
+            self.camera.frame.animate.set(width=23.6).move_to((A_CENTER + B_CENTER) / 2 + UP * 0.05),
             run_time=1.2,
             rate_func=smooth,
         )
@@ -238,16 +245,29 @@ class CameraFocusNarrationScene(MovingCameraScene):
         self.play(
             Create(active_ab),
             MoveAlongPath(traveler, route_ab),
+            run_time=2.35,
+            rate_func=smooth,
+        )
+        self.play(
+            active_ab.animate.set_opacity(0),
+            run_time=0.25,
+            rate_func=smooth,
+        )
+        self.play(
             self.camera.frame.animate.set(width=8.4).move_to(B_CENTER),
-            run_time=3.1,
+            run_time=0.6,
             rate_func=smooth,
         )
         self._focus_detail(b_parts, traveler)
+        station_a.set_opacity(0)
+        route_ab.set_stroke(opacity=0)
         self.wait(0.55)
 
         active_bc = route_bc.copy().set_stroke(PRIMARY_RED, width=5.0, opacity=0.86).set_z_index(4)
         self.play(
-            self.camera.frame.animate.set(width=20.8).move_to(RIGHT * 3.8 + DOWN * 0.4),
+            station_c.animate.set_opacity(1),
+            route_bc.animate.set_stroke(opacity=0.42),
+            self.camera.frame.animate.set(width=20.4).move_to(RIGHT * 5.2 + DOWN * 0.4),
             run_time=1.15,
             rate_func=smooth,
         )
@@ -255,8 +275,17 @@ class CameraFocusNarrationScene(MovingCameraScene):
         self.play(
             Create(active_bc),
             MoveAlongPath(traveler, route_bc),
+            run_time=2.4,
+            rate_func=smooth,
+        )
+        self.play(
+            active_bc.animate.set_opacity(0),
+            run_time=0.25,
+            rate_func=smooth,
+        )
+        self.play(
             self.camera.frame.animate.set(width=8.5).move_to(C_CENTER),
-            run_time=3.2,
+            run_time=0.65,
             rate_func=smooth,
         )
         self._focus_resolution(c_parts, traveler)
@@ -267,18 +296,17 @@ class CameraFocusNarrationScene(MovingCameraScene):
         self.add(terminal_mark)
         traveler_halo.clear_updaters()
         self.play(
+            diagram.animate.set_opacity(0),
             FadeOut(traveler_halo),
             traveler.animate.move_to(terminal_mark).set_opacity(0),
-            terminal_mark.animate.set_opacity(1),
-            final_route.animate.set_opacity(0.72),
-            Restore(self.camera.frame),
-            run_time=2.4,
+            run_time=0.45,
             rate_func=smooth,
         )
+        self.camera.frame.restore()
         self.play(
-            world.animate.set_opacity(0.96),
+            diagram.animate.set_opacity(0.96),
             final_route.animate.set_opacity(0.84),
-            terminal_mark.animate.scale(1.12),
+            terminal_mark.animate.set_opacity(1).scale(1.12),
             run_time=0.7,
             rate_func=smooth,
         )

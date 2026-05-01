@@ -43,3 +43,25 @@ videos/manim-graph-flow-lab/manim-graph-flow-lab.png
 ## Review Notes
 
 Render validation should sample the opening graph, competing-path probes, selected route proof, pulse mid-route, cleanup, and final hold. The important acceptance criteria are that the red route is the only active story, the gray alternatives remain subordinate, the pulse visibly causes the selected path, and no guide or trace residue survives into the final simplified graph.
+
+## Latest Validation
+
+The promoted render is:
+
+```text
+videos/manim-graph-flow-lab/manim-graph-flow-lab.webm
+```
+
+Validation results:
+
+- Duration: 26.900 seconds.
+- Frame count: 807 frames at 30 fps.
+- Proof contact sheet: `videos/manim-graph-flow-lab/review-frames/contact-sheet.png`.
+- Composition audit: 55 sampled frames, 0 findings.
+- Resting mobject audit: 5 rest snapshots, 0 blocking findings.
+
+Iteration changes made after proof-frame review:
+
+- Replaced the in-scene title/subtitle with a visual-only graph stage after text spacing and edge-clearance audits showed the text was not helping the route mechanism.
+- Replaced the old selected graph with a newly laid out final `DiGraph` during cleanup, because moving the original graph left the final route low and visually stale.
+- Tightened cleanup so the old route, candidate paths, pulse, halo, trace, and rings disappear in the same beat as the simplified final route appears.
