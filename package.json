@@ -37,7 +37,8 @@
     "build:mermaid-layout-gallery": "slidev build spikes/mermaid-layout-gallery/slides.md",
     "dev:slidev-transition-showcase": "slidev spikes/slidev-transition-showcase/slides.md",
     "build:slidev-transition-showcase": "slidev build spikes/slidev-transition-showcase/slides.md",
-    "video:slidev-transition-showcase": "uv run --script spikes/slidev-transition-showcase/main.py"
+    "video:slidev-transition-showcase": "uv run --script spikes/slidev-transition-showcase/main.py",
+    "video:red-dot-resonance-spa": "uv run --script spikes/red-dot-resonance-spa/main.py"
   },
   "devDependencies": {
     "@slidev/cli": "^52.3.0",
