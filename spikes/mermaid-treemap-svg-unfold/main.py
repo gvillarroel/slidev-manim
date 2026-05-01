@@ -15,11 +15,11 @@ from manim import (
     DOWN,
     ORIGIN,
     UP,
-    AnimationGroup,
     Create,
     FadeIn,
     FadeOut,
     Indicate,
+    Line,
     Rectangle,
     Scene,
     Text,
@@ -50,8 +50,8 @@ GRAY = "#333e48"
 GRAY_200 = "#cfcfcf"
 PAGE_BACKGROUND = "#f7f7f7"
 TEXT_FONT = "Open Sans" if "Open Sans" in list_fonts() else "Arial"
-LEFT_OFFSET = (-2.15, 0, 0)
-RIGHT_OFFSET = (3.05, 0, 0)
+SOURCE_CENTER_X = -2.15
+MANIM_CENTER_X = 3.28
 
 
 def _label_group(label: str, value: str, *, color: str, max_width: float, max_height: float) -> VGroup:
@@ -90,28 +90,34 @@ def _filled_box(
     return VGroup(body, label_group)
 
 
-def _slot_for(box: VGroup) -> Rectangle:
+def _slot_for(box: VGroup, color: str) -> Rectangle:
     body = box[0]
     slot = Rectangle(
         width=body.width,
         height=body.height,
-        stroke_color=GRAY_200,
+        stroke_color=color,
         stroke_width=1.7,
-        fill_color=WHITE,
-        fill_opacity=0.22,
+        fill_color=color,
+        fill_opacity=0.045,
     )
     slot.move_to(body.get_center())
     slot.set_z_index(1)
     return slot
 
 
-def _frame_header(frame: Rectangle, name: str, value: str, color: str) -> VGroup:
+def _section_header(center_x: float, top_y: float, width: float, name: str, value: str, color: str) -> VGroup:
+    rule = Line(
+        start=(center_x - width / 2, top_y, 0),
+        end=(center_x + width / 2, top_y, 0),
+        stroke_color=color,
+        stroke_width=3.0,
+    )
     label = Text(name, font=TEXT_FONT, font_size=18, color=color)
     total = Text(value, font=TEXT_FONT, font_size=18, color=color)
-    header_y = frame.get_top()[1] - 0.26
-    label.move_to((frame.get_left()[0] + 0.52, header_y, 0))
-    total.move_to((frame.get_right()[0] - 0.24, header_y, 0))
-    group = VGroup(label, total)
+    header_y = top_y + 0.23
+    label.move_to((center_x - width / 2 + 0.08 + label.width / 2, header_y, 0))
+    total.move_to((center_x + width / 2 - 0.08 - total.width / 2, header_y, 0))
+    group = VGroup(rule, label, total)
     group.set_z_index(7)
     return group
 
@@ -134,72 +140,43 @@ class MermaidSvgUnfoldScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = PAGE_BACKGROUND
 
-        title = Text("Mermaid Treemap SVG", font=TEXT_FONT, font_size=28, color=GRAY)
-        subtitle = Text("generated, decomposed, unfolded", font=TEXT_FONT, font_size=15, color=PRIMARY_BLUE)
+        title = Text("Mermaid Treemap", font=TEXT_FONT, font_size=28, color=GRAY)
+        subtitle = Text("SVG generated, decomposed, unfolded", font=TEXT_FONT, font_size=15, color=PRIMARY_BLUE)
         title_group = VGroup(title, subtitle).arrange(DOWN, buff=0.10).to_edge(UP, buff=0.38)
 
-        stage = Rectangle(
-            width=12.25,
-            height=6.00,
-            stroke_color=GRAY_200,
-            stroke_width=2,
-            fill_color=WHITE,
-            fill_opacity=0.76,
-        )
-        stage.move_to(ORIGIN + DOWN * 0.40)
-        stage.set_z_index(-4)
+        source_header = _section_header(SOURCE_CENTER_X, 1.36, 6.20, "Mermaid SVG", "17", PRIMARY_BLUE)
+        manim_header = _section_header(MANIM_CENTER_X, 1.36, 3.70, "Manim", "10", PRIMARY_GREEN)
 
-        source_frame = Rectangle(
-            width=6.45,
-            height=4.25,
-            stroke_color=PRIMARY_BLUE,
-            stroke_width=3.2,
-            fill_color=PRIMARY_BLUE,
-            fill_opacity=0.12,
-        ).move_to(ORIGIN + DOWN * 0.36 + LEFT_OFFSET)
-        manim_frame = Rectangle(
-            width=3.80,
-            height=4.25,
-            stroke_color=PRIMARY_GREEN,
-            stroke_width=3.2,
-            fill_color=PRIMARY_GREEN,
-            fill_opacity=0.12,
-        ).move_to(ORIGIN + DOWN * 0.36 + RIGHT_OFFSET)
-
-        source_header = _frame_header(source_frame, "Mermaid SVG", "17", PRIMARY_BLUE)
-        manim_header = _frame_header(manim_frame, "Manim", "10", PRIMARY_GREEN)
-
-        source_y = source_frame.get_center()[1] - 0.22
-        child_height = 3.32
-        gap = 0.11
-        x0 = source_frame.get_left()[0] + 0.19
-        fragments = _filled_box(3.10, child_height, fill=PRIMARY_ORANGE, stroke=PRIMARY_ORANGE, label="Fragments", value="8")
-        source = _filled_box(1.65, child_height, fill=PRIMARY_PURPLE, stroke=PRIMARY_PURPLE, label="Source", value="5")
-        labels = _filled_box(1.28, child_height, fill=PRIMARY_YELLOW, stroke=PRIMARY_YELLOW, label="Labels", value="4", text_color=GRAY)
+        source_y = -0.61
+        child_height = 3.38
+        gap = 0.18
+        x0 = SOURCE_CENTER_X - 3.10
+        fragments = _filled_box(2.95, child_height, fill=PRIMARY_ORANGE, stroke=PRIMARY_ORANGE, label="Fragments", value="8")
+        source = _filled_box(1.55, child_height, fill=PRIMARY_PURPLE, stroke=PRIMARY_PURPLE, label="Source", value="5")
+        labels = _filled_box(1.18, child_height, fill=PRIMARY_YELLOW, stroke=PRIMARY_YELLOW, label="Labels", value="4", text_color=GRAY)
         fragments.move_to((x0 + fragments[0].width / 2, source_y, 0))
         source.move_to((fragments.get_right()[0] + gap + source[0].width / 2, source_y, 0))
         labels.move_to((source.get_right()[0] + gap + labels[0].width / 2, source_y, 0))
 
-        right_x = manim_frame.get_center()[0]
-        timing = _filled_box(3.42, 1.74, fill=PRIMARY_RED, stroke=PRIMARY_RED, label="Timing", value="6")
-        review = _filled_box(3.42, 1.45, fill=PRIMARY_BLUE, stroke=PRIMARY_BLUE, label="Review", value="4")
-        timing.move_to((right_x, manim_frame.get_center()[1] + 0.56, 0))
-        review.move_to((right_x, manim_frame.get_center()[1] - 1.24, 0))
+        timing = _filled_box(3.45, 1.62, fill=PRIMARY_RED, stroke=PRIMARY_RED, label="Timing", value="6")
+        review = _filled_box(3.45, 1.36, fill=PRIMARY_BLUE, stroke=PRIMARY_BLUE, label="Review", value="4")
+        timing.move_to((MANIM_CENTER_X, 0.18, 0))
+        review.move_to((MANIM_CENTER_X, -1.70, 0))
 
-        source_slots = VGroup(*[_slot_for(box) for box in (fragments, source, labels)])
-        manim_slots = VGroup(*[_slot_for(box) for box in (timing, review)])
+        source_slots = VGroup(*[_slot_for(box, PRIMARY_BLUE) for box in (fragments, source, labels)])
+        manim_slots = VGroup(*[_slot_for(box, PRIMARY_GREEN) for box in (timing, review)])
         all_boxes = VGroup(fragments, source, labels, timing, review)
-        final_group = VGroup(source_frame, manim_frame, source_header, manim_header, all_boxes)
+        final_group = VGroup(source_header, manim_header, all_boxes)
 
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.add(stage, title_group, source_frame, manim_frame, source_header, manim_header, all_boxes)
+            self.add(title_group, source_header, manim_header, all_boxes)
             return
 
-        self.add(stage, title_group, source_frame, manim_frame, source_header, manim_header, source_slots, manim_slots)
+        self.add(title_group, source_header, manim_header, source_slots, manim_slots)
         self.wait(2.6)
 
         self.play(
-            AnimationGroup(Indicate(source_frame, color=PRIMARY_RED, scale_factor=1.015), Indicate(source_header, color=PRIMARY_RED, scale_factor=1.02)),
+            Indicate(source_header, color=PRIMARY_RED, scale_factor=1.02),
             run_time=1.0,
         )
         self.wait(0.35)
@@ -212,7 +189,7 @@ class MermaidSvgUnfoldScene(Scene):
             self.wait(0.25)
 
         self.play(
-            AnimationGroup(Indicate(manim_frame, color=PRIMARY_RED, scale_factor=1.015), Indicate(manim_header, color=PRIMARY_RED, scale_factor=1.02)),
+            Indicate(manim_header, color=PRIMARY_RED, scale_factor=1.02),
             run_time=1.0,
         )
         self.wait(0.35)
@@ -224,19 +201,6 @@ class MermaidSvgUnfoldScene(Scene):
             self.remove(slot)
             self.wait(0.25)
 
-        terminal = Rectangle(
-            width=final_group.width + 0.34,
-            height=final_group.height + 0.34,
-            stroke_color=PRIMARY_RED,
-            stroke_width=4.5,
-            fill_opacity=0,
-        )
-        terminal.move_to(final_group.get_center())
-        terminal.set_z_index(10)
-        self.play(Create(terminal), run_time=0.80, rate_func=rate_functions.ease_out_cubic)
-        self.play(FadeOut(terminal), final_group.animate.scale(1.012), run_time=0.75, rate_func=rate_functions.ease_out_cubic)
-        self.play(final_group.animate.scale(1 / 1.012), run_time=0.30)
-
-        self.wait(11.4)
+        self.wait(13.25)
 if __name__ == "__main__":
     raise SystemExit(main())
