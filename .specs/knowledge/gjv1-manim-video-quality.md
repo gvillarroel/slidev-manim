@@ -57,15 +57,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Deformation Flow
 
 - **Hypothesis**: Shape deformation with stable colors will read better than text-heavy explanation cards.
-- **Result**: Confirmed.
+- **Result**: Confirmed again after expanding the draft into a 25.4-second slide-integration scene with a visible opening breath, red squeeze gate, staged receiver handoffs, cleanup, and centered final hold.
 - **What worked**:
-  - three large source capsules with clear spacing,
-  - one warm pulse to cue movement,
-  - a vertical destination stack that stayed simple,
-  - almost no text.
+  - showing source capsules, open receiver marks, and the red gate in the first frame, so the opening breath starts with meaningful structure,
+  - making each capsule compress inside the gate before it becomes a node, so the deformation survives in 0.3-second still frames,
+  - using open bracket receiver marks instead of full circular outlines, which avoids actor-to-outline crowding after a node lands,
+  - retiring each completed receiver mark immediately and removing the gate before the final hold,
+  - recentering the resolved stack after source cleanup and leaving only the colored nodes plus short orange connectors.
 - **What failed first**:
-  - the destination stack was too far to the right,
-  - the mid-transition overlap looked muddy until the landing positions were adjusted.
+  - the legacy version was only about 6.0 seconds and had no real slide-integration pacing,
+  - the opening started almost blank because structure faded in after the first frame,
+  - a tiny detached pulse read as residue rather than mechanism,
+  - closed slot outlines and behind-node guide spines created strict actor-to-outline crowding,
+  - the staged layout needed several center adjustments because source rails, gate, and target receivers changed the active balance at different beats.
 
 ## Quality Pulse Routing
 
