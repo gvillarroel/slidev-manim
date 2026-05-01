@@ -24,6 +24,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - broad composition and resting-mobject audits can pass even when the render is too short for slide integration; duration remains a separate blocking check.
 
+## Mermaid Requirement SVG Unfold
+
+- **Hypothesis**: A generated Mermaid SVG unfold reads better when the first frame shows a faint complete scaffold, text anchors from the SVG are preserved, and source-order fragments reveal in contiguous chunks instead of round-robin batches.
+- **Result**: Confirmed after the requirement diagram render moved from a mostly empty opening and cropped labels to a 25.5-second render with readable anchored labels, visible opening structure, and a non-occluding terminal outline.
+- **What worked**:
+  - preserving SVG `text-anchor` semantics when rebuilding labels as native Manim text, so left-aligned Mermaid labels no longer drift half a label width outside their boxes,
+  - joining individual SVG/tspan text parts with explicit spaces, which prevents labels such as `Text: Decompose...` from collapsing into one run,
+  - keeping a faint full-diagram scaffold during the opening breath, then fading it as the first real batch appears, so the first sampled frames show the intended target structure,
+  - revealing fragments in contiguous source-order chunks, because round-robin batching can isolate sparse lines or labels for too long,
+  - using a perimeter terminal outline instead of a filled red pulse, which gives the hold a center of interest without covering text.
+- **Validation note**:
+  - broad composition audit and resting-mobject audit cleared the final render with zero blocking frames/snapshots; the contact sheet still mattered because the initial audit did not catch text-anchor drift as a blocking issue.
+
 ## Timeline Stack
 
 - **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.

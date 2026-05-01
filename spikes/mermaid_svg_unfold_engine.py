@@ -13,10 +13,11 @@ from pathlib import Path
 
 from manim import (
     DOWN,
+    LEFT,
     ORIGIN,
+    RIGHT,
     UP,
     AnimationGroup,
-    Circle,
     FadeIn,
     FadeOut,
     Group,
@@ -123,6 +124,7 @@ class TextLabelSpec:
     y: float
     font_size: float
     color: str
+    anchor: str
     order: int
 
 
@@ -537,7 +539,7 @@ def parse_transform(value: str | None) -> Matrix:
 
 
 def text_content(element: ET.Element) -> str:
-    text = "".join(element.itertext())
+    text = " ".join(part.strip() for part in element.itertext() if part.strip())
     return re.sub(r"\s+", " ", text).strip()
 
 
@@ -566,6 +568,18 @@ def label_color(element: ET.Element, ancestors: list[ET.Element]) -> str:
     return WHITE if "label" in tokens else GRAY
 
 
+def text_anchor(element: ET.Element, ancestors: list[ET.Element]) -> str:
+    for candidate in [element, *reversed(ancestors)]:
+        anchor = candidate.attrib.get("text-anchor")
+        if anchor in {"start", "middle", "end"}:
+            return anchor
+        style = candidate.attrib.get("style", "")
+        match = re.search(r"text-anchor\s*:\s*(start|middle|end)", style)
+        if match:
+            return match.group(1)
+    return "start"
+
+
 def collect_text_labels(svg_path: Path) -> list[TextLabelSpec]:
     tree = ET.parse(svg_path)
     root = tree.getroot()
@@ -588,6 +602,7 @@ def collect_text_labels(svg_path: Path) -> list[TextLabelSpec]:
                         y=point_y,
                         font_size=font_px,
                         color=label_color(element, ancestors),
+                        anchor=text_anchor(element, ancestors),
                         order=len(labels),
                     )
                 )
@@ -613,7 +628,12 @@ def build_text_actor(spec: TextLabelSpec, view_box: SvgBox, target_height: float
     actor.scale_to_fit_height(desired_height)
     if actor.width > 2.55:
         actor.scale_to_fit_width(2.55)
-    actor.move_to(svg_point_to_manim(spec.x, spec.y, view_box, target_height))
+    point = svg_point_to_manim(spec.x, spec.y, view_box, target_height)
+    actor.move_to(point)
+    if spec.anchor == "start":
+        actor.shift(RIGHT * actor.width / 2)
+    elif spec.anchor == "end":
+        actor.shift(LEFT * actor.width / 2)
     actor.set_z_index(6)
     return actor
 
@@ -720,10 +740,8 @@ def batch_items(items: list[SVGMobject], max_batches: int = 9) -> list[list[SVGM
     if not items:
         return []
     batch_count = min(max_batches, max(1, len(items)))
-    batches = [[] for _ in range(batch_count)]
-    for index, item in enumerate(items):
-        batches[index % batch_count].append(item)
-    return [batch for batch in batches if batch]
+    batch_size = max(1, (len(items) + batch_count - 1) // batch_count)
+    return [items[index : index + batch_size] for index in range(0, len(items), batch_size)]
 
 
 class MermaidSvgUnfoldScene(Scene):
@@ -758,32 +776,57 @@ class MermaidSvgUnfoldScene(Scene):
             self.add(stage, title, final_group)
             return
 
+        opening_scaffold = final_group.copy()
+        opening_scaffold.set_opacity(0.14)
+        opening_scaffold.set_z_index(1)
+
         self.add(stage, title)
-        self.wait(2.7)
+        self.add(opening_scaffold)
+        self.wait(2.4)
 
-        elapsed = 2.7
+        elapsed = 2.4
+        first_batch = True
         for batch in batch_items(actors):
-            self.play(
-                LaggedStart(*[FadeIn(actor, shift=UP * 0.05) for actor in batch], lag_ratio=0.14),
-                run_time=1.12,
-                rate_func=rate_functions.ease_out_cubic,
-            )
-            self.wait(0.35)
-            elapsed += 1.47
+            reveal = LaggedStart(*[FadeIn(actor, shift=UP * 0.05) for actor in batch], lag_ratio=0.14)
+            if first_batch:
+                self.play(
+                    FadeOut(opening_scaffold),
+                    reveal,
+                    run_time=1.42,
+                    rate_func=rate_functions.ease_out_cubic,
+                )
+                first_batch = False
+            else:
+                self.play(
+                    reveal,
+                    run_time=1.42,
+                    rate_func=rate_functions.ease_out_cubic,
+                )
+            self.wait(0.32)
+            elapsed += 1.74
 
-        pulse = Circle(radius=0.18, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=0.82)
-        pulse.move_to(ORIGIN + DOWN * 0.18)
-        pulse.set_z_index(8)
-        self.play(FadeIn(pulse, scale=0.7), run_time=0.24)
+        outline_height = min(final_group.height + 0.34, stage.height - 0.55)
+        terminal_outline = Rectangle(
+            width=final_group.width + 0.38,
+            height=outline_height,
+            stroke_color=PRIMARY_RED,
+            stroke_width=3,
+            fill_opacity=0,
+        )
+        terminal_outline.move_to(final_group)
+        max_top = title.get_bottom()[1] - 0.24
+        if terminal_outline.get_top()[1] > max_top:
+            terminal_outline.shift(DOWN * (terminal_outline.get_top()[1] - max_top))
+        terminal_outline.set_z_index(8)
+        self.play(FadeIn(terminal_outline, scale=0.98), run_time=0.28)
         self.play(
-            pulse.animate.scale(5.8).set_fill(PRIMARY_RED, opacity=0),
+            terminal_outline.animate.scale(1.018).set_stroke(PRIMARY_RED, opacity=0.48),
             final_group.animate.scale(1.01),
-            run_time=1.0,
+            run_time=0.82,
             rate_func=rate_functions.ease_out_cubic,
         )
-        self.remove(pulse)
         self.play(final_group.animate.scale(1 / 1.01), run_time=0.32)
-        elapsed += 1.56
+        elapsed += 1.42
         self.wait(max(7.0, 25.5 - elapsed))
 
 
