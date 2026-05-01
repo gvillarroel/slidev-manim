@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "export:mp4": "node scripts/record-slidev-to-mp4.mjs",
     "dev:circle-left-to-right": "slidev spikes/circle-left-to-right/slides.md",
     "build:circle-left-to-right": "slidev build spikes/circle-left-to-right/slides.md",
     "dev:overlay-corner-callout": "slidev spikes/overlay-corner-callout/slides.md",
@@ -41,7 +42,9 @@
     "video:red-dot-resonance-spa": "uv run --script spikes/red-dot-resonance-spa/main.py",
     "video:red-dot-lens-spa": "uv run --script spikes/red-dot-lens-spa/main.py",
     "video:red-dot-radial-focus-spa": "uv run --script spikes/red-dot-radial-focus-spa/main.py",
-    "video:red-dot-thread-spa": "uv run --script spikes/red-dot-thread-spa/main.py"
+    "video:red-dot-thread-spa": "uv run --script spikes/red-dot-thread-spa/main.py",
+    "record:mp4": "node scripts/record-slidev-to-mp4.mjs",
+    "export:static-mp4": "scripts/slidev-to-mp4.sh"
   },
   "devDependencies": {
     "@slidev/cli": "^52.3.0",
