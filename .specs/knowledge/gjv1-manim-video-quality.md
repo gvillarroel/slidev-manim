@@ -11,6 +11,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Step Reveal Sequence
+
+- **Hypothesis**: A slide-sequence loop reads as a mechanism instead of a moving dot when the opening frame already shows source states, receiver slots, and quiet route scaffolds.
+- **Result**: Confirmed after replacing 2.9-3.6 second single-dot loops with 28.3-32.9 second staged reveal videos.
+- **What worked**:
+  - showing all source cards, empty receiver slots, and faint route guides during the opening breath, so the viewer can read the pending handoffs before motion starts,
+  - using one primary-red pulse to activate each route while the settled states use green, blue, and purple as quiet categorical actors,
+  - moving the completed receiver stack to the resolved center before the final hold, which keeps the ending from feeling stranded in the old transfer layout,
+  - fading the traveling pulse during cleanup before drawing the final outline or terminal arrow, so the cleanup proof frames do not contain a disconnected red dot,
+  - choosing an installed fallback font when Open Sans is unavailable, so local renders stay clean without repeated font warnings,
+  - clearing the spike-local Manim staging directory per variant and promoting by newest modified time so stale cached renders do not contaminate review.
+- **Validation note**:
+  - broad composition audits can pass while a small pulse still reads as residue in full-size transition frames; inspect cleanup frames at full size before accepting final-outline or terminal-arrow beats.
+
 ## Mermaid Layout Gallery Device Frame Loop
 
 - **Hypothesis**: A device-frame embed reads more clearly when the transparent Manim asset animates only the app content and does not duplicate the surrounding Slidev/browser frame.
