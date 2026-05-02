@@ -56,6 +56,8 @@
     "video:red-dot-keystone-spa": "uv run --script spikes/red-dot-keystone-spa/main.py",
     "dev:red-dot-knot-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-knot-spa",
     "video:red-dot-knot-spa": "uv run --script spikes/red-dot-knot-spa/main.py",
+    "dev:red-dot-loom-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-loom-spa",
+    "video:red-dot-loom-spa": "uv run --script spikes/red-dot-loom-spa/main.py",
     "dev:red-point-narrative-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa",
     "video:red-point-narrative-spa": "uv run --script spikes/red-point-narrative-spa/main.py",
     "record:mp4": "node scripts/record-slidev-to-mp4.mjs",
