@@ -174,6 +174,21 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - final 0.3-second white-background review frames, full-size proof frames, frame composition audit, frame crowding audit, and resting-mobject audit all cleared with zero blocking findings; WebM metadata reported 25.758 seconds at 1600x900.
 
+## Mermaid Kanban SVG Unfold
+
+- **Hypothesis**: A Mermaid Kanban board reads better when the generated SVG remains inspectable, but the promoted video is rebuilt as a native board with prepared receiver cards and explicit handoff pulses.
+- **Result**: Confirmed on `spikes/mermaid-kanban-svg-unfold/` after replacing the generic fragment reveal with a 28.928-second native Kanban board render.
+- **What worked**:
+  - showing all columns, headers, faint receiver cards, source card, and connector stubs during the opening breath,
+  - removing the title/subtitle band so the board itself owns the hierarchy,
+  - using one red pulse per handoff and stopping it at the receiver entrance before fading in the destination cards,
+  - fading receiver slots out before real cards fade in, because cross-faded slot text and card text made the 4.8-second proof frame unreadable,
+  - shortening the lanes and adding restrained bottom lane rails to balance strong-color headers and clear off-center composition audits,
+  - using separated terminal brackets around the `Manim video` card instead of a closed outline around the whole board,
+  - adding the Manim `--transparent` render flag for the WebM path, because scene opacity alone did not produce alpha metadata.
+- **Validation note**:
+  - final 0.3-second white-background review frames covered 97 samples; full-size proof frames at the opening, both handoffs, and final hold were reviewed; composition audit reported 0 blocking frames with 3 notice-only handoff frames; resting-mobject audit reported 0 blocking snapshots; WebM metadata reported `alpha_mode=1`, 28.928 seconds, and 1600x900.
+
 ## Timeline Stack
 
 - **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.

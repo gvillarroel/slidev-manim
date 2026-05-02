@@ -93,6 +93,18 @@ Use `native packet fields` when a compact Mermaid packet SVG becomes a thin stri
 - Keep range labels inset from field edges and add tiny gutters between adjacent colored field bodies so strict crowding review does not read packet boundaries as accidental contact.
 - Remove title bands, visible stage plates, and closed terminal outlines unless they carry meaning. A clean page background with separated terminal brackets usually leaves the final hold calmer.
 
+# Kanban Board Scenes
+
+Use `native kanban board` when a Mermaid Kanban SVG unfold becomes a tiny static fragment reveal, or when labels and card bodies arrive separately.
+
+- Keep the `.mmd`, generated SVG, and fragments as inspectable artifacts, but promote a native Manim board when the board flow is the mechanism.
+- Show the full lane scaffold in the opening breath: columns, headers, faint receiver cards, quiet connector stubs, and any source card should be visible before motion starts.
+- Use one active pulse per handoff and stop it at the receiver entrance. Highlight only receiver outlines, not the slot text, so the target reads as prepared without becoming a second active label.
+- Remove receiver slots before fading in the real cards. If slot text and card text cross-fade, sampled frames can become unreadable even though the final card is clean.
+- If the board has empty lower lanes, use restrained bottom lane rails or a shorter lane height to balance strong-color headers. Otherwise strong-color centering audits and human review can read the board as top-heavy.
+- Use separated corner brackets around the terminal card instead of enclosing the full board. The final hold should identify the output without turning the whole board into a red frame artifact.
+- For transparent Slidev assets, make both the scene and render command transparent; scene opacity alone is not enough if the Manim CLI render omits `--transparent`.
+
 # Data and Formula Scenes
 
 Use `side formula handoff` for table transformations where two or more source cells create a derived value.

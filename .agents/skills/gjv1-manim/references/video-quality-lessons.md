@@ -158,6 +158,10 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Compact Mermaid packet diagrams should usually be rebuilt with native field rectangles when generic SVG fragment reveals make the diagram a thin strip. Keep the `.mmd`, generated SVG, and fragments for inspection, but promote a native Manim packet with the full scaffold visible during the opening breath.
 - Packet field reveals read best when each field grows from its bit-range start while one primary-red cursor or active outline proves progression. Use small gutters between adjacent colored field bodies, keep range labels inset from field edges, and prefer separated terminal brackets over a closed outline around the full packet.
 - Do not keep a visible local stage plate around simple native packet or bar diagrams unless it carries semantic contrast. Strict crowding audits can treat the plate as an actor touching every field; a clean page background usually gives enough contrast for bold native geometry.
+- Mermaid Kanban diagrams should usually be rebuilt as native boards when generic SVG fragment unfolds make the board tiny or separate labels from card bodies. Keep inspectable Mermaid artifacts, but promote native columns, faint receiver cards, short connector stubs, and one active pulse per handoff.
+- In native Kanban scenes, remove receiver slots before the real cards fade in. Cross-fading slot text and card text can make sampled proof frames unreadable; highlight only the receiver outline during the pulse.
+- Empty lower Kanban lanes can make strong-color audits and human review read the board as top-heavy. Shorten the lane height or add restrained bottom lane rails that match the headers so the opening breath and final hold stay vertically balanced.
+- For transparent Manim WebMs, setting scene background opacity is not enough when the CLI command omits `--transparent`; validate the promoted WebM metadata for `alpha_mode=1`.
 
 ## Maintenance Rule
 
