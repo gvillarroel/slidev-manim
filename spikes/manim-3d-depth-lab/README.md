@@ -41,4 +41,7 @@ Validated output:
 - Duration: 25.000 seconds.
 - Frame count: 750 frames at 30fps.
 - Transparency: VP9 alpha present when decoded with `libvpx-vp9`; extracted alpha range is 0 to 255.
-- Composition audit: 0 findings across 51 sampled frames.
+- Review frames: 83 frames extracted at 0.3-second cadence on a white review background.
+- Composition audit: 0 findings across 84 sampled frames.
+- Crowding audit: 0 blocking frames across 84 sampled frames.
+- Resting-mobject audit: 0 blocking snapshots across 3 rest states.

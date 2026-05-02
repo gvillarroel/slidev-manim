@@ -18,10 +18,12 @@ Good 3D narration usually follows this order:
 
 - Treat `move_camera` as the causal reveal, not as a flourish. The proof frame should show what became visible because the camera moved.
 - Keep one stable reference: a fixed overlay, a ground-plane shadow, or a front-view outline. Do not use all three unless the relation is otherwise ambiguous.
+- Do not give away the 3D relationship in the opening if the scene is about discovering depth. A flat projection plus sample points is usually enough for the opening breath; reveal the surface ridge, depth columns, or elevated path during the camera tilt.
 - Pair elevated objects with their projection on the floor or source plane. A sphere floating over a surface is weaker than a sphere plus a visible vertical column or shadow.
 - Use `Surface` for the hidden relationship and keep its color neutral. Reserve the primary red accent for the probe, path, selected point, or current slice.
 - Use 3D solids semantically: `Sphere` for sampled positions, `Prism` for measured depth or volume, `Cube` only when a block-like quantity matters. Do not add solids as generic decoration.
 - Keep axis ticks, labels, and checkerboards subordinate. In narration scenes the camera and the active accent should do the explaining.
+- Tighten the camera enough that the stage reads as a slide asset, not a small model in a white field. Validate the zoom against the full tilt and final hold, because a crop-safe opening can still leave the revealed 3D structure too small.
 
 ## Camera Discipline
 

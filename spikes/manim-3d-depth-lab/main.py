@@ -17,6 +17,8 @@ from pathlib import Path
 import numpy as np
 from manim import (
     DEGREES,
+    Create,
+    FadeIn,
     GrowFromPoint,
     LaggedStart,
     MoveAlongPath,
@@ -58,6 +60,8 @@ config.background_opacity = 0.0
 X_MIN = -2.35
 X_MAX = 2.35
 SAMPLE_XS = [-2.2, -1.1, 0.0, 1.1, 2.2]
+OPENING_ZOOM = 1.24
+DEPTH_ZOOM = 1.28
 
 
 class _Args(argparse.Namespace):
@@ -125,7 +129,7 @@ class DepthNarrationScene(ThreeDScene):
             tips=False,
         )
         depth_focus = axes.c2p(0, 0, 0.35)
-        self.set_camera_orientation(phi=0 * DEGREES, theta=-90 * DEGREES, zoom=1.02, frame_center=depth_focus)
+        self.set_camera_orientation(phi=0 * DEGREES, theta=-90 * DEGREES, zoom=OPENING_ZOOM, frame_center=depth_focus)
 
         floor = Rectangle(
             width=6.2,
@@ -142,9 +146,9 @@ class DepthNarrationScene(ThreeDScene):
             v_range=(-1.45, 1.45),
             resolution=(24, 12),
             checkerboard_colors=[GRAY_100, GRAY_200],
-            fill_opacity=0.48,
+            fill_opacity=0.38,
             stroke_color=GRAY_300,
-            stroke_width=0.32,
+            stroke_width=0.38,
         )
         surface.set_shade_in_3d(True)
 
@@ -152,13 +156,13 @@ class DepthNarrationScene(ThreeDScene):
             lambda t: axes.c2p(t, 0, 0.018),
             t_range=(X_MIN, X_MAX),
             color=GRAY_500,
-            stroke_width=5,
+            stroke_width=6,
         )
         ridge_path = ParametricFunction(
             lambda t: axes.c2p(t, 0, ridge_height(t)),
             t_range=(X_MIN, X_MAX),
             color=PRIMARY_RED,
-            stroke_width=7,
+            stroke_width=8,
         )
         ridge_path.set_shade_in_3d(True)
 
@@ -167,9 +171,9 @@ class DepthNarrationScene(ThreeDScene):
         for index, x_value in enumerate(SAMPLE_XS):
             z_value = ridge_height(x_value)
             column = Prism(
-                dimensions=[0.11, 0.11, z_value],
+                dimensions=[0.14, 0.14, z_value],
                 fill_color=GRAY_400,
-                fill_opacity=0.34,
+                fill_opacity=0.42,
                 stroke_width=0,
             ).move_to(axes.c2p(x_value, 0, z_value / 2))
             column.set_shade_in_3d(True)
@@ -178,7 +182,7 @@ class DepthNarrationScene(ThreeDScene):
             point_color = BLACK if index in (1, 3) else GRAY_700
             point = Sphere(
                 center=axes.c2p(x_value, 0, z_value),
-                radius=0.105,
+                radius=0.115,
                 resolution=(10, 10),
                 fill_color=point_color,
                 fill_opacity=0.92,
@@ -190,7 +194,7 @@ class DepthNarrationScene(ThreeDScene):
 
         active_probe = Sphere(
             center=axes.c2p(X_MIN, 0, ridge_height(X_MIN)),
-            radius=0.15,
+            radius=0.165,
             resolution=(14, 14),
             fill_color=PRIMARY_RED,
             fill_opacity=1,
@@ -199,7 +203,7 @@ class DepthNarrationScene(ThreeDScene):
         active_probe.set_color(PRIMARY_RED)
         active_probe.set_shade_in_3d(True)
 
-        self.add(floor, axes, surface, shadow_path, ridge_path, sample_points, active_probe)
+        self.add(floor, axes, shadow_path, sample_points, active_probe)
         self.wait(2.8)
 
         column_reveal = LaggedStart(
@@ -213,11 +217,15 @@ class DepthNarrationScene(ThreeDScene):
         self.move_camera(
             phi=63 * DEGREES,
             theta=-49 * DEGREES,
-            zoom=1.05,
+            zoom=DEPTH_ZOOM,
             frame_center=depth_focus,
             run_time=5.2,
             rate_func=smooth,
-            added_anims=[column_reveal],
+            added_anims=[
+                FadeIn(surface, run_time=2.8),
+                Create(ridge_path, run_time=5.2),
+                column_reveal,
+            ],
         )
         self.wait(1.0)
 
@@ -232,7 +240,7 @@ class DepthNarrationScene(ThreeDScene):
         self.move_camera(
             phi=62 * DEGREES,
             theta=-42 * DEGREES,
-            zoom=1.05,
+            zoom=DEPTH_ZOOM,
             frame_center=depth_focus,
             run_time=2.6,
             rate_func=smooth,

@@ -1253,6 +1253,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 162. Browser-native recordings that loop interactively need a capture-only non-looping mode. Clamp the recorded timeline to the resolved final state and keep recording for the final-hold budget so the promoted video does not end by restarting the opening.
 163. Persistent review frames or stage plates should be visible as a complete balanced scaffold, not only through shadows or bottom edges. If only the bottom chrome is detected, 0.3-second composition audits can read otherwise centered motion as vertically off-center.
 164. In browser-native search beats with candidate cards, use one active cue per target. A red border plus red internal rule or center echo dot can create strict crowding failures and visual ambiguity; keep placeholder internals faint and put visited echoes outside closed outlines.
+165. For 3D depth reveals, do not show the full elevated surface and ridge during the flat opening if discovery is the point. Let the opening show only the projection and samples, then reveal surface, columns, and ridge during the camera tilt.
+166. Tighten 3D camera zoom enough that the final hold reads as a slide asset, while validating the full tilt path for crop safety. A technically correct 3D model can still fail visually if it sits too small in a wide white field.
+
+## Manim 3D Depth Lab
+
+- **Hypothesis**: The 3D depth reveal reads better when the first view is a true flat projection and the surface ridge appears as a consequence of the camera tilt, not as pre-shown decoration.
+- **Result**: Confirmed on `spikes/manim-3d-depth-lab/` after tightening the camera, removing the surface and elevated ridge from the opening breath, and revealing the surface, ridge path, and depth columns during the tilt.
+- **What worked**:
+  - starting with only the ground projection, sample points, and active probe so the opening still has structure without giving away height,
+  - using the camera tilt as the causal beat that introduces the neutral surface, red ridge, and vertical columns,
+  - increasing camera zoom and depth-marker weight so the final stopped hold has less dead white field and stronger height evidence,
+  - keeping the surface neutral while the primary-red probe and ridge carry the active hierarchy.
+- **Validation note**:
+  - the final render was reviewed with 83 extracted 0.3-second white-background frames and full-size proof frames at the opening, tilt proof, moving-probe beat, and final hold; composition audit sampled 84 frames with zero findings, crowding audit sampled 84 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and VP9 alpha decoded to a 0 to 255 range.
 
 # Reusable Process
 
