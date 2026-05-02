@@ -482,6 +482,7 @@ Do not add text before exhausting those fixes.
 - narrow the neck, lane, throat, corridor, or clamp gap,
 - sample an earlier proof frame if the release weakens the pressure,
 - for clamp-close scenes, hold the side-pressure proof before release, then remove abandoned source panels and clamp bars before the landing morph so the release frame does not inherit support residue,
+- for throat-gate scenes that recenter after a source-to-target transfer, keep the broad balancing frame or scaffold through the recentering transition, then remove it at the final-hold boundary. Removing it before the cluster moves can make sampled cleanup frames read off-center, while fading it through the final cluster can create stray-frame fragments.
 - full-size review any crowding finding in the constrained proof frame; actor-to-actor contact can be acceptable only when it reads as pressure, while actor-to-guide or actor-to-outline contact remains blocking,
 - keep support forms away from the squeeze zone.
 

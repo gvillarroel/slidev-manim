@@ -779,16 +779,21 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Throat Gate
 
 - **Hypothesis**: A narrow throat can make a passage feel more authored if the dominant form visibly compresses through it before the final resolve.
-- **Result**: Confirmed after widening the gate bars, shrinking the green form further, and moving the support forms away from the throat.
+- **Result**: Confirmed after widening the gate bars, shrinking the green form further, and moving the support forms away from the throat. Reconfirmed in the 2026-05-02 polish pass after expanding the clip into a 25.9-second red-and-gray slide-integration scene with a visible opening breath, a held throat proof, cleanup, recentering, and a 6.2-second final hold.
 - **What worked**:
   - two longer orange bars that create a clear gated throat,
   - a compressed green form that is visibly thinner while passing between them,
   - support forms positioned away from the squeeze so the gate owns the frame,
-  - gate removal before the resolved landing.
+  - gate removal before the resolved landing,
+  - using one primary-red actor and grayscale supports so the throat mechanism owns the hierarchy,
+  - keeping the broad stage frame through the recentering transition, then removing it at the final-hold boundary instead of fading it through the cluster.
 - **What failed first**:
   - the first gate bars looked too isolated and the squeeze was not tight enough,
   - the support forms were too close to the mechanism,
-  - the green form needed stronger compression to read in still frames.
+  - the green form needed stronger compression to read in still frames,
+  - removing the broad frame before recentering caused off-center cleanup audit failures, while fading it through the cluster caused stray edge-fragment notices.
+- **Validation note**:
+  - the final 2026-05-02 render was reviewed with 87 alpha-on-white frames sampled every 0.3 seconds, full-size opening/squeeze/final proof frames, a 0.3-second composition audit with zero findings, and a resting-mobject audit with zero blocking snapshots.
 
 ## Quality Relay Handoff
 
