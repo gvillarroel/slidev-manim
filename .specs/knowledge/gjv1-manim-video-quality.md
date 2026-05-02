@@ -164,14 +164,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Mermaid Layout Gallery Device Frame Loop
 
 - **Hypothesis**: A device-frame embed reads more clearly when the transparent Manim asset animates only the app content and does not duplicate the surrounding Slidev/browser frame.
-- **Result**: Confirmed after replacing the static nested frame with a short content-only checkout loop.
+- **Result**: Confirmed after replacing the static nested frame and short checkout loop with 27.0-second wide and portrait content-only handoff videos.
 - **What worked**:
   - removing the internal device shell because the Slidev layout already supplies the browser/device frame,
-  - using a visible red route pulse across three square UI states so the mechanism survives 0.3-second still frames,
-  - keeping the receipt slot blank until the pulse reaches it, then snapping in the resolved confirmation state to avoid ghost text during the handoff,
+  - showing source cards, processor and receipt slots, faint routes, and the active pulse during the opening breath so transparent whitespace reads as pending UI structure,
+  - using a visible red route pulse across staged square UI states so the mechanism survives 0.3-second still frames,
+  - keeping the receipt slot blank until the pulse reaches it, then replacing the slot with the resolved confirmation card to avoid ghost text during the handoff,
+  - removing routes and the pulse before the final hold, then using separated corner brackets around the receipt instead of a closed terminal rectangle,
+  - adding spike-local audit setup functions for the wide and portrait Manim frame shapes so rest-state checks match the actual render geometry,
   - clearing the fixed Manim staging directory before the promoted render and promoting by newest modified time so stale cached outputs do not enter review.
 - **Validation note**:
-  - for transparent loop embeds, extract alpha-on-white frames with a VP9/libvpx decode path; PyAV-only review can show black backgrounds and hide the real slide embed behavior.
+  - for transparent loop embeds, extract alpha-on-white frames with a VP9/libvpx decode path; PyAV-only review can show black backgrounds and hide the real slide embed behavior,
+  - poster images need a rerender whenever the terminal state changes, because Slidev uses them as the first inspectable still inside the browser/device frame.
 
 ## Diagram SVG Video Manipulation Polish
 

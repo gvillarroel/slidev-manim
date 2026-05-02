@@ -159,19 +159,24 @@ if __name__ == "__main__":
 
 
 from manim import (
+    AnimationGroup,
+    Circle,
+    Create,
     DOWN,
     Dot,
     FadeIn,
+    FadeOut,
     LEFT,
     Line,
     MoveAlongPath,
     RIGHT,
-    RoundedRectangle,
+    Rectangle,
+    ReplacementTransform,
     Scene,
     UP,
     VGroup,
-    WHITE,
     always_redraw,
+    config,
     linear,
 )
 
@@ -181,103 +186,213 @@ def _prepare_poster(scene: Scene) -> None:
         scene.camera.background_color = PAGE_BACKGROUND
 
 
-def _accent_card(width: float, height: float, stroke_color: str, fill_opacity: float) -> RoundedRectangle:
-    card = RoundedRectangle(width=width, height=height, corner_radius=0.16)
-    card.set_stroke(stroke_color, width=4, opacity=0.55)
+def setup_browser_audit_config() -> None:
+    config.pixel_width = 1920
+    config.pixel_height = 1080
+    config.frame_height = 8.0
+    config.frame_width = 8.0 * 16.0 / 9.0
+
+
+def setup_device_audit_config() -> None:
+    config.pixel_width = 1080
+    config.pixel_height = 1920
+    config.frame_width = 8.0
+    config.frame_height = 8.0 * 16.0 / 9.0
+
+
+def _accent_card(width: float, height: float, stroke_color: str, fill_opacity: float) -> Rectangle:
+    card = Rectangle(width=width, height=height)
+    card.set_stroke(stroke_color, width=4, opacity=0.6)
     card.set_fill(stroke_color, opacity=fill_opacity)
     return card
+
+
+def _slot(width: float, height: float, color: str) -> Rectangle:
+    slot = Rectangle(width=width, height=height)
+    slot.set_stroke(color, width=3, opacity=0.22)
+    slot.set_fill(color, opacity=0.035)
+    return slot
+
+
+def _pulse(radius: float = 0.12) -> tuple[Dot, Circle]:
+    dot = Dot(color=PRIMARY_RED, radius=radius)
+    halo = always_redraw(
+        lambda: Circle(radius=radius * 2.6)
+        .set_stroke(PRIMARY_RED, width=5, opacity=0.2)
+        .set_fill(PRIMARY_RED, opacity=0.08)
+        .move_to(dot)
+    )
+    return dot, halo
+
+
+def _make_route(points: list) -> VGroup:
+    segments = VGroup()
+    for start, end in zip(points, points[1:]):
+        segment = Line(start, end, color=GRAY_400, stroke_width=3)
+        segment.set_stroke(opacity=0.28)
+        segments.add(segment)
+    return segments
+
+
+def _move_on_segment(scene: Scene, dot: Dot, start, end, run_time: float) -> None:
+    dot.move_to(start)
+    path = Line(start, end)
+    scene.play(MoveAlongPath(dot, path), run_time=run_time, rate_func=linear)
 
 
 class DeviceFrameEmbedBrowserScene(Scene):
     def construct(self) -> None:
         _prepare_poster(self)
 
-        shell = RoundedRectangle(width=10.8, height=5.9, corner_radius=0.22)
-        shell.set_stroke(PRIMARY_BLUE, width=8, opacity=0.5)
-        shell.set_fill(PAGE_BACKGROUND, opacity=0.96)
+        source = VGroup(
+            _accent_card(1.45, 0.72, PRIMARY_GREEN, 0.14),
+            _accent_card(1.45, 0.72, PRIMARY_BLUE, 0.1),
+            _accent_card(1.45, 0.72, PRIMARY_PURPLE, 0.1),
+        ).arrange(DOWN, buff=0.24)
+        source.move_to(LEFT * 3.7 + UP * 0.1)
 
-        viewport = RoundedRectangle(width=10.0, height=4.85, corner_radius=0.18)
-        viewport.set_stroke(PRIMARY_BLUE, width=4, opacity=0.2)
-        viewport.set_fill(PRIMARY_BLUE, opacity=0.03)
+        processor_slot = _slot(2.15, 1.65, PRIMARY_ORANGE).move_to(LEFT * 0.15 + UP * 0.1)
+        receipt_slot = _slot(2.0, 1.55, PRIMARY_BLUE).move_to(RIGHT * 3.35 + UP * 0.1)
+        processor_card = _accent_card(2.15, 1.65, PRIMARY_ORANGE, 0.12).move_to(processor_slot)
+        receipt_card = _accent_card(2.0, 1.55, PRIMARY_GREEN, 0.15).move_to(receipt_slot)
 
-        chrome = VGroup(
-            Dot(color=PRIMARY_BLUE, radius=0.09),
-            Dot(color=PRIMARY_BLUE, radius=0.09),
-            Dot(color=PRIMARY_BLUE, radius=0.09),
-        ).arrange(RIGHT, buff=0.13)
-        chrome.set_opacity(0.45)
-        chrome.to_corner(UP + LEFT).shift(RIGHT * 0.55 + DOWN * 0.45)
+        processor_marks = VGroup(
+            Line(LEFT * 0.72, RIGHT * 0.72, color=PRIMARY_ORANGE, stroke_width=5),
+            Line(LEFT * 0.48, RIGHT * 0.48, color=PRIMARY_ORANGE, stroke_width=5),
+            Line(LEFT * 0.28, RIGHT * 0.28, color=PRIMARY_ORANGE, stroke_width=5),
+        ).arrange(DOWN, buff=0.22)
+        processor_marks.move_to(processor_card)
+        processor_marks.set_stroke(opacity=0.45)
 
-        address_bar = RoundedRectangle(width=4.1, height=0.34, corner_radius=0.14)
-        address_bar.set_stroke(PRIMARY_BLUE, width=2, opacity=0.18)
-        address_bar.set_fill(PRIMARY_BLUE, opacity=0.06)
-        address_bar.next_to(chrome, RIGHT, buff=0.45).shift(DOWN * 0.01)
+        receipt_marks = VGroup(
+            Rectangle(width=1.3, height=0.18).set_fill(PRIMARY_GREEN, opacity=0.18).set_stroke(PRIMARY_GREEN, opacity=0),
+            Rectangle(width=1.0, height=0.18).set_fill(PRIMARY_GREEN, opacity=0.18).set_stroke(PRIMARY_GREEN, opacity=0),
+            Rectangle(width=1.45, height=0.18).set_fill(PRIMARY_GREEN, opacity=0.18).set_stroke(PRIMARY_GREEN, opacity=0),
+        ).arrange(DOWN, buff=0.18)
+        receipt_marks.move_to(receipt_card)
 
-        card_top_left = _accent_card(2.35, 1.05, PRIMARY_GREEN, 0.12).move_to(LEFT * 2.35 + UP * 0.7)
-        card_top_right = _accent_card(2.9, 1.05, PRIMARY_BLUE, 0.09).move_to(RIGHT * 2.15 + UP * 0.7)
-        card_bottom = _accent_card(5.9, 1.15, PRIMARY_PURPLE, 0.08).move_to(DOWN * 1.45)
+        points = [
+            source.get_right() + RIGHT * 0.2,
+            processor_slot.get_left() + LEFT * 0.22,
+            processor_slot.get_right() + RIGHT * 0.22,
+            receipt_slot.get_left() + LEFT * 0.22,
+        ]
+        routes = _make_route(points)
+        dot, halo = _pulse(0.13)
+        dot.move_to(points[0])
 
-        guide = Line(LEFT * 3.65 + DOWN * 0.85, RIGHT * 3.65 + DOWN * 0.85, color=PRIMARY_ORANGE, stroke_width=5)
-        guide.set_stroke(opacity=0.48)
+        source_focus = Rectangle(width=source.width + 0.34, height=source.height + 0.34)
+        source_focus.set_stroke(PRIMARY_RED, width=4, opacity=0.55)
+        source_focus.set_fill(PRIMARY_RED, opacity=0)
+        source_focus.move_to(source)
 
-        dot = Dot(color=PRIMARY_YELLOW, radius=0.15)
-        dot.move_to(guide.get_start())
-
-        glow = always_redraw(
-            lambda: RoundedRectangle(width=0.6, height=0.6, corner_radius=0.3)
-            .set_stroke(PRIMARY_YELLOW, width=6, opacity=0.28)
-            .set_fill(PRIMARY_YELLOW, opacity=0.14)
-            .move_to(dot)
+        final_brackets = VGroup(
+            Line(LEFT * 0.34 + UP * 0.72, LEFT * 0.72 + UP * 0.72, color=PRIMARY_RED, stroke_width=5),
+            Line(LEFT * 0.72 + UP * 0.72, LEFT * 0.72 + UP * 0.34, color=PRIMARY_RED, stroke_width=5),
+            Line(RIGHT * 0.34 + DOWN * 0.72, RIGHT * 0.72 + DOWN * 0.72, color=PRIMARY_RED, stroke_width=5),
+            Line(RIGHT * 0.72 + DOWN * 0.72, RIGHT * 0.72 + DOWN * 0.34, color=PRIMARY_RED, stroke_width=5),
         )
+        final_brackets.move_to(receipt_card)
 
-        self.add(shell, viewport, chrome, address_bar, card_top_left, card_top_right, card_bottom, guide, dot, glow)
-        self.play(FadeIn(shell, scale=0.98), FadeIn(viewport, scale=0.98), run_time=0.6)
-        self.play(FadeIn(card_top_left), FadeIn(card_top_right), FadeIn(card_bottom), FadeIn(dot), run_time=0.7)
-        self.play(MoveAlongPath(dot, guide), run_time=4.0, rate_func=linear)
-        self.wait(0.15)
+        self.add(source, processor_slot, receipt_slot, routes, dot, halo, source_focus)
+        self.wait(2.4)
+        self.play(FadeOut(source_focus), run_time=0.7)
+        _move_on_segment(self, dot, points[0], points[1], 3.0)
+        self.play(
+            ReplacementTransform(processor_slot, processor_card),
+            FadeIn(processor_marks, shift=UP * 0.08),
+            run_time=1.4,
+        )
+        self.wait(0.7)
+        _move_on_segment(self, dot, points[2], points[3], 3.2)
+        self.play(
+            AnimationGroup(
+                ReplacementTransform(receipt_slot, receipt_card),
+                FadeIn(receipt_marks, shift=UP * 0.08),
+                lag_ratio=0.15,
+            ),
+            run_time=1.5,
+        )
+        self.play(FadeOut(routes), FadeOut(halo), FadeOut(dot), run_time=1.2)
+        resolved = VGroup(processor_card, processor_marks, receipt_card, receipt_marks, final_brackets)
+        self.play(source.animate.set_opacity(0.35).shift(LEFT * 0.35), resolved.animate.shift(LEFT * 0.45), run_time=1.5)
+        self.play(Create(final_brackets), run_time=1.0)
+        self.wait(10.4)
 
 
 class DeviceFrameEmbedDeviceScene(Scene):
     def construct(self) -> None:
         _prepare_poster(self)
 
-        shell = RoundedRectangle(width=4.35, height=8.05, corner_radius=0.42)
-        shell.set_stroke(PRIMARY_BLUE, width=8, opacity=0.52)
-        shell.set_fill(PAGE_BACKGROUND, opacity=0.96)
-
-        screen = RoundedRectangle(width=3.58, height=6.95, corner_radius=0.22)
-        screen.set_stroke(PRIMARY_BLUE, width=4, opacity=0.18)
-        screen.set_fill(PRIMARY_BLUE, opacity=0.03)
-
-        notch = RoundedRectangle(width=1.35, height=0.16, corner_radius=0.08)
-        notch.set_stroke(PRIMARY_BLUE, width=2, opacity=0.16)
-        notch.set_fill(PRIMARY_BLUE, opacity=0.05)
-        notch.to_edge(UP).shift(DOWN * 0.42)
-
         stack = VGroup(
-            _accent_card(2.25, 0.68, PRIMARY_GREEN, 0.12),
-            _accent_card(2.7, 0.68, PRIMARY_BLUE, 0.09),
-            _accent_card(2.25, 0.68, PRIMARY_PURPLE, 0.08),
+            _accent_card(2.6, 0.56, PRIMARY_GREEN, 0.14),
+            _accent_card(2.6, 0.56, PRIMARY_BLUE, 0.1),
+            _accent_card(2.6, 0.56, PRIMARY_PURPLE, 0.1),
         ).arrange(DOWN, buff=0.26)
-        stack.shift(UP * 0.78)
+        stack.move_to(UP * 2.35)
 
-        footer = _accent_card(2.65, 0.84, PRIMARY_ORANGE, 0.10).shift(DOWN * 1.65)
+        processor_slot = _slot(2.75, 1.05, PRIMARY_ORANGE).move_to(UP * 0.35)
+        receipt_slot = _slot(2.75, 1.05, PRIMARY_BLUE).move_to(DOWN * 1.85)
+        processor_card = _accent_card(2.75, 1.05, PRIMARY_ORANGE, 0.12).move_to(processor_slot)
+        receipt_card = _accent_card(2.75, 1.05, PRIMARY_GREEN, 0.15).move_to(receipt_slot)
 
-        path = Line(UP * 2.45, DOWN * 2.25, color=PRIMARY_ORANGE, stroke_width=5)
-        path.set_stroke(opacity=0.46)
+        processor_marks = VGroup(
+            Line(LEFT * 0.75, RIGHT * 0.75, color=PRIMARY_ORANGE, stroke_width=5),
+            Line(LEFT * 0.55, RIGHT * 0.55, color=PRIMARY_ORANGE, stroke_width=5),
+        ).arrange(DOWN, buff=0.22)
+        processor_marks.move_to(processor_card)
+        processor_marks.set_stroke(opacity=0.45)
 
-        dot = Dot(color=PRIMARY_YELLOW, radius=0.16)
-        dot.move_to(path.get_start())
+        receipt_marks = VGroup(
+            Rectangle(width=1.35, height=0.16).set_fill(PRIMARY_GREEN, opacity=0.18).set_stroke(PRIMARY_GREEN, opacity=0),
+            Rectangle(width=1.65, height=0.16).set_fill(PRIMARY_GREEN, opacity=0.18).set_stroke(PRIMARY_GREEN, opacity=0),
+        ).arrange(DOWN, buff=0.18)
+        receipt_marks.move_to(receipt_card)
 
-        glow = always_redraw(
-            lambda: RoundedRectangle(width=0.62, height=0.62, corner_radius=0.31)
-            .set_stroke(PRIMARY_YELLOW, width=6, opacity=0.28)
-            .set_fill(PRIMARY_YELLOW, opacity=0.14)
-            .move_to(dot)
+        points = [
+            stack.get_bottom() + DOWN * 0.18,
+            processor_slot.get_top() + UP * 0.2,
+            processor_slot.get_bottom() + DOWN * 0.2,
+            receipt_slot.get_top() + UP * 0.2,
+        ]
+        routes = _make_route(points)
+        dot, halo = _pulse(0.14)
+        dot.move_to(points[0])
+
+        stack_focus = Rectangle(width=stack.width + 0.34, height=stack.height + 0.32)
+        stack_focus.set_stroke(PRIMARY_RED, width=4, opacity=0.55)
+        stack_focus.set_fill(PRIMARY_RED, opacity=0)
+        stack_focus.move_to(stack)
+
+        final_brackets = VGroup(
+            Line(LEFT * 0.44 + UP * 0.54, LEFT * 0.86 + UP * 0.54, color=PRIMARY_RED, stroke_width=5),
+            Line(LEFT * 0.86 + UP * 0.54, LEFT * 0.86 + UP * 0.18, color=PRIMARY_RED, stroke_width=5),
+            Line(RIGHT * 0.44 + DOWN * 0.54, RIGHT * 0.86 + DOWN * 0.54, color=PRIMARY_RED, stroke_width=5),
+            Line(RIGHT * 0.86 + DOWN * 0.54, RIGHT * 0.86 + DOWN * 0.18, color=PRIMARY_RED, stroke_width=5),
         )
+        final_brackets.move_to(receipt_card)
 
-        self.add(shell, screen, notch, stack, footer, path, dot, glow)
-        self.play(FadeIn(shell, scale=0.98), FadeIn(screen, scale=0.98), run_time=0.6)
-        self.play(FadeIn(stack), FadeIn(footer), FadeIn(dot), run_time=0.7)
-        self.play(MoveAlongPath(dot, path), run_time=3.8, rate_func=linear)
-        self.wait(0.15)
+        self.add(stack, processor_slot, receipt_slot, routes, dot, halo, stack_focus)
+        self.wait(2.4)
+        self.play(FadeOut(stack_focus), run_time=0.7)
+        _move_on_segment(self, dot, points[0], points[1], 3.0)
+        self.play(
+            ReplacementTransform(processor_slot, processor_card),
+            FadeIn(processor_marks, shift=UP * 0.08),
+            run_time=1.4,
+        )
+        self.wait(0.7)
+        _move_on_segment(self, dot, points[2], points[3], 3.2)
+        self.play(
+            AnimationGroup(
+                ReplacementTransform(receipt_slot, receipt_card),
+                FadeIn(receipt_marks, shift=UP * 0.08),
+                lag_ratio=0.15,
+            ),
+            run_time=1.5,
+        )
+        self.play(FadeOut(routes), FadeOut(halo), FadeOut(dot), run_time=1.2)
+        resolved = VGroup(processor_card, processor_marks, receipt_card, receipt_marks, final_brackets)
+        self.play(stack.animate.set_opacity(0.35).shift(UP * 0.28), resolved.animate.shift(UP * 0.16), run_time=1.5)
+        self.play(Create(final_brackets), run_time=1.0)
+        self.wait(10.4)
