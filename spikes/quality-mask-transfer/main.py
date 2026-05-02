@@ -121,8 +121,8 @@ class QualityMaskTransferScene(Scene):
         self.camera.background_color = WHITE
 
         panel = Rectangle(
-            width=12.4,
-            height=5.5,
+            width=11.9,
+            height=5.85,
             stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=WHITE,
@@ -130,47 +130,60 @@ class QualityMaskTransferScene(Scene):
         )
 
         band = Rectangle(
-            width=1.25,
-            height=4.85,
+            width=1.42,
+            height=5.18,
             stroke_width=0,
             fill_color=GRAY_100,
             fill_opacity=0.98,
-        ).move_to(LEFT * 4.75)
+        ).move_to(LEFT * 4.3)
+
+        exit_gate = Rectangle(
+            width=0.34,
+            height=5.18,
+            stroke_width=0,
+            fill_color=GRAY_100,
+            fill_opacity=0.52,
+        ).move_to(RIGHT * 4.65)
 
         top_row = VGroup(
-            chip(PRIMARY_GREEN, 1.75, 0.82).move_to(LEFT * 3.9 + UP * 1.05),
-            chip(PRIMARY_BLUE, 1.68, 0.78).move_to(LEFT * 1.35 + UP * 1.05),
-            chip(PRIMARY_PURPLE, 1.52, 0.72).move_to(RIGHT * 1.15 + UP * 1.05),
-            chip(PRIMARY_RED, 1.34, 0.66).move_to(RIGHT * 3.35 + UP * 1.05),
+            chip(PRIMARY_GREEN, 1.96, 0.9).move_to(LEFT * 3.45 + UP * 1.32),
+            chip(PRIMARY_BLUE, 1.88, 0.86).move_to(LEFT * 0.91 + UP * 1.32),
+            chip(PRIMARY_PURPLE, 1.7, 0.78).move_to(RIGHT * 1.47 + UP * 1.32),
+            chip(PRIMARY_RED, 1.52, 0.72).move_to(RIGHT * 3.67 + UP * 1.32),
         )
 
         target_slots = VGroup(
-            Circle(radius=0.52, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(LEFT * 3.6 + DOWN * 1.1),
-            Circle(radius=0.44, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(LEFT * 1.15 + DOWN * 1.08),
-            Circle(radius=0.36, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(RIGHT * 1.05 + DOWN * 1.05),
-            Circle(radius=0.29, stroke_width=2.5, stroke_color=GRAY_300, fill_opacity=0).move_to(RIGHT * 2.85 + DOWN * 1.02),
-        ).set_stroke(opacity=0.36)
+            Circle(radius=0.62, stroke_width=2.5, stroke_color=PRIMARY_GREEN, fill_opacity=0).move_to(LEFT * 3.2 + DOWN * 1.42),
+            Circle(radius=0.53, stroke_width=2.5, stroke_color=PRIMARY_BLUE, fill_opacity=0).move_to(LEFT * 0.73 + DOWN * 1.39),
+            Circle(radius=0.43, stroke_width=2.5, stroke_color=PRIMARY_PURPLE, fill_opacity=0).move_to(RIGHT * 1.4 + DOWN * 1.36),
+            Circle(radius=0.35, stroke_width=2.5, stroke_color=PRIMARY_RED, fill_opacity=0).move_to(RIGHT * 3.2 + DOWN * 1.32),
+        ).set_stroke(opacity=0.3)
 
         bottom_row = VGroup(
-            Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(target_slots[0]),
-            Circle(radius=0.42, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(target_slots[1]),
-            Circle(radius=0.34, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(target_slots[2]),
-            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(target_slots[3]),
+            Circle(radius=0.58, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(target_slots[0]),
+            Circle(radius=0.49, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(target_slots[1]),
+            Circle(radius=0.4, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(target_slots[2]),
+            Circle(radius=0.32, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(target_slots[3]),
         )
 
-        transfer_lines = VGroup(*[
-            Line(top_row[i].get_bottom(), bottom_row[i].get_top(), color=PRIMARY_ORANGE, stroke_width=4)
+        guide_lines = VGroup(*[
+            Line(top_row[i].get_bottom(), bottom_row[i].get_top(), color=GRAY_200, stroke_width=2.4)
             for i in range(4)
-        ]).set_opacity(0.0)
+        ]).set_opacity(0.28)
 
-        accent = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(LEFT * 4.75 + UP * 1.95)
+        transfer_lines = VGroup(*[
+            Line(top_row[i].get_bottom(), bottom_row[i].get_top(), color=PRIMARY_ORANGE, stroke_width=5.2)
+            for i in range(4)
+        ])
 
-        self.add(panel, top_row, target_slots, band, accent)
+        accent = Circle(radius=0.18, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(LEFT * 4.3 + UP * 2.0)
+
+        self.add(panel, guide_lines, exit_gate, top_row, target_slots, band, accent)
         self.wait(2.4)
 
         self.play(
-            band.animate.move_to(LEFT * 2.6),
-            accent.animate.move_to(LEFT * 2.6 + UP * 1.95),
+            band.animate.move_to(LEFT * 2.25),
+            accent.animate.move_to(LEFT * 2.25 + UP * 2.0),
             run_time=2.4,
             rate_func=smooth,
         )
@@ -178,14 +191,16 @@ class QualityMaskTransferScene(Scene):
             Create(transfer_lines[0]),
             FadeIn(bottom_row[0]),
             target_slots[0].animate.set_stroke(opacity=0.12),
+            guide_lines[0].animate.set_opacity(0.0),
             run_time=1.6,
             rate_func=smooth,
         )
-        self.wait(0.7)
+        self.play(transfer_lines[0].animate.set_opacity(0.18), run_time=0.45, rate_func=smooth)
+        self.wait(0.35)
 
         self.play(
-            band.animate.move_to(LEFT * 0.35),
-            accent.animate.move_to(LEFT * 0.35 + UP * 1.95),
+            band.animate.move_to(RIGHT * 0.0),
+            accent.animate.move_to(RIGHT * 0.0 + UP * 2.0),
             run_time=2.2,
             rate_func=smooth,
         )
@@ -199,14 +214,22 @@ class QualityMaskTransferScene(Scene):
             ),
             target_slots[1].animate.set_stroke(opacity=0.12),
             target_slots[2].animate.set_stroke(opacity=0.12),
+            guide_lines[1].animate.set_opacity(0.0),
+            guide_lines[2].animate.set_opacity(0.0),
             run_time=2.4,
             rate_func=smooth,
         )
-        self.wait(0.7)
+        self.play(
+            transfer_lines[1].animate.set_opacity(0.18),
+            transfer_lines[2].animate.set_opacity(0.18),
+            run_time=0.45,
+            rate_func=smooth,
+        )
+        self.wait(0.35)
 
         self.play(
-            band.animate.move_to(RIGHT * 2.55),
-            accent.animate.move_to(RIGHT * 2.55 + UP * 1.95),
+            band.animate.move_to(RIGHT * 2.9),
+            accent.animate.move_to(RIGHT * 2.9 + UP * 2.0),
             run_time=2.2,
             rate_func=smooth,
         )
@@ -214,29 +237,31 @@ class QualityMaskTransferScene(Scene):
             Create(transfer_lines[3]),
             FadeIn(bottom_row[3]),
             target_slots[3].animate.set_stroke(opacity=0.12),
+            guide_lines[3].animate.set_opacity(0.0),
             run_time=1.5,
             rate_func=smooth,
         )
-        self.wait(0.8)
+        self.play(transfer_lines[3].animate.set_opacity(0.18), run_time=0.45, rate_func=smooth)
+        self.wait(0.35)
+        self.play(FadeOut(top_row), FadeOut(transfer_lines), run_time=0.7, rate_func=smooth)
 
         self.play(
-            band.animate.move_to(RIGHT * 4.75),
-            accent.animate.move_to(RIGHT * 4.75 + UP * 1.95),
+            band.animate.move_to(RIGHT * 5.0),
+            accent.animate.move_to(RIGHT * 5.0 + UP * 2.0),
+            FadeOut(exit_gate),
             run_time=1.9,
             rate_func=smooth,
         )
 
         compact_targets = VGroup(
-            Circle(radius=0.69, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(LEFT * 0.1 + UP * 0.58),
-            Circle(radius=0.49, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 1.5 + UP * 0.02),
-            Circle(radius=0.36, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 0.45 + DOWN * 1.22),
-            Circle(radius=0.28, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 1.95 + DOWN * 1.38),
+            Circle(radius=0.82, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(LEFT * 0.46 + UP * 0.84),
+            Circle(radius=0.58, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 1.42 + UP * 0.2),
+            Circle(radius=0.43, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(LEFT * 0.06 + DOWN * 1.14),
+            Circle(radius=0.34, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 1.72 + DOWN * 1.22),
         )
 
         self.play(
-            transfer_lines.animate.set_opacity(0.0),
             target_slots.animate.set_stroke(opacity=0.0),
-            FadeOut(top_row),
             band.animate.set_opacity(0.0),
             FadeOut(accent),
             run_time=1.2,
