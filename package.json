@@ -72,6 +72,8 @@
     "video:red-dot-relay-spa": "uv run --script spikes/red-dot-relay-spa/main.py",
     "dev:red-dot-prism-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-prism-spa",
     "video:red-dot-prism-spa": "uv run --script spikes/red-dot-prism-spa/main.py",
+    "dev:red-dot-coil-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-coil-spa",
+    "video:red-dot-coil-spa": "uv run --script spikes/red-dot-coil-spa/main.py",
     "dev:red-dot-loom-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-loom-spa",
     "video:red-dot-loom-spa": "uv run --script spikes/red-dot-loom-spa/main.py",
     "dev:red-point-narrative-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa",
