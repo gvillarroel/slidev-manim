@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Lantern SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot lantern visual narrative">
+        <div class="stage-frame" tabindex="0">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot lantern narrative</title>
+            <desc id="stage-desc">
+              A single red point enters a quiet field, tests three shelter grammars, gets compressed inside a narrow lantern throat,
+              then resolves into a calm centered lantern where the red core becomes the light source.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fbfbfb" />
+                <stop offset="100%" stop-color="#f2f2f2" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="51%" cy="49%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="78%" stop-color="#ffffff" stop-opacity="0.26" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.9" />
+                <stop offset="70%" stop-color="#ffccd5" stop-opacity="0.2" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="lantern-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96" />
+                <stop offset="58%" stop-color="#ffccd5" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="816" cy="452" rx="708" ry="304" fill="url(#field-glow)" opacity="0.98" />
+            <ellipse cx="1188" cy="256" rx="226" ry="136" fill="#ffccd5" opacity="0.08" />
+            <ellipse cx="426" cy="676" rx="252" ry="146" fill="#ffffff" opacity="0.42" />
+
+            <g id="layout-root">
+              <rect x="188" y="224" width="1224" height="402" fill="#ffffff" opacity="0.18" />
+              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 220 282 H 1380" />
+                <path d="M 220 454 H 1380" />
+                <path d="M 220 626 H 1380" />
+                <path d="M 530 228 V 676" />
+                <path d="M 846 228 V 676" />
+                <path d="M 1162 228 V 676" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="narrative-spine"
+                  d="M 302 454 C 414 454, 500 454, 556 454"
+                  fill="none"
+                  stroke="#d8d8d8"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+                <path
+                  id="active-trail"
+                  d="M 556 454 C 604 436, 638 412, 676 392 C 748 364, 794 344, 846 338 C 920 354, 964 382, 1000 410 C 978 430, 956 442, 932 454"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-dasharray="0 1800"
+                  opacity="0"
+                />
+
+                <path
+                  id="search-guide-a"
+                  d="M 556 454 C 604 436, 638 412, 676 392"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-b"
+                  d="M 676 392 C 748 364, 794 344, 846 338"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-c"
+                  d="M 846 338 C 920 354, 964 382, 1000 410 C 978 430, 956 442, 932 454"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+
+                <g id="candidate-canopy" opacity="0">
+                  <path d="M -66 -26 H 66" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -48 -26 V 28 M 48 -26 V 28" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -34 28 Q 0 56 34 28" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  <path d="M 0 -10 V 24" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-kite" opacity="0">
+                  <path d="M 0 -76 L 68 0 L 0 76 L -68 0 Z" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" stroke-linejoin="round" />
+                  <path d="M -30 0 H 30" fill="none" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+                  <path d="M 0 -38 V 38" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-sleeve" opacity="0">
+                  <path d="M -54 -66 V 42 H 54 V -66" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M -34 -34 H 34" fill="none" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+                  <path d="M 0 -42 V 16" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                </g>
+
+                <ellipse id="tension-halo" cx="846" cy="454" rx="152" ry="124" fill="url(#lantern-glow)" opacity="0" />
+                <path
+                  id="throat-guide"
+                  d="M 846 308 V 612"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="10 14"
+                  opacity="0"
+                />
+
+                <g id="outer-frame" opacity="0">
+                  <path d="M -90 -118 H 90" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -90 118 H 90" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -90 -118 C -144 -42, -144 42, -90 118" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path d="M 90 -118 C 144 -42, 144 42, 90 118" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                </g>
+
+                <g id="lower-cradle" opacity="0">
+                  <path d="M -66 0 Q 0 42 66 0" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -42 -20 H 42" fill="none" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" />
+                </g>
+
+                <g id="left-shutter" opacity="0">
+                  <polygon points="-72,-76 -12,-48 -12,48 -72,76" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" stroke-linejoin="round" />
+                </g>
+                <g id="right-shutter" opacity="0">
+                  <polygon points="72,-76 12,-48 12,48 72,76" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" stroke-linejoin="round" />
+                </g>
+
+                <line id="top-stem" x1="846" y1="274" x2="846" y2="324" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" opacity="0" />
+                <line id="top-bar" x1="792" y1="274" x2="900" y2="274" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" opacity="0" />
+
+                <path
+                  id="memory-left"
+                  d="M 798 352 C 744 396, 730 498, 770 554"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="10 12"
+                  opacity="0"
+                />
+                <path
+                  id="memory-right"
+                  d="M 894 352 C 948 396, 962 498, 922 554"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="10 12"
+                  opacity="0"
+                />
+                <path id="shell-left" d="M 794 350 C 728 404, 724 500, 784 560" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" opacity="0" />
+                <path id="shell-right" d="M 898 350 C 964 404, 968 500, 908 560" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" opacity="0" />
+                <path id="top-band" d="M 784 354 Q 846 320 908 354" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" opacity="0" />
+                <path id="bottom-band" d="M 784 558 Q 846 592 908 558" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" opacity="0" />
+                <path id="active-top-band" d="M 784 354 Q 846 320 908 354" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" opacity="0" />
+                <path id="active-bottom-band" d="M 784 558 Q 846 592 908 558" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" opacity="0" />
+                <ellipse id="resolution-halo" cx="846" cy="454" rx="128" ry="164" fill="url(#lantern-glow)" opacity="0" />
+                <ellipse id="resolution-ring" cx="846" cy="454" rx="86" ry="118" fill="none" stroke="#9e1b32" stroke-width="5" opacity="0" />
+
+                <circle id="dot-halo" cx="302" cy="454" r="72" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="302" cy="454" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

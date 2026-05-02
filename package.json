@@ -60,6 +60,8 @@
     "video:red-dot-magnet-spa": "uv run --script spikes/red-dot-magnet-spa/main.py",
     "dev:red-dot-knot-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-knot-spa",
     "video:red-dot-knot-spa": "uv run --script spikes/red-dot-knot-spa/main.py",
+    "dev:red-dot-lantern-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-lantern-spa",
+    "video:red-dot-lantern-spa": "uv run --script spikes/red-dot-lantern-spa/main.py",
     "dev:red-dot-loom-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-loom-spa",
     "video:red-dot-loom-spa": "uv run --script spikes/red-dot-loom-spa/main.py",
     "dev:red-point-narrative-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa",
