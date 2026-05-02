@@ -1,14 +1,16 @@
 ---
 title: Red Dot Compass SPA
 status: active
-date: 2026-05-01
+date: 2026-05-02
 ---
 
 # Red Dot Compass SPA
 
 ## Purpose
 
-This spike builds a browser-based single-page narrative where one red point carries the story through five visual acts:
+This spike builds a browser-native single-page narrative where one red point learns how to orient the stage with almost no copy.
+
+The five visual acts are:
 
 - appearance
 - search for form
@@ -16,7 +18,7 @@ This spike builds a browser-based single-page narrative where one red point carr
 - transformation
 - resolution
 
-The point enters a quiet field, tests three possible orientation grammars, compresses inside a central hinge, then resolves into a calm compass-like system that holds attention without relying on explanatory text.
+The point enters from the left, tests three direction grammars, gets trapped between competing vertical and horizontal cues, then redraws the stage into a compact compass-like emblem that holds calmly at the center.
 
 ## Run the Spike
 
@@ -66,6 +68,6 @@ Then open the printed local URL in a browser.
 - The SPA loops automatically after the final hold.
 - Press `Space` to pause or resume.
 - Press `R` to restart the narrative.
-- The search beat keeps three distinct trial grammars visible long enough to read as tested orientations instead of decorative traces.
-- The tension beat uses a top-and-bottom hinge so the red point looks visibly compressed before the compass grammar opens.
-- The transformation beat lets the point author the cardinal spokes directly, then retires the slots and hinge so the final hold feels centered and calm.
+- The search beat keeps a faint ingress trail active so the candidate tests still feel anchored to the original entry vector.
+- The tension beat uses visible north and south brackets plus a restrained horizon axis so the conflict reads as competing orientation cues, not just a generic squeeze.
+- The transformation beat traces the route into a compass rose before the final hold collapses into a compact center-weighted emblem that remains legible on mobile review.

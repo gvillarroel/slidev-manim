@@ -17,31 +17,33 @@ const activeTrail = document.getElementById("active-trail");
 const searchGuideA = document.getElementById("search-guide-a");
 const searchGuideB = document.getElementById("search-guide-b");
 const searchGuideC = document.getElementById("search-guide-c");
-const candidateDiagonal = document.getElementById("candidate-diagonal");
-const candidateOrbit = document.getElementById("candidate-orbit");
-const candidateAxis = document.getElementById("candidate-axis");
-const hingeSpine = document.getElementById("hinge-spine");
-const hingeTop = document.getElementById("hinge-top");
-const hingeBottom = document.getElementById("hinge-bottom");
-const hingeHalo = document.getElementById("hinge-halo");
-const compassBase = document.getElementById("compass-base");
-const compassActive = document.getElementById("compass-active");
+const candidateArc = document.getElementById("candidate-arc");
+const candidateCross = document.getElementById("candidate-cross");
+const candidateFan = document.getElementById("candidate-fan");
+const meridianSpine = document.getElementById("meridian-spine");
+const horizonLeft = document.getElementById("horizon-left");
+const horizonRight = document.getElementById("horizon-right");
+const meridianTop = document.getElementById("meridian-top");
+const meridianBottom = document.getElementById("meridian-bottom");
+const tensionHalo = document.getElementById("tension-halo");
+const roseBase = document.getElementById("rose-base");
+const roseActive = document.getElementById("rose-active");
 const slotNorth = document.getElementById("slot-north");
 const slotEast = document.getElementById("slot-east");
 const slotSouth = document.getElementById("slot-south");
 const slotWest = document.getElementById("slot-west");
-const markerNorth = document.getElementById("marker-north");
-const markerEast = document.getElementById("marker-east");
-const markerSouth = document.getElementById("marker-south");
-const markerWest = document.getElementById("marker-west");
-const memoryArc = document.getElementById("memory-arc");
+const vaneNorth = document.getElementById("vane-north");
+const vaneEast = document.getElementById("vane-east");
+const vaneSouth = document.getElementById("vane-south");
+const vaneWest = document.getElementById("vane-west");
+const memoryAxis = document.getElementById("memory-axis");
 const resolutionHalo = document.getElementById("resolution-halo");
 const resolutionRing = document.getElementById("resolution-ring");
 const dotCore = document.getElementById("dot-core");
 const dotHalo = document.getElementById("dot-halo");
 
 const ACTIVE_TRAIL_LENGTH = activeTrail.getTotalLength();
-const COMPASS_LENGTH = compassActive.getTotalLength();
+const ROSE_LENGTH = roseActive.getTotalLength();
 const FULL_VIEWBOX = "0 0 1600 900";
 
 const COLORS = {
@@ -52,21 +54,21 @@ const COLORS = {
 const points = {
   start: { x: 304, y: 450 },
   ingress: { x: 560, y: 450 },
-  diagonal: { x: 646, y: 328 },
-  orbit: { x: 998, y: 344 },
-  axis: { x: 820, y: 620 },
+  arc: { x: 648, y: 352 },
+  cross: { x: 820, y: 320 },
+  fan: { x: 1002, y: 388 },
   gate: { x: 820, y: 450 },
 };
 
 const system = {
-  north: { x: 820, y: 318 },
-  east: { x: 990, y: 450 },
-  south: { x: 820, y: 582 },
-  west: { x: 650, y: 450 },
-  settleNorth: { x: 820, y: 334 },
-  settleEast: { x: 970, y: 450 },
-  settleSouth: { x: 820, y: 566 },
-  settleWest: { x: 670, y: 450 },
+  north: { x: 820, y: 306 },
+  east: { x: 964, y: 450 },
+  south: { x: 820, y: 594 },
+  west: { x: 676, y: 450 },
+  settleNorth: { x: 820, y: 322 },
+  settleEast: { x: 928, y: 450 },
+  settleSouth: { x: 820, y: 578 },
+  settleWest: { x: 712, y: 450 },
 };
 
 const state = {
@@ -156,9 +158,9 @@ function setPathWindow(element, totalLength, visibleLength, opacity) {
   setOpacity(element, opacity);
 }
 
-function pointOnCompass(progress) {
-  const length = clamp(progress, 0, 1) * COMPASS_LENGTH;
-  const point = compassActive.getPointAtLength(length);
+function pointOnRose(progress) {
+  const length = clamp(progress, 0, 1) * ROSE_LENGTH;
+  const point = roseActive.getPointAtLength(length);
   return { x: point.x, y: point.y };
 }
 
@@ -169,7 +171,7 @@ function slotState(progress, threshold) {
   return clamp(1 - (progress - threshold) / 0.18, 0, 1) * 0.44;
 }
 
-function markerState(progress, threshold) {
+function vaneState(progress, threshold) {
   return clamp((progress - threshold) / 0.14, 0, 1);
 }
 
@@ -207,12 +209,12 @@ function updatePhaseLabel(info) {
 function applySceneOffset(phaseId) {
   const offsets = {
     appearance: 18,
-    search: 30,
-    tension: 18,
-    transformation: 8,
-    resolution: -4,
+    search: 54,
+    tension: 24,
+    transformation: 10,
+    resolution: 8,
   };
-  const offsetY = offsets[phaseId] ?? -4;
+  const offsetY = offsets[phaseId] ?? 8;
   sceneRoot.setAttribute("transform", `translate(0 ${offsetY})`);
 }
 
@@ -223,11 +225,11 @@ function applyFraming(phaseId) {
   }
 
   const frames = {
-    appearance: { x: 136, y: 148, width: 1088, height: 628 },
-    search: { x: 120, y: 132, width: 1188, height: 670 },
-    tension: { x: 334, y: 154, width: 972, height: 620 },
-    transformation: { x: 404, y: 150, width: 846, height: 624 },
-    resolution: { x: 448, y: 166, width: 780, height: 584 },
+    appearance: { x: 120, y: 144, width: 1100, height: 620 },
+    search: { x: 166, y: 138, width: 1110, height: 628 },
+    tension: { x: 336, y: 148, width: 972, height: 620 },
+    transformation: { x: 406, y: 160, width: 840, height: 596 },
+    resolution: { x: 432, y: 170, width: 786, height: 572 },
   };
   const frame = frames[phaseId] ?? { x: 0, y: 0, width: 1600, height: 900 };
   svg.setAttribute("viewBox", `${frame.x} ${frame.y} ${frame.width} ${frame.height}`);
@@ -238,7 +240,7 @@ function applyLayout() {
   if (viewportRatio < 0.9) {
     layoutRoot.setAttribute(
       "transform",
-      "translate(0 -16) translate(800 450) scale(1.032) translate(-800 -450)",
+      "translate(0 -18) translate(800 450) scale(1.035) translate(-800 -450)",
     );
     svg.dataset.layout = "portrait";
     svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
@@ -260,41 +262,43 @@ function resetScene() {
     setOpacity(guide, 0);
   });
 
-  setGroupTransform(candidateDiagonal, points.diagonal.x, points.diagonal.y, 1, -8);
-  setGroupTransform(candidateOrbit, points.orbit.x, points.orbit.y, 1, 0);
-  setGroupTransform(candidateAxis, points.axis.x, points.axis.y, 1, 0);
-  [candidateDiagonal, candidateOrbit, candidateAxis].forEach((element) => setOpacity(element, 0));
+  setGroupTransform(candidateArc, points.arc.x, points.arc.y, 1, 0);
+  setGroupTransform(candidateCross, points.cross.x, points.cross.y, 1, 0);
+  setGroupTransform(candidateFan, points.fan.x, points.fan.y, 1, 0);
+  [candidateArc, candidateCross, candidateFan].forEach((element) => setOpacity(element, 0));
 
-  setOpacity(hingeSpine, 0);
-  setGroupTransform(hingeTop, points.gate.x, points.gate.y - 74, 1, 0);
-  setGroupTransform(hingeBottom, points.gate.x, points.gate.y + 74, 1, 0);
-  setOpacity(hingeTop, 0);
-  setOpacity(hingeBottom, 0);
-  setOpacity(hingeHalo, 0);
+  setOpacity(meridianSpine, 0);
+  setOpacity(horizonLeft, 0);
+  setOpacity(horizonRight, 0);
+  setGroupTransform(meridianTop, points.gate.x, points.gate.y - 92, 1, 0);
+  setGroupTransform(meridianBottom, points.gate.x, points.gate.y + 92, 1, 180);
+  setOpacity(meridianTop, 0);
+  setOpacity(meridianBottom, 0);
+  setOpacity(tensionHalo, 0);
 
-  setOpacity(compassBase, 0);
-  setPathWindow(compassActive, COMPASS_LENGTH, 0, 0);
+  setOpacity(roseBase, 0);
+  setPathWindow(roseActive, ROSE_LENGTH, 0, 0);
 
+  [slotNorth, slotEast, slotSouth, slotWest].forEach((slot) => setOpacity(slot, 0));
   setGroupTransform(slotNorth, system.north.x, system.north.y, 1, 0);
   setGroupTransform(slotEast, system.east.x, system.east.y, 1, 0);
   setGroupTransform(slotSouth, system.south.x, system.south.y, 1, 0);
   setGroupTransform(slotWest, system.west.x, system.west.y, 1, 0);
-  [slotNorth, slotEast, slotSouth, slotWest].forEach((slot) => setOpacity(slot, 0));
 
-  setGroupTransform(markerNorth, system.north.x, system.north.y, 1, 0);
-  setGroupTransform(markerEast, system.east.x, system.east.y, 1, 0);
-  setGroupTransform(markerSouth, system.south.x, system.south.y, 1, 0);
-  setGroupTransform(markerWest, system.west.x, system.west.y, 1, 0);
-  [markerNorth, markerEast, markerSouth, markerWest].forEach((marker) => setOpacity(marker, 0));
+  [vaneNorth, vaneEast, vaneSouth, vaneWest].forEach((vane) => setOpacity(vane, 0));
+  setGroupTransform(vaneNorth, system.north.x, system.north.y, 1, 0);
+  setGroupTransform(vaneEast, system.east.x, system.east.y, 1, 0);
+  setGroupTransform(vaneSouth, system.south.x, system.south.y, 1, 0);
+  setGroupTransform(vaneWest, system.west.x, system.west.y, 1, 0);
 
-  setOpacity(memoryArc, 0);
+  setOpacity(memoryAxis, 0);
   setOpacity(resolutionHalo, 0);
   setOpacity(resolutionRing, 0);
 }
 
 function renderAppearance(progress) {
   const eased = easeOut(progress);
-  const position = mixPoint(points.start, points.ingress, eased * 0.94);
+  const position = mixPoint(points.start, points.ingress, eased * 0.82);
 
   setDot(
     position,
@@ -305,39 +309,39 @@ function renderAppearance(progress) {
   );
   setOpacity(narrativeSpine, clamp((progress - 0.14) * 1.4, 0, 0.34));
 
-  const preview = clamp((progress - 0.38) * 1.95, 0, 1);
-  setOpacity(searchGuideA, preview * 0.18);
-  setOpacity(candidateDiagonal, preview * 0.16);
-  setOpacity(candidateOrbit, preview * 0.12);
-  setOpacity(candidateAxis, preview * 0.1);
-  setOpacity(hingeSpine, preview * 0.1);
-  setOpacity(hingeTop, preview * 0.1);
-  setOpacity(hingeBottom, preview * 0.1);
-  setOpacity(hingeHalo, preview * 0.1);
-  setOpacity(slotNorth, preview * 0.07);
-  setOpacity(slotEast, preview * 0.07);
+  const preview = clamp((progress - 0.42) * 1.7, 0, 1);
+  setOpacity(searchGuideA, preview * 0.14);
+  setOpacity(candidateArc, preview * 0.12);
+  setOpacity(candidateCross, preview * 0.08);
+  setOpacity(candidateFan, preview * 0.06);
+  setOpacity(meridianSpine, preview * 0.08);
+  setOpacity(horizonLeft, preview * 0.06);
+  setOpacity(horizonRight, preview * 0.06);
+  setOpacity(meridianTop, preview * 0.08);
+  setOpacity(meridianBottom, preview * 0.08);
+  setOpacity(tensionHalo, preview * 0.06);
 }
 
 function renderSearch(progress) {
   const position = segmentedPoint(progress, [
-    { start: 0, end: 0.28, from: points.ingress, to: points.diagonal },
-    { start: 0.28, end: 0.58, from: points.diagonal, to: points.orbit },
-    { start: 0.58, end: 0.84, from: points.orbit, to: points.axis },
-    { start: 0.84, end: 1, from: points.axis, to: { x: 844, y: 532 } },
+    { start: 0, end: 0.28, from: points.ingress, to: points.arc },
+    { start: 0.28, end: 0.58, from: points.arc, to: points.cross },
+    { start: 0.58, end: 0.84, from: points.cross, to: points.fan },
+    { start: 0.84, end: 1, from: points.fan, to: { x: 924, y: 438 } },
   ]);
 
-  setDot(position, 18, 88, 1, 0.22 + pulseWave(progress, 1.8) * 0.1);
+  setDot(position, 18, 86, 1, 0.22 + pulseWave(progress, 1.8) * 0.1);
   setOpacity(narrativeSpine, lerp(0.3, 0.12, progress));
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.26, 0.14, progress));
+  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.38, 0.22, progress));
 
   const revealA = clamp(progress / 0.22, 0, 1);
-  const revealB = clamp((progress - 0.24) / 0.22, 0, 1);
-  const revealC = clamp((progress - 0.54) / 0.22, 0, 1);
+  const revealB = clamp((progress - 0.22) / 0.22, 0, 1);
+  const revealC = clamp((progress - 0.5) / 0.22, 0, 1);
 
   searchGuideA.setAttribute("stroke", progress < 0.3 ? COLORS.primaryRed : COLORS.lineGray);
   searchGuideB.setAttribute("stroke", progress >= 0.3 && progress < 0.62 ? COLORS.primaryRed : COLORS.lineGray);
   searchGuideC.setAttribute("stroke", progress >= 0.62 ? COLORS.primaryRed : COLORS.lineGray);
-  setOpacity(searchGuideA, 0.24 + revealA * 0.2);
+  setOpacity(searchGuideA, 0.24 + revealA * 0.18);
   setOpacity(searchGuideB, 0.12 + revealB * 0.22);
   setOpacity(searchGuideC, 0.08 + revealC * 0.24);
 
@@ -345,163 +349,181 @@ function renderSearch(progress) {
   const activeB = progress >= 0.3 && progress < 0.62 ? 1 : 0;
   const activeC = progress >= 0.62 ? 1 : 0;
 
-  setGroupTransform(candidateDiagonal, points.diagonal.x, points.diagonal.y, lerp(0.88, activeA ? 1.06 : 0.96, revealA), -8);
-  setGroupTransform(candidateOrbit, points.orbit.x, points.orbit.y, lerp(0.88, activeB ? 1.05 : 0.96, revealB), 0);
-  setGroupTransform(candidateAxis, points.axis.x, points.axis.y, lerp(0.84, activeC ? 1.04 : 0.95, revealC), 0);
-  setOpacity(candidateDiagonal, activeA ? 1 : revealA * 0.34 + 0.16);
-  setOpacity(candidateOrbit, activeB ? 1 : revealB * 0.34 + 0.16);
-  setOpacity(candidateAxis, activeC ? 1 : revealC * 0.34 + 0.14);
+  setGroupTransform(candidateArc, points.arc.x, points.arc.y, lerp(0.88, activeA ? 1.05 : 0.96, revealA), -6);
+  setGroupTransform(candidateCross, points.cross.x, points.cross.y, lerp(0.88, activeB ? 1.05 : 0.96, revealB), 0);
+  setGroupTransform(candidateFan, points.fan.x, points.fan.y, lerp(0.84, activeC ? 1.04 : 0.95, revealC), 8);
+  setOpacity(candidateArc, activeA ? 1 : revealA * 0.34 + 0.14);
+  setOpacity(candidateCross, activeB ? 1 : revealB * 0.34 + 0.14);
+  setOpacity(candidateFan, activeC ? 1 : revealC * 0.34 + 0.12);
 
-  setOpacity(hingeSpine, 0.08);
-  setOpacity(hingeTop, 0.06);
-  setOpacity(hingeBottom, 0.06);
-  setOpacity(hingeHalo, 0.08);
+  setOpacity(meridianSpine, 0.1);
+  setOpacity(horizonLeft, 0.08);
+  setOpacity(horizonRight, 0.08);
+  setOpacity(meridianTop, 0.06);
+  setOpacity(meridianBottom, 0.06);
+  setOpacity(tensionHalo, 0.06);
 }
 
 function renderTension(progress) {
   const travel = clamp(progress / 0.42, 0, 1);
-  const position = mixPoint(points.axis, points.gate, easeInOut(travel));
+  const position = mixPoint(points.fan, points.gate, easeInOut(travel));
   const compression = Math.sin(clamp(progress / 0.84, 0, 1) * Math.PI);
-  const hingeGap = lerp(74, 26, easeInOut(clamp(progress / 0.72, 0, 1)));
-  const collapse = clamp(progress / 0.74, 0, 1);
+  const gap = lerp(92, 38, easeInOut(clamp(progress / 0.7, 0, 1)));
+  const collapse = clamp(progress / 0.72, 0, 1);
 
   setDot(
     position,
     lerp(18, 16, progress),
-    lerp(88, 116, progress),
+    lerp(86, 114, progress),
     1,
     0.24 + pulseWave(progress, 2.2) * 0.1,
-    lerp(1, 1.58, compression),
-    lerp(1, 0.58, compression),
+    lerp(1, 1.54, compression),
+    lerp(1, 0.62, compression),
   );
   setOpacity(narrativeSpine, lerp(0.12, 0.04, progress));
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, 0, 0);
+  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.14, 0.04, progress));
 
   [searchGuideA, searchGuideB, searchGuideC].forEach((guide, index) => {
     guide.setAttribute("stroke", index === 2 ? COLORS.primaryRed : COLORS.lineGray);
     setOpacity(guide, lerp(0.18, 0, progress));
   });
 
-  const diagonalPosition = mixPoint(points.diagonal, { x: 738, y: 382 }, collapse);
-  const orbitPosition = mixPoint(points.orbit, { x: 900, y: 378 }, collapse);
-  const axisPosition = mixPoint(points.axis, { x: 820, y: 548 }, collapse);
-  setGroupTransform(candidateDiagonal, diagonalPosition.x, diagonalPosition.y, lerp(0.96, 0.72, collapse), -12);
-  setGroupTransform(candidateOrbit, orbitPosition.x, orbitPosition.y, lerp(0.96, 0.72, collapse), 0);
-  setGroupTransform(candidateAxis, axisPosition.x, axisPosition.y, lerp(0.95, 0.68, collapse), 0);
-  setOpacity(candidateDiagonal, lerp(0.32, 0.06, collapse));
-  setOpacity(candidateOrbit, lerp(0.32, 0.06, collapse));
-  setOpacity(candidateAxis, lerp(1, 0.14, collapse));
+  const arcPosition = mixPoint(points.arc, { x: 742, y: 408 }, collapse);
+  const crossPosition = mixPoint(points.cross, { x: 820, y: 370 }, collapse);
+  const fanPosition = mixPoint(points.fan, { x: 902, y: 428 }, collapse);
+  setGroupTransform(candidateArc, arcPosition.x, arcPosition.y, lerp(0.96, 0.72, collapse), -12);
+  setGroupTransform(candidateCross, crossPosition.x, crossPosition.y, lerp(0.96, 0.7, collapse), 0);
+  setGroupTransform(candidateFan, fanPosition.x, fanPosition.y, lerp(0.95, 0.68, collapse), 12);
+  setOpacity(candidateArc, lerp(0.3, 0.06, collapse));
+  setOpacity(candidateCross, lerp(0.28, 0.05, collapse));
+  setOpacity(candidateFan, lerp(1, 0.12, collapse));
 
-  setOpacity(hingeSpine, clamp((progress - 0.04) * 1.6, 0, 0.76));
-  setOpacity(hingeTop, clamp((progress - 0.04) * 1.7, 0, 1));
-  setOpacity(hingeBottom, clamp((progress - 0.04) * 1.7, 0, 1));
-  setOpacity(hingeHalo, clamp((progress - 0.08) * 1.6, 0, 0.42));
-  setGroupTransform(hingeTop, points.gate.x, points.gate.y - hingeGap, 1, 0);
-  setGroupTransform(hingeBottom, points.gate.x, points.gate.y + hingeGap, 1, 0);
+  setOpacity(meridianSpine, clamp((progress - 0.04) * 1.7, 0, 0.72));
+  setOpacity(horizonLeft, clamp((progress - 0.08) * 1.7, 0, 0.32));
+  setOpacity(horizonRight, clamp((progress - 0.08) * 1.7, 0, 0.32));
+  setGroupTransform(meridianTop, points.gate.x, points.gate.y - gap, 1, 0);
+  setGroupTransform(meridianBottom, points.gate.x, points.gate.y + gap, 1, 180);
+  setOpacity(meridianTop, clamp((progress - 0.04) * 1.8, 0, 1));
+  setOpacity(meridianBottom, clamp((progress - 0.04) * 1.8, 0, 1));
+  setOpacity(tensionHalo, clamp((progress - 0.08) * 1.6, 0, 0.42));
 
-  setOpacity(slotNorth, clamp((progress - 0.42) * 1.3, 0, 0.24));
-  setOpacity(slotEast, clamp((progress - 0.54) * 1.3, 0, 0.24));
-  setOpacity(slotSouth, clamp((progress - 0.66) * 1.3, 0, 0.24));
-  setOpacity(slotWest, clamp((progress - 0.76) * 1.3, 0, 0.24));
+  setOpacity(slotNorth, clamp((progress - 0.4) * 1.35, 0, 0.28));
+  setOpacity(slotEast, clamp((progress - 0.52) * 1.35, 0, 0.28));
+  setOpacity(slotSouth, clamp((progress - 0.64) * 1.35, 0, 0.28));
+  setOpacity(slotWest, clamp((progress - 0.76) * 1.35, 0, 0.28));
 }
 
 function renderTransformation(progress) {
-  const routeProgress = easeInOut(clamp(progress / 0.9, 0, 1));
-  const position = pointOnCompass(routeProgress);
-  const northReveal = markerState(routeProgress, 0.13);
-  const eastReveal = markerState(routeProgress, 0.36);
-  const southReveal = markerState(routeProgress, 0.61);
-  const westReveal = markerState(routeProgress, 0.84);
+  const routeProgress = easeInOut(clamp(progress / 0.88, 0, 1));
+  const position = pointOnRose(routeProgress);
+  const northReveal = vaneState(routeProgress, 0.16);
+  const eastReveal = vaneState(routeProgress, 0.38);
+  const southReveal = vaneState(routeProgress, 0.6);
+  const westReveal = vaneState(routeProgress, 0.8);
 
-  setDot(position, 16, 96, 1, 0.22 + pulseWave(progress, 2.1) * 0.08);
+  setDot(position, 16, 94, 1, 0.22 + pulseWave(progress, 2.1) * 0.08);
   setOpacity(narrativeSpine, 0);
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, 0, 0);
+  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, 0);
 
-  setOpacity(compassBase, lerp(0.08, 0.28, routeProgress));
-  setPathWindow(compassActive, COMPASS_LENGTH, COMPASS_LENGTH * routeProgress, 1);
+  setOpacity(roseBase, lerp(0.08, 0.28, routeProgress));
+  setPathWindow(roseActive, ROSE_LENGTH, ROSE_LENGTH * routeProgress, 1);
 
-  setOpacity(hingeSpine, lerp(0.76, 0.08, progress));
-  setOpacity(hingeTop, clamp(1 - progress * 1.08, 0, 1));
-  setOpacity(hingeBottom, clamp(1 - progress * 1.08, 0, 1));
-  setOpacity(hingeHalo, clamp(0.42 - progress * 0.5, 0, 1));
-  setGroupTransform(hingeTop, points.gate.x, points.gate.y - lerp(26, 46, progress), 1, 0);
-  setGroupTransform(hingeBottom, points.gate.x, points.gate.y + lerp(26, 46, progress), 1, 0);
+  setOpacity(meridianSpine, lerp(0.72, 0.1, progress));
+  setOpacity(horizonLeft, lerp(0.32, 0.12, progress));
+  setOpacity(horizonRight, lerp(0.32, 0.12, progress));
+  setGroupTransform(meridianTop, points.gate.x, points.gate.y - lerp(38, 56, progress), 1, 0);
+  setGroupTransform(meridianBottom, points.gate.x, points.gate.y + lerp(38, 56, progress), 1, 180);
+  setOpacity(meridianTop, clamp(1 - progress * 1.08, 0, 1));
+  setOpacity(meridianBottom, clamp(1 - progress * 1.08, 0, 1));
+  setOpacity(tensionHalo, clamp(0.42 - progress * 0.5, 0, 1));
 
-  setOpacity(candidateDiagonal, clamp(0.06 - progress * 0.08, 0, 1));
-  setOpacity(candidateOrbit, clamp(0.06 - progress * 0.08, 0, 1));
-  setOpacity(candidateAxis, clamp(0.14 - progress * 0.16, 0, 1));
+  setOpacity(candidateArc, clamp(0.06 - progress * 0.08, 0, 1));
+  setOpacity(candidateCross, clamp(0.05 - progress * 0.08, 0, 1));
+  setOpacity(candidateFan, clamp(0.12 - progress * 0.16, 0, 1));
   [searchGuideA, searchGuideB, searchGuideC].forEach((guide) => setOpacity(guide, 0));
 
-  setOpacity(slotNorth, slotState(routeProgress, 0.12));
-  setOpacity(slotEast, slotState(routeProgress, 0.36));
-  setOpacity(slotSouth, slotState(routeProgress, 0.61));
-  setOpacity(slotWest, slotState(routeProgress, 0.84));
+  setOpacity(slotNorth, slotState(routeProgress, 0.16));
+  setOpacity(slotEast, slotState(routeProgress, 0.38));
+  setOpacity(slotSouth, slotState(routeProgress, 0.6));
+  setOpacity(slotWest, slotState(routeProgress, 0.8));
 
-  setGroupTransform(markerNorth, system.north.x, system.north.y, lerp(0.88, 1, easeOut(northReveal)), 0);
-  setGroupTransform(markerEast, system.east.x, system.east.y, lerp(0.88, 1, easeOut(eastReveal)), 0);
-  setGroupTransform(markerSouth, system.south.x, system.south.y, lerp(0.88, 1, easeOut(southReveal)), 0);
-  setGroupTransform(markerWest, system.west.x, system.west.y, lerp(0.88, 1, easeOut(westReveal)), 0);
-  setOpacity(markerNorth, northReveal);
-  setOpacity(markerEast, eastReveal);
-  setOpacity(markerSouth, southReveal);
-  setOpacity(markerWest, westReveal);
+  setGroupTransform(vaneNorth, system.north.x, system.north.y, lerp(0.88, 1, easeOut(northReveal)), 0);
+  setGroupTransform(vaneEast, system.east.x, system.east.y, lerp(0.88, 1, easeOut(eastReveal)), 0);
+  setGroupTransform(vaneSouth, system.south.x, system.south.y, lerp(0.88, 1, easeOut(southReveal)), 0);
+  setGroupTransform(vaneWest, system.west.x, system.west.y, lerp(0.88, 1, easeOut(westReveal)), 0);
+  setOpacity(vaneNorth, northReveal);
+  setOpacity(vaneEast, eastReveal);
+  setOpacity(vaneSouth, southReveal);
+  setOpacity(vaneWest, westReveal);
 
-  setOpacity(resolutionHalo, clamp((progress - 0.62) * 1.4, 0, 0.18));
-  setOpacity(resolutionRing, clamp((progress - 0.72) * 1.5, 0, 0.22));
-  setOpacity(memoryArc, clamp((progress - 0.78) * 1.4, 0, 0.12));
+  setOpacity(resolutionHalo, clamp((progress - 0.62) * 1.4, 0, 0.2));
+  setOpacity(resolutionRing, clamp((progress - 0.72) * 1.5, 0, 0.26));
+  setOpacity(memoryAxis, clamp((progress - 0.8) * 1.5, 0, 0.12));
 }
 
 function renderResolution(progress) {
   const settle = easeOut(progress);
   const holdPulse = 0.16 + pulseWave(progress, 1.3) * 0.05;
 
-  setDot(points.gate, 16, 98, 1, holdPulse);
+  setDot(points.gate, 16, 96, 1, holdPulse);
   setOpacity(narrativeSpine, 0);
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, 0, 0);
+  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, 0);
 
-  setOpacity(compassBase, lerp(0.28, 0.5, settle));
-  setPathWindow(compassActive, COMPASS_LENGTH, COMPASS_LENGTH, lerp(1, 0.24, settle));
+  setOpacity(roseBase, lerp(0.28, 0.44, settle));
+  setPathWindow(roseActive, ROSE_LENGTH, ROSE_LENGTH, lerp(1, 0.22, settle));
 
-  [hingeSpine, hingeTop, hingeBottom, hingeHalo, candidateDiagonal, candidateOrbit, candidateAxis, slotNorth, slotEast, slotSouth, slotWest].forEach(
-    (element) => setOpacity(element, 0),
-  );
+  [
+    meridianSpine,
+    horizonLeft,
+    horizonRight,
+    meridianTop,
+    meridianBottom,
+    tensionHalo,
+    candidateArc,
+    candidateCross,
+    candidateFan,
+    slotNorth,
+    slotEast,
+    slotSouth,
+    slotWest,
+  ].forEach((element) => setOpacity(element, 0));
 
   setGroupTransform(
-    markerNorth,
+    vaneNorth,
     lerp(system.north.x, system.settleNorth.x, settle),
     lerp(system.north.y, system.settleNorth.y, settle),
-    0.97,
+    0.98,
     0,
   );
   setGroupTransform(
-    markerEast,
+    vaneEast,
     lerp(system.east.x, system.settleEast.x, settle),
     lerp(system.east.y, system.settleEast.y, settle),
     0.97,
     0,
   );
   setGroupTransform(
-    markerSouth,
+    vaneSouth,
     lerp(system.south.x, system.settleSouth.x, settle),
     lerp(system.south.y, system.settleSouth.y, settle),
     0.97,
     0,
   );
   setGroupTransform(
-    markerWest,
+    vaneWest,
     lerp(system.west.x, system.settleWest.x, settle),
     lerp(system.west.y, system.settleWest.y, settle),
     0.97,
     0,
   );
-  setOpacity(markerNorth, 0.92);
-  setOpacity(markerEast, 0.92);
-  setOpacity(markerSouth, 0.92);
-  setOpacity(markerWest, 0.92);
+  setOpacity(vaneNorth, 0.96);
+  setOpacity(vaneEast, 0.92);
+  setOpacity(vaneSouth, 0.9);
+  setOpacity(vaneWest, 0.92);
 
-  setOpacity(resolutionHalo, lerp(0.18, 0.3, settle));
-  setOpacity(resolutionRing, lerp(0.22, 0.9, settle));
-  setOpacity(memoryArc, lerp(0.12, 0.24, settle));
+  setOpacity(memoryAxis, lerp(0.12, 0.38, settle));
+  setOpacity(resolutionHalo, lerp(0.2, 0.32, settle));
+  setOpacity(resolutionRing, lerp(0.26, 0.88, settle));
 }
 
 function render(elapsed) {

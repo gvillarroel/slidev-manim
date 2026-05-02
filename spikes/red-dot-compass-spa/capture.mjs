@@ -11,7 +11,7 @@ function parseArgs(argv) {
     summary: resolve("videos/red-dot-compass-spa/browser-validation.json"),
     width: 1600,
     height: 900,
-    durationMs: 35000,
+    durationMs: 35_000,
   };
 
   for (let index = 2; index < argv.length; index += 2) {
@@ -32,15 +32,15 @@ function parseArgs(argv) {
 
 const args = parseArgs(process.argv);
 const captures = [
-  { file: "01-appearance.png", at: 4600 },
-  { file: "02-search.png", at: 7800 },
-  { file: "03-tension.png", at: 16600 },
-  { file: "04-transformation.png", at: 25600 },
-  { file: "05-resolution.png", at: 33200 },
+  { file: "01-appearance.png", at: 4200 },
+  { file: "02-search.png", at: 9_600 },
+  { file: "03-tension.png", at: 18_200 },
+  { file: "04-transformation.png", at: 26_100 },
+  { file: "05-resolution.png", at: 33_300 },
 ];
 const mobileCapture = {
   file: "mobile-resolution.png",
-  at: 33200,
+  at: 33_300,
   width: 430,
   height: 932,
 };

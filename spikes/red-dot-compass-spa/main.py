@@ -42,7 +42,7 @@ REVIEW_CAPTURE_NAMES = (
     "05-resolution.png",
 )
 MOBILE_CAPTURE_NAME = "mobile-resolution.png"
-AUDIT_TIMES = "4.6,7.8,16.6,25.6,33.2"
+AUDIT_TIMES = "4.2,9.6,18.2,26.1,33.3"
 
 
 class SilentHandler(SimpleHTTPRequestHandler):
@@ -139,9 +139,9 @@ def extract_review_frames(video: Path, duration_seconds: float | None) -> None:
         old_file.unlink()
 
     if duration_seconds is None:
-        targets = [4.6, 16.6, 34.1]
+        targets = [4.2, 18.2, 34.1]
     else:
-        targets = [4.6, min(16.6, duration_seconds / 2), max(duration_seconds - 0.8, 1.0)]
+        targets = [4.2, min(18.2, duration_seconds / 2), max(duration_seconds - 0.8, 1.0)]
 
     names = ["frame-start.png", "frame-middle.png", "frame-final.png"]
 
