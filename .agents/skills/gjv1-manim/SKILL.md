@@ -159,6 +159,8 @@ Do not say the video is finished just because the render succeeded or one audit 
 5. Inspect the highest-risk transition family at 0.5 second intervals. This is mandatory for remaps, imported SVGs, dense cleanups, and any beat a human flagged as abrupt or suspicious.
 6. Run the relevant automated audits for the scene type before declaring there are no framing or overlap problems.
 7. If the spike is browser-native or responsive, inspect at least one mobile proof frame or mobile screenshot before declaring the composition finished.
+8. For browser-native narratives that loop interactively, use a recording-only non-looping mode and hold the resolved frame through the exported final hold.
+9. For browser-native SVG search beats, keep active target cues on perimeters and move visited echoes outside closed outlines after the beat. Faint placeholder internals are safer than stacked red marks inside a card or slot.
 
 ## What must be true before “done”
 

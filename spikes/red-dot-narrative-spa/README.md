@@ -64,6 +64,7 @@ Then open the printed local URL in a browser.
 ## Notes
 
 - The SPA loops automatically after the final hold.
+- Recorded captures clamp on the resolved final composition for an additional hold instead of looping back to the opening.
 - Press `Space` to pause or resume.
 - Press `R` to restart the narrative.
 - The narrative now keeps the phase chip, progress rail, and utility controls off-stage until hover or keyboard focus so the red point remains the primary subject in proof frames.

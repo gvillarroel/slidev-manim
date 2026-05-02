@@ -189,6 +189,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - final 0.3-second white-background review frames covered 97 samples; full-size proof frames at the opening, both handoffs, and final hold were reviewed; composition audit reported 0 blocking frames with 3 notice-only handoff frames; resting-mobject audit reported 0 blocking snapshots; WebM metadata reported `alpha_mode=1`, 28.928 seconds, and 1600x900.
 
+## Red Dot Narrative SPA
+
+- **Hypothesis**: A browser-native visual narrative that loops interactively records better when capture mode disables looping, starts with a meaningful first frame, and holds the resolved state after the authored timeline completes.
+- **Result**: Confirmed on `spikes/red-dot-narrative-spa/` after adding a recording-only `?capture=1` mode, extending the browser recording to 36 seconds, and clamping playback on the final resolution frame.
+- **What worked**:
+  - making the first frame show the dot, candidate slots, and route scaffold instead of fading up from near-empty chrome,
+  - strengthening the persistent review frame evenly so composition audits center on the intended stage rather than a bottom-heavy shadow,
+  - retiring clamp residue before the transformation cards take over, which lets the ring/card system own the proof frames,
+  - keeping search target activation on card perimeters, moving echo dots outside closed outlines, and demoting placeholder text lines so strict crowding review does not read candidate internals as active collisions,
+  - separating interactive loop behavior from recording behavior so the exported WebM holds the terminal composition instead of sampling the restart.
+- **Validation note**:
+  - final render was reviewed with 120 frames sampled every 0.3 seconds, full-size proof screenshots including mobile resolution, browser console/page-error validation, composition audit at 0.3-second cadence with 0 blocking frames, and targeted crowding audit at 3.0, 8.2, 14.0, 20.3, 28.6, and 34.0 seconds with 0 blocking frames.
+
 ## Timeline Stack
 
 - **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.
@@ -1237,6 +1250,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 159. After a slot-docking proof, fade the receiver panel and recenter the resolved actors before the final hold. If separated corner brackets remain as the terminal artifact, give them enough clearance from every resolved actor to pass full-size crowding review.
 160. Compact packet diagrams should usually be rebuilt with native field rectangles when generic SVG fragment reveals make the diagram a thin strip. Show the whole packet scaffold first, grow each field body from its bit-range start, use one red cursor or active outline for progression, add tiny gutters between adjacent colored field bodies, and keep range labels inset from field edges.
 161. Do not keep a visible local stage plate around simple native packet or bar diagrams unless it carries semantic contrast. Strict crowding audits can treat the plate as an actor touching every field, while a clean page background plus separated terminal brackets keeps the final hold calmer.
+162. Browser-native recordings that loop interactively need a capture-only non-looping mode. Clamp the recorded timeline to the resolved final state and keep recording for the final-hold budget so the promoted video does not end by restarting the opening.
+163. Persistent review frames or stage plates should be visible as a complete balanced scaffold, not only through shadows or bottom edges. If only the bottom chrome is detected, 0.3-second composition audits can read otherwise centered motion as vertically off-center.
+164. In browser-native search beats with candidate cards, use one active cue per target. A red border plus red internal rule or center echo dot can create strict crowding failures and visual ambiguity; keep placeholder internals faint and put visited echoes outside closed outlines.
 
 # Reusable Process
 
