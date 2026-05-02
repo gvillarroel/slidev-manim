@@ -101,6 +101,8 @@ Before landing a computed value in a destination cell:
 
 Do not `FadeIn` a text mobject whose stored opacity is zero; it will fade to its own invisible target. Either introduce a normally styled copy at landing time or animate opacity on a mobject already in the scene.
 
+After the value has returned from the counter or formula side zone, make the cleanup a deliberate bridge into the final table. Retire side mechanisms, move or scale the table into the resolved center, and sample the transition frames where faded side panels and the growing table overlap. If the default active-color centering audit flags a frame where both the side counter and final table value are visible, inspect it full size before patching; use a slightly wider center tolerance only when the human composition is still balanced.
+
 ## Review And Audit Notes
 
 Sample at least these frames:

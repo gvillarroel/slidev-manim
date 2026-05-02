@@ -570,7 +570,7 @@ class DataCounterNarrationScene(Scene):
             run_time=0.22,
         )
         table.add(final_value)
-        self.wait(1.78)
+        self.wait(0.72)
 
         terminal = VGroup(table, result_ring)
         self.play(
@@ -578,15 +578,20 @@ class DataCounterNarrationScene(Scene):
             FadeOut(price_ring),
             FadeOut(row_marker),
             FadeOut(row_rule),
-            run_time=0.04,
+            run_time=0.22,
             rate_func=rate_functions.ease_out_cubic,
         )
         self.play(
-            FadeOut(formula_panel, shift=RIGHT * 0.22),
-            FadeOut(counter_panel, shift=RIGHT * 0.22),
-            terminal.animate.move_to(DOWN * 0.55).scale(1.06, scale_stroke=True),
+            FadeOut(formula_panel, shift=RIGHT * 0.75),
+            FadeOut(counter_panel, shift=RIGHT * 0.75),
+            terminal.animate.shift(RIGHT * 0.62),
+            run_time=0.42,
+            rate_func=rate_functions.ease_out_cubic,
+        )
+        self.play(
+            terminal.animate.move_to(DOWN * 0.32).scale(1.24, scale_stroke=True),
             heading.animate.move_to(UP * 2.55),
-            run_time=0.16,
+            run_time=0.58,
             rate_func=rate_functions.ease_out_cubic,
         )
         self.play(result_ring.animate.set_stroke(width=3.4, opacity=0.88), run_time=0.42)

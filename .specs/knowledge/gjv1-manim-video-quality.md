@@ -1092,6 +1092,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 80. Table-formula scenes read best when source cells are identified in place, while the formula itself lives in a stable side zone.
 81. Enlarged value copies over original cell text create double-text artifacts; prefer source-cell pulses and reserve transforms for the computed result handoff.
 82. Formula proof frames should include the composed formula and the result-to-cell handoff, not only the final completed table.
+82a. After a table-derived value returns from a counter or formula side zone, make the cleanup a bridge into the final table: retire side mechanisms, move or scale the table into the resolved center, and inspect sampled transition frames for faded side-panel residue. Active-red centering audits can overreact while both the table value and side counter are visible, so confirm those warnings at full size and use a slightly wider center tolerance only when the human frame is clearly balanced.
 83. For SVG Repo assets, prefer `show/<id>/<slug>.svg` for automated retrieval and validate that the payload is actually SVG before caching it.
 84. Keep raw downloaded SVGs separate from generated palette/text variants so later review can distinguish source behavior from pipeline edits.
 85. When an imported SVG needs editable text, lock native Manim text to the SVG body unless the render pipeline has proven that SVG `<text>` imports consistently across environments.
