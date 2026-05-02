@@ -22,6 +22,7 @@ from manim import (
     FadeOut,
     GrowArrow,
     Line,
+    ORIGIN,
     Rectangle,
     Scene,
     Text,
@@ -62,31 +63,27 @@ class MermaidSvgUnfoldScene(Scene):
         poster_mode = os.environ.get("SPIKE_RENDER_TARGET") == "poster"
 
         stage = Rectangle(
-            width=12.3,
-            height=5.35,
+            width=11.85,
+            height=3.7,
             stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=WHITE,
             fill_opacity=0.78,
         )
-        stage.move_to(DOWN * 0.2)
+        stage.move_to(DOWN * 0.04)
         stage.set_z_index(-5)
 
-        title = Text("Mermaid Block Diagram SVG", font=TEXT_FONT, font_size=31, color=GRAY)
-        subtitle = Text("generated, decomposed, unfolded", font=TEXT_FONT, font_size=18, color=PRIMARY_BLUE)
-        title_group = VGroup(title, subtitle).arrange(DOWN, buff=0.12).to_edge(UP, buff=0.42)
-
-        lane = Line(LEFT * 5.05, RIGHT * 5.05, color=GRAY_200, stroke_width=2.2)
-        lane.move_to(DOWN * 0.62)
+        lane = Line(LEFT * 4.92, RIGHT * 4.92, color=GRAY_200, stroke_width=2.2)
+        lane.move_to(DOWN * 0.04)
         lane.set_z_index(-1)
 
         steps = [
-            ("MMD", PRIMARY_RED, LEFT * 4.3),
-            ("SVG", PRIMARY_BLUE, LEFT * 1.43),
-            ("Parts", PRIMARY_GREEN, RIGHT * 1.43),
-            ("Video", PRIMARY_ORANGE, RIGHT * 4.3),
+            ("MMD", PRIMARY_RED, LEFT * 4.15),
+            ("SVG", PRIMARY_BLUE, LEFT * 1.38),
+            ("Parts", PRIMARY_GREEN, RIGHT * 1.38),
+            ("Video", PRIMARY_ORANGE, RIGHT * 4.15),
         ]
-        cards = VGroup(*(self._card(label, color).move_to(point + DOWN * 0.62) for label, color, point in steps))
+        cards = VGroup(*(self._card(label, color).move_to(point + DOWN * 0.04) for label, color, point in steps))
         connectors = VGroup(
             *(
                 Arrow(
@@ -109,12 +106,12 @@ class MermaidSvgUnfoldScene(Scene):
         )
 
         if poster_mode:
-            terminal = self._terminal(VGroup(cards, connectors)).set_opacity(0.36)
-            self.add(stage, title_group, lane, connectors, cards, terminal)
+            terminal = self._terminal(cards[-1]).set_opacity(0.36)
+            self.add(stage, lane, connectors, cards, terminal)
             return
 
         route_scaffold = connectors.copy().set_opacity(0.18)
-        self.add(stage, title_group, lane)
+        self.add(stage, lane)
         self.add(slots, slot_hints, route_scaffold)
         self.wait(2.6)
 
@@ -129,8 +126,8 @@ class MermaidSvgUnfoldScene(Scene):
         self.wait(0.45)
         elapsed += 1.35
 
-        active_dot = Circle(radius=0.075, color=PRIMARY_RED, fill_color=PRIMARY_RED, fill_opacity=1)
-        active_dot.move_to(cards[0].get_right() + RIGHT * 0.22)
+        active_dot = Circle(radius=0.095, color=PRIMARY_RED, fill_color=PRIMARY_RED, fill_opacity=1)
+        active_dot.move_to(self._handoff_point(cards[0]) + RIGHT * 0.18)
         active_dot.set_z_index(9)
 
         visible_connectors = VGroup()
@@ -151,7 +148,7 @@ class MermaidSvgUnfoldScene(Scene):
                 FadeOut(target_slot, run_time=0.18),
                 FadeOut(slot_hints[index + 1], run_time=0.18),
                 FadeIn(cards[index + 1], shift=UP * 0.05),
-                active_dot.animate.move_to(cards[index + 1].get_center()),
+                active_dot.animate.move_to(self._handoff_point(cards[index + 1])),
                 run_time=0.58,
                 rate_func=rate_functions.ease_out_cubic,
             )
@@ -167,8 +164,7 @@ class MermaidSvgUnfoldScene(Scene):
         self.wait(0.42)
         elapsed += 0.42
 
-        final_cluster = VGroup(cards, visible_connectors)
-        terminal = self._terminal(final_cluster)
+        terminal = self._terminal(cards[-1])
 
         self.play(
             FadeOut(route_scaffold),
@@ -177,12 +173,16 @@ class MermaidSvgUnfoldScene(Scene):
             rate_func=rate_functions.ease_out_cubic,
         )
         self.play(
-            terminal[0].animate.scale(22.0),
-            terminal[1].animate.scale(22.0),
+            terminal.animate.scale(1.06).set_opacity(0.86),
+            cards[-1].animate.scale(1.018),
             run_time=0.9,
             rate_func=rate_functions.ease_out_cubic,
         )
-        self.play(terminal.animate.set_opacity(0.36), run_time=0.32)
+        self.play(
+            terminal.animate.scale(1 / 1.06).set_opacity(0.62),
+            cards[-1].animate.scale(1 / 1.018),
+            run_time=0.32,
+        )
         elapsed += 2.17
         self.wait(max(7.0, 25.6 - elapsed))
 
@@ -215,14 +215,32 @@ class MermaidSvgUnfoldScene(Scene):
         slot.set_z_index(1)
         return slot
 
-    def _terminal(self, final_cluster: VGroup) -> VGroup:
-        terminal = VGroup(
-            Line(LEFT * 0.2, RIGHT * 0.2, color=PRIMARY_RED, stroke_width=4),
-            Line(LEFT * 0.2, RIGHT * 0.2, color=PRIMARY_RED, stroke_width=4),
-        )
-        terminal[0].next_to(final_cluster, UP, buff=0.32)
-        terminal[1].next_to(final_cluster, DOWN, buff=0.32)
-        terminal.set_opacity(0.7)
+    def _handoff_point(self, card: VGroup):
+        return card.get_top() + DOWN * 0.22 + RIGHT * (card.width * 0.32)
+
+    def _terminal(self, target: VGroup) -> VGroup:
+        width = target.width + 1.0
+        height = target.height + 0.88
+        anchor = target.get_center()
+        tick_x = 0.2
+        tick_y = 0.18
+        corners = [
+            (RIGHT, DOWN, -1, 1),
+            (LEFT, DOWN, 1, 1),
+            (RIGHT, UP, -1, -1),
+            (LEFT, UP, 1, -1),
+        ]
+        terminal = VGroup()
+        for horizontal_dir, vertical_dir, x_sign, y_sign in corners:
+            corner = anchor + RIGHT * (x_sign * width / 2) + UP * (y_sign * height / 2)
+            horizontal = Line(ORIGIN, horizontal_dir * tick_x, color=PRIMARY_RED, stroke_width=4).move_to(
+                corner + horizontal_dir * (tick_x / 2)
+            )
+            vertical = Line(ORIGIN, vertical_dir * tick_y, color=PRIMARY_RED, stroke_width=4).move_to(
+                corner + vertical_dir * (tick_y / 2)
+            )
+            terminal.add(horizontal, vertical)
+        terminal.set_opacity(0.72)
         terminal.set_z_index(7)
         return terminal
 

@@ -124,14 +124,16 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Mermaid Block Diagram SVG Unfold
 
 - **Hypothesis**: A small generated Mermaid block diagram reads better when the Mermaid SVG remains an inspectable source artifact, but the video itself is rebuilt as native Manim blocks, receiver slots, connectors, and one active handoff pulse.
-- **Result**: Confirmed on `spikes/mermaid-block-svg-unfold/` after replacing generic SVG fragment batches with a 25.9-second native pipeline unfold.
+- **Result**: Confirmed on `spikes/mermaid-block-svg-unfold/` after replacing generic SVG fragment batches with a 25.9-second native pipeline unfold, then tightening the clip into a title-free slide asset.
 - **What worked**:
   - using faint labeled receiver slots during the opening breath so the first frame shows the whole pending pipeline without exposing blank boxes,
   - fading each slot label with its slot as the real colored block lands, which avoids the label/body split caused by generic SVG fragment extraction,
   - giving each next block a red receiver cue before the pulse arrives, then leaving only simple gray arrows and colored cards in the resolved hold,
-  - replacing an enclosing terminal rectangle and extra badge text with separated red terminal rules, which keeps the hold clean without wrapping the actors.
+  - removing the redundant title/subtitle band once the card labels carried the semantics, which reduced top-heavy dead space and cleared the default composition audit,
+  - moving the red handoff cue to the card corner instead of the card center, so proof frames no longer put the active dot over text,
+  - replacing an enclosing terminal rectangle, long terminal rules, and extra badge text with separated corner brackets around the output card, with enough clearance to avoid actor-to-outline crowding in full-size review.
 - **Validation note**:
-  - strict crowding overlays can flag text/card internals and connector-to-card contacts in labeled block diagrams. Treat those as full-size inspection prompts; for this spike, the rest-state audit cleared and a header-aware composition audit with `--center-tolerance 0.18` cleared with zero blocking frames.
+  - the final 0.3-second composition audit cleared with zero blocking frames, the resting-mobject audit cleared with zero blocking snapshots, and strict crowding overlays still reported repeated outline/actor proximity around the card row; full-size review showed no visible collision after increasing bracket clearance.
 
 ## Mermaid Venn SVG Unfold
 
