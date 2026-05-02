@@ -22,7 +22,7 @@ Semantic transforms narrate best when identity is preserved only where the viewe
 
 # Design
 
-The scene uses one red identity marker and a sparse grayscale stage:
+The scene uses one red identity marker and a sparse grayscale stage. The current quality pass keeps the first frame meaningful by showing the top handoff path and three lower proof bays before any transform begins:
 
 - `Transform` changes the marker shape while preserving the same narrative actor.
 - `MoveToTarget` compacts the claim card into the next slot.
@@ -31,6 +31,8 @@ The scene uses one red identity marker and a sparse grayscale stage:
 - `TransformMatchingShapes` reorders identical geometric parts.
 - `TransformMatchingTex` preserves tex-like tokens through an additive formula change without requiring a local LaTeX installation.
 - `FadeTransform` handles incompatible topology where a direct morph would become ambiguous.
+
+The render helper clears the spike-local Manim staging directory before promoted renders and copies the newest matching output, which keeps review frames from picking up stale partials.
 
 # Run
 

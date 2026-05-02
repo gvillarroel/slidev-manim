@@ -35,6 +35,14 @@ For matching transforms, extract half-second frames. One-second samples can miss
 6. Break identity with `FadeTransform` when the source and target have incompatible topology.
 7. Remove guide rails, source slots, and faded residues before the final hold.
 
+## Multi-Example Gallery Pattern
+
+- When one scene demonstrates several transform families, show every later proof bay or destination panel during the opening breath. Empty lower bays are better than a blank lower half because they explain where shape, formula, and topology examples will land.
+- Keep the proof row close enough to the main flow that dark lower-row examples do not dominate center-of-content audits during the later beats.
+- Scale additive `TransformMatchingTex` targets to the proof bay before accepting the render. A token expansion that is readable in isolation can still cross its panel once it lands beside other examples.
+- Put identity markers outside card outlines only when there is real clearance from both the card and the frame edge. Pull endpoint cards inward if the marker needs to travel beside the final card before the cleanup.
+- Treat strict crowding findings on card text, formula glyphs, and intentionally contained diagram internals as full-size review prompts. Patch only when the finding corresponds to a visible collision, outline contact after the causal beat, or margin issue.
+
 ## Failure Patterns
 
 - A direct `Transform` across unrelated topology creates a false continuity and often produces translucent plates, crossing strokes, or unreadable mid-shapes.

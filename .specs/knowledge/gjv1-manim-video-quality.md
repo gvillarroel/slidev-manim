@@ -23,6 +23,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render was reviewed with 0.3-second alpha-on-white contact sheets and full-size proof frames at the opening, summary entrance, and final hold; composition audit sampled 91 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and WebM metadata reported `alpha_mode=1`.
 
+## Manim Semantic Transform Lab
+
+- **Hypothesis**: A transform-gallery scene reads better when every later example has a prepared proof bay visible in the opening breath, instead of appearing as disconnected lower-row mini-scenes.
+- **Result**: Confirmed on `spikes/manim-semantic-transform-lab/` after replacing the near-blank opening and high, tiny flow with a two-tier scaffold: top handoff path plus three lower proof bays for shape, formula, and topology examples.
+- **What worked**:
+  - adding all proof bays at frame zero so the opening still frame explains where future transform examples will land,
+  - lifting the lower proof row until the dark transform examples no longer dominated composition-center audits during the topology proof beat,
+  - scaling the additive `TransformMatchingTex` target to the formula bay before accepting the render, because the first full-size review caught the expression crossing its panel,
+  - keeping red identity markers outside card outlines with enough endpoint margin, then pulling the top-flow endpoints inward so the final-card handoff cleared edge review.
+- **Validation note**:
+  - the final render was reviewed with 0.3-second alpha-on-white contact sheets and full-size proof frames for the opening, shape reorder, formula expansion, topology fade, final handoff, and final hold. Composition audit cleared 132 sampled frames with zero blocking frames, resting-mobject audit had zero blocking snapshots, and WebM alpha validation reported `alpha_mode=1` with alpha range `0..255`. The strict crowding audit still reported text-inside-card and actor-near-support prompts, which were inspected full size and treated as expected for card/formula internals rather than visible collisions.
+
 ## Inset Annotation Panel
 
 - **Hypothesis**: A small inset asset reads better when the opening frame already shows the source panel, target inset slot, and route scaffolds, then uses one red actor to prove the handoff into the magnified view.

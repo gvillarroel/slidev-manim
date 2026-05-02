@@ -124,11 +124,11 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
 
 
 def promote(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = list(STAGING_DIR.glob(f"**/{target_name}"))
     if not matches:
         raise FileNotFoundError(target_name)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(matches[-1], destination)
+    shutil.copy2(max(matches, key=lambda path: path.stat().st_mtime), destination)
 
 
 def chip(color: str, width: float, height: float, opacity: float = 1.0) -> Rectangle:
@@ -173,6 +173,17 @@ def story_card(title: str, body: str, width: float = 2.75) -> VGroup:
     return VGroup(body_box, title_text, body_text)
 
 
+def proof_bay(width: float = 3.35, height: float = 2.25) -> Rectangle:
+    return Rectangle(
+        width=width,
+        height=height,
+        stroke_color=GRAY_200,
+        stroke_width=2,
+        fill_color=WHITE,
+        fill_opacity=0.48,
+    )
+
+
 def shape_pack() -> VGroup:
     square = chip(BLACK, 0.58, 0.58)
     triangle = Triangle(stroke_width=0, fill_color=GRAY_600, fill_opacity=1).scale(0.44)
@@ -185,8 +196,8 @@ class SemanticTransformNarrationScene(Scene):
         self.camera.background_color = WHITE
 
         stage = Rectangle(
-            width=13.35,
-            height=7.45,
+            width=12.7,
+            height=6.95,
             stroke_color=GRAY_200,
             stroke_width=2,
             fill_color=PAGE_BACKGROUND,
@@ -194,8 +205,8 @@ class SemanticTransformNarrationScene(Scene):
         )
         self.add(stage)
 
-        top_y = 1.85
-        source = story_card("claim", "A + B").move_to(LEFT * 4.85 + UP * top_y)
+        top_y = 2.05
+        source = story_card("claim", "A + B").move_to(LEFT * 4.25 + UP * top_y)
         evidence_slot = Rectangle(
             width=2.75,
             height=1.24,
@@ -203,7 +214,7 @@ class SemanticTransformNarrationScene(Scene):
             stroke_width=2,
             fill_color=GRAY_100,
             fill_opacity=0.3,
-        ).move_to(LEFT * 1.65 + UP * top_y)
+        ).move_to(LEFT * 1.5 + UP * top_y)
         proof_slot = Rectangle(
             width=2.75,
             height=1.24,
@@ -211,7 +222,7 @@ class SemanticTransformNarrationScene(Scene):
             stroke_width=2,
             fill_color=GRAY_100,
             fill_opacity=0.3,
-        ).move_to(RIGHT * 1.65 + UP * top_y)
+        ).move_to(RIGHT * 1.5 + UP * top_y)
         final_slot = Rectangle(
             width=2.75,
             height=1.24,
@@ -219,27 +230,34 @@ class SemanticTransformNarrationScene(Scene):
             stroke_width=2,
             fill_color=GRAY_100,
             fill_opacity=0.3,
-        ).move_to(RIGHT * 4.85 + UP * top_y)
+        ).move_to(RIGHT * 4.25 + UP * top_y)
 
         route_a = DashedLine(source.get_right(), evidence_slot.get_left(), color=GRAY_300, stroke_width=3, dash_length=0.18)
         route_b = DashedLine(evidence_slot.get_right(), proof_slot.get_left(), color=GRAY_300, stroke_width=3, dash_length=0.18)
         route_c = DashedLine(proof_slot.get_right(), final_slot.get_left(), color=GRAY_300, stroke_width=3, dash_length=0.18)
         routes = VGroup(route_a, route_b, route_c)
 
-        anchor = chip(PRIMARY_RED, 0.46, 0.46).move_to(source[0].get_left() + RIGHT * 0.44)
-        anchor_target = Circle(radius=0.27, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(source[0].get_left() + RIGHT * 0.44)
+        anchor = chip(PRIMARY_RED, 0.46, 0.46).move_to(source[0].get_top() + UP * 0.42)
+        anchor_target = Circle(radius=0.27, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(source[0].get_top() + UP * 0.42)
 
-        self.play(FadeIn(source), FadeIn(VGroup(evidence_slot, proof_slot, final_slot)), FadeIn(routes), run_time=1.1)
+        lower_row = DOWN * 1.12
+        shape_bay = proof_bay().move_to(LEFT * 4.05 + lower_row)
+        equation_bay = proof_bay().move_to(lower_row)
+        topology_bay = proof_bay().move_to(RIGHT * 4.05 + lower_row)
+        lower_bays = VGroup(shape_bay, equation_bay, topology_bay)
+
+        self.add(source, evidence_slot, proof_slot, final_slot, routes, lower_bays)
+        self.wait(2.3)
         self.play(GrowFromCenter(anchor), run_time=0.6)
-        self.wait(2.2)
+        self.wait(0.8)
 
         self.play(Transform(anchor, anchor_target), run_time=1.0, rate_func=smooth)
         source.generate_target()
-        source.target.scale(0.92).move_to(LEFT * 1.65 + UP * top_y)
-        self.play(MoveToTarget(source), anchor.animate.move_to(LEFT * 1.65 + UP * 2.32), run_time=2.7, rate_func=smooth)
+        source.target.scale(0.92).move_to(LEFT * 1.5 + UP * top_y)
+        self.play(MoveToTarget(source), anchor.animate.move_to(evidence_slot.get_top() + UP * 0.42), run_time=2.7, rate_func=smooth)
         self.wait(1.0)
 
-        handoff_badge = chip(PRIMARY_RED, 0.34, 0.34).move_to(proof_slot.get_left() + RIGHT * 0.48)
+        handoff_badge = chip(PRIMARY_RED, 0.34, 0.34).move_to(proof_slot.get_top() + UP * 0.42)
         proof_line = Line(evidence_slot.get_right(), proof_slot.get_left(), color=PRIMARY_RED, stroke_width=5)
         self.play(FadeIn(proof_line), run_time=0.6)
         self.play(
@@ -251,7 +269,7 @@ class SemanticTransformNarrationScene(Scene):
         self.wait(1.8)
 
         proof_card = story_card("proof", "A + B = C").move_to(proof_slot)
-        proof_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(proof_card[0].get_right() + LEFT * 0.18)
+        proof_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(proof_card[0].get_right() + RIGHT * 0.38)
         self.play(
             Succession(
                 FadeOut(source, shift=LEFT * 0.12, run_time=0.7),
@@ -265,9 +283,9 @@ class SemanticTransformNarrationScene(Scene):
         )
         self.wait(1.2)
 
-        shape_source = shape_pack().move_to(LEFT * 4.45 + DOWN * 1.25)
+        shape_source = shape_pack().move_to(shape_bay)
         shape_target = VGroup(shape_source[2].copy(), shape_source[0].copy(), shape_source[1].copy())
-        shape_target.arrange(RIGHT, buff=0.34).move_to(LEFT * 1.75 + DOWN * 1.25)
+        shape_target.arrange(RIGHT, buff=0.34).move_to(shape_bay)
         shape_caption = label("same parts", size=20).next_to(shape_source, UP, buff=0.3)
         shape_caption_target = label("new order", size=20).next_to(shape_target, UP, buff=0.3)
         self.play(FadeIn(shape_source), FadeIn(shape_caption), run_time=0.8)
@@ -279,8 +297,8 @@ class SemanticTransformNarrationScene(Scene):
         )
         self.wait(0.9)
 
-        equation_source = tex_row(["A", "+", "B", "=", "C"]).move_to(RIGHT * 3.35 + DOWN * 1.25)
-        equation_target = tex_row(["A", "+", "B", "+", "D", "=", "C", "+", "D"]).move_to(RIGHT * 3.35 + DOWN * 1.25)
+        equation_source = tex_row(["A", "+", "B", "=", "C"]).move_to(equation_bay)
+        equation_target = tex_row(["A", "+", "B", "+", "D", "=", "C", "+", "D"]).scale(0.66).move_to(equation_bay)
         equation_caption = label("same symbols", size=20).next_to(equation_source, UP, buff=0.3)
         equation_caption_target = label("context added", size=20).next_to(equation_target, UP, buff=0.3)
         self.play(FadeIn(equation_source), FadeIn(equation_caption), run_time=0.8)
@@ -297,12 +315,12 @@ class SemanticTransformNarrationScene(Scene):
             chip(GRAY_500, 0.38, 1.04),
             chip(BLACK, 0.68, 0.44),
             Circle(radius=0.3, stroke_width=0, fill_color=GRAY_700, fill_opacity=1),
-        ).arrange(RIGHT, buff=0.18).move_to(LEFT * 4.25 + DOWN * 2.85)
+        ).arrange(RIGHT, buff=0.18).move_to(topology_bay)
         incompatible_target = VGroup(
             chip(WHITE, 2.55, 0.92),
             Line(LEFT * 0.92, RIGHT * 0.92, color=BLACK, stroke_width=5),
             Circle(radius=0.22, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).shift(RIGHT * 1.08),
-        ).move_to(LEFT * 0.95 + DOWN * 2.85)
+        ).move_to(topology_bay)
         incompatible_target[0].set_stroke(GRAY_500, width=2)
         topology_caption = label("topology changes", size=20).next_to(unreadable_morph_source, UP, buff=0.3)
         topology_caption_target = label("fade, then land", size=20).next_to(incompatible_target, UP, buff=0.3)
@@ -316,7 +334,7 @@ class SemanticTransformNarrationScene(Scene):
         self.wait(1.0)
 
         final_card = story_card("decision", "keep identity").move_to(final_slot)
-        final_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(final_card[0].get_right() + LEFT * 0.18)
+        final_mark = Circle(radius=0.29, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(final_card[0].get_right() + RIGHT * 0.38)
         self.play(
             Succession(
                 FadeOut(proof_card, shift=LEFT * 0.12, run_time=0.7),
@@ -326,22 +344,25 @@ class SemanticTransformNarrationScene(Scene):
             FadeOut(anchor),
             FadeOut(VGroup(shape_target, shape_caption_target, equation_target, equation_caption_target)),
             FadeOut(VGroup(incompatible_target, topology_caption_target)),
+            FadeOut(lower_bays),
             run_time=2.6,
             rate_func=smooth,
         )
         self.play(
-            FadeOut(VGroup(evidence_slot, proof_slot, routes)),
-            final_slot.animate.set_stroke(PRIMARY_RED, width=3).set_fill(WHITE, opacity=1),
+            FadeOut(VGroup(evidence_slot, proof_slot, final_slot, routes)),
+            final_card[0].animate.set_stroke(PRIMARY_RED, width=3),
             run_time=1.2,
             rate_func=smooth,
         )
-        resolved = VGroup(final_slot, final_card, final_mark)
-        self.play(resolved.animate.move_to(ORIGIN).scale(1.35), run_time=1.0, rate_func=smooth)
+        resolved = VGroup(final_card, final_mark)
+        self.play(resolved.animate.move_to(ORIGIN).scale(1.45), run_time=1.0, rate_func=smooth)
         self.wait(6.3)
 
 
 def render_variant(args: _Args) -> None:
     video_path, poster_path = output_paths()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
     result = subprocess.run(
         render_command(args, video_path.stem, poster=False),
         check=False,
