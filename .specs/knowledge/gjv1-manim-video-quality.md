@@ -161,6 +161,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - the 0.3-second frame composition audit cleared with zero blocking frames after the layout nudge,
   - the strict crowding audit still flags expected scaffold internals and text-inside-bar contacts, so it is useful only as a full-size review prompt for this chart family.
 
+## Mermaid Packet SVG Unfold
+
+- **Hypothesis**: A compact Mermaid packet diagram reads better when the `.mmd`, generated SVG, and fragments remain as inspectable artifacts, but the promoted video is rebuilt as native packet fields instead of generic fragment fades.
+- **Result**: Confirmed on `spikes/mermaid-packet-svg-unfold/` after replacing the thin title-heavy SVG unfold with a 25.76-second native packet reveal.
+- **What worked**:
+  - showing the full two-row packet scaffold during the opening breath so the first frame already explains the byte layout,
+  - growing each field body from the left while a single primary-red cursor and active outline prove the bit-range progression,
+  - removing the title band and visible backing plate so the packet itself owns the hierarchy,
+  - using small gutters between adjacent field bodies and left-inset range labels so full-size review and strict crowding audits do not read packet boundaries or labels as accidental contacts,
+  - keeping only separated terminal corner brackets for the final hold instead of enclosing the whole packet in a closed outline.
+- **Validation note**:
+  - final 0.3-second white-background review frames, full-size proof frames, frame composition audit, frame crowding audit, and resting-mobject audit all cleared with zero blocking findings; WebM metadata reported 25.758 seconds at 1600x900.
+
 ## Timeline Stack
 
 - **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.
@@ -1207,6 +1220,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 157. Slot-docking scenes should remove the abandoned source zone before the dock proof, not after the landing. A faint empty source panel can make 0.3-second proof frames look like dead space even when the receiver action is clear.
 158. When a slot proof uses a hollow receiver, keep the active pulse at the receiver entrance or fade it with the guide. A red dot sitting inside the docked actor reads as residue instead of cause.
 159. After a slot-docking proof, fade the receiver panel and recenter the resolved actors before the final hold. If separated corner brackets remain as the terminal artifact, give them enough clearance from every resolved actor to pass full-size crowding review.
+160. Compact packet diagrams should usually be rebuilt with native field rectangles when generic SVG fragment reveals make the diagram a thin strip. Show the whole packet scaffold first, grow each field body from its bit-range start, use one red cursor or active outline for progression, add tiny gutters between adjacent colored field bodies, and keep range labels inset from field edges.
+161. Do not keep a visible local stage plate around simple native packet or bar diagrams unless it carries semantic contrast. Strict crowding audits can treat the plate as an actor touching every field, while a clean page background plus separated terminal brackets keeps the final hold calmer.
 
 # Reusable Process
 

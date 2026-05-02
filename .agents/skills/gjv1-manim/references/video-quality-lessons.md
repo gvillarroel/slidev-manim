@@ -154,6 +154,9 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Mermaid Gantt diagrams should usually be rebuilt as native Manim timelines when fragment extraction produces isolated bars, crowded date labels, or static colored bands. Keep the `.mmd`, generated SVG, and fragments for inspection, but let native day ticks, faint task slots, square bars, and one red time cursor carry the video.
 - In Gantt timeline videos, show all pending slots during the opening breath, grow task bars from their actual start dates, and use a dependency marker or cursor to explain overlapping downstream work. A few readable date anchors are better than dense daily labels that collide in still frames.
 - For wide chart holds, use separated corner brackets or no terminal accent instead of one enclosing rectangle. Full-width red outlines can read as frame artifacts, and strict crowding audits will often flag intentional label-in-bar and grid-axis contact that needs full-size review rather than automatic rejection.
+- Compact Mermaid packet diagrams should usually be rebuilt with native field rectangles when generic SVG fragment reveals make the diagram a thin strip. Keep the `.mmd`, generated SVG, and fragments for inspection, but promote a native Manim packet with the full scaffold visible during the opening breath.
+- Packet field reveals read best when each field grows from its bit-range start while one primary-red cursor or active outline proves progression. Use small gutters between adjacent colored field bodies, keep range labels inset from field edges, and prefer separated terminal brackets over a closed outline around the full packet.
+- Do not keep a visible local stage plate around simple native packet or bar diagrams unless it carries semantic contrast. Strict crowding audits can treat the plate as an actor touching every field; a clean page background usually gives enough contrast for bold native geometry.
 
 ## Maintenance Rule
 

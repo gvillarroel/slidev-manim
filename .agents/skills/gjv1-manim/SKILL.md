@@ -83,6 +83,16 @@ Use `native gantt timeline` when a generated Mermaid Gantt SVG becomes too dense
 - Replace enclosing terminal rectangles with separated corner brackets or a clean hold. A full-width outline around a wide chart can read as a frame artifact and trigger false edge/crowding failures.
 - For strict crowding audits, full-size review expected contacts between axis/grid lines and between labels and their own filled task bars. Treat them as blocking only if they obscure the mechanism or look accidental in the rendered frame.
 
+# Packet Diagram Scenes
+
+Use `native packet fields` when a compact Mermaid packet SVG becomes a thin strip, a title-heavy generic unfold, or a fragment fade that does not explain the byte layout.
+
+- Keep the `.mmd`, generated SVG, and fragments as inspectable artifacts, but rebuild the promoted video with native Manim field rectangles when the packet itself is the mechanism.
+- Show the full two-row or multi-field packet scaffold during the opening breath before any field fills.
+- Grow each field body from its bit-range start while one primary-red cursor, scan line, or active outline proves progression.
+- Keep range labels inset from field edges and add tiny gutters between adjacent colored field bodies so strict crowding review does not read packet boundaries as accidental contact.
+- Remove title bands, visible stage plates, and closed terminal outlines unless they carry meaning. A clean page background with separated terminal brackets usually leaves the final hold calmer.
+
 # Data and Formula Scenes
 
 Use `side formula handoff` for table transformations where two or more source cells create a derived value.
