@@ -125,7 +125,10 @@ def build_command(
 
 
 def promote_rendered_file(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = sorted(
+        STAGING_DIR.glob(f"**/{target_name}"),
+        key=lambda path: path.stat().st_mtime,
+    )
     if not matches:
         raise FileNotFoundError(f"Could not find {target_name} under {STAGING_DIR}")
 
@@ -157,6 +160,8 @@ def render_asset(
 
 def main() -> int:
     args = parse_args()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
 
     tasks = [
         ("main", MAIN_VIDEO, False, "1600,900"),
@@ -186,26 +191,69 @@ if __name__ == "__main__":
 from manim import (
     DOWN,
     LEFT,
+    ORIGIN,
     RIGHT,
-    UR,
-    WHITE,
     Circle,
     Create,
+    Dot,
     FadeIn,
+    FadeOut,
     Line,
-    RoundedRectangle,
+    Rectangle,
     Scene,
-    Text,
     UP,
+    VGroup,
+    config,
     linear,
 )
+
+
+if os.environ.get("SPIKE_VARIANT") == "zoom":
+    config.frame_width = 8.0
+    config.frame_height = 8.0
+
+
+def corner_brackets(
+    width: float,
+    height: float,
+    *,
+    length: float = 0.34,
+    color: str = GRAY_300,
+    stroke_width: float = 4,
+) -> VGroup:
+    left = -width / 2
+    right = width / 2
+    top = height / 2
+    bottom = -height / 2
+    corners = VGroup()
+    for x, y, sx, sy in (
+        (left, top, 1, -1),
+        (right, top, -1, -1),
+        (left, bottom, 1, 1),
+        (right, bottom, -1, 1),
+    ):
+        corners.add(
+            Line([x, y, 0], [x + sx * length, y, 0], color=color, stroke_width=stroke_width),
+            Line([x, y, 0], [x, y + sy * length, 0], color=color, stroke_width=stroke_width),
+        )
+    return corners
+
+
+def square_panel(width: float, height: float, *, stroke: str = GRAY_300, fill: str = WHITE) -> Rectangle:
+    return Rectangle(
+        width=width,
+        height=height,
+        stroke_color=stroke,
+        stroke_width=3,
+        fill_color=fill,
+        fill_opacity=0.98,
+    )
 
 
 class InsetAnnotationPanelScene(Scene):
     def construct(self) -> None:
         variant = os.environ.get("SPIKE_VARIANT", "main")
-        if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
-            self.camera.background_color = PAGE_BACKGROUND
+        self.camera.background_color = PAGE_BACKGROUND
 
         if variant == "zoom":
             self.construct_zoom()
@@ -213,74 +261,125 @@ class InsetAnnotationPanelScene(Scene):
             self.construct_main()
 
     def construct_main(self) -> None:
-        panel = RoundedRectangle(
-            width=11.7,
-            height=5.55,
-            corner_radius=0.36,
-            stroke_color=PRIMARY_BLUE,
-            stroke_width=6,
-            fill_color=WHITE,
-            fill_opacity=0.94,
+        stage = Rectangle(width=12.8, height=7.15, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=1)
+        source_panel = square_panel(7.6, 4.65, stroke=GRAY_300).shift(LEFT * 2.15)
+        inset_panel = square_panel(3.25, 3.25, stroke=GRAY_300).shift(RIGHT * 4.25 + DOWN * 0.08)
+
+        source_guides = VGroup(
+            Line(LEFT * 5.55 + UP * 1.2, RIGHT * 1.0 + UP * 1.2, color=GRAY_200, stroke_width=5),
+            Line(LEFT * 5.55 + ORIGIN, RIGHT * 1.0, color=GRAY_200, stroke_width=5),
+            Line(LEFT * 5.55 + DOWN * 1.2, RIGHT * 1.0 + DOWN * 1.2, color=GRAY_200, stroke_width=5),
         )
-        header = Text(
-            "Primary annotation panel",
-            font_size=28,
-            color=PRIMARY_BLUE,
-        ).next_to(panel.get_top(), DOWN, buff=0.28)
+        source_guides.set_opacity(0.72)
 
-        track = Line(LEFT * 5.0 + DOWN * 0.65, RIGHT * 4.85 + DOWN * 0.65, color=GRAY_300, stroke_width=8)
-        track_label = Text("detail anchor", font_size=20, color=GRAY_600).next_to(track, UP, buff=0.18)
-        focus = Circle(radius=0.13, color=PRIMARY_YELLOW, stroke_width=0).set_fill(PRIMARY_YELLOW, opacity=1.0)
-        focus.move_to(LEFT * 4.35 + DOWN * 0.65)
-        callout = RoundedRectangle(
-            width=2.35,
-            height=0.72,
-            corner_radius=0.18,
-            stroke_color=PRIMARY_ORANGE,
-            stroke_width=3,
-            fill_color=PRIMARY_ORANGE,
-            fill_opacity=0.12,
-        ).move_to(UR * 1.95 + DOWN * 0.15)
-        callout_text = Text("magnified later", font_size=18, color=GRAY).move_to(callout.get_center())
-        accent = Line(UR * 1.35 + DOWN * 0.82, LEFT * 0.55 + DOWN * 0.58, color=PRIMARY_ORANGE, stroke_width=4)
+        roi = corner_brackets(1.08, 1.08, length=0.25, color=GRAY_400, stroke_width=4)
+        roi.move_to(LEFT * 0.85)
+        inset_slot = corner_brackets(2.34, 2.34, length=0.32, color=GRAY_300, stroke_width=4)
+        inset_slot.move_to(inset_panel)
+        inset_cross = VGroup(
+            Line(LEFT * 0.78, RIGHT * 0.78, color=GRAY_200, stroke_width=4),
+            Line(DOWN * 0.78, UP * 0.78, color=GRAY_200, stroke_width=4),
+        ).move_to(inset_panel)
+        pending_path = Line(LEFT * 5.35 + UP * 1.2, LEFT * 0.85 + UP * 1.2, color=GRAY_600, stroke_width=8)
+        pending_drop = Line(LEFT * 0.85 + UP * 1.2, LEFT * 0.85, color=GRAY_400, stroke_width=5)
+        bridge = Line(LEFT * 0.3, RIGHT * 2.56 + DOWN * 0.08, color=GRAY_300, stroke_width=5)
 
-        moving_dot = Circle(radius=0.45, color=PRIMARY_GREEN, stroke_width=10).set_fill(PRIMARY_GREEN, opacity=0.92)
-        moving_dot.move_to(LEFT * 4.55 + UP * 0.8)
-        motion_track = Line(LEFT * 4.45 + UP * 0.8, RIGHT * 4.45 + UP * 0.8, color=GRAY_600, stroke_width=12)
+        dot = Dot(LEFT * 5.35 + UP * 1.2, radius=0.15, color=PRIMARY_RED)
+        focus_position = inset_panel.get_center() + LEFT * 0.42 + UP * 0.24
+        focus_halo = Circle(radius=0.86, color=PRIMARY_RED, stroke_width=4).move_to(focus_position)
+        terminal_brackets = corner_brackets(2.62, 2.62, length=0.36, color=PRIMARY_RED, stroke_width=4).move_to(inset_panel)
 
-        self.add(panel, header, motion_track, track, track_label, focus, accent)
-        self.play(FadeIn(moving_dot), run_time=0.4)
-        self.play(moving_dot.animate.move_to(RIGHT * 4.45 + UP * 0.8), run_time=3.1, rate_func=linear)
-        self.play(FadeIn(callout), FadeIn(callout_text), run_time=0.35)
-        self.wait(0.2)
+        self.add(stage, source_panel, inset_panel, source_guides, roi, inset_slot, inset_cross, pending_path, pending_drop, bridge, dot)
+        self.wait(2.6)
+
+        active_path = Line(LEFT * 5.35 + UP * 1.2, LEFT * 0.85 + UP * 1.2, color=PRIMARY_RED, stroke_width=8)
+        self.play(Create(active_path), dot.animate.move_to(LEFT * 0.85 + UP * 1.2), run_time=3.8, rate_func=linear)
+        self.wait(0.9)
+
+        active_drop = Line(LEFT * 0.85 + UP * 1.2, LEFT * 0.85, color=PRIMARY_RED, stroke_width=6)
+        self.play(Create(active_drop), dot.animate.move_to(LEFT * 0.85), roi.animate.set_color(PRIMARY_RED), run_time=2.7, rate_func=linear)
+        self.wait(1.0)
+
+        bridge_active = Line(LEFT * 0.3, RIGHT * 2.56 + DOWN * 0.08, color=PRIMARY_RED, stroke_width=6)
+        self.play(Create(bridge_active), dot.animate.move_to(RIGHT * 2.56 + DOWN * 0.08), run_time=2.9, rate_func=linear)
+        self.wait(0.8)
+
+        self.play(
+            dot.animate.move_to(focus_position).scale(1.6),
+            Create(focus_halo),
+            run_time=2.2,
+        )
+        self.wait(1.0)
+
+        self.play(
+            FadeOut(active_path),
+            FadeOut(active_drop),
+            FadeOut(bridge_active),
+            FadeOut(bridge),
+            FadeOut(pending_drop),
+            roi.animate.set_color(GRAY_300).set_opacity(0.36),
+            inset_slot.animate.set_opacity(0.18),
+            FadeIn(terminal_brackets),
+            run_time=2.0,
+        )
+        self.wait(7.7)
 
     def construct_zoom(self) -> None:
-        panel = RoundedRectangle(
-            width=5.9,
-            height=5.9,
-            corner_radius=0.42,
-            stroke_color=PRIMARY_BLUE,
-            stroke_width=6,
-            fill_color=WHITE,
-            fill_opacity=0.96,
-        )
-        title = Text("Zoomed detail", font_size=30, color=PRIMARY_BLUE).next_to(panel.get_top(), DOWN, buff=0.22)
-        magnifier = Circle(radius=1.65, color=PRIMARY_BLUE, stroke_width=8).set_fill(PRIMARY_BLUE, opacity=0.08)
-        magnifier.shift(DOWN * 0.1)
-        cross_h = Line(LEFT * 1.25, RIGHT * 1.25, color=GRAY_300, stroke_width=6).move_to(magnifier)
-        cross_v = Line(UP * 1.25, DOWN * 1.25, color=GRAY_300, stroke_width=6).move_to(magnifier)
-        detail_dot = Circle(radius=0.38, color=PRIMARY_GREEN, stroke_width=10).set_fill(PRIMARY_GREEN, opacity=0.95)
-        detail_dot.move_to(LEFT * 0.5 + UP * 0.35)
-        label = Text("detail focus", font_size=22, color=PRIMARY_BLUE).next_to(magnifier, DOWN, buff=0.28)
-        lens_ring = Circle(radius=2.1, color=PRIMARY_ORANGE, stroke_width=4).move_to(magnifier)
+        stage = Rectangle(width=7.15, height=7.15, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=1)
+        panel = square_panel(5.65, 5.65, stroke=GRAY_300)
+        entry_slot = corner_brackets(1.28, 1.28, length=0.24, color=GRAY_400, stroke_width=4).shift(LEFT * 1.28 + UP * 0.56)
+        detail_slot = corner_brackets(3.2, 3.2, length=0.38, color=GRAY_300, stroke_width=4).shift(RIGHT * 0.42 + DOWN * 0.08)
+        aperture = Rectangle(
+            width=0.36,
+            height=1.52,
+            stroke_color=PRIMARY_RED,
+            stroke_width=4,
+            fill_color=PAGE_BACKGROUND,
+            fill_opacity=1,
+        ).shift(LEFT * 0.28 + UP * 0.12)
+        cross = VGroup(
+            Line(LEFT * 1.22, RIGHT * 1.22, color=GRAY_200, stroke_width=4),
+            Line(DOWN * 1.22, UP * 1.22, color=GRAY_200, stroke_width=4),
+        ).shift(RIGHT * 0.42 + DOWN * 0.08)
+        source_dot = Dot(LEFT * 1.28 + UP * 0.56, radius=0.16, color=PRIMARY_RED)
+        expanded_position = RIGHT * 0.78 + DOWN * 0.18
+        guide_in = Line(LEFT * 1.28 + UP * 0.56, LEFT * 0.28 + UP * 0.12, color=GRAY_300, stroke_width=5)
+        guide_out = Line(LEFT * 0.1 + UP * 0.12, expanded_position, color=GRAY_300, stroke_width=5)
+        ring = Circle(radius=1.52, color=PRIMARY_RED, stroke_width=4).move_to(expanded_position)
+        terminal = corner_brackets(3.55, 3.55, length=0.42, color=PRIMARY_RED, stroke_width=4).shift(RIGHT * 0.42 + DOWN * 0.08)
 
-        self.add(panel, title, cross_h, cross_v, label)
-        self.play(Create(magnifier), run_time=0.5)
-        self.play(Create(detail_dot), run_time=0.25)
+        self.add(stage, panel, cross, entry_slot, detail_slot, aperture, guide_in, guide_out, source_dot)
+        self.wait(2.6)
+
+        guide_in_active = Line(LEFT * 1.28 + UP * 0.56, LEFT * 0.28 + UP * 0.12, color=PRIMARY_RED, stroke_width=6)
+        self.play(Create(guide_in_active), source_dot.animate.move_to(LEFT * 0.28 + UP * 0.12), run_time=3.2, rate_func=linear)
+        self.wait(1.0)
+
+        squeeze = Dot(LEFT * 0.28 + UP * 0.12, radius=0.1, color=PRIMARY_RED)
+        self.play(source_dot.animate.scale(0.55), FadeIn(squeeze), aperture.animate.set_height(1.0), run_time=1.8)
+        self.wait(1.2)
+
+        guide_out_active = Line(LEFT * 0.1 + UP * 0.12, expanded_position, color=PRIMARY_RED, stroke_width=6)
         self.play(
-            detail_dot.animate.move_to(RIGHT * 0.95 + DOWN * 0.15),
-            run_time=2.6,
+            Create(guide_out_active),
+            source_dot.animate.move_to(expanded_position).scale(3.4),
+            run_time=3.0,
             rate_func=linear,
         )
-        self.play(Create(lens_ring), run_time=0.4)
-        self.wait(0.2)
+        self.wait(1.0)
+
+        self.play(Create(ring), detail_slot.animate.set_opacity(0.24), run_time=2.2)
+        self.wait(1.0)
+
+        self.play(
+            FadeOut(entry_slot),
+            FadeOut(aperture),
+            FadeOut(guide_in),
+            FadeOut(guide_out),
+            FadeOut(guide_in_active),
+            FadeOut(guide_out_active),
+            FadeOut(squeeze),
+            FadeIn(terminal),
+            run_time=2.0,
+        )
+        self.wait(7.9)
