@@ -11,6 +11,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Inset Annotation Panel
+
+- **Hypothesis**: A small inset asset reads better when the opening frame already shows the source panel, target inset slot, and route scaffolds, then uses one red actor to prove the handoff into the magnified view.
+- **Result**: Confirmed on `spikes/inset-annotation-panel/` after replacing 4-second label-heavy loops with 27.6-second and 26.9-second slide-integration renders.
+- **What worked**:
+  - using square panels, gray structure, and one primary-red actor instead of blue/orange/green decoration,
+  - setting the square variant's Manim frame shape before scene construction, because `-r 1200,1200` alone changes pixels without making the composition square,
+  - showing receiver brackets, a route, and an aperture during the opening breath so both videos explain the pending magnification before anything moves,
+  - removing duplicate terminal dots after full-size proof-frame review caught a shadowed double-core that the contact sheet made easy to miss,
+  - shrinking local `page-background` stages to margin-safe dimensions so resting-mobject audits do not fail on neutral backing geometry.
+- **Validation note**:
+  - final 0.3-second contact sheets, full-size proof frames, composition audits, rest-state audits, duration checks, and WebM metadata checks all passed; both promoted WebMs report `alpha_mode=1`.
+
 ## Side-by-Side Comparison Assets
 
 - **Hypothesis**: A comparison-slide asset reads better when each side is a complete slide-integration clip with its own opening structure, mechanism proof, and final hold, instead of a short generic loop.
