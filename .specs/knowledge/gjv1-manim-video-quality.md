@@ -686,16 +686,22 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Staged Convergence
 
 - **Hypothesis**: Converging through a narrow shared lane can feel more choreographed than collapsing directly into the final cluster.
-- **Result**: Confirmed after tightening the lane and making the staging phase more compact.
+- **Result**: Confirmed again after expanding the short draft into a 25.6-second transparent slide-integration scene with a visible opening scaffold, a held compressed-lane proof, cleanup of route and slot guides, and a centered 8.1-second final hold.
 - **What worked**:
   - a visible narrow lane that all forms pass through,
   - strong contrast between the staged lane and the circular landing,
   - enough compression in the lane to make the second release feel earned,
-  - guide removal before the final convergence so the staging geometry owns the intermediate beat.
+  - guide removal before the final convergence so the staging geometry owns the intermediate beat,
+  - using open lane rails instead of a closed outline, because a closed box reads as a support envelope around every compressed actor in strict crowding review,
+  - retiring the red cue before the lane proof and letting the final release be carried by the actors, so the proof frame does not inherit route residue.
 - **What failed first**:
   - the first lane was too loose,
   - the convergence looked too close to a direct transfer,
-  - the intermediate stage needed stronger compression to justify its existence.
+  - the intermediate stage needed stronger compression to justify its existence,
+  - keeping the active cue on the lane rail made the held proof read as actor-to-guide contact,
+  - a closed lane outline and late red release cue generated strict crowding prompts that were visible enough to simplify.
+- **Validation note**:
+  - final review used 86 extracted 0.3-second white-background frames, full-size opening/lane/release/final proof-frame inspection, frame composition audit with zero blocking frames across 86 samples, resting-mobject audit with zero blocking snapshots across 3 rest states, VP9 `alpha_mode=1`, and decoded alpha range `0..255`. The strict crowding audit still reported 11 transition prompts during actor remaps; full-size overlays showed expected transform contact rather than persistent final-frame crowding.
 
 ## Quality Arc Handoff
 

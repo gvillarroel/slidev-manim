@@ -33,7 +33,7 @@ Read this when the composition is built but the right review frames are unclear.
 | Edge tension | Overshoot or landing near boundary | Edge pressure is timid | Push closer without clipping |
 | Echo settle | Primary lands before supports | Timing difference is invisible | Increase support overshoot |
 | Snap recoil | Overshoot before recoil | Snap reads as normal arrival | Increase overshoot distance |
-| Staged convergence | Forms compressed in lane | Lane is too loose | Make lane narrower than source and target |
+| Staged convergence | Forms compressed in lane | Lane is too loose or enclosed by a box that becomes a support envelope | Make lane narrower than source and target, use open rails, and retire route cues before the held proof |
 | Fork diverge | Branches separated around fork | Split reads as regrouping | Keep trunk visible and increase branch angle |
 | Project breakdown continuation | Resolved input plus visible output scaffolds, then populated blocks | Continuation reads as a separate pasted slide | Keep compact source input, reveal scaffolds early, and populate blocks progressively |
 

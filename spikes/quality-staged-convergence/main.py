@@ -24,7 +24,7 @@ from manim import (
     FadeOut,
     Line,
     MoveAlongPath,
-    RoundedRectangle,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
@@ -76,6 +76,7 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
         quality_flag(args.quality),
         "-r",
         "1600,900",
+        "--transparent",
         "--format",
         "webm",
         "-o",
@@ -91,57 +92,96 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
 
 
 def promote(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = list(STAGING_DIR.glob(f"**/{target_name}"))
     if not matches:
         raise FileNotFoundError(target_name)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(matches[-1], destination)
+    shutil.copy2(max(matches, key=lambda path: path.stat().st_mtime), destination)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=1)
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=1)
+
+
+def soft_panel(width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.2)
+
+
+def corner_brackets(width: float, height: float, leg: float, color: str = PRIMARY_RED) -> VGroup:
+    half_w = width / 2
+    half_h = height / 2
+    return VGroup(
+        Line(LEFT * half_w + UP * half_h, LEFT * (half_w - leg) + UP * half_h, color=color, stroke_width=5),
+        Line(LEFT * half_w + UP * half_h, LEFT * half_w + UP * (half_h - leg), color=color, stroke_width=5),
+        Line(RIGHT * half_w + UP * half_h, RIGHT * (half_w - leg) + UP * half_h, color=color, stroke_width=5),
+        Line(RIGHT * half_w + UP * half_h, RIGHT * half_w + UP * (half_h - leg), color=color, stroke_width=5),
+        Line(LEFT * half_w + DOWN * half_h, LEFT * (half_w - leg) + DOWN * half_h, color=color, stroke_width=5),
+        Line(LEFT * half_w + DOWN * half_h, LEFT * half_w + DOWN * (half_h - leg), color=color, stroke_width=5),
+        Line(RIGHT * half_w + DOWN * half_h, RIGHT * (half_w - leg) + DOWN * half_h, color=color, stroke_width=5),
+        Line(RIGHT * half_w + DOWN * half_h, RIGHT * half_w + DOWN * (half_h - leg), color=color, stroke_width=5),
+    )
 
 
 class QualityStagedConvergenceScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
 
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        source_zone = RoundedRectangle(width=4.15, height=4.25, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.23).move_to(LEFT * 3.0)
-        target_zone = RoundedRectangle(width=4.2, height=4.2, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.9)
+        source_zone = soft_panel(3.35, 3.85).move_to(LEFT * 3.75)
+        lane_zone = VGroup(
+            Line(LEFT * 0.85 + UP * 1.28, LEFT * 0.85 + DOWN * 1.28, color=GRAY_200, stroke_width=3),
+            Line(RIGHT * 0.85 + UP * 1.28, RIGHT * 0.85 + DOWN * 1.28, color=GRAY_200, stroke_width=3),
+        ).move_to(LEFT * 0.62)
+        target_zone = soft_panel(3.2, 3.85).move_to(RIGHT * 2.05)
 
         source = VGroup(
-            slab(PRIMARY_GREEN, 2.55, 0.9).move_to(LEFT * 3.32 + UP * 0.72),
-            slab(PRIMARY_BLUE, 1.88, 0.82).move_to(LEFT * 2.18 + DOWN * 0.04),
-            slab(PRIMARY_PURPLE, 1.42, 0.68).move_to(LEFT * 1.64 + DOWN * 1.0),
+            slab(PRIMARY_GREEN, 2.42, 0.7).move_to(LEFT * 3.92 + UP * 0.9),
+            slab(PRIMARY_BLUE, 1.82, 0.64).move_to(LEFT * 3.46 + DOWN * 0.06),
+            slab(PRIMARY_PURPLE, 1.32, 0.54).move_to(LEFT * 3.12 + DOWN * 1.0),
         )
 
-        guide = Line(LEFT * 0.95 + DOWN * 0.02, RIGHT * 1.0 + DOWN * 0.02, color=PRIMARY_ORANGE, stroke_width=6)
-        accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(guide.get_start())
+        lane_slots = VGroup(
+            slab(GRAY_200, 0.92, 0.3).move_to(LEFT * 0.62 + UP * 0.36),
+            slab(GRAY_200, 0.78, 0.28).move_to(LEFT * 0.62),
+            slab(GRAY_200, 0.62, 0.24).move_to(LEFT * 0.62 + DOWN * 0.36),
+        )
+        lane_slots.set_opacity(0.33)
 
-        lane_green = slab(PRIMARY_GREEN, 2.0, 0.66).move_to(RIGHT * 1.22 + UP * 0.28)
-        lane_blue = slab(PRIMARY_BLUE, 1.54, 0.62).move_to(RIGHT * 1.22 + DOWN * 0.04)
-        lane_purple = slab(PRIMARY_PURPLE, 1.08, 0.5).move_to(RIGHT * 1.22 + DOWN * 0.5)
+        target_slots = VGroup(
+            Circle(radius=0.62, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 1.65 + UP * 0.5),
+            Circle(radius=0.32, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 2.66 + DOWN * 0.25),
+            Circle(radius=0.2, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 1.68 + DOWN * 0.78),
+        )
+        target_slots.set_stroke(opacity=0.42)
 
-        final_green = Circle(radius=0.84, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.44 + UP * 0.42)
-        final_blue = Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.64 + DOWN * 0.04)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 2.96 + DOWN * 0.98)
+        route_in = Line(LEFT * 2.1, LEFT * 1.75, color=GRAY_200, stroke_width=3)
+        accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(route_in.get_start())
 
-        self.add(frame, source_zone, target_zone)
-        self.play(FadeIn(source, lag_ratio=0.08), run_time=0.68)
-        self.play(FadeIn(guide), run_time=0.14)
-        self.play(MoveAlongPath(accent, guide), run_time=0.32)
+        lane_green = slab(PRIMARY_GREEN, 0.94, 0.2).move_to(LEFT * 0.62 + UP * 0.55)
+        lane_blue = slab(PRIMARY_BLUE, 0.78, 0.18).move_to(LEFT * 0.62)
+        lane_purple = slab(PRIMARY_PURPLE, 0.62, 0.16).move_to(LEFT * 0.62 + DOWN * 0.55)
+
+        final_green = Circle(radius=0.62, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 1.65 + UP * 0.5)
+        final_blue = Circle(radius=0.32, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 2.66 + DOWN * 0.25)
+        final_purple = Circle(radius=0.2, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 1.68 + DOWN * 0.78)
+
+        terminal_brackets = corner_brackets(2.7, 2.25, 0.28).move_to(RIGHT * 2.02 + DOWN * 0.05)
+
+        self.add(source_zone, lane_zone, lane_slots, target_zone, target_slots, source, accent)
+        self.wait(2.7)
+        self.play(MoveAlongPath(accent, route_in), run_time=1.4, rate_func=smooth)
+        self.play(FadeOut(accent), FadeOut(lane_slots), run_time=0.6)
         self.play(
             AnimationGroup(
                 Transform(source[0], lane_green.copy()),
                 Transform(source[1], lane_blue.copy()),
                 Transform(source[2], lane_purple.copy()),
-                lag_ratio=0.06,
+                lag_ratio=0.16,
             ),
-            run_time=0.48,
+            run_time=3.2,
             rate_func=smooth,
         )
-        self.play(FadeOut(guide), run_time=0.12)
+        self.wait(3.0)
+        self.play(FadeOut(target_slots), FadeOut(target_zone), run_time=0.8)
         self.play(
             AnimationGroup(
                 Transform(source[0], final_green.copy()),
@@ -149,15 +189,18 @@ class QualityStagedConvergenceScene(Scene):
                 Transform(source[2], final_purple.copy()),
                 lag_ratio=0.08,
             ),
-            run_time=0.62,
+            run_time=3.5,
             rate_func=smooth,
         )
-        self.play(accent.animate.move_to(RIGHT * 2.9 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=0.16)
-        for item in source:
-            self.play(item.animate.scale(1.05), run_time=0.12, rate_func=smooth)
-            self.play(item.animate.scale(1 / 1.05), run_time=0.08, rate_func=smooth)
-        self.play(FadeOut(accent), run_time=0.14)
-        self.wait(0.25)
+        self.play(
+            FadeOut(source_zone),
+            FadeOut(lane_zone),
+            FadeIn(terminal_brackets, scale=0.98),
+            VGroup(source, terminal_brackets).animate.shift(LEFT * 1.45),
+            run_time=2.3,
+            rate_func=smooth,
+        )
+        self.wait(8.1)
 
 
 def render_variant(args: _Args) -> None:

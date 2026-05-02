@@ -552,6 +552,7 @@ Do not add text before exhausting those fixes.
 - for snap recoil scenes, show the destination slot or pressure surface before the snap, hold one stretched overshoot proof frame, then retire slots before support forms settle so outlines do not become crowding.
 - keep the pressure wall close enough to explain the snap but far enough from support forms to clear targeted crowding checks after the recoil.
 - after source cleanup in a snap recoil scene, recenter the resolved target stage so the final hold does not remain stranded in the old transfer lane.
+- for staged convergence scenes, use open rails or separated brackets for the narrow lane rather than a closed box around the compressed actors. Retire any red cue before the held lane proof, then remove slot and rail scaffolds before the centered final hold.
 - for anchored orbit scenes, reserve target slots during the opening breath and keep each satellite on a distinct lane. If the second orbit crosses the first satellite's proof position, the still frame reads as collision even when the final layout is clean.
 - for orbit-guided motion, treat crowding audit findings as blocking only after full-size review confirms actor-to-actor, actor-to-outline, or guide-over-actor interference. Actor-on-path contact can be intentional when the guide is the track being followed.
 - when tightening a fan-out camera for hierarchy, audit the whole fan transition cadence and recenter for the earliest proof frames, not only the resolved hold,
