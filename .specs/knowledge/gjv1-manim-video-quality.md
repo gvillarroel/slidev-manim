@@ -1171,6 +1171,9 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 154. Red cue rectangles wrapped around active cards can create actor-to-outline crowding even when they look harmless in thumbnails. Prefer separated route segments, corner marks, or a terminal perimeter artifact with real clearance.
 155. If a terminal artifact must remain visible through the final hold around a resolved stack, use separated corner brackets instead of a closed rectangle. A closed outline encloses the actors and can fail strict crowding review even when the frame looks visually balanced.
 156. In cradle-catch scenes, retire hollow slots before colored support pads occupy that lane, then remove guide arcs and accents before the settle morph. Fading scaffolds through the settle can leave strict 0.3-second crowding failures even when the contact sheet looks acceptable.
+157. Slot-docking scenes should remove the abandoned source zone before the dock proof, not after the landing. A faint empty source panel can make 0.3-second proof frames look like dead space even when the receiver action is clear.
+158. When a slot proof uses a hollow receiver, keep the active pulse at the receiver entrance or fade it with the guide. A red dot sitting inside the docked actor reads as residue instead of cause.
+159. After a slot-docking proof, fade the receiver panel and recenter the resolved actors before the final hold. If separated corner brackets remain as the terminal artifact, give them enough clearance from every resolved actor to pass full-size crowding review.
 
 # Reusable Process
 

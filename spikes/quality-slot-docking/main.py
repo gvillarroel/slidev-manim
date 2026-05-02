@@ -135,9 +135,19 @@ class QualitySlotDockingScene(Scene):
         blue_hold = slab(PRIMARY_BLUE, 1.32, 0.54).move_to(RIGHT * 1.52 + DOWN * 0.82)
         purple_hold = slab(PRIMARY_PURPLE, 0.82, 0.42).move_to(RIGHT * 3.08 + DOWN * 0.86)
 
-        final_green = Circle(radius=0.84, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 1.04 + UP * 0.42)
-        final_blue = Circle(radius=0.48, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 2.16 + DOWN * 0.08)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 1.36 + DOWN * 1.02)
+        final_green = Circle(radius=0.84, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(UP * 0.42)
+        final_blue = Circle(radius=0.48, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 1.48 + DOWN * 0.08)
+        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 0.42 + DOWN * 1.18)
+        terminal_brackets = VGroup(
+            Line(LEFT * 1.82 + UP * 1.9, LEFT * 1.3 + UP * 1.9, color=PRIMARY_RED, stroke_width=4),
+            Line(LEFT * 1.82 + UP * 1.9, LEFT * 1.82 + UP * 1.38, color=PRIMARY_RED, stroke_width=4),
+            Line(RIGHT * 2.82 + UP * 1.9, RIGHT * 2.3 + UP * 1.9, color=PRIMARY_RED, stroke_width=4),
+            Line(RIGHT * 2.82 + UP * 1.9, RIGHT * 2.82 + UP * 1.38, color=PRIMARY_RED, stroke_width=4),
+            Line(LEFT * 1.82 + DOWN * 1.9, LEFT * 1.3 + DOWN * 1.9, color=PRIMARY_RED, stroke_width=4),
+            Line(LEFT * 1.82 + DOWN * 1.9, LEFT * 1.82 + DOWN * 1.38, color=PRIMARY_RED, stroke_width=4),
+            Line(RIGHT * 2.82 + DOWN * 1.9, RIGHT * 2.3 + DOWN * 1.9, color=PRIMARY_RED, stroke_width=4),
+            Line(RIGHT * 2.82 + DOWN * 1.9, RIGHT * 2.82 + DOWN * 1.38, color=PRIMARY_RED, stroke_width=4),
+        ).set_stroke(opacity=0.68)
 
         self.add(frame, source_zone, target_zone, guide, slot_shell, source, accent)
         self.wait(2.6)
@@ -156,17 +166,28 @@ class QualitySlotDockingScene(Scene):
                 Transform(purple, purple_approach.copy()),
                 lag_ratio=0.12,
             ),
+            source_zone.animate.set_fill(GRAY_100, opacity=0.04),
             run_time=3.2,
             rate_func=smooth,
         )
         self.wait(1.2)
-        self.play(FadeIn(pressure), run_time=0.8)
+        self.play(
+            FadeIn(pressure),
+            FadeOut(source_zone),
+            target_zone.animate.stretch_to_fit_width(3.25)
+            .stretch_to_fit_height(2.55)
+            .move_to(RIGHT * 2.32 + DOWN * 0.08)
+            .set_fill(GRAY_100, opacity=0.2),
+            accent.animate.move_to(RIGHT * 1.46 + UP * 0.07).set_fill(PRIMARY_RED, opacity=0.9).scale(0.72),
+            run_time=0.8,
+            rate_func=smooth,
+        )
         self.play(
             AnimationGroup(
                 Transform(green, green_dock.copy()),
                 Transform(blue, blue_hold.copy()),
                 Transform(purple, purple_hold.copy()),
-                accent.animate.move_to(RIGHT * 2.42 + UP * 0.07).set_fill(PRIMARY_RED, opacity=1),
+                accent.animate.move_to(RIGHT * 1.48 + UP * 0.07).set_fill(PRIMARY_RED, opacity=0.45),
                 lag_ratio=0.1,
             ),
             run_time=3.2,
@@ -176,25 +197,25 @@ class QualitySlotDockingScene(Scene):
         self.play(
             FadeOut(guide),
             FadeOut(pressure),
+            FadeOut(accent),
             slot_shell.animate.set_stroke(opacity=0.35, width=4),
             run_time=1.2,
             rate_func=smooth,
         )
         self.play(
-            FadeOut(source_zone),
             FadeOut(slot_shell),
-            target_zone.animate.move_to(RIGHT * 1.25).scale(0.9).set_fill(GRAY_100, opacity=0.22),
+            FadeOut(target_zone),
             AnimationGroup(
                 Transform(green, final_green.copy()),
                 Transform(blue, final_blue.copy()),
                 Transform(purple, final_purple.copy()),
                 lag_ratio=0.08,
             ),
-            accent.animate.move_to(RIGHT * 1.6 + DOWN * 0.14).scale(0.82),
+            FadeIn(terminal_brackets),
             run_time=3.8,
             rate_func=smooth,
         )
-        self.play(FadeOut(accent), run_time=0.8)
+        self.wait(0.8)
         self.wait(6.4)
 
 
