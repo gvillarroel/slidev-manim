@@ -72,6 +72,17 @@ Use `time rail` when a left-side timeline or spine should act as the narrator in
 - To continue from agenda into content, keep the rail fixed, activate one tick, soften or remove future agenda items, and let the active card open into a detail panel. The first detailed beat should feel like the selected point now owns the stage, while the rail preserves orientation.
 - Avoid secondary red connector lines, row-outline boxes, or terminal rules inside the detail panel. If the rail is the narrator, extra red lines away from it read as annotation artifacts; use quiet gray local cues for detail rows.
 
+# Gantt Timeline Scenes
+
+Use `native gantt timeline` when a generated Mermaid Gantt SVG becomes too dense, text-heavy, or visually static as fragment batches.
+
+- Keep the `.mmd`, Mermaid SVG, and generated fragments as inspectable artifacts, but rebuild the video with native Manim day ticks, task slots, and square task bars when the chart itself is the mechanism.
+- Show the full pending timeline scaffold during the opening breath: date ticks, lane label, and faint task slots should be visible before any bar grows.
+- Use one primary-red cursor or dependency marker to prove the timeline handoff. Let bars grow from their real start date instead of fading in as detached rectangles.
+- Avoid Mermaid's dense daily labels when they crowd the bottom axis. Use a few readable anchor dates and let grid columns carry intermediate days.
+- Replace enclosing terminal rectangles with separated corner brackets or a clean hold. A full-width outline around a wide chart can read as a frame artifact and trigger false edge/crowding failures.
+- For strict crowding audits, full-size review expected contacts between axis/grid lines and between labels and their own filled task bars. Treat them as blocking only if they obscure the mechanism or look accidental in the rendered frame.
+
 # Data and Formula Scenes
 
 Use `side formula handoff` for table transformations where two or more source cells create a derived value.

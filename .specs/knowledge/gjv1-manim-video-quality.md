@@ -120,6 +120,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - strict frame-crowding audits are a poor blocking signal for Venn and overlap diagrams because zero-clearance overlap is the subject. Use them only as full-size review prompts; rely on contact sheets, exact proof-frame inspection, composition audit, and resting-mobject audit for actual acceptance.
 
+## Mermaid Gantt SVG Unfold
+
+- **Hypothesis**: A Mermaid Gantt chart reads better when the generated SVG remains an inspectable source artifact, but the promoted video is rebuilt as a native timeline with visible task slots, a red time cursor, and bars that grow from their actual start dates.
+- **Result**: Confirmed on `spikes/mermaid-gantt-svg-unfold/` after replacing generic SVG fragment batches with a 25.53-second native Gantt unfold.
+- **What worked**:
+  - showing the full pending timeline scaffold during the opening breath, so the first frame is not a blank or sparse fragment state,
+  - using a primary-red cursor and dependency markers to explain the day-3 handoff from `Source mmd` into the overlapping downstream work,
+  - reducing dense date labels to readable anchor dates while leaving grid columns to carry the intervening days,
+  - replacing the full-width terminal outline with separated corner brackets so the resolved hold no longer looks like a frame artifact,
+  - nudging the chart system down after the first audit pass so the title plus chart bbox cleared the default center tolerance.
+- **Validation note**:
+  - the 0.3-second frame composition audit cleared with zero blocking frames after the layout nudge,
+  - the strict crowding audit still flags expected scaffold internals and text-inside-bar contacts, so it is useful only as a full-size review prompt for this chart family.
+
 ## Timeline Stack
 
 - **Hypothesis**: A timeline stack reads as a staged progression when the initial frame already shows the spine, pending markers, and empty destination slots before any card content arrives.
