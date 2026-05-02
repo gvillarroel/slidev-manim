@@ -70,6 +70,8 @@
     "video:red-dot-lantern-spa": "uv run --script spikes/red-dot-lantern-spa/main.py",
     "dev:red-dot-relay-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-relay-spa",
     "video:red-dot-relay-spa": "uv run --script spikes/red-dot-relay-spa/main.py",
+    "dev:red-dot-cradle-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-cradle-spa",
+    "video:red-dot-cradle-spa": "uv run --script spikes/red-dot-cradle-spa/main.py",
     "dev:red-dot-prism-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-prism-spa",
     "video:red-dot-prism-spa": "uv run --script spikes/red-dot-prism-spa/main.py",
     "dev:red-dot-loom-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-loom-spa",
