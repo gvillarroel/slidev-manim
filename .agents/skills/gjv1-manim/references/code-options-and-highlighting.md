@@ -46,3 +46,7 @@ The rasterized pattern is:
 - Compare languages using one formatter style; compare formatter styles using one tiny snippet.
 - Give code cards a local white or page-background stage unless the formatter style is intentionally dark.
 - Keep the project primary palette in headers and accents, not token colors.
+- For dense code galleries, reserve a measured title/subtitle band before placing cards or option panels. Header collisions can be easy to miss in contact-sheet thumbnails and obvious at full size.
+- Do not spend frame zero fading in a dense scaffold. Add the initial code grid, option panel, or receiver structure before the opening wait, then use the breath for reading.
+- Keep terminal holds calmer than the teaching beat. Fade broad washes or transient row highlights, and leave at most one durable code-region cue plus any short summary badge.
+- Keep summary badges inside the local stage with visible bottom clearance. If the badge sits on the stage edge, it reads as a footer artifact rather than a resolved state.

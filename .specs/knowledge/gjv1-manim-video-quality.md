@@ -11,6 +11,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 # Experiments
 
+## Manim Code Highlighting Options
+
+- **Hypothesis**: A dense code-gallery scene reads better when the first frame already shows the full scaffold, the title has a reserved header band, and the final hold keeps only one persistent code-emphasis device.
+- **Result**: Confirmed on `spikes/manim-code-highlighting-options/` after removing the blank opening frame, lowering the code grid and option panel below the title/subtitle band, and simplifying the final hold to one token box plus a concise summary tag.
+- **What worked**:
+  - adding the header, language grid, and option panel before the opening wait so frame-zero review shows a meaningful structure instead of an empty local stage,
+  - reserving vertical space for the title and subtitle before placing dense code cards or option panels, because small subtitle collisions are obvious in full-size frames but easy to miss in thumbnails,
+  - cleaning the final hold by fading the broad line wash and keeping only the token box as the durable active geometry,
+  - moving the terminal summary above the lower stage edge and shortening its copy so it reads as a resolved badge rather than a footer artifact.
+- **Validation note**:
+  - the final render was reviewed with 0.3-second alpha-on-white contact sheets and full-size proof frames at the opening, summary entrance, and final hold; composition audit sampled 91 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and WebM metadata reported `alpha_mode=1`.
+
 ## Inset Annotation Panel
 
 - **Hypothesis**: A small inset asset reads better when the opening frame already shows the source panel, target inset slot, and route scaffolds, then uses one red actor to prove the handoff into the magnified view.

@@ -334,12 +334,12 @@ def build_code_card(spec: LanguageSpec, width: float = 3.62, height: float = 1.5
 def build_language_grid() -> tuple[Group, list[CodeCard]]:
     cards = [build_code_card(spec) for spec in LANGUAGES]
     positions = [
-        LEFT * 4.3 + UP * 1.88,
-        LEFT * 0.45 + UP * 1.88,
-        LEFT * 4.3 + UP * 0.13,
-        LEFT * 0.45 + UP * 0.13,
-        LEFT * 4.3 + DOWN * 1.62,
-        LEFT * 0.45 + DOWN * 1.62,
+        LEFT * 4.3 + UP * 1.58,
+        LEFT * 0.45 + UP * 1.58,
+        LEFT * 4.3 + DOWN * 0.08,
+        LEFT * 0.45 + DOWN * 0.08,
+        LEFT * 4.3 + DOWN * 1.74,
+        LEFT * 0.45 + DOWN * 1.74,
     ]
     for card, position in zip(cards, positions, strict=True):
         card.group.move_to(position)
@@ -422,13 +422,13 @@ def style_swatch(style: str, label_color: str = GRAY) -> Group:
 def build_option_panel() -> OptionPanel:
     panel = Rectangle(
         width=4.78,
-        height=5.55,
+        height=5.2,
         stroke_color=GRAY_200,
         stroke_width=1.4,
         fill_color=WHITE,
         fill_opacity=0.95,
     )
-    panel.move_to(RIGHT * 4.18 + DOWN * 0.05)
+    panel.move_to(RIGHT * 4.18 + DOWN * 0.22)
 
     heading = text("Code() options", size=23, color=GRAY, weight="BOLD")
     heading.move_to(panel.get_top() + DOWN * 0.35)
@@ -495,18 +495,13 @@ class ManimCodeHighlightOptionsScene(Scene):
         title = text("Programming code in Manim", size=31, color=GRAY, weight="BOLD")
         subtitle = mono("one listing per language; overlays handle extra emphasis", size=15, color=GRAY_600)
         header = VGroup(title, subtitle).arrange(DOWN, buff=0.09)
-        header.move_to(UP * 2.88)
+        header.move_to(UP * 3.02)
 
         language_grid, cards = build_language_grid()
         option_panel = build_option_panel()
 
-        self.play(
-            FadeIn(header, shift=DOWN * 0.08),
-            FadeIn(language_grid, shift=UP * 0.08),
-            FadeIn(option_panel.group),
-            run_time=0.9,
-        )
-        self.wait(2.25)
+        self.add(header, language_grid, option_panel.group)
+        self.wait(2.75)
 
         for card in cards:
             wash = line_wash(card, card.spec.highlight)
@@ -559,16 +554,17 @@ class ManimCodeHighlightOptionsScene(Scene):
             rate_func=rate_functions.linear,
         )
         self.play(FadeOut(cursor_row_focus), FadeOut(cursor), run_time=0.24)
+        self.play(FadeOut(active_wash), box.animate.set_stroke(width=3.0), run_time=0.35)
 
         self.play(Indicate(option_panel.swatches, color=PRIMARY_PURPLE, scale_factor=1.02), run_time=0.85)
         self.wait(0.35)
 
-        final_box = Rectangle(width=6.45, height=0.44, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
-        final_text = text("Use Code for syntax; use Manim geometry for narrative highlights.", size=15, color=WHITE)
+        final_box = Rectangle(width=6.05, height=0.5, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
+        final_text = text("Code handles syntax; Manim geometry carries the story.", size=16, color=WHITE)
         final_text.move_to(final_box.get_center())
         final_box.set_z_index(0)
         final_text.set_z_index(1)
-        final_tag = VGroup(final_box, final_text).move_to(DOWN * 3.24)
+        final_tag = VGroup(final_box, final_text).move_to(DOWN * 3.06)
         self.play(FadeIn(final_box), Write(final_text), run_time=0.65)
         self.wait(7.65)
 
