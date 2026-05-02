@@ -31,6 +31,13 @@ function parseArgs(argv) {
 }
 
 const args = parseArgs(process.argv);
+function captureUrl(url) {
+  const nextUrl = new URL(url);
+  nextUrl.searchParams.set("capture", "1");
+  return nextUrl.toString();
+}
+
+const recordingUrl = captureUrl(args.url);
 const captures = [
   { file: "01-appearance.png", at: 3000 },
   { file: "02-search.png", at: 8200 },
@@ -80,7 +87,7 @@ page.on("pageerror", (error) => {
   pageErrors.push(error.message);
 });
 
-await page.goto(args.url, { waitUntil: "domcontentloaded" });
+await page.goto(recordingUrl, { waitUntil: "domcontentloaded" });
 await page.waitForFunction(() => Boolean(window.__RED_DOT_READY));
 await page.evaluate(() => window.__RED_DOT_APP?.reset?.());
 await page.waitForTimeout(80);
@@ -109,7 +116,7 @@ const mobileContext = await browser.newContext({
   deviceScaleFactor: 2,
 });
 const mobilePage = await mobileContext.newPage();
-await mobilePage.goto(args.url, { waitUntil: "domcontentloaded" });
+await mobilePage.goto(recordingUrl, { waitUntil: "domcontentloaded" });
 await mobilePage.waitForFunction(() => Boolean(window.__RED_DOT_READY));
 await mobilePage.evaluate((at) => {
   window.__RED_DOT_APP?.pause?.();
@@ -127,7 +134,8 @@ await browser.close();
 rmSync(videoTempDir, { recursive: true, force: true });
 
 const summary = {
-  url: args.url,
+  url: recordingUrl,
+  sourceUrl: args.url,
   width: args.width,
   height: args.height,
   durationMs: args.durationMs,

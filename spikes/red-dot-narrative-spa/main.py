@@ -65,7 +65,7 @@ def parse_args() -> Args:
     parser.add_argument("--port", type=int, default=4173, help="Preferred local server port.")
     parser.add_argument("--width", type=int, default=1600, help="Capture width.")
     parser.add_argument("--height", type=int, default=900, help="Capture height.")
-    parser.add_argument("--duration-ms", type=int, default=30_000, help="Recorded browser duration in milliseconds.")
+    parser.add_argument("--duration-ms", type=int, default=36_000, help="Recorded browser duration in milliseconds.")
     return parser.parse_args(namespace=Args())
 
 

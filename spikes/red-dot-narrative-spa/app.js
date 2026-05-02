@@ -1,5 +1,6 @@
 const VIEWBOX = { width: 1600, height: 900 };
 const TOTAL_DURATION = 30_000;
+const CAPTURE_MODE = new URLSearchParams(window.location.search).get("capture") === "1";
 const PHASES = [
   { id: "appearance", label: "appearance", duration: 5_000 },
   { id: "search", label: "search for form", duration: 6_000 },
@@ -64,7 +65,7 @@ const points = {
   start: { x: 310, y: 450 },
   searchTop: { x: 486, y: 304 },
   searchMid: { x: 594, y: 448 },
-  searchBottom: { x: 518, y: 606 },
+  searchBottom: { x: 330, y: 606 },
   corridorEntry: { x: 730, y: 450 },
   corridorCenter: { x: 860, y: 450 },
   corridorExit: { x: 1010, y: 450 },
@@ -253,18 +254,18 @@ function resetScene() {
 
 function renderAppearance(progress) {
   const eased = easeOut(progress);
-  const dotOpacity = clamp(progress * 1.8, 0, 1);
-  const haloPulse = 0.28 + pulseWave(progress, 1.2) * 0.22;
-  const radius = lerp(4, 20, eased);
-  const haloRadius = lerp(18, 84, eased);
+  const dotOpacity = 0.68 + clamp(progress * 0.7, 0, 0.32);
+  const haloPulse = 0.18 + pulseWave(progress, 1.2) * 0.18;
+  const radius = lerp(14, 20, eased);
+  const haloRadius = lerp(54, 84, eased);
 
   applyDot(points.start, radius, haloRadius, dotOpacity, haloPulse * dotOpacity);
-  setOpacity(narrativeSpine, clamp((progress - 0.12) * 1.3, 0, 0.38));
+  setOpacity(narrativeSpine, 0.18 + clamp(progress * 0.9, 0, 0.22));
   setTrailWindow(0, 0);
 
-  setOpacity(searchCircle, clamp((progress - 0.24) * 1.6, 0, 0.34));
-  setOpacity(searchSquare, clamp((progress - 0.34) * 1.6, 0, 0.28));
-  setOpacity(searchCard, clamp((progress - 0.44) * 1.7, 0, 0.22));
+  setOpacity(searchCircle, 0.2 + clamp(progress * 0.45, 0, 0.18));
+  setOpacity(searchSquare, 0.16 + clamp((progress - 0.08) * 0.46, 0, 0.16));
+  setOpacity(searchCard, 0.12 + clamp((progress - 0.16) * 0.42, 0, 0.14));
 }
 
 function renderSearch(progress) {
@@ -295,7 +296,7 @@ function renderSearch(progress) {
     stretchY = lerp(1.12, 0.92, t);
   }
 
-  applyDot(position, 20, 82, 1, 0.36 + pulseWave(progress, 2.2) * 0.18, stretchX, stretchY);
+  applyDot(position, 20, 68, 1, 0.3 + pulseWave(progress, 2.2) * 0.14, stretchX, stretchY);
   setOpacity(narrativeSpine, 0.28);
   setTrailWindow(150 + progress * 210, 0.78);
 
@@ -309,7 +310,7 @@ function renderSearch(progress) {
   setStrokeColor(searchCircle, progress < 0.36 ? COLORS.primaryRed : COLORS.mutedRed);
   setStrokeColor(searchSquare, progress >= 0.36 && progress < 0.68 ? COLORS.primaryRed : progress >= 0.68 ? COLORS.mutedRed : COLORS.passiveGray);
   searchCardRect.setAttribute("stroke", progress >= 0.68 ? COLORS.primaryRed : progress >= 0.5 ? COLORS.mutedRed : COLORS.passiveGray);
-  searchCardLead.setAttribute("stroke", progress >= 0.68 ? COLORS.primaryRed : COLORS.passiveGray);
+  searchCardLead.setAttribute("stroke", COLORS.lineGray);
   searchCardTrail.setAttribute("stroke", COLORS.lineGray);
 
   setStrokeColor(searchArcTop, progress < 0.36 ? COLORS.primaryRed : COLORS.mutedRed);
@@ -388,7 +389,7 @@ function renderTransformation(progress) {
   setOpacity(searchArcTop, 0.0);
   setOpacity(searchArcMid, 0.0);
   setOpacity(searchArcBottom, 0.0);
-  setOpacity(tensionGroup, 0.14 + (1 - progress) * 0.08);
+  setOpacity(tensionGroup, 0.14 * (1 - easeOut(clamp(progress / 0.55, 0, 1))));
 
   setOpacity(transformGroup, 1);
   transformRing.setAttribute("r", lerp(46, 92, easeOut(ringGrow)).toFixed(2));
@@ -419,7 +420,7 @@ function renderResolution(progress) {
   setOpacity(narrativeSpine, 0);
   setTrailWindow(0, 0);
 
-  setOpacity(tensionGroup, clamp(0.16 - easeOut(progress) * 0.2, 0, 1));
+  setOpacity(tensionGroup, 0);
   setOpacity(transformGroup, 1);
   setGroupTranslation(transformGroup, shift);
 
@@ -490,9 +491,10 @@ function resetTimeline() {
 }
 
 function tick(now) {
-  const elapsed = state.playing
-    ? (state.elapsedBeforePause + (now - state.startAt)) % TOTAL_DURATION
+  const rawElapsed = state.playing
+    ? state.elapsedBeforePause + (now - state.startAt)
     : state.elapsedBeforePause;
+  const elapsed = CAPTURE_MODE ? clamp(rawElapsed, 0, TOTAL_DURATION) : rawElapsed % TOTAL_DURATION;
 
   if (state.playing) {
     state.currentElapsed = elapsed;
