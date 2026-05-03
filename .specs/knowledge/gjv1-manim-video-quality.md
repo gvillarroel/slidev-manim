@@ -147,8 +147,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - removing the redundant title/subtitle band once the card labels carried the semantics, which reduced top-heavy dead space and cleared the default composition audit,
   - moving the red handoff cue to the card corner instead of the card center, so proof frames no longer put the active dot over text,
   - replacing an enclosing terminal rectangle, long terminal rules, and extra badge text with separated corner brackets around the output card, with enough clearance to avoid actor-to-outline crowding in full-size review.
+- **2026-05-03 refinement**:
+  - replacing the large closed stage plate with open top/bottom rails kept the opening scaffold visible while removing final-hold frame residue,
+  - keeping the red pulse on the connector lane and fading it at the receiver entrance prevented sampled frames from reading the pulse as a defect on the card label,
+  - splitting each terminal corner into separated horizontal and vertical strokes cleared strict crowding without losing the output-card accent,
+  - setting `config.transparent = True`, `config.background_opacity = 0.0`, and `self.camera.background_opacity = 0.0` in the script was necessary for the promoted WebM to decode with real alpha.
 - **Validation note**:
-  - the final 0.3-second composition audit cleared with zero blocking frames, the resting-mobject audit cleared with zero blocking snapshots, and strict crowding overlays still reported repeated outline/actor proximity around the card row; full-size review showed no visible collision after increasing bracket clearance.
+  - the latest render is 25.900 seconds with 86 white-background review frames at 0.3-second cadence; frame composition and frame crowding audits sampled 87 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 4 rest states, and decoded VP9 alpha range is `0..255`.
 
 ## Mermaid Venn SVG Unfold
 

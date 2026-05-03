@@ -27,6 +27,7 @@ from manim import (
     Scene,
     Text,
     VGroup,
+    config,
     rate_functions,
 )
 from manimpango import list_fonts
@@ -53,25 +54,20 @@ GRAY_600 = "#696969"
 PAGE_BACKGROUND = "#f7f7f7"
 TEXT_FONT = "Open Sans" if "Open Sans" in list_fonts() else "Arial"
 
+config.transparent = True
+config.background_opacity = 0.0
+
 
 class MermaidSvgUnfoldScene(Scene):
     def construct(self) -> None:
-        self.camera.background_color = PAGE_BACKGROUND
+        self.camera.background_color = WHITE
+        self.camera.background_opacity = 0.0
         svg_path, _png_path = ensure_mermaid_assets(force=os.environ.get("SPIKE_FORCE_MERMAID") == "1")
         ensure_fragments(svg_path, force=os.environ.get("SPIKE_FORCE_MERMAID") == "1")
 
         poster_mode = os.environ.get("SPIKE_RENDER_TARGET") == "poster"
 
-        stage = Rectangle(
-            width=11.85,
-            height=3.7,
-            stroke_color=GRAY_200,
-            stroke_width=2,
-            fill_color=WHITE,
-            fill_opacity=0.78,
-        )
-        stage.move_to(DOWN * 0.04)
-        stage.set_z_index(-5)
+        stage = self._stage_rails()
 
         lane = Line(LEFT * 4.92, RIGHT * 4.92, color=GRAY_200, stroke_width=2.2)
         lane.move_to(DOWN * 0.04)
@@ -126,8 +122,8 @@ class MermaidSvgUnfoldScene(Scene):
         self.wait(0.45)
         elapsed += 1.35
 
-        active_dot = Circle(radius=0.095, color=PRIMARY_RED, fill_color=PRIMARY_RED, fill_opacity=1)
-        active_dot.move_to(self._handoff_point(cards[0]) + RIGHT * 0.18)
+        active_dot = Circle(radius=0.082, color=PRIMARY_RED, fill_color=PRIMARY_RED, fill_opacity=1)
+        active_dot.move_to(connectors[0].get_start() + RIGHT * 0.16)
         active_dot.set_z_index(9)
 
         visible_connectors = VGroup()
@@ -148,17 +144,18 @@ class MermaidSvgUnfoldScene(Scene):
                 FadeOut(target_slot, run_time=0.18),
                 FadeOut(slot_hints[index + 1], run_time=0.18),
                 FadeIn(cards[index + 1], shift=UP * 0.05),
-                active_dot.animate.move_to(self._handoff_point(cards[index + 1])),
+                FadeOut(active_dot, scale=0.82),
                 run_time=0.58,
                 rate_func=rate_functions.ease_out_cubic,
             )
             self.play(
-                FadeOut(active_dot, scale=0.82),
                 cards[index + 1].animate.scale(1.035),
                 run_time=0.22,
             )
             self.play(cards[index + 1].animate.scale(1 / 1.035), run_time=0.18)
             visible_connectors.add(connector)
+            if index + 1 < len(connectors):
+                active_dot.move_to(connectors[index + 1].get_start() + RIGHT * 0.16)
             elapsed += 2.86
 
         self.wait(0.42)
@@ -168,6 +165,7 @@ class MermaidSvgUnfoldScene(Scene):
 
         self.play(
             FadeOut(route_scaffold),
+            FadeOut(stage),
             FadeIn(terminal),
             run_time=0.95,
             rate_func=rate_functions.ease_out_cubic,
@@ -203,6 +201,16 @@ class MermaidSvgUnfoldScene(Scene):
         group.set_z_index(4)
         return group
 
+    def _stage_rails(self) -> VGroup:
+        rail_width = 11.6
+        top = Line(LEFT * (rail_width / 2), RIGHT * (rail_width / 2), color=GRAY_200, stroke_width=2.2)
+        bottom = top.copy()
+        rails = VGroup(top, bottom).arrange(DOWN, buff=2.55)
+        rails.move_to(DOWN * 0.04)
+        rails.set_opacity(0.78)
+        rails.set_z_index(-5)
+        return rails
+
     def _slot(self, card: VGroup) -> Rectangle:
         slot = Rectangle(
             width=card.width + 0.22,
@@ -215,31 +223,29 @@ class MermaidSvgUnfoldScene(Scene):
         slot.set_z_index(1)
         return slot
 
-    def _handoff_point(self, card: VGroup):
-        return card.get_top() + DOWN * 0.22 + RIGHT * (card.width * 0.32)
-
     def _terminal(self, target: VGroup) -> VGroup:
-        width = target.width + 1.0
-        height = target.height + 0.88
+        width = target.width + 1.18
+        height = target.height + 1.02
         anchor = target.get_center()
-        tick_x = 0.2
-        tick_y = 0.18
-        corners = [
-            (RIGHT, DOWN, -1, 1),
-            (LEFT, DOWN, 1, 1),
-            (RIGHT, UP, -1, -1),
-            (LEFT, UP, 1, -1),
-        ]
+        tick_x = 0.24
+        tick_y = 0.22
+        gap = 0.09
         terminal = VGroup()
-        for horizontal_dir, vertical_dir, x_sign, y_sign in corners:
-            corner = anchor + RIGHT * (x_sign * width / 2) + UP * (y_sign * height / 2)
-            horizontal = Line(ORIGIN, horizontal_dir * tick_x, color=PRIMARY_RED, stroke_width=4).move_to(
-                corner + horizontal_dir * (tick_x / 2)
-            )
-            vertical = Line(ORIGIN, vertical_dir * tick_y, color=PRIMARY_RED, stroke_width=4).move_to(
-                corner + vertical_dir * (tick_y / 2)
-            )
-            terminal.add(horizontal, vertical)
+        for x_sign in (-1, 1):
+            for y_sign in (-1, 1):
+                horizontal = Line(
+                    anchor + RIGHT * (x_sign * (width / 2 - tick_x - gap)) + UP * (y_sign * height / 2),
+                    anchor + RIGHT * (x_sign * (width / 2 - gap)) + UP * (y_sign * height / 2),
+                    color=PRIMARY_RED,
+                    stroke_width=4,
+                )
+                vertical = Line(
+                    anchor + RIGHT * (x_sign * width / 2) + UP * (y_sign * (height / 2 - tick_y - gap)),
+                    anchor + RIGHT * (x_sign * width / 2) + UP * (y_sign * (height / 2 - gap)),
+                    color=PRIMARY_RED,
+                    stroke_width=4,
+                )
+                terminal.add(horizontal, vertical)
         terminal.set_opacity(0.72)
         terminal.set_z_index(7)
         return terminal
