@@ -46,6 +46,8 @@ videos/red-dot-narrative-spa/screenshots/mobile-resolution.png
 videos/red-dot-narrative-spa/review-frames/frame-start.png
 videos/red-dot-narrative-spa/review-frames/frame-middle.png
 videos/red-dot-narrative-spa/review-frames/frame-final.png
+videos/red-dot-narrative-spa/review-frames-0.3s/frames/
+videos/red-dot-narrative-spa/review-frames-0.3s/sheets/contact-sheet-01.png
 videos/red-dot-narrative-spa/review/contact-sheet.png
 videos/red-dot-narrative-spa/recording-summary.json
 videos/red-dot-narrative-spa/browser-validation.json
@@ -70,3 +72,4 @@ Then open the printed local URL in a browser.
 - The narrative now keeps the phase chip, progress rail, and utility controls off-stage until hover or keyboard focus so the red point remains the primary subject in proof frames.
 - On narrow screens the stage scales the active scene upward and nudges it higher while preserving the full 16:9 story field, keeping the resolution cluster legible without cropping the earlier left-to-right beats.
 - The final composition recenters after the earlier search and tension devices retire so the resolved hold stays calm and legible.
+- The capture now extracts 0.3-second review frames and contact sheets so act cleanup boundaries can be audited between the named proof screenshots.

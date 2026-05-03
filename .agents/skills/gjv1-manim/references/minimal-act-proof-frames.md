@@ -13,12 +13,14 @@ Each act should survive as a still:
 - `tension`: keep the constraining device obvious enough that the lead actor looks compressed, blocked, or cornered.
 - `transformation`: the new structure should be visible before the old constraint fully disappears.
 - `resolution`: retire the constraining device and leftover route aids so the final hold reads as calm, not mid-transition.
+- If the transformation turns a side-entry path into a centered system, fade or shorten the old travel trail before the ring, hub, or system scaffold becomes the proof frame. A lingering full-width trail pulls attention back to the old transfer lane and reads as residue even when the new mechanism is centered.
 
 ## Capture Discipline
 
 - Choose one proof frame per act from the strongest causal moment, not from evenly spaced timestamps.
 - Sparse search beats usually need an earlier proof frame than you expect. The first clear candidate test is often better than a middle-of-motion frame.
 - If the final hold keeps the gate, clamp, mask, rail, or scaffold that caused the conflict, the resolution will read unfinished even when the motion itself was correct.
+- Sample the cleanup boundary between acts at a dense cadence such as 0.3 seconds. Five evenly named proof screenshots can miss a stale route, trail, or faint scaffold that only becomes obvious during the handoff.
 
 ## Composition Notes
 

@@ -209,10 +209,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - making the first frame show the dot, candidate slots, and route scaffold instead of fading up from near-empty chrome,
   - strengthening the persistent review frame evenly so composition audits center on the intended stage rather than a bottom-heavy shadow,
   - retiring clamp residue before the transformation cards take over, which lets the ring/card system own the proof frames,
+  - fading search scaffolds and side-entry trail history during the tension beat so the clamp owns the squeeze proof and the later ring proof no longer looks tied to an abandoned horizontal route,
+  - generating dense 0.3-second review frames and sheets directly from the capture script, because the named proof screenshots missed the stale route residue between tension and transformation,
   - keeping search target activation on card perimeters, moving echo dots outside closed outlines, and demoting placeholder text lines so strict crowding review does not read candidate internals as active collisions,
   - separating interactive loop behavior from recording behavior so the exported WebM holds the terminal composition instead of sampling the restart.
 - **Validation note**:
-  - final render was reviewed with 120 frames sampled every 0.3 seconds, full-size proof screenshots including mobile resolution, browser console/page-error validation, composition audit at 0.3-second cadence with 0 blocking frames, and targeted crowding audit at 3.0, 8.2, 14.0, 20.3, 28.6, and 34.0 seconds with 0 blocking frames.
+  - final render was reviewed with 125 frames sampled every 0.3 seconds, full-size proof screenshots including mobile resolution, browser console/page-error validation, composition audit at 0.3-second cadence with 0 blocking frames and 5 notice-only frames, final-hold crowding audit with 0 blocking frames, and handoff crowding overlays where the remaining findings were intentional dot-inside-ring transform contacts rather than route residue.
 
 ## Timeline Stack
 

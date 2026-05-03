@@ -345,19 +345,22 @@ function renderTension(progress) {
   const dotScaleX = lerp(1.02, 1.86, squeezeStrength);
   const dotScaleY = lerp(0.98, 0.68, squeezeStrength);
 
-  applyDot(travel, 20, lerp(84, 108, squeezeStrength), 1, 0.38 + squeezeStrength * 0.14, dotScaleX, dotScaleY);
-  setOpacity(narrativeSpine, 0.18);
-  setTrailWindow(470 + progress * 150, 0.88);
+  const residueFade = 1 - easeOut(clamp((progress - 0.08) / 0.42, 0, 1));
+  const trailFade = 1 - easeOut(clamp((progress - 0.16) / 0.34, 0, 1));
 
-  setOpacity(searchCircle, 0.12);
-  setOpacity(searchSquare, 0.12);
-  setOpacity(searchCard, 0.12);
-  setOpacity(searchEchoTop, 0.16);
-  setOpacity(searchEchoMid, 0.14);
-  setOpacity(searchEchoBottom, 0.12);
-  setOpacity(searchArcTop, 0.1);
-  setOpacity(searchArcMid, 0.1);
-  setOpacity(searchArcBottom, 0.1);
+  applyDot(travel, 20, lerp(84, 108, squeezeStrength), 1, 0.38 + squeezeStrength * 0.14, dotScaleX, dotScaleY);
+  setOpacity(narrativeSpine, 0.1 * residueFade);
+  setTrailWindow(470 + progress * 80, 0.62 * trailFade);
+
+  setOpacity(searchCircle, 0.12 * residueFade);
+  setOpacity(searchSquare, 0.12 * residueFade);
+  setOpacity(searchCard, 0.12 * residueFade);
+  setOpacity(searchEchoTop, 0.16 * residueFade);
+  setOpacity(searchEchoMid, 0.14 * residueFade);
+  setOpacity(searchEchoBottom, 0.12 * residueFade);
+  setOpacity(searchArcTop, 0.1 * residueFade);
+  setOpacity(searchArcMid, 0.1 * residueFade);
+  setOpacity(searchArcBottom, 0.1 * residueFade);
 
   setOpacity(tensionGroup, 1);
   setRectY(clampTop, topY, 126);
@@ -377,8 +380,10 @@ function renderTransformation(progress) {
   const focusPosition = { x: entryMove.x + systemShift, y: entryMove.y };
 
   applyDot(focusPosition, lerp(20, 17, progress), lerp(92, 126, ringGrow), 1, 0.28 + pulseWave(progress, 2.4) * 0.12);
-  setOpacity(narrativeSpine, 0.08);
-  setTrailWindow(310 + (1 - connectorGrow) * 140, 0.24 + (1 - connectorGrow) * 0.1);
+  const corridorResidue = 1 - easeOut(clamp(progress / 0.22, 0, 1));
+
+  setOpacity(narrativeSpine, 0);
+  setTrailWindow(250, 0.14 * corridorResidue);
 
   setOpacity(searchCircle, 0.0);
   setOpacity(searchSquare, 0.0);
@@ -389,7 +394,7 @@ function renderTransformation(progress) {
   setOpacity(searchArcTop, 0.0);
   setOpacity(searchArcMid, 0.0);
   setOpacity(searchArcBottom, 0.0);
-  setOpacity(tensionGroup, 0.14 * (1 - easeOut(clamp(progress / 0.55, 0, 1))));
+  setOpacity(tensionGroup, 0.1 * (1 - easeOut(clamp(progress / 0.36, 0, 1))));
 
   setOpacity(transformGroup, 1);
   transformRing.setAttribute("r", lerp(46, 92, easeOut(ringGrow)).toFixed(2));
