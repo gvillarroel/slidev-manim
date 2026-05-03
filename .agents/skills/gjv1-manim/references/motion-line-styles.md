@@ -194,6 +194,9 @@ Use a `scale spine line` when the user wants a connection made from many visible
 - Keep all variants on screen in the final hold with low but visible gray opacity so the comparison does not depend on memory.
 - Rectangles and triangles tend to preserve path direction; squares and circles read more like generic beads or pixels; stars are distinctive but can become decorative noise.
 - Use the same active color, settle color, count range, and target-card structure for every candidate so shape is the tested variable.
+- Do not show every full candidate route in the opening breath. Use short starter chains near the source plus small receiver hints near the target cards; otherwise the growth test reads as a completed diagram that is merely recolored.
+- Give the source node and target cards enough clearance from the local stage border and route endpoints. Pull terminal buds back from card outlines so strict crowding review does not confuse a prepared receiver cue with an actor-to-outline collision.
+- Fan route starts slightly away from a single source point when several pending token families overlap. A small vertical offset keeps the opening proof from becoming one pale knot while preserving the shared source.
 
 ### Review Frames
 
@@ -213,3 +216,4 @@ Open the active trunk frame full size. In thumbnails, spines can collapse into d
 - If every unit is centered, the route reads like a dashed stroke; alternate side offsets for a crest.
 - If the polygon has a blunt front edge, it reads as a tile rather than a spine.
 - If pending routes are too visible, the generated structure looks prebuilt.
+- If a terminal bud touches the target card, the receiver reads like a collision rather than a prepared landing.

@@ -1289,6 +1289,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render was reviewed with 83 extracted 0.3-second white-background frames and full-size proof frames at the opening, tilt proof, moving-probe beat, and final hold; composition audit sampled 84 frames with zero findings, crowding audit sampled 84 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and VP9 alpha decoded to a 0 to 255 range.
 
+## Mind Map Shape Token Lines
+
+- **Hypothesis**: A token-shape comparison reads more like generated growth when the opening breath shows only partial source and receiver hints, not every complete route.
+- **Result**: Confirmed on `spikes/mind-map-shape-token-lines/` after replacing full pending routes with short starter chains and receiver hints, increasing settled-route visibility, moving the root away from the stage border, and pulling terminal buds back from target cards.
+- **What worked**:
+  - using partial pending routes so the first still frame shows intent without making the growth appear prebuilt,
+  - fanning starts slightly around the shared source so five token families do not collapse into one pale knot,
+  - leaving the settled routes visible enough for the final hold to compare shape grammars without relying on memory,
+  - giving the root, seed, and target-card receiver buds real clearance, because strict crowding overlays caught stage-border and card-outline contacts that thumbnails hid.
+- **Validation note**:
+  - the final render was reviewed with 87 extracted 0.3-second white-background frames and full-size opening, active-route, overlay, and final-hold frames. Composition audit sampled 88 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 7 rest states, strict crowding audit was reduced from whole-video blocking to 10 token-density/receiver review prompts, and VP9 alpha validation decoded a 0 to 255 alpha range.
+
 # Reusable Process
 
 1. State the missing hypothesis.

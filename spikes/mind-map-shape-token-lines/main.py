@@ -203,6 +203,16 @@ def token_stroke_opacity(opacity: float) -> float:
     return opacity * 0.68
 
 
+def settled_opacity_for(kind: str) -> float:
+    return {
+        "rectangles": 0.25,
+        "squares": 0.22,
+        "triangles": 0.24,
+        "stars": 0.18,
+        "circles": 0.22,
+    }.get(kind, 0.22)
+
+
 def style_token(shape: object, color: str, opacity: float, z_index: int) -> object:
     shape.set_fill(color, opacity=opacity)
     shape.set_stroke(
@@ -263,15 +273,49 @@ def token_line(
     opacity: float,
     z_index: int,
     phase: float,
+    *,
+    t_min: float = 0.0,
+    t_max: float = 1.0,
 ) -> VGroup:
     tokens = VGroup()
+    span = t_max - t_min
     for index in range(count):
-        t = (index + 1) / (count + 1)
+        t = t_min + ((index + 1) / (count + 1)) * span
         center = route_point(start, end, bend, t, phase)
         tangent = route_tangent(start, end, bend, t, phase)
         normal = normal_for(start, end)
         tokens.add(shape_token(kind, center, tangent, normal, index, color, opacity, z_index))
     return tokens
+
+
+def pending_route_hint(start: object, end: object, spec: VariantSpec) -> VGroup:
+    starter = token_line(
+        start,
+        end,
+        spec.bend,
+        max(7, min(11, spec.count // 4)),
+        spec.kind,
+        GRAY_300,
+        0.14 if spec.kind != "stars" else 0.1,
+        -3,
+        spec.phase,
+        t_min=0.02,
+        t_max=0.28,
+    )
+    receiver = token_line(
+        start,
+        end,
+        spec.bend,
+        4,
+        spec.kind,
+        GRAY_300,
+        0.11 if spec.kind != "stars" else 0.08,
+        -3,
+        spec.phase,
+        t_min=0.88,
+        t_max=0.98,
+    )
+    return VGroup(starter, receiver)
 
 
 def bud(center: object, radius: float, color: str, opacity: float, z_index: int) -> Circle:
@@ -301,14 +345,15 @@ class MindMapShapeTokenLinesScene(Scene):
         stage_border.set_z_index(-9)
 
         root = text_box(os.environ.get("MIND_MAP_ROOT_TEXT", DEFAULT_ROOT_TEXT), 2.35, 0.82, PRIMARY_RED, font_size=28)
-        root.move_to(LEFT * 4.8)
+        root.move_to(LEFT * 4.55)
         root.set_z_index(6)
-        source = root.get_right() + RIGHT * 0.22
-        seed = bud(root.get_right() + RIGHT * 0.13, 0.066, PRIMARY_RED, 1, 8)
+        source = root.get_right() + RIGHT * 0.38
+        seed = bud(root.get_right() + RIGHT * 0.25, 0.066, PRIMARY_RED, 1, 8)
 
         variant_specs = variants()
         cards = VGroup()
         pending = VGroup()
+        starts: list[object] = []
         ends: list[object] = []
         for index, spec in enumerate(variant_specs):
             card = text_box(spec.label, 1.58, 0.43, WHITE, text_color=GRAY, stroke=GRAY_500, font_size=15, weight="NORMAL")
@@ -318,21 +363,11 @@ class MindMapShapeTokenLinesScene(Scene):
             card.set_z_index(5)
             cards.add(card)
 
-            end = card.get_left() + LEFT * 0.07
+            start = source + UP * spec.y * 0.018
+            end = card.get_left() + LEFT * 0.24
+            starts.append(start)
             ends.append(end)
-            pending.add(
-                token_line(
-                    source,
-                    end,
-                    spec.bend,
-                    spec.count,
-                    spec.kind,
-                    GRAY_300,
-                    0.12 if spec.kind != "stars" else 0.09,
-                    -3,
-                    spec.phase,
-                )
-            )
+            pending.add(pending_route_hint(start, end, spec))
 
         self.add(stage, stage_border, pending, cards, root, seed)
         self.wait(2.7)
@@ -340,10 +375,12 @@ class MindMapShapeTokenLinesScene(Scene):
         active_lines = VGroup()
         for index, spec in enumerate(variant_specs):
             card = cards[index]
+            start = starts[index]
             end = ends[index]
-            active = token_line(source, end, spec.bend, spec.count, spec.kind, PRIMARY_RED, 0.92, 3, spec.phase)
+            active = token_line(start, end, spec.bend, spec.count, spec.kind, PRIMARY_RED, 0.92, 3, spec.phase)
             active_lines.add(active)
             terminal = bud(end, 0.06, PRIMARY_RED, 1, 8)
+            settled_opacity = settled_opacity_for(spec.kind)
 
             self.play(
                 FadeOut(pending[index]),
@@ -358,8 +395,8 @@ class MindMapShapeTokenLinesScene(Scene):
                 card[0].animate.set_stroke(GRAY_600, width=1.25, opacity=0.7).set_fill(GRAY_100, opacity=0.95),
                 *[
                     token.animate.scale(0.86)
-                    .set_fill(GRAY_300, opacity=0.17)
-                    .set_stroke(color=GRAY_500, opacity=0.22, width=0.48)
+                    .set_fill(GRAY_300, opacity=settled_opacity)
+                    .set_stroke(color=GRAY_500, opacity=min(0.34, settled_opacity + 0.06), width=0.5)
                     for token in active
                 ],
                 run_time=0.52,
@@ -372,8 +409,12 @@ class MindMapShapeTokenLinesScene(Scene):
         self.play(
             pulse.animate.scale(2.7).set_fill(PRIMARY_RED, opacity=0),
             *[
-                token.animate.set_fill(GRAY_300, opacity=0.19).set_stroke(color=GRAY_500, opacity=0.25, width=0.45)
-                for line in active_lines
+                token.animate.set_fill(GRAY_300, opacity=settled_opacity_for(spec.kind)).set_stroke(
+                    color=GRAY_500,
+                    opacity=min(0.34, settled_opacity_for(spec.kind) + 0.06),
+                    width=0.45,
+                )
+                for spec, line in zip(variant_specs, active_lines)
                 for token in line
             ],
             run_time=0.8,
