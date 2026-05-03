@@ -270,14 +270,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Diagram SVG Video Manipulation Polish
 
 - **Hypothesis**: A generated diagram remap reads more like an authored video when semantic SVG actors are larger, target scaffolds explain only the remap, and the route pulse owns a clean stage afterward.
-- **Result**: Confirmed after enlarging the actors, replacing the broad destination hint with three target slots, moving slot cleanup before the route pulse, and adding a terminal outline around the resolved video node.
+- **Result**: Confirmed after enlarging the actors, replacing the broad destination hint with three target slots, moving slot cleanup before the route pulse, and then refined on 2026-05-03 by making the opening target slots visible from frame zero, replacing the closed stage frame with open rails, making the promoted WebM truly transparent, and changing the output accent from a closed rectangle to route-safe separated corner brackets.
 - **What worked**:
   - using specific destination slots instead of one large faint box, so the remap has visible receivers without creating a dead central panel,
+  - showing the destination slots during the opening breath at low opacity, because an otherwise centered source row inside a large frame reads as dead vertical space in 0.3-second stills,
+  - using open top and bottom rails instead of a closed review frame, then fading those rails before the resolved hold so the final state no longer looks trapped inside staging geometry,
   - fading destination slots before the route pulse, so the pulse proof frames do not read as actor-to-outline crowding,
   - keeping native Manim connectors but ending them just outside node bodies, which preserves graph direction while reducing connector overlap,
-  - using a red pulse and terminal outline as the active accent against categorical green, blue, and purple nodes.
+  - using a red pulse and terminal brackets as the active accent against categorical green, blue, and purple nodes,
+  - omitting the incoming-route corner from the terminal brackets when an arrow lands at that corner; otherwise the route and accent can share pixels even though the final card has enough visual space,
+  - setting `config.transparent = True`, `config.background_opacity = 0.0`, and `self.camera.background_opacity = 0.0`, then validating alpha through a VP9/libvpx `alphaextract` path instead of trusting PyAV's RGB decode.
 - **Validation note**:
-  - strict crowding audits can still flag graph connector-to-node proximity or pulse-on-route contact; inspect the overlays full size and reserve blocking status for contacts that obscure actors or leave scaffolds after their causal beat.
+  - strict crowding audits can still flag graph connector-to-node proximity, text inside node bodies, or pulse-on-route contact; inspect the overlays full size and reserve blocking status for contacts that obscure actors or leave scaffolds after their causal beat. The final hold should not retain route-to-terminal-accent contact.
 
 ## Quadrant Arrow Drop
 

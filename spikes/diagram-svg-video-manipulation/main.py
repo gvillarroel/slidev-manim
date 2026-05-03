@@ -30,6 +30,7 @@ from manim import (
     CurvedArrow,
     FadeIn,
     FadeOut,
+    Line,
     MoveAlongPath,
     Rectangle,
     Scene,
@@ -37,6 +38,7 @@ from manim import (
     Text,
     Transform,
     VGroup,
+    config,
     smooth,
 )
 
@@ -58,6 +60,9 @@ GRAY = "#333e48"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
 PAGE_BACKGROUND = "#f7f7f7"
+
+config.transparent = True
+config.background_opacity = 0.0
 
 SVG_NS = "http://www.w3.org/2000/svg"
 SVG_NS_MAP = {"svg": SVG_NS, "xhtml": "http://www.w3.org/1999/xhtml"}
@@ -409,14 +414,8 @@ def ordered_parts(parts: dict[str, VGroup | SVGMobject]) -> VGroup:
 
 
 def stage_panel() -> VGroup:
-    backing = Rectangle(
-        width=11.8,
-        height=5.35,
-        stroke_color=GRAY_200,
-        stroke_width=2,
-        fill_color=PAGE_BACKGROUND,
-        fill_opacity=0.96,
-    )
+    top_rail = Line(LEFT * 5.9 + UP * 2.7, RIGHT * 5.9 + UP * 2.7, color=GRAY_200, stroke_width=2)
+    bottom_rail = Line(LEFT * 5.9 + DOWN * 2.7, RIGHT * 5.9 + DOWN * 2.7, color=GRAY_200, stroke_width=2)
     source_lane = Rectangle(
         width=10.6,
         height=1.32,
@@ -425,10 +424,10 @@ def stage_panel() -> VGroup:
         fill_color=GRAY_100,
         fill_opacity=0.28,
     ).move_to(DOWN * 0.12)
-    return VGroup(backing, source_lane)
+    return VGroup(VGroup(top_rail, bottom_rail), source_lane)
 
 
-def target_slots() -> VGroup:
+def target_slots(opacity: float = 1.0) -> VGroup:
     slots = VGroup()
     for role in ("node_spec", "node_svg", "node_video"):
         slot = Rectangle(
@@ -441,19 +440,28 @@ def target_slots() -> VGroup:
         ).move_to(placement_center("target", role))
         slot.set_z_index(0)
         slots.add(slot)
+    slots.set_opacity(opacity)
     return slots
 
 
-def terminal_outline_for(node: VGroup | SVGMobject) -> Rectangle:
-    outline = Rectangle(
-        width=node.width + 0.72,
-        height=node.height + 0.52,
-        stroke_color=PRIMARY_RED,
-        stroke_width=3.6,
-        fill_opacity=0,
-    ).move_to(node.get_center())
-    outline.set_z_index(7)
-    return outline
+def terminal_brackets_for(node: VGroup | SVGMobject) -> VGroup:
+    width = node.width + 1.54
+    height = node.height + 1.02
+    arm = 0.34
+    center = node.get_center()
+    brackets = VGroup()
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            if sx == -1 and sy == 1:
+                continue
+            corner = center + RIGHT * sx * width / 2 + UP * sy * height / 2
+            horizontal = Line(corner, corner + LEFT * sx * arm, color=PRIMARY_RED, stroke_width=3.6)
+            vertical = Line(corner, corner + DOWN * sy * arm, color=PRIMARY_RED, stroke_width=3.6)
+            horizontal.shift(DOWN * sy * 0.035)
+            vertical.shift(LEFT * sx * 0.035)
+            brackets.add(horizontal, vertical)
+    brackets.set_z_index(7)
+    return brackets
 
 
 def handle_for(role: str, part: VGroup | SVGMobject) -> Circle:
@@ -473,6 +481,7 @@ def pulse_path(start: object, end: object) -> ArcBetweenPoints:
 class DiagramSvgVideoManipulationScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = PAGE_BACKGROUND
+        self.camera.background_opacity = 0.0
         poster_mode = os.environ.get("SPIKE_RENDER_TARGET") == "poster"
 
         svg_paths = ensure_generated_svgs()
@@ -481,10 +490,12 @@ class DiagramSvgVideoManipulationScene(Scene):
 
         panel = stage_panel()
         if poster_mode:
-            self.add(panel[0], ordered_parts(target_parts), terminal_outline_for(target_parts["node_video"]))
+            self.add(ordered_parts(target_parts), terminal_brackets_for(target_parts["node_video"]))
             return
 
-        self.add(panel, ordered_parts(source_parts))
+        target_hint = target_slots(opacity=0.38)
+
+        self.add(panel, target_hint, ordered_parts(source_parts))
         self.wait(2.6)
 
         handles = {role: handle_for(role, part) for role, part in source_parts.items()}
@@ -506,10 +517,8 @@ class DiagramSvgVideoManipulationScene(Scene):
         )
         self.wait(1.1)
 
-        target_hint = target_slots()
-
         self.play(
-            FadeIn(target_hint),
+            target_hint.animate.set_opacity(1),
             FadeOut(panel[1]),
             FadeOut(VGroup(*handles.values()), scale=0.75),
             run_time=0.7,
@@ -546,8 +555,8 @@ class DiagramSvgVideoManipulationScene(Scene):
         self.play(MoveAlongPath(pulse, first_path), run_time=2.05, rate_func=smooth)
         self.play(pulse.animate.move_to(second_start), run_time=0.28, rate_func=smooth)
         self.play(MoveAlongPath(pulse, second_path), run_time=2.05, rate_func=smooth)
-        terminal_outline = terminal_outline_for(source_parts["node_video"])
-        self.play(FadeOut(pulse, scale=1.25), FadeIn(terminal_outline), run_time=0.8)
+        terminal_brackets = terminal_brackets_for(source_parts["node_video"])
+        self.play(FadeOut(pulse, scale=1.25), FadeOut(panel[0]), FadeIn(terminal_brackets), run_time=0.8)
         self.wait(6.5)
 
 
