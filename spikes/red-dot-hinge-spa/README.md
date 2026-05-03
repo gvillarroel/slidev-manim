@@ -46,6 +46,8 @@ videos/red-dot-hinge-spa/screenshots/mobile-resolution.png
 videos/red-dot-hinge-spa/review-frames/frame-start.png
 videos/red-dot-hinge-spa/review-frames/frame-middle.png
 videos/red-dot-hinge-spa/review-frames/frame-final.png
+videos/red-dot-hinge-spa/review-frames-0.3s/frames/
+videos/red-dot-hinge-spa/review-frames-0.3s/sheets/contact-sheet-01.png
 videos/red-dot-hinge-spa/review/contact-sheet.png
 videos/red-dot-hinge-spa/recording-summary.json
 videos/red-dot-hinge-spa/browser-validation.json
@@ -66,6 +68,7 @@ Then open the printed local URL in a browser.
 - The SPA loops automatically after the final hold.
 - Press `Space` to pause or resume.
 - Press `R` to restart the narrative.
+- The capture now writes 0.3 second cadence frames and contact sheets so the opening approach, search tests, compression, and final hold can be reviewed without a separate extraction step.
 - The search beat keeps the three hinge candidates in the middle composition band so the point reads as testing possible joints rather than wandering between ornaments.
 - The tension beat keeps the axis pin and lower slot visible before the shutters close, so the conflict reads as a hinge under pressure instead of a generic clamp.
 - The transformation beat opens the shutters into four calmer wings and retires the conflict-only guides before the final hold, so the resolution reads as a stable object instead of a trapped core.

@@ -223,6 +223,11 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - separating interactive loop behavior from recording behavior so the exported WebM holds the terminal composition instead of sampling the restart.
 - **Validation note**:
   - final render was reviewed with 125 frames sampled every 0.3 seconds, full-size proof screenshots including mobile resolution, browser console/page-error validation, composition audit at 0.3-second cadence with 0 blocking frames and 5 notice-only frames, final-hold crowding audit with 0 blocking frames, and handoff crowding overlays where the remaining findings were intentional dot-inside-ring transform contacts rather than route residue.
+- **2026-05-03 hinge refinement**:
+  - `spikes/red-dot-hinge-spa/` improved when the appearance act moved the dot all the way to the search handoff entrance by the 4.2 second proof frame, instead of leaving the active actor stranded far left of the prepared hinge candidates.
+  - Strengthening faint candidate scaffolds enough to survive thumbnail and composition-audit review made the opening read as a prepared hinge search, not a small dot inside decorative blank space.
+  - The spike runner now extracts 0.3-second cadence frames and contact sheets directly, which made the search-to-tension and final-hold review reproducible without a separate one-off extraction script.
+  - Validation cleared 122 cadence frames at 0.3 seconds, full-size opening/search/tension/transition/final/mobile proof frames, fixed proof-time composition audit with 0 blocking frames, and targeted crowding audit over 9 proof timestamps with 0 blocking frames.
 
 ## Timeline Stack
 
@@ -1314,6 +1319,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 164. In browser-native search beats with candidate cards, use one active cue per target. A red border plus red internal rule or center echo dot can create strict crowding failures and visual ambiguity; keep placeholder internals faint and put visited echoes outside closed outlines.
 165. For 3D depth reveals, do not show the full elevated surface and ridge during the flat opening if discovery is the point. Let the opening show only the projection and samples, then reveal surface, columns, and ridge during the camera tilt.
 166. Tighten 3D camera zoom enough that the final hold reads as a slide asset, while validating the full tilt path for crop safety. A technically correct 3D model can still fail visually if it sits too small in a wide white field.
+167. Browser-native five-act runners should generate 0.3-second cadence frames and sheets as first-class outputs. Named proof screenshots are useful, but dense cadence review is what catches phase-boundary residue and proves the final hold is actually stable.
+168. In sparse browser-native openings, the first proof frame should put the lead actor at or near the next handoff entrance while target scaffolds are already visible enough for audit thresholds. A tiny actor short of the entrance can make an otherwise valid setup fail as off-center dead space.
 
 ## Manim 3D Depth Lab
 

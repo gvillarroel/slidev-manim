@@ -294,7 +294,7 @@ function resetScene() {
 
 function renderAppearance(progress) {
   const eased = easeOut(progress);
-  const position = mixPoint(points.start, points.entry, eased * 0.82);
+  const position = mixPoint(points.start, points.entry, eased);
 
   setDot(
     position,
@@ -303,14 +303,15 @@ function renderAppearance(progress) {
     clamp(progress * 1.8, 0, 1),
     0.2 + pulseWave(progress, 1.2) * 0.18,
   );
-  setOpacity(narrativeSpine, clamp((progress - 0.1) * 1.5, 0, 0.34));
+  setOpacity(narrativeSpine, clamp((progress - 0.08) * 1.7, 0, 0.38));
 
-  const preview = clamp((progress - 0.42) * 1.7, 0, 1);
-  setOpacity(searchGuideA, preview * 0.14);
-  setOpacity(candidateFlap, preview * 0.12);
-  setOpacity(candidateCorner, preview * 0.08);
-  setOpacity(candidateSplit, preview * 0.06);
-  setOpacity(throatGuide, preview * 0.08);
+  const preview = clamp((progress - 0.34) * 1.8, 0, 1);
+  setOpacity(searchGuideA, preview * 0.24);
+  setOpacity(searchGuideB, preview * 0.12);
+  setOpacity(candidateFlap, preview * 0.22);
+  setOpacity(candidateCorner, preview * 0.15);
+  setOpacity(candidateSplit, preview * 0.12);
+  setOpacity(throatGuide, preview * 0.14);
 }
 
 function renderSearch(progress) {
