@@ -373,7 +373,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Mask Transfer
 
 - **Hypothesis**: A traveling mask band can make a reveal feel more authored than plain fade-ins.
-- **Result**: Confirmed again after expanding the draft into a 31.8-second slide-integration scene with visible opening structure, staged mask passes, scaffold cleanup before compaction, and a clean final hold.
+- **Result**: Confirmed again after expanding the draft into a paced slide-integration scene with visible opening structure, staged mask passes, scaffold cleanup before compaction, a transparent VP9 output, and a clean terminal hold.
 - **What worked**:
   - a neutral vertical band that acts as a reveal device,
   - top-row chips as a source state and circles as a distilled target state,
@@ -381,13 +381,16 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - a faint exit gate that balances the opening breath, then disappears before the band reaches it so strict crowding review does not see two guides colliding,
   - stopping the mask at multiple proof beats so each revealed circle has a readable cause,
   - removing the source row and route lines before the exit sweep, then removing the target slots, band, and active accent before the compact landing morph, so cleanup frames do not inherit source stems, guide collisions, or accent residue,
-  - diagonal compact landing with clear size hierarchy and enough actor spacing for the final hold.
+  - splitting source-row retirement from the mask exit by a short cleanup beat, which avoids a sampled near-contact between fading source chips and the moving mask,
+  - diagonal compact landing with clear size hierarchy and enough actor spacing for the final hold,
+  - terminal corner brackets with literal gaps between the horizontal and vertical strokes; connected L-shaped corners can produce zero-clearance strict-crowding failures even when they look visually separated.
 - **What failed first**:
   - the legacy draft was only 5.496 seconds and opened on a mostly empty frame,
   - the band was too wide,
   - the first compact cluster felt muddy,
   - ghost chips were too visible and competed with the landing state,
-  - leaving the source row and yellow accent during the compacting morph created strict actor-to-actor clearance failures even after the broad composition audit passed.
+  - leaving the source row and yellow accent during the compacting morph created strict actor-to-actor clearance failures even after the broad composition audit passed,
+  - connected terminal bracket corners created audit-only zero-clearance failures until the corner strokes were split.
 
 ## Quality Rhythm Gating
 

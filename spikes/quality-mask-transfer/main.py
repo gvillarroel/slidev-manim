@@ -84,6 +84,7 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
         quality_flag(args.quality),
         "-r",
         "1600,900",
+        "--transparent",
         "--format",
         "webm",
         "-o",
@@ -114,6 +115,23 @@ def chip(color: str, width: float, height: float) -> Rectangle:
         fill_color=color,
         fill_opacity=1,
     )
+
+
+def corner_brackets(group: VGroup, padding: float = 0.42, leg: float = 0.48, gap: float = 0.08) -> VGroup:
+    left = group.get_left()[0] - padding
+    right = group.get_right()[0] + padding
+    top = group.get_top()[1] + padding
+    bottom = group.get_bottom()[1] - padding
+    return VGroup(
+        Line([left + gap, top, 0], [left + leg, top, 0], color=PRIMARY_RED, stroke_width=4),
+        Line([left, top - gap, 0], [left, top - leg, 0], color=PRIMARY_RED, stroke_width=4),
+        Line([right - gap, top, 0], [right - leg, top, 0], color=PRIMARY_RED, stroke_width=4),
+        Line([right, top - gap, 0], [right, top - leg, 0], color=PRIMARY_RED, stroke_width=4),
+        Line([left + gap, bottom, 0], [left + leg, bottom, 0], color=PRIMARY_RED, stroke_width=4),
+        Line([left, bottom + gap, 0], [left, bottom + leg, 0], color=PRIMARY_RED, stroke_width=4),
+        Line([right - gap, bottom, 0], [right - leg, bottom, 0], color=PRIMARY_RED, stroke_width=4),
+        Line([right, bottom + gap, 0], [right, bottom + leg, 0], color=PRIMARY_RED, stroke_width=4),
+    ).set_stroke(opacity=0.68)
 
 
 class QualityMaskTransferScene(Scene):
@@ -243,15 +261,6 @@ class QualityMaskTransferScene(Scene):
         )
         self.play(transfer_lines[3].animate.set_opacity(0.18), run_time=0.45, rate_func=smooth)
         self.wait(0.35)
-        self.play(FadeOut(top_row), FadeOut(transfer_lines), run_time=0.7, rate_func=smooth)
-
-        self.play(
-            band.animate.move_to(RIGHT * 5.0),
-            accent.animate.move_to(RIGHT * 5.0 + UP * 2.0),
-            FadeOut(exit_gate),
-            run_time=1.9,
-            rate_func=smooth,
-        )
 
         compact_targets = VGroup(
             Circle(radius=0.82, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(LEFT * 0.46 + UP * 0.84),
@@ -259,24 +268,36 @@ class QualityMaskTransferScene(Scene):
             Circle(radius=0.43, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(LEFT * 0.06 + DOWN * 1.14),
             Circle(radius=0.34, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 1.72 + DOWN * 1.22),
         )
+        terminal_brackets = corner_brackets(compact_targets)
 
         self.play(
+            FadeOut(top_row),
+            FadeOut(transfer_lines),
+            guide_lines.animate.set_opacity(0.0),
             target_slots.animate.set_stroke(opacity=0.0),
-            band.animate.set_opacity(0.0),
-            FadeOut(accent),
-            run_time=1.2,
+            run_time=0.25,
+            rate_func=smooth,
+        )
+        self.play(
+            band.animate.move_to(RIGHT * 4.9).set_opacity(0.28),
+            accent.animate.move_to(RIGHT * 4.9 + UP * 2.0).set_opacity(0.35),
+            FadeOut(exit_gate),
+            run_time=0.9,
             rate_func=smooth,
         )
         self.play(
             AnimationGroup(*[Transform(bottom_row[i], compact_targets[i]) for i in range(4)], lag_ratio=0.07),
-            run_time=2.2,
+            band.animate.set_opacity(0.0),
+            FadeOut(accent),
+            FadeOut(panel),
+            run_time=1.2,
             rate_func=smooth,
         )
-        self.wait(0.7)
+        self.play(FadeIn(terminal_brackets), run_time=0.65, rate_func=smooth)
+        self.wait(0.45)
 
         for dot in bottom_row:
             self.play(dot.animate.scale(1.08), run_time=0.28, rate_func=there_and_back)
-        self.play(FadeOut(panel), run_time=1.0)
         self.wait(5.8)
 
 

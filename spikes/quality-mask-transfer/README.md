@@ -27,3 +27,11 @@ This writes the rendered assets to:
 ```text
 videos/quality-mask-transfer/
 ```
+
+## Current validation
+
+- Rendered video: `videos/quality-mask-transfer/quality-mask-transfer.webm`
+- Duration: 27.562 seconds at 1600x900.
+- Transparency: VP9 metadata reports `alpha_mode=1`; decoded alpha range is `0..255`.
+- Review: 92 white-background frames sampled at 0.3-second cadence.
+- Audits: composition audit, strict crowding audit, and resting-mobject audit all report zero blocking findings.

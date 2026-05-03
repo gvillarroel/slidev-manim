@@ -519,7 +519,8 @@ Do not add text before exhausting those fixes.
 - remove the device before the resolved landing.
 - if the source zone disappears after an aperture or reveal, recenter the destination stage during cleanup so the final hold does not feel stranded in leftover negative space.
 - move or retire the active accent in the same beat as the landing. A small pulse left at the old aperture edge reads as residue once the guide disappears.
-- for mask-transfer scenes, retire the source row, route lines, destination slots, mask band, and traveling accent before the compact landing morph. Faded source actors or an accent left inside the destination cluster can pass broad composition review but fail strict actor-to-actor clearance.
+- for mask-transfer scenes, retire the source row and route lines before the mask exit sweep, then remove destination slots, the mask band, exit gate, and traveling accent before the compact landing morph. Faded source actors, lingering slots, or an accent left inside the destination cluster can pass broad composition review but fail strict actor-to-actor clearance.
+- for mask-transfer cleanup, split source-row retirement from the mask exit when 0.3-second samples show the band brushing fading source chips. A very short source-retire beat can clear strict crowding without reintroducing a dead empty crossing.
 - Use faint matching-color receiver slots during the opening breath when the destination is otherwise only gray structure. The color should stay subordinate, but it keeps the pending target readable in still frames and avoids top-heavy saturated-composition audits.
 - If an exit gate balances the opening, remove it before the traveling mask reaches that side; mask-on-gate contact reads as a guide collision in strict crowding review.
 - Retire source actors and route lines together before the mask exit sweep. Route lines left after their source row disappears read as unsupported stems even when the final landing is clean.
@@ -553,6 +554,7 @@ Do not add text before exhausting those fixes.
 - keep the pressure wall close enough to explain the snap but far enough from support forms to clear targeted crowding checks after the recoil.
 - after source cleanup in a snap recoil scene, recenter the resolved target stage so the final hold does not remain stranded in the old transfer lane.
 - for staged convergence scenes, use open rails or separated brackets for the narrow lane rather than a closed box around the compressed actors. Retire any red cue before the held lane proof, then remove slot and rail scaffolds before the centered final hold.
+- for terminal corner brackets, give the horizontal and vertical strokes a real gap at each corner. Connected L-shaped brackets can create zero-clearance strict-crowding failures even when the actors themselves have enough air.
 - for anchored orbit scenes, reserve target slots during the opening breath and keep each satellite on a distinct lane. If the second orbit crosses the first satellite's proof position, the still frame reads as collision even when the final layout is clean.
 - for orbit-guided motion, treat crowding audit findings as blocking only after full-size review confirms actor-to-actor, actor-to-outline, or guide-over-actor interference. Actor-on-path contact can be intentional when the guide is the track being followed.
 - when tightening a fan-out camera for hierarchy, audit the whole fan transition cadence and recenter for the earliest proof frames, not only the resolved hold,
