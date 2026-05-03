@@ -392,7 +392,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Mask Transfer
 
 - **Hypothesis**: A traveling mask band can make a reveal feel more authored than plain fade-ins.
-- **Result**: Confirmed again after expanding the draft into a paced slide-integration scene with visible opening structure, staged mask passes, scaffold cleanup before compaction, a transparent VP9 output, and a clean terminal hold.
+- **Result**: Confirmed again after expanding the draft into a paced slide-integration scene with visible opening structure, staged mask passes, scaffold cleanup before compaction, a transparent VP9 output, and a clean terminal hold. The 2026-05-03 pass made the final cluster larger, better centered, and more earned by introducing faint compact receiver targets before the landing morph.
 - **What worked**:
   - a neutral vertical band that acts as a reveal device,
   - top-row chips as a source state and circles as a distilled target state,
@@ -401,15 +401,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - stopping the mask at multiple proof beats so each revealed circle has a readable cause,
   - removing the source row and route lines before the exit sweep, then removing the target slots, band, and active accent before the compact landing morph, so cleanup frames do not inherit source stems, guide collisions, or accent residue,
   - splitting source-row retirement from the mask exit by a short cleanup beat, which avoids a sampled near-contact between fading source chips and the moving mask,
-  - diagonal compact landing with clear size hierarchy and enough actor spacing for the final hold,
+  - revealing faint compact receiver targets before the bottom row collapses into the terminal cluster, so sampled frames read the compaction as a prepared landing instead of a jump into empty space,
+  - diagonal compact landing with clear size hierarchy, enough actor spacing, and a centered footprint for the final hold,
   - terminal corner brackets with literal gaps between the horizontal and vertical strokes; connected L-shaped corners can produce zero-clearance strict-crowding failures even when they look visually separated.
 - **What failed first**:
   - the legacy draft was only 5.496 seconds and opened on a mostly empty frame,
   - the band was too wide,
   - the first compact cluster felt muddy,
   - ghost chips were too visible and competed with the landing state,
+  - making opening receiver slots too strong caused colored slots to become extra active actors in crowding review, while gray-only slots disappeared from composition centering; subtle matching-color outlines were the workable compromise,
+  - removing the panel and mask band before the compact morph cleared one residue notice but created off-center cleanup samples, so full-size review accepted the notice-only fade-through instead,
   - leaving the source row and yellow accent during the compacting morph created strict actor-to-actor clearance failures even after the broad composition audit passed,
   - connected terminal bracket corners created audit-only zero-clearance failures until the corner strokes were split.
+- **Validation note**:
+  - the latest render is 27.66 seconds, 1600x900, transparent VP9 with decoded alpha range `0..255`; the runner now writes 92 white-background 0.3-second review frames and contact sheets, composition and frame-crowding audits sampled 93 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 6 rest states.
 
 ## Quality Rhythm Gating
 
