@@ -430,6 +430,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - a final frame where both sides still feel distinct.
 - **What to keep**:
   - counter-motion is useful when both sides keep different visual roles instead of converging into one cluster.
+- **2026-05-03 refinement**:
+  - replaced the 4.529-second loop with a 26.964-second transparent slide-integration render that has a visible opening breath, a held counterweight proof, cleanup, and final hold,
+  - removed soft panels, closed receiver boxes, and side rails after dense frame review showed they read as dead space, vertical residue, or actor-to-outline crowding,
+  - used open bracket slots only during setup, lowered the counterweight lane away from the beam, and nudged the lifted support clear of the tilted beam endpoint so still frames preserve air around the mechanism,
+  - generated alpha-on-white review assets with `imageio-ffmpeg` and `overlay=shortest=1`; PyAV alone decoded the transparent WebM as opaque, so the white review MP4 was used for frame audits while `libvpx-vp9` alpha extraction validated the promoted WebM.
+- **Validation note**:
+  - final review used 90 extracted 0.3-second white-background frames, a 26.964-second duration check, VP9 decoded alpha range `0..255`, frame composition audit with 0 blocking frames across 91 samples, frame crowding audit with 0 blocking frames across 91 samples, and resting-mobject audit with 0 blocking snapshots across 4 rest states.
 
 ## Quality Scale Hierarchy
 

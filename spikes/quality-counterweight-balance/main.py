@@ -16,20 +16,20 @@ from pathlib import Path
 from manim import (
     DOWN,
     LEFT,
-    ORIGIN,
     RIGHT,
     UP,
     AnimationGroup,
     Circle,
     FadeIn,
     FadeOut,
-    RoundedRectangle,
+    Line,
+    Rectangle,
     Scene,
     Transform,
     VGroup,
     WHITE,
+    config,
     smooth,
-    there_and_back,
 )
 
 SPIKE_DIR = Path(__file__).resolve().parent
@@ -46,6 +46,10 @@ PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
+GRAY_300 = "#adadad"
+
+config.transparent = True
+config.background_opacity = 0.0
 
 
 class _Args(argparse.Namespace):
@@ -78,6 +82,7 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
         "1600,900",
         "--format",
         "webm",
+        "--transparent",
         "-o",
         stem,
         "--media_dir",
@@ -91,81 +96,132 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
 
 
 def promote(target_name: str, destination: Path) -> None:
-    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"))
+    matches = sorted(STAGING_DIR.glob(f"**/{target_name}"), key=lambda path: path.stat().st_mtime)
     if not matches:
         raise FileNotFoundError(target_name)
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(matches[-1], destination)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=1)
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=1)
 
 
 def dot(color: str, radius: float) -> Circle:
     return Circle(radius=radius, stroke_width=0, fill_color=color, fill_opacity=1)
 
 
+def guide_slot(center, width: float, height: float, color: str = GRAY_300) -> VGroup:
+    left = Line(UP * height / 2, DOWN * height / 2, color=color, stroke_width=3).move_to(center + LEFT * width / 2)
+    right = Line(UP * height / 2, DOWN * height / 2, color=color, stroke_width=3).move_to(center + RIGHT * width / 2)
+    return VGroup(left, right).set_opacity(0.28)
+
+
+def corner_brackets(center, width: float, height: float, color: str = PRIMARY_RED) -> VGroup:
+    stroke = 5
+    length = 0.34
+    gap = 0.11
+    left = center + LEFT * width / 2
+    right = center + RIGHT * width / 2
+    top = center + UP * height / 2
+    bottom = center + DOWN * height / 2
+    return VGroup(
+        Line(left + UP * (height / 2 - length), left + UP * (height / 2 - gap), color=color, stroke_width=stroke),
+        Line(left + DOWN * (height / 2 - length), left + DOWN * (height / 2 - gap), color=color, stroke_width=stroke),
+        Line(right + UP * (height / 2 - length), right + UP * (height / 2 - gap), color=color, stroke_width=stroke),
+        Line(right + DOWN * (height / 2 - length), right + DOWN * (height / 2 - gap), color=color, stroke_width=stroke),
+        Line(top + LEFT * (width / 2 - length), top + LEFT * (width / 2 - gap), color=color, stroke_width=stroke),
+        Line(top + RIGHT * (width / 2 - length), top + RIGHT * (width / 2 - gap), color=color, stroke_width=stroke),
+        Line(bottom + LEFT * (width / 2 - length), bottom + LEFT * (width / 2 - gap), color=color, stroke_width=stroke),
+        Line(bottom + RIGHT * (width / 2 - length), bottom + RIGHT * (width / 2 - gap), color=color, stroke_width=stroke),
+    )
+
+
 class QualityCounterweightBalanceScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
+        self.camera.background_opacity = 0.0
 
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        soft_left = RoundedRectangle(width=3.7, height=4.2, corner_radius=0.34, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.38).move_to(LEFT * 3.2)
-        soft_right = RoundedRectangle(width=3.7, height=4.2, corner_radius=0.34, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.38).move_to(RIGHT * 3.0)
+        beam = Line(LEFT * 2.35 + DOWN * 0.1, RIGHT * 2.35 + DOWN * 0.1, color=PRIMARY_ORANGE, stroke_width=7)
+        pivot = dot(PRIMARY_YELLOW, 0.18).move_to(DOWN * 0.1)
+        beam_tilt = Line(LEFT * 2.35 + UP * 0.72, RIGHT * 2.35 + DOWN * 0.92, color=PRIMARY_ORANGE, stroke_width=7)
+        pivot_tilt = dot(PRIMARY_YELLOW, 0.18).move_to(DOWN * 0.1)
 
-        left_group = VGroup(
-            slab(PRIMARY_GREEN, 2.1, 1.0).move_to(LEFT * 4.05 + UP * 0.8),
-            slab(PRIMARY_BLUE, 2.1, 1.0).move_to(LEFT * 3.15 + DOWN * 0.45),
-        )
-        right_group = VGroup(
-            dot(PRIMARY_PURPLE, 0.62).move_to(RIGHT * 2.4 + UP * 0.55),
-            dot(PRIMARY_RED, 0.42).move_to(RIGHT * 3.6 + DOWN * 0.8),
-        )
-        left_targets = VGroup(
-            dot(PRIMARY_GREEN, 0.62).move_to(LEFT * 1.0 + UP * 0.55),
-            dot(PRIMARY_BLUE, 0.5).move_to(LEFT * 2.0 + DOWN * 0.75),
-        )
-        right_targets = VGroup(
-            slab(PRIMARY_PURPLE, 2.0, 0.94).move_to(RIGHT * 2.2 + UP * 0.9),
-            slab(PRIMARY_RED, 1.75, 0.82).move_to(RIGHT * 3.0 + DOWN * 0.45),
-        )
-        accent = Circle(radius=0.14, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(ORIGIN + DOWN * 0.1)
+        source_green = slab(PRIMARY_GREEN, 1.78, 0.58).move_to(LEFT * 4.08 + UP * 0.82)
+        source_blue = slab(PRIMARY_BLUE, 1.38, 0.5).move_to(LEFT * 3.72 + DOWN * 0.05)
+        source_purple = dot(PRIMARY_PURPLE, 0.42).move_to(LEFT * 4.38 + DOWN * 0.92)
+        source = VGroup(source_green, source_blue, source_purple)
 
-        self.add(frame, soft_left, soft_right)
-        self.play(FadeIn(left_group, shift=UP * 0.12), FadeIn(right_group, shift=DOWN * 0.12), run_time=0.7)
-        self.play(accent.animate.shift(LEFT * 1.6), run_time=0.2)
+        left_pan_slot = guide_slot(LEFT * 1.55 + UP * 0.72, 2.05, 0.76)
+        right_pan_slot = guide_slot(RIGHT * 1.55 + DOWN * 1.16, 1.86, 0.72)
+        upper_counter_slot = guide_slot(RIGHT * 3.45 + UP * 1.18, 1.36, 0.56)
+        lower_counter_slot = guide_slot(RIGHT * 3.25 + DOWN * 1.48, 1.54, 0.62)
+        slots = VGroup(left_pan_slot, right_pan_slot, upper_counter_slot, lower_counter_slot)
+
+        green_on_pan = slab(PRIMARY_GREEN, 1.64, 0.48).move_to(LEFT * 1.56 + UP * 0.48)
+        blue_on_pan = slab(PRIMARY_BLUE, 1.26, 0.42).move_to(LEFT * 1.2 + UP * 1.04)
+        purple_counter = dot(PRIMARY_PURPLE, 0.36).move_to(RIGHT * 1.48 + DOWN * 0.92)
+
+        red_counter = dot(PRIMARY_RED, 0.34).move_to(RIGHT * 3.4 + UP * 1.18)
+        red_drop = dot(PRIMARY_RED, 0.34).move_to(RIGHT * 3.24 + DOWN * 1.48)
+        purple_lift = dot(PRIMARY_PURPLE, 0.45).move_to(RIGHT * 3.34 + UP * 0.78)
+        green_lift = slab(PRIMARY_GREEN, 1.64, 0.48).move_to(LEFT * 1.48 + UP * 1.2)
+        blue_lift = slab(PRIMARY_BLUE, 1.26, 0.42).move_to(LEFT * 1.08 + UP * 1.74)
+
+        final_green = dot(PRIMARY_GREEN, 0.78).move_to(LEFT * 0.68 + UP * 0.54)
+        final_blue = dot(PRIMARY_BLUE, 0.48).move_to(RIGHT * 0.7 + UP * 0.32)
+        final_purple = slab(PRIMARY_PURPLE, 1.28, 0.42).move_to(LEFT * 0.08 + DOWN * 0.72)
+        final_red = slab(PRIMARY_RED, 1.02, 0.34).move_to(RIGHT * 1.1 + DOWN * 0.98)
+        terminal = corner_brackets(RIGHT * 0.16 + DOWN * 0.2, 3.55, 2.65)
+
+        self.add(beam, pivot, slots, source, red_counter)
+        self.wait(2.7)
         self.play(
             AnimationGroup(
-                Transform(left_group[0], left_targets[0]),
-                Transform(left_group[1], left_targets[1]),
-                right_group.animate.shift(RIGHT * 0.85 + UP * 0.2),
-                lag_ratio=0.06,
+                Transform(source_green, green_on_pan.copy(), path_arc=-0.28),
+                Transform(source_blue, blue_on_pan.copy(), path_arc=0.34),
+                Transform(source_purple, purple_counter.copy(), path_arc=0.42),
+                lag_ratio=0.12,
             ),
-            run_time=0.9,
+            run_time=4.1,
             rate_func=smooth,
         )
-        self.play(accent.animate.shift(RIGHT * 3.25), run_time=0.2)
+        self.wait(1.8)
         self.play(
             AnimationGroup(
-                Transform(right_group[0], right_targets[0]),
-                Transform(right_group[1], right_targets[1]),
-                left_group.animate.shift(LEFT * 0.6 + DOWN * 0.1),
-                lag_ratio=0.06,
+                Transform(beam, beam_tilt.copy()),
+                Transform(pivot, pivot_tilt.copy()),
+                Transform(source_green, green_lift.copy()),
+                Transform(source_blue, blue_lift.copy()),
+                Transform(source_purple, purple_lift.copy()),
+                Transform(red_counter, red_drop.copy()),
+                lag_ratio=0.03,
             ),
-            run_time=0.9,
+            run_time=4.0,
             rate_func=smooth,
         )
-        self.play(soft_left.animate.shift(RIGHT * 1.0), soft_right.animate.shift(LEFT * 0.7), run_time=0.35)
-        for item in VGroup(*left_group, *right_group):
-            self.play(item.animate.scale(1.06), run_time=0.14, rate_func=there_and_back)
-        self.play(accent.animate.move_to(RIGHT * 0.75 + DOWN * 0.1).set_fill(PRIMARY_ORANGE, opacity=1), run_time=0.18)
-        self.play(FadeOut(accent), run_time=0.16)
-        self.wait(0.25)
+        self.wait(2.2)
+        self.play(FadeOut(slots), run_time=1.15)
+        self.play(FadeOut(beam), FadeOut(pivot), run_time=0.75)
+        self.play(
+            AnimationGroup(
+                Transform(source_green, final_green.copy()),
+                Transform(source_blue, final_blue.copy()),
+                Transform(source_purple, final_purple.copy()),
+                Transform(red_counter, final_red.copy()),
+                lag_ratio=0.08,
+            ),
+            run_time=3.05,
+            rate_func=smooth,
+        )
+        self.play(FadeIn(terminal), run_time=1.15)
+        self.wait(6.0)
 
 
 def render_variant(args: _Args) -> None:
     video_path, poster_path = output_paths()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
     result = subprocess.run(render_command(args, video_path.stem, poster=False), check=False)
     if result.returncode != 0:
         raise SystemExit(result.returncode)
