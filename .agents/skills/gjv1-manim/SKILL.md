@@ -161,6 +161,7 @@ Do not say the video is finished just because the render succeeded or one audit 
 7. If the spike is browser-native or responsive, inspect at least one mobile proof frame or mobile screenshot before declaring the composition finished.
 8. For browser-native narratives that loop interactively, use a recording-only non-looping mode and hold the resolved frame through the exported final hold.
 9. For browser-native SVG search beats, keep active target cues on perimeters and move visited echoes outside closed outlines after the beat. Faint placeholder internals are safer than stacked red marks inside a card or slot.
+10. For browser-native five-act narratives, inspect the tension-to-transformation cleanup at dense cadence. Retire old search scaffolds and side-entry trails before a centered hub, ring, or system becomes the proof frame, or the still frame will keep reading the previous route.
 
 ## What must be true before “done”
 
