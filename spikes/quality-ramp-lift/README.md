@@ -24,3 +24,8 @@ The render writes:
 
 - `videos/quality-ramp-lift/quality-ramp-lift.webm`
 - `videos/quality-ramp-lift/quality-ramp-lift.png`
+
+# Current polish notes
+
+- The promoted WebM is paced as a slide-integration asset: visible opening scaffold, held ramp proof, delayed support beat, scaffold cleanup, and final hold.
+- The render is transparent and should be reviewed on a white background/contact sheet for frame-level spacing checks.
