@@ -950,14 +950,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Ramp Lift
 
 - **Hypothesis**: A visible ramp can make upward motion feel more authored if the dominant form clearly rides the support surface before the final resolve.
-- **Result**: Confirmed on the first pass.
+- **Result**: Confirmed after expanding the 3.13-second draft into a 25.43-second transparent slide-integration asset with a visible opening scaffold, held ramp proof, delayed supports, scaffold cleanup, and a centered final hold.
 - **What worked**:
-  - one angled orange ramp with enough length to read as a lifting surface,
-  - a hold frame where the green form is clearly above the lower support and aligned with the ramp direction,
-  - support forms separated so the ramp remains legible as the main mechanism,
-  - ramp removal before the final cluster so the ending stays simpler than the setup.
+  - showing the source lane, target slot, ramp rails, pivot, and pending support actors in the opening breath so the first sampled frame is not empty,
+  - keeping quiet blue and purple support actors near the ramp after the source lane disappears, because removing them entirely made the ramp proof read as a sparse off-center frame,
+  - retiring source and target scaffolds before the held support proof so pale panels do not dominate composition or become actor-to-outline crowding residue,
+  - holding a frame where the green form is clearly aligned with the angled ramp while the supports remain separate enough to preserve the lift mechanism,
+  - removing the ramp before the final morph and using separated terminal brackets around the centered result.
 - **What failed first**:
-  - no major structural failure in the first pass, but the proof depends on sampling the mid-lift frame rather than the resolved landing.
+  - the draft was far below the 25-second pacing floor and began with an empty scaffold frame,
+  - the first cleanup left an abandoned source panel in the final hold,
+  - transforming supports from the old source lane after the lane had disappeared created wide, off-center intermediate still frames,
+  - fading all support actors away during the ramp proof made the mechanism too sparse for the composition audit,
+  - strict crowding audits flag actor-on-ramp contact throughout the mechanism; treat those as full-size review prompts unless the actor obscures the rail, collides with another actor, or survives into the final hold.
 
 ## Quality Clamp Close
 

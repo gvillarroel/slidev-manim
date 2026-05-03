@@ -13,7 +13,28 @@ import subprocess
 import sys
 from pathlib import Path
 
-from manim import DOWN, LEFT, RIGHT, UP, AnimationGroup, Circle, FadeIn, FadeOut, Line, RoundedRectangle, Scene, Transform, VGroup, WHITE, smooth
+from manim import (
+    DOWN,
+    LEFT,
+    ORIGIN,
+    RIGHT,
+    UP,
+    AnimationGroup,
+    Circle,
+    FadeIn,
+    FadeOut,
+    Line,
+    Rectangle,
+    Scene,
+    Transform,
+    VGroup,
+    WHITE,
+    config,
+    smooth,
+)
+
+config.transparent = True
+config.background_opacity = 0.0
 
 SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parent.parent
@@ -52,7 +73,7 @@ def output_paths() -> tuple[Path, Path]:
 def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
     STAGING_DIR.mkdir(parents=True, exist_ok=True)
     command = [
-        sys.executable, "-m", "manim", "render", quality_flag(args.quality), "-r", "1600,900", "--format", "webm",
+        sys.executable, "-m", "manim", "render", quality_flag(args.quality), "-r", "1600,900", "--format", "webm", "--transparent",
         "-o", stem, "--media_dir", str(STAGING_DIR), str(Path(__file__).resolve()), "QualityRampLiftScene",
     ]
     if poster:
@@ -68,50 +89,127 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-def slab(color: str, width: float, height: float) -> RoundedRectangle:
-    return RoundedRectangle(width=width, height=height, corner_radius=0.3, stroke_width=0, fill_color=color, fill_opacity=1)
+def slab(color: str, width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_width=0, fill_color=color, fill_opacity=1)
+
+
+def slot(width: float, height: float) -> Rectangle:
+    return Rectangle(width=width, height=height, stroke_color=GRAY_200, stroke_width=2, fill_color=GRAY_100, fill_opacity=0.1)
+
+
+def corner_brackets(width: float, height: float, length: float, color: str) -> VGroup:
+    x = width / 2
+    y = height / 2
+    parts: list[Line] = []
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            parts.append(Line((sx * (x - length), sy * y, 0), (sx * x, sy * y, 0), color=color, stroke_width=6))
+            parts.append(Line((sx * x, sy * (y - length), 0), (sx * x, sy * y, 0), color=color, stroke_width=6))
+    return VGroup(*parts)
 
 
 class QualityRampLiftScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
-        frame = RoundedRectangle(width=12.9, height=5.8, corner_radius=0.34, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        source_zone = RoundedRectangle(width=4.0, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.22).move_to(LEFT * 3.08)
-        target_zone = RoundedRectangle(width=4.2, height=4.1, corner_radius=0.35, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.28).move_to(RIGHT * 2.96)
+        self.camera.background_opacity = 0.0
 
-        green = slab(PRIMARY_GREEN, 2.66, 0.92).move_to(LEFT * 3.24 + UP * 0.76)
-        blue = slab(PRIMARY_BLUE, 1.86, 0.82).move_to(LEFT * 2.08 + DOWN * 0.02)
-        purple = slab(PRIMARY_PURPLE, 1.3, 0.62).move_to(LEFT * 1.54 + DOWN * 0.98)
+        source_zone = slot(3.7, 3.35).move_to(LEFT * 4.0 + DOWN * 0.1)
+        target_slot = slot(3.95, 3.35).move_to(RIGHT * 2.9 + UP * 0.18)
+        entry_slot = Rectangle(width=2.0, height=0.62, stroke_color=GRAY_200, stroke_width=2, fill_opacity=0).move_to(
+            RIGHT * 0.35 + DOWN * 1.1
+        )
+        landing_slot = Circle(radius=1.02, stroke_color=GRAY_200, stroke_width=2, fill_color=GRAY_100, fill_opacity=0.08).move_to(
+            RIGHT * 2.4 + UP * 0.8
+        )
+
+        ramp_angle = 0.43
+        ramp_center = ORIGIN + RIGHT * 0.78 + DOWN * 0.25
+        ramp_lower = Line(LEFT * 1.0 + DOWN * 0.72, RIGHT * 2.6 + UP * 0.83, color=GRAY_200, stroke_width=6)
+        ramp_upper = ramp_lower.copy().shift(UP * 0.32)
+        ramp = VGroup(ramp_lower, ramp_upper)
+        pivot = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(LEFT * 0.78 + DOWN * 0.62)
+
+        green = slab(PRIMARY_GREEN, 1.9, 0.72).move_to(LEFT * 4.35 + UP * 0.62)
+        blue = slab(PRIMARY_BLUE, 1.2, 0.54).move_to(LEFT * 3.65 + DOWN * 0.18)
+        purple = slab(PRIMARY_PURPLE, 0.82, 0.42).move_to(LEFT * 3.18 + DOWN * 0.92)
         source = VGroup(green, blue, purple)
+        scaffold = VGroup(source_zone, target_slot, entry_slot, landing_slot, ramp, pivot)
 
-        ramp = Line(RIGHT * 0.88 + DOWN * 0.52, RIGHT * 2.48 + UP * 0.22, color=PRIMARY_ORANGE, stroke_width=8)
-        accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(RIGHT * 1.42 + DOWN * 0.28)
-
-        green_lift = slab(PRIMARY_GREEN, 1.48, 0.42).move_to(RIGHT * 1.92 + UP * 0.08)
-        blue_support = slab(PRIMARY_BLUE, 1.26, 0.48).move_to(RIGHT * 1.18 + DOWN * 0.52)
-        purple_support = slab(PRIMARY_PURPLE, 0.88, 0.4).move_to(RIGHT * 2.42 + UP * 0.62)
-
-        final_green = Circle(radius=0.88, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.56 + UP * 0.42)
-        final_blue = Circle(radius=0.48, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.74 + DOWN * 0.04)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 3.0 + DOWN * 1.02)
-
-        self.add(frame, source_zone, target_zone)
-        self.play(FadeIn(source, lag_ratio=0.08), run_time=0.68)
-        self.play(FadeIn(ramp), run_time=0.16)
-        self.play(
-            AnimationGroup(Transform(blue, blue_support.copy()), Transform(purple, purple_support.copy()), lag_ratio=0.12),
-            run_time=0.4, rate_func=smooth,
+        green_on_ramp = slab(PRIMARY_GREEN, 1.48, 0.48).rotate(ramp_angle).move_to(ramp_center + RIGHT * 0.25 + UP * 0.48)
+        lift_core = Circle(radius=0.14, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(
+            ramp_center + LEFT * 0.45 + DOWN * 0.44
         )
-        self.play(accent.animate.move_to(RIGHT * 2.02 + UP * 0.04), run_time=0.18, rate_func=smooth)
-        self.play(Transform(green, green_lift.copy()), run_time=0.3, rate_func=smooth)
+        blue_ready = slab(PRIMARY_BLUE, 1.02, 0.42).move_to(RIGHT * 0.1 + DOWN * 1.42)
+        purple_ready = slab(PRIMARY_PURPLE, 0.72, 0.36).move_to(RIGHT * 1.84 + DOWN * 1.0)
+
+        green_lifted = slab(PRIMARY_GREEN, 1.42, 0.46).rotate(ramp_angle).move_to(RIGHT * 1.05 + UP * 1.05)
+        blue_support = slab(PRIMARY_BLUE, 0.98, 0.42).move_to(RIGHT * 0.42 + DOWN * 0.34)
+        purple_support = slab(PRIMARY_PURPLE, 0.68, 0.34).move_to(RIGHT * 2.28 + UP * 1.72)
+
+        final_green = Circle(radius=1.08, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(LEFT * 0.18 + UP * 0.24)
+        final_blue = Circle(radius=0.5, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 1.65 + DOWN * 0.08)
+        final_purple = Circle(radius=0.3, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 0.04 + DOWN * 1.48)
+        final_cluster = VGroup(final_green, final_blue, final_purple)
+        brackets = corner_brackets(4.25, 3.25, 0.32, PRIMARY_RED).move_to(final_cluster.get_center())
+
+        self.add(scaffold, source)
+        self.wait(2.7)
+
+        self.play(Transform(green, green_on_ramp.copy()), FadeIn(lift_core), run_time=2.2, rate_func=smooth)
+        self.wait(1.35)
         self.play(
-            AnimationGroup(Transform(green, final_green.copy()), Transform(blue, final_blue.copy()), Transform(purple, final_purple.copy()), lag_ratio=0.08),
-            run_time=0.62, rate_func=smooth,
+            FadeOut(source_zone),
+            FadeOut(entry_slot),
+            FadeOut(target_slot),
+            FadeOut(landing_slot),
+            Transform(blue, blue_ready.copy()),
+            Transform(purple, purple_ready.copy()),
+            run_time=0.75,
+            rate_func=smooth,
         )
-        self.play(FadeOut(ramp), run_time=0.14)
-        self.play(accent.animate.move_to(RIGHT * 2.88 + DOWN * 0.02).set_fill(PRIMARY_RED, opacity=1), run_time=0.16)
-        self.play(FadeOut(accent), run_time=0.14)
-        self.wait(0.25)
+
+        self.play(
+            lift_core.animate.move_to(ramp_center + RIGHT * 1.15 + UP * 0.12),
+            Transform(green, green_lifted.copy()),
+            run_time=2.1,
+            rate_func=smooth,
+        )
+        self.wait(1.2)
+        self.play(FadeOut(lift_core), run_time=0.75)
+
+        self.wait(0.9)
+
+        self.play(
+            AnimationGroup(
+                Transform(blue, blue_support.copy()),
+                Transform(purple, purple_support.copy()),
+                lag_ratio=0.18,
+            ),
+            run_time=2.2,
+            rate_func=smooth,
+        )
+        self.wait(1.0)
+
+        self.play(
+            FadeOut(ramp),
+            FadeOut(pivot),
+            green.animate.shift(LEFT * 0.9 + DOWN * 0.35),
+            blue.animate.shift(LEFT * 0.9 + DOWN * 0.35),
+            purple.animate.shift(LEFT * 0.9 + DOWN * 0.35),
+            run_time=1.25,
+        )
+        self.play(
+            AnimationGroup(
+                Transform(green, final_green.copy()),
+                FadeOut(blue),
+                FadeOut(purple),
+                lag_ratio=0.06,
+            ),
+            run_time=1.7,
+            rate_func=smooth,
+        )
+        self.play(FadeIn(final_blue), FadeIn(final_purple), FadeIn(brackets), run_time=0.9)
+        self.wait(6.4)
 
 
 def render_variant(args: _Args) -> None:
