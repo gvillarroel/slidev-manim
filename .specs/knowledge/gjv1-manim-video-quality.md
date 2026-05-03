@@ -44,9 +44,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - setting the square variant's Manim frame shape before scene construction, because `-r 1200,1200` alone changes pixels without making the composition square,
   - showing receiver brackets, a route, and an aperture during the opening breath so both videos explain the pending magnification before anything moves,
   - removing duplicate terminal dots after full-size proof-frame review caught a shadowed double-core that the contact sheet made easy to miss,
-  - shrinking local `page-background` stages to margin-safe dimensions so resting-mobject audits do not fail on neutral backing geometry.
+  - shrinking local `page-background` stages to margin-safe dimensions so resting-mobject audits do not fail on neutral backing geometry,
+  - retiring the source panel before the final centered hold so the resolved inset does not sit beside a large abandoned container,
+  - splitting crosshair guide lines around the terminal dot so the final proof frame keeps the guide visible without actor-to-guide contact,
+  - keeping square review stages slightly smaller than the full Manim frame; a full-frame opaque stage can make a transparent WebM report `alpha_mode=1` while the decoded alpha plane is effectively all opaque.
 - **Validation note**:
-  - final 0.3-second contact sheets, full-size proof frames, composition audits, rest-state audits, duration checks, and WebM metadata checks all passed; both promoted WebMs report `alpha_mode=1`.
+  - final 0.3-second contact sheets, full-size proof frames, composition audits, rest-state audits, duration checks, WebM metadata checks, and decoded alpha checks all passed; both promoted WebMs report `alpha_mode=1` and decode with alpha range `0..255`. Strict crowding audits still flag expected ring/crosshair and corner-bracket proximity, which were inspected full size and accepted because they do not obscure the actor or final mechanism.
 
 ## Side-by-Side Comparison Assets
 

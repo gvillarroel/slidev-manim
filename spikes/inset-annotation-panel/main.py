@@ -277,15 +277,17 @@ class InsetAnnotationPanelScene(Scene):
         inset_slot = corner_brackets(2.34, 2.34, length=0.32, color=GRAY_300, stroke_width=4)
         inset_slot.move_to(inset_panel)
         inset_cross = VGroup(
-            Line(LEFT * 0.78, RIGHT * 0.78, color=GRAY_200, stroke_width=4),
-            Line(DOWN * 0.78, UP * 0.78, color=GRAY_200, stroke_width=4),
+            Line(LEFT * 0.78, LEFT * 0.52, color=GRAY_200, stroke_width=4),
+            Line(RIGHT * 0.52, RIGHT * 0.78, color=GRAY_200, stroke_width=4),
+            Line(DOWN * 0.78, DOWN * 0.52, color=GRAY_200, stroke_width=4),
+            Line(UP * 0.52, UP * 0.78, color=GRAY_200, stroke_width=4),
         ).move_to(inset_panel)
         pending_path = Line(LEFT * 5.35 + UP * 1.2, LEFT * 0.85 + UP * 1.2, color=GRAY_600, stroke_width=8)
         pending_drop = Line(LEFT * 0.85 + UP * 1.2, LEFT * 0.85, color=GRAY_400, stroke_width=5)
         bridge = Line(LEFT * 0.3, RIGHT * 2.56 + DOWN * 0.08, color=GRAY_300, stroke_width=5)
 
         dot = Dot(LEFT * 5.35 + UP * 1.2, radius=0.15, color=PRIMARY_RED)
-        focus_position = inset_panel.get_center() + LEFT * 0.42 + UP * 0.24
+        focus_position = inset_panel.get_center()
         focus_halo = Circle(radius=0.86, color=PRIMARY_RED, stroke_width=4).move_to(focus_position)
         terminal_brackets = corner_brackets(2.62, 2.62, length=0.36, color=PRIMARY_RED, stroke_width=4).move_to(inset_panel)
 
@@ -311,24 +313,29 @@ class InsetAnnotationPanelScene(Scene):
         )
         self.wait(1.0)
 
+        resolved_cluster = VGroup(inset_panel, inset_cross, dot, focus_halo, terminal_brackets)
         self.play(
             FadeOut(active_path),
             FadeOut(active_drop),
             FadeOut(bridge_active),
             FadeOut(bridge),
             FadeOut(pending_drop),
-            roi.animate.set_color(GRAY_300).set_opacity(0.36),
-            inset_slot.animate.set_opacity(0.18),
-            FadeIn(terminal_brackets),
-            run_time=2.0,
+            FadeOut(pending_path),
+            FadeOut(source_panel),
+            FadeOut(source_guides),
+            FadeOut(roi),
+            FadeOut(inset_slot),
+            run_time=0.6,
         )
+        resolved_cluster.scale(1.1).shift(LEFT * 4.25)
+        self.play(FadeIn(terminal_brackets), run_time=0.2)
         self.wait(7.7)
 
     def construct_zoom(self) -> None:
-        stage = Rectangle(width=7.15, height=7.15, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=1)
-        panel = square_panel(5.65, 5.65, stroke=GRAY_300)
+        stage = Rectangle(width=7.7, height=7.7, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=1)
+        panel = square_panel(6.25, 6.25, stroke=GRAY_300)
         entry_slot = corner_brackets(1.28, 1.28, length=0.24, color=GRAY_400, stroke_width=4).shift(LEFT * 1.28 + UP * 0.56)
-        detail_slot = corner_brackets(3.2, 3.2, length=0.38, color=GRAY_300, stroke_width=4).shift(RIGHT * 0.42 + DOWN * 0.08)
+        detail_slot = corner_brackets(3.55, 3.55, length=0.4, color=GRAY_300, stroke_width=4).shift(RIGHT * 0.42 + DOWN * 0.08)
         aperture = Rectangle(
             width=0.36,
             height=1.52,
@@ -338,15 +345,17 @@ class InsetAnnotationPanelScene(Scene):
             fill_opacity=1,
         ).shift(LEFT * 0.28 + UP * 0.12)
         cross = VGroup(
-            Line(LEFT * 1.22, RIGHT * 1.22, color=GRAY_200, stroke_width=4),
-            Line(DOWN * 1.22, UP * 1.22, color=GRAY_200, stroke_width=4),
+            Line(LEFT * 1.34, LEFT * 0.7, color=GRAY_200, stroke_width=4),
+            Line(RIGHT * 0.7, RIGHT * 1.34, color=GRAY_200, stroke_width=4),
+            Line(DOWN * 1.34, DOWN * 0.7, color=GRAY_200, stroke_width=4),
+            Line(UP * 0.7, UP * 1.34, color=GRAY_200, stroke_width=4),
         ).shift(RIGHT * 0.42 + DOWN * 0.08)
         source_dot = Dot(LEFT * 1.28 + UP * 0.56, radius=0.16, color=PRIMARY_RED)
-        expanded_position = RIGHT * 0.78 + DOWN * 0.18
+        expanded_position = RIGHT * 0.42 + DOWN * 0.08
         guide_in = Line(LEFT * 1.28 + UP * 0.56, LEFT * 0.28 + UP * 0.12, color=GRAY_300, stroke_width=5)
         guide_out = Line(LEFT * 0.1 + UP * 0.12, expanded_position, color=GRAY_300, stroke_width=5)
-        ring = Circle(radius=1.52, color=PRIMARY_RED, stroke_width=4).move_to(expanded_position)
-        terminal = corner_brackets(3.55, 3.55, length=0.42, color=PRIMARY_RED, stroke_width=4).shift(RIGHT * 0.42 + DOWN * 0.08)
+        ring = Circle(radius=1.62, color=PRIMARY_RED, stroke_width=4).move_to(expanded_position)
+        terminal = corner_brackets(3.9, 3.9, length=0.44, color=PRIMARY_RED, stroke_width=4).shift(RIGHT * 0.42 + DOWN * 0.08)
 
         self.add(stage, panel, cross, entry_slot, detail_slot, aperture, guide_in, guide_out, source_dot)
         self.wait(2.6)
@@ -379,6 +388,7 @@ class InsetAnnotationPanelScene(Scene):
             FadeOut(guide_in_active),
             FadeOut(guide_out_active),
             FadeOut(squeeze),
+            FadeOut(detail_slot),
             FadeIn(terminal),
             run_time=2.0,
         )

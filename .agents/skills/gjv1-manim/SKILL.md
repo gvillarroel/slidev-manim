@@ -525,6 +525,9 @@ Do not add text before exhausting those fixes.
 - Use faint matching-color receiver slots during the opening breath when the destination is otherwise only gray structure. The color should stay subordinate, but it keeps the pending target readable in still frames and avoids top-heavy saturated-composition audits.
 - If an exit gate balances the opening, remove it before the traveling mask reaches that side; mask-on-gate contact reads as a guide collision in strict crowding review.
 - Retire source actors and route lines together before the mask exit sweep. Route lines left after their source row disappears read as unsupported stems even when the final landing is clean.
+- for inset or magnification panel scenes, retire the source panel, receiver slot, and stale guides before the final centered hold. If animated recentering creates sampled off-center cleanup frames, snap the resolved cluster to its final layout after the source disappears instead of drifting it across the hold.
+- split crosshair or reticle guide lines around the terminal dot or core. Continuous guide strokes running under the actor create actor-to-guide contact in still frames and make strict crowding reports harder to triage.
+- for transparent square assets with a local review stage plate, keep the opaque plate slightly inside the Manim frame. A full-frame plate can preserve `alpha_mode=1` while the decoded alpha plane is all opaque; validate transparency with decoded alpha extrema, not metadata alone.
 
 ### Magnet capture
 
