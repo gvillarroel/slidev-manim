@@ -1316,6 +1316,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render was reviewed with 87 extracted 0.3-second white-background frames and full-size opening, active-route, overlay, and final-hold frames. Composition audit sampled 88 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 7 rest states, strict crowding audit was reduced from whole-video blocking to 10 token-density/receiver review prompts, and VP9 alpha validation decoded a 0 to 255 alpha range.
 
+## Mind Map Organic Fractal Lines
+
+- **Hypothesis**: A transparent organic mind-map clip reads better when the slide surface supplies the background, while the opening still keeps enough neutral receiver structure to balance the red source.
+- **Result**: Confirmed on `spikes/mind-map-organic-fractal-lines/` after removing the full-frame stage plate and border, making the WebM truly transparent, shifting the map into the camera center, strengthening receiver slots to audit-visible neutral gray, and pulling organic endpoints back from card outlines.
+- **What worked**:
+  - removing decorative page-background plates from a labeled transparent asset once the slide surface can provide contrast,
+  - setting Manim transparency in both config and camera before construction, then validating decoded VP9 alpha extrema rather than trusting render flags,
+  - making category and child placeholder slots strong enough to survive 0.3-second composition audits; very pale scaffolds looked acceptable in motion but disappeared from threshold-based centering,
+  - leaving route endpoints and terminal buds outside card outlines so active organic growth reads as arrival instead of actor-to-outline contact.
+- **Validation note**:
+  - the final render is 31.486 seconds at 1600x900 with 105 extracted 0.3-second white-background review frames; decoded alpha extrema are `(0, 255)`, frame composition audit sampled 106 frames with zero findings, resting-mobject audit reported zero blocking snapshots across 11 rest states, and strict crowding audit was reduced to 2 source-pulse review prompts that were inspected full size and accepted as intentional pulse-on-stem contact.
+
 # Reusable Process
 
 1. State the missing hypothesis.

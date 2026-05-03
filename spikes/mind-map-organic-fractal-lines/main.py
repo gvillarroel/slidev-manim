@@ -31,6 +31,7 @@ from manim import (
     Text,
     VGroup,
     VMobject,
+    config,
     rate_functions,
 )
 from manimpango import list_fonts
@@ -220,7 +221,7 @@ def text_box(
 
 
 def slot_box(width: float, height: float, center: object, opacity: float) -> Rectangle:
-    slot = Rectangle(width=width, height=height, stroke_width=0, fill_color=GRAY_100, fill_opacity=opacity)
+    slot = Rectangle(width=width, height=height, stroke_width=0, fill_color=GRAY_200, fill_opacity=opacity)
     slot.move_to(center)
     slot.set_z_index(-2)
     return slot
@@ -237,12 +238,12 @@ def category_layouts(categories: list[CategorySpec]) -> list[CategoryLayout]:
         child_count = len(spec.children)
         child_gap = 0.45 if child_count > 2 else 0.54
         child_top = y + (child_count - 1) * child_gap / 2
-        child_centers = tuple(RIGHT * 3.35 + UP * (child_top - child_index * child_gap) for child_index in range(child_count))
+        child_centers = tuple(RIGHT * 3.68 + UP * (child_top - child_index * child_gap) for child_index in range(child_count))
         bend = 0.72 if y > 0.35 else -0.72 if y < -0.35 else 0.18
         layouts.append(
             CategoryLayout(
                 spec=spec,
-                center=RIGHT * -0.42 + UP * y,
+                center=RIGHT * 0.18 + UP * y,
                 color=CATEGORY_FILLS[index % len(CATEGORY_FILLS)],
                 bend=bend,
                 child_centers=child_centers,
@@ -364,35 +365,33 @@ def bud(center: object, radius: float, color: str, opacity: float, z_index: int)
 
 class MindMapOrganicFractalLinesScene(Scene):
     def construct(self) -> None:
+        config.transparent = True
+        config.background_opacity = 0.0
         self.camera.background_color = PAGE_BACKGROUND
+        self.camera.background_opacity = 0.0
 
-        stage = Rectangle(width=12.8, height=7.15, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=0.96)
-        stage.set_z_index(-10)
-        stage_border = Rectangle(width=12.34, height=6.62, stroke_color=GRAY_200, stroke_width=2, fill_opacity=0)
-        stage_border.set_z_index(-9)
-
-        root = text_box(scene_root_text(), 2.46, 0.88, PRIMARY_RED, font_size=28)
-        root.move_to(LEFT * 4.46)
+        root = text_box(scene_root_text(), 2.18, 0.78, PRIMARY_RED, font_size=25)
+        root.move_to(LEFT * 3.76)
         root.set_z_index(5)
 
-        seed = bud(root.get_right() + RIGHT * 0.14, 0.075, PRIMARY_RED, 1, 7)
+        seed = bud(root.get_right() + RIGHT * 0.16, 0.07, PRIMARY_RED, 1, 7)
 
         layouts = category_layouts(scene_categories())
         source = root.get_right() + RIGHT * 0.22
-        category_slots = VGroup(*[slot_box(1.86, 0.58, layout.center, opacity=0.38) for layout in layouts])
-        child_slots = VGroup(*[slot_box(1.28, 0.34, center, opacity=0.23) for layout in layouts for center in layout.child_centers])
+        category_slots = VGroup(*[slot_box(1.86, 0.58, layout.center, opacity=0.48) for layout in layouts])
+        child_slots = VGroup(*[slot_box(1.28, 0.34, center, opacity=0.48) for layout in layouts for center in layout.child_centers])
 
         pending_trunks = VGroup()
         pending_children = VGroup()
         for layout_index, layout in enumerate(layouts):
-            end = layout.center + LEFT * 0.96
+            end = layout.center + LEFT * 1.12
             pending_trunks.add(
                 organic_fractal_line(
                     source,
                     end,
                     layout.bend,
                     GRAY_300,
-                    0.24,
+                    0.31,
                     2.2,
                     -3,
                     phase=layout_index * 1.11,
@@ -404,10 +403,10 @@ class MindMapOrganicFractalLinesScene(Scene):
                 pending_children.add(
                     organic_fractal_line(
                         layout.center + RIGHT * 0.98,
-                        child_center + LEFT * 0.72,
+                        child_center + LEFT * 0.98,
                         0.12 if child_index % 2 == 0 else -0.12,
                         GRAY_300,
-                        0.14,
+                        0.31,
                         1.15,
                         -4,
                         phase=layout_index * 1.7 + child_index,
@@ -416,7 +415,7 @@ class MindMapOrganicFractalLinesScene(Scene):
                     )
                 )
 
-        self.add(stage, stage_border, pending_trunks, pending_children, category_slots, child_slots, root, seed)
+        self.add(pending_trunks, pending_children, category_slots, child_slots, root, seed)
         self.wait(2.7)
 
         root_sprouts = VGroup()
@@ -453,7 +452,7 @@ class MindMapOrganicFractalLinesScene(Scene):
             category_card.move_to(layout.center)
             category_card.set_z_index(5)
 
-            end = category_card.get_left() + LEFT * 0.03
+            end = category_card.get_left() + LEFT * 0.24
             trunk = organic_fractal_line(
                 source,
                 end,
@@ -515,14 +514,14 @@ class MindMapOrganicFractalLinesScene(Scene):
                 child_card.set_z_index(5)
 
                 child_start = category_card.get_right() + RIGHT * 0.05
-                child_end = child_card.get_left() + LEFT * 0.04
+                child_end = child_card.get_left() + LEFT * 0.36
                 child_line = organic_fractal_line(
                     child_start,
                     child_end,
                     0.14 if child_index % 2 == 0 else -0.14,
                     PRIMARY_RED,
                     0.88,
-                    2.15,
+                    1.95,
                     2,
                     phase=index * 1.6 + child_index * 0.9,
                     side_count=2,

@@ -115,6 +115,8 @@ Use an `organic fractal line` when a connection should read as plant-like growth
 ### Timing
 
 - Opening breath: show faint pending organic routes and destination fields.
+- For transparent slide assets, do not add a full-frame stage plate only for review. Let the slide surface provide the background unless labels need a local backing.
+- Make destination fields strong enough to survive threshold-based composition audits. Very pale gray slots can look visible on a contact sheet but disappear from the detected composition, making a balanced map read off-center.
 - Category trunks: use a thick red main stem with multiple side tendrils.
 - Child branches: use shorter lines with fewer tendrils and no second recursion level unless space is generous.
 - Final hold: keep the main structure visible in gray, but make twigs subtle.
@@ -136,6 +138,7 @@ Run the composition audit at 0.5 second cadence because organic stems can introd
 - If the active stem is too thin, it reads like a faint connector instead of growth.
 - If every trunk has many second-level twigs, the final hold becomes scratchy and competes with labels.
 - If pending routes are too dark during the opening breath, the scene looks already completed.
+- If pending destination slots are too pale, early and mid proof frames can fail centering even when the visual intent is clear. Increase neutral slot contrast before adding decorative frames.
 - If old red routes stay saturated after landing, every branch reads as still active.
 
 ## `scale spine line`
