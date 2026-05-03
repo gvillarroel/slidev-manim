@@ -22,5 +22,5 @@ uv run --script spikes/quality-arc-handoff/main.py
 
 The render writes:
 
-- `videos/quality-arc-handoff/quality-arc-handoff.webm`
+- `videos/quality-arc-handoff/quality-arc-handoff.webm` with VP9 alpha
 - `videos/quality-arc-handoff/quality-arc-handoff.png`

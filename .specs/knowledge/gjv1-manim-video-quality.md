@@ -719,13 +719,16 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Arc Handoff
 
 - **Hypothesis**: A dominant form can feel more authored if it transfers along a visible curve before the rest of the composition catches up.
-- **Result**: Confirmed again after expanding the draft into a 27.6-second slide-integration scene with a visible opening breath, sustained arc proof frames, delayed support travel, and a centered final hold.
+- **Result**: Confirmed again after tightening the scene into a 28.8-second transparent slide-integration render with a visible opening breath, sustained arc proof frames, delayed support travel, open receiver brackets, and a cleaner centered final hold.
 - **What worked**:
   - one strong orange arc that survives long enough to be legible,
   - the dominant green form arriving along that curve before the support forms resolve,
   - faint destination slots during the opening breath so the target zone reads as pending structure,
+  - using open corner-bracket receiver marks instead of closed slot rectangles, so the destination remains visible without leaving outlines under the final actors,
   - delayed gray support arcs that appear only after the dominant handoff is established,
-  - removing the outer frame and source zone during cleanup, then recentering the final cluster with its target field,
+  - lowering the support guide arcs below the moving support slabs, so transition stills read as route evidence instead of guide-on-actor contact,
+  - keeping the old source scaffold visible through the recentering move, then fading it after the destination cluster has settled, which cleared the sampled off-center cleanup frame,
+  - removing the outer frame and source zone after cleanup, then recentering the final cluster with its target field,
   - a final cluster that contrasts with the earlier curved path,
   - minimal supporting motion so the handoff remains the main beat.
 - **What failed first**:
@@ -735,6 +738,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - the motion looked like a normal transfer with curved decoration,
   - the intermediate handoff position needed to be more distinct from the final landing,
   - after source cleanup, the final cluster initially remained too far right and failed off-center audits until it was shifted toward the middle.
+- **2026-05-03 validation note**:
+  - final review used 96 extracted 0.3-second white-background frames, full-size arc/support/final proof-frame inspection, a frame composition audit with zero blocking frames across 97 samples, a resting-mobject audit with zero blocking snapshots across 6 rest states, VP9 `alpha_mode=1`, and decoded alpha range `0..255`. Strict crowding fell from 75 baseline prompts to 16 transition-only route/actor prompts; full-size overlays showed expected path-following contact rather than final-hold crowding.
 
 ## Quality Corridor Squeeze
 
