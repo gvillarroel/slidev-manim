@@ -548,6 +548,8 @@ Do not add text before exhausting those fixes.
 - Retire target slots and field rails as soon as the leader proves the capture. If those guides remain under the support handoff, strict crowding audits and human review both read them as residue.
 - If source cleanup removes the left panel, shift or recenter the receiver stage before the delayed supports arrive so the proof hold does not stay off-center.
 - For bracket-style receivers, use separated strokes or visible corner gaps when running strict crowding audits. A connected U-shaped guide can produce one broad bounding box that falsely overlaps the captured actor.
+- Keep the leader's stretch lane clear of waiting supports. If the source supports must remain visible, park them above or below the lane before the leader elongates.
+- Do not let a broad target panel outline surround the leader during the capture proof. Use a stroke-free pale plate or let the open receiver strokes define the pocket, then remove the plate before the support handoff.
 - Fade the receiver and magnet core before the final landing morph unless they still cause the motion. Leaving the core in place while the leader expands can create actor-to-actor cleanup contact.
 
 ### Support and force

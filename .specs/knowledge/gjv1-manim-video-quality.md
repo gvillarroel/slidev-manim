@@ -681,14 +681,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Magnet Capture
 
 - **Hypothesis**: A receiver should feel like it captures if the pocket stays visible while the leader stretches into it.
-- **Result**: Confirmed again after turning the draft into a 29.9-second slide-integration scene with a visible opening breath, held capture proof frames, and a clean centered final hold.
+- **Result**: Confirmed again after turning the draft into a 29.9-second transparent slide-integration scene with a visible opening breath, held capture proof frames, red/gray palette discipline, and a clean centered final hold.
 - **What worked**:
   - showing the source state, receiver pocket, target slots, and magnet core during the opening breath instead of starting with a late receiver reveal,
-  - a stretched green leader that becomes visibly compressed inside the open pocket before support forms move,
+  - a stretched primary-red leader that becomes visibly compressed inside the open pocket before gray support forms move,
+  - moving waiting source supports out of the leader stretch lane after strict 0.3-second crowding review caught a support graze,
+  - removing the broad target-panel stroke around the capture proof, so the open receiver defines the pocket without actor-to-outline crowding,
   - fading target slots and field rails as soon as the leader has proved the capture, so support-hand-off frames do not inherit guide residue,
   - shifting the receiver stage toward center before the delayed supports arrive, which avoids a long off-center hold after the source panel disappears,
   - using a broken receiver bracket with enough stroke gaps for strict crowding audits to measure real clearances instead of one large U-shaped bounding box,
   - fading the receiver and magnet core before the final landing morph, so the resolved hold has no actor-to-guide or actor-to-actor cleanup contact.
+- **2026-05-03 validation note**:
+  - the polished render is 29.900 seconds with 100 alpha-on-white review frames at 0.3-second cadence; `alpha_mode=1` and VP9/libvpx decoding reported alpha extrema `0..255`; composition and crowding audits sampled 101 frames with zero blocking frames; resting-mobject audit reported zero blocking snapshots across 8 rest states.
 - **What failed first**:
   - the original render was only 2.864 seconds and had no slide-integration pacing,
   - the first receiver looked decorative instead of causal,
