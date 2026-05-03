@@ -170,15 +170,22 @@ if __name__ == "__main__":
 
 from manim import (
     ORIGIN,
+    PI,
+    Arc,
     Circle,
+    Create,
     Dot,
     FadeIn,
+    FadeOut,
+    GrowFromCenter,
     Line,
     MoveAlongPath,
     Scene,
-    WHITE,
+    Transform,
+    VGroup,
     always_redraw,
     linear,
+    smooth,
 )
 
 
@@ -187,48 +194,126 @@ class HeroPlusSupportingLoopHeroScene(Scene):
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
             self.camera.background_color = PAGE_BACKGROUND
 
-        orbit = Circle(radius=3.25, color=PRIMARY_BLUE, stroke_width=18)
-        orbit.set_stroke(opacity=0.78)
+        route_radius = 3.0
+        orbit = Circle(radius=route_radius, color=GRAY, stroke_width=13)
+        orbit.set_stroke(opacity=0.82)
 
-        inner_orbit = Circle(radius=2.28, color=PRIMARY_GREEN, stroke_width=8)
-        inner_orbit.set_stroke(opacity=0.22)
+        inner_orbit = Circle(radius=1.78, color=GRAY_300, stroke_width=5)
+        inner_orbit.set_stroke(opacity=0.7)
 
-        center_core = Circle(radius=0.48, color=PRIMARY_GREEN, stroke_width=10)
-        center_core.set_fill(PRIMARY_GREEN, opacity=0.95)
+        center_ring = Circle(radius=0.74, color=GRAY_200, stroke_width=7)
+        center_ring.set_stroke(opacity=0.9)
 
-        center_ring = Circle(radius=0.95, color=PRIMARY_PURPLE, stroke_width=6)
-        center_ring.set_stroke(opacity=0.28)
+        center_core = Dot(ORIGIN, color=GRAY_700, radius=0.22)
 
-        orbit_dot = Dot(color=PRIMARY_YELLOW, radius=0.18)
-        orbit_dot.move_to(orbit.point_from_proportion(0))
-
-        orbit_glow = always_redraw(
-            lambda: Circle(radius=0.31, color=PRIMARY_YELLOW, stroke_width=6)
-            .set_fill(PRIMARY_YELLOW, opacity=0.16)
-            .move_to(orbit_dot)
+        anchor_proportions = (0.0, 0.25, 0.5, 0.75)
+        anchor_positions = [orbit.point_from_proportion(p) for p in anchor_proportions]
+        anchor_points = VGroup(
+            *[
+                Dot(position, color=GRAY_600, radius=0.085).set_opacity(0.72)
+                for position in anchor_positions
+            ]
+        )
+        support_links = VGroup(
+            *[
+                Line(ORIGIN, position, color=GRAY_200, stroke_width=3).set_opacity(0.38)
+                for position in anchor_positions
+            ]
         )
 
-        anchor_points = []
-        for proportion in (0.0, 0.25, 0.5, 0.75):
-            anchor = Dot(color=PRIMARY_ORANGE, radius=0.07)
-            anchor.move_to(orbit.point_from_proportion(proportion))
-            anchor.set_opacity(0.45)
-            anchor_points.append(anchor)
+        support_nodes = VGroup(
+            Dot([-1.42, -0.9, 0], color=GRAY_400, radius=0.115),
+            Dot([0, -1.18, 0], color=GRAY_400, radius=0.115),
+            Dot([1.42, -0.9, 0], color=GRAY_400, radius=0.115),
+        )
+        support_nodes.set_opacity(0.72)
+        support_fan = VGroup(
+            *[
+                Line(node.get_center(), ORIGIN, color=GRAY_200, stroke_width=2.5).set_opacity(0.34)
+                for node in support_nodes
+            ]
+        )
 
-        self.add(inner_orbit, orbit, center_ring, center_core, *anchor_points, orbit_dot, orbit_glow)
+        lead = Dot(color=PRIMARY_RED, radius=0.18)
+        lead.move_to(anchor_positions[0])
+        lead_glow = always_redraw(
+            lambda: Circle(radius=0.33, color=PRIMARY_RED, stroke_width=5)
+            .set_fill(PRIMARY_RED, opacity=0.08)
+            .set_stroke(opacity=0.42)
+            .move_to(lead)
+        )
+
+        self.add(
+            support_links,
+            support_fan,
+            inner_orbit,
+            orbit,
+            center_ring,
+            center_core,
+            anchor_points,
+            support_nodes,
+            lead_glow,
+            lead,
+        )
+        self.wait(2.6)
+
+        trail_segments = VGroup()
+        for index, position in enumerate(anchor_positions[1:] + [anchor_positions[0]]):
+            path = Arc(
+                radius=route_radius,
+                start_angle=index * PI / 2,
+                angle=PI / 2,
+                color=PRIMARY_RED,
+                stroke_width=8,
+            )
+            path.set_stroke(opacity=0.0)
+            trail = path.copy().set_stroke(opacity=0.74)
+            trail_segments.add(trail)
+
+            pulse = Circle(radius=0.34, color=PRIMARY_RED, stroke_width=5).move_to(position)
+            pulse.set_fill(PRIMARY_RED, opacity=0.06).set_stroke(opacity=0.68)
+            self.play(
+                MoveAlongPath(lead, path),
+                Create(trail),
+                run_time=3.0,
+                rate_func=linear,
+            )
+            self.play(
+                GrowFromCenter(pulse),
+                anchor_points[index + 1 if index < 3 else 0].animate.set_color(PRIMARY_RED).scale(1.22),
+                run_time=0.35,
+            )
+            self.play(
+                FadeOut(pulse, scale=1.45),
+                anchor_points[index + 1 if index < 3 else 0].animate.set_color(GRAY_600).scale(1 / 1.22),
+                run_time=0.55,
+            )
+
+        support_targets = [
+            [-0.58, -0.34, 0],
+            [0, -0.48, 0],
+            [0.58, -0.34, 0],
+        ]
+        for node, target in zip(support_nodes, support_targets):
+            self.play(
+                node.animate.move_to(target).set_opacity(0.86),
+                run_time=1.0,
+                rate_func=smooth,
+            )
+
+        terminal_core = Dot(ORIGIN, color=PRIMARY_RED, radius=0.22)
         self.play(
-            FadeIn(inner_orbit, scale=0.96),
-            FadeIn(center_ring, scale=0.94),
-            FadeIn(center_core, scale=0.92),
-            FadeIn(orbit_dot),
-            run_time=0.75,
+            Transform(lead, terminal_core),
+            FadeOut(lead_glow, scale=1.2),
+            FadeOut(trail_segments, shift=ORIGIN),
+            FadeOut(support_links),
+            FadeOut(support_fan),
+            FadeOut(center_core, scale=0.82),
+            FadeOut(center_ring, scale=0.92),
+            run_time=1.8,
+            rate_func=smooth,
         )
-        self.play(
-            MoveAlongPath(orbit_dot, orbit),
-            run_time=4.4,
-            rate_func=linear,
-        )
-        self.wait(0.12)
+        self.wait(6.2)
 
 
 class HeroPlusSupportingLoopSupportScene(Scene):
@@ -236,42 +321,38 @@ class HeroPlusSupportingLoopSupportScene(Scene):
         if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
             self.camera.background_color = PAGE_BACKGROUND
 
-        orbit = Circle(radius=1.62, color=PRIMARY_BLUE, stroke_width=12)
-        orbit.set_stroke(opacity=0.84)
+        orbit = Circle(radius=1.58, color=GRAY, stroke_width=10)
+        orbit.set_stroke(opacity=0.82)
 
-        support_ring = Circle(radius=2.0, color=PRIMARY_GREEN, stroke_width=5)
-        support_ring.set_stroke(opacity=0.22)
+        support_ring = Circle(radius=2.05, color=GRAY_300, stroke_width=4)
+        support_ring.set_stroke(opacity=0.66)
 
-        center_core = Circle(radius=0.34, color=PRIMARY_GREEN, stroke_width=8)
-        center_core.set_fill(PRIMARY_GREEN, opacity=0.96)
+        center_core = Dot(ORIGIN, color=GRAY_700, radius=0.16)
 
-        orbit_dot = Dot(color=PRIMARY_YELLOW, radius=0.12)
-        orbit_dot.move_to(orbit.point_from_proportion(0))
+        motion_path = Circle(radius=1.82)
+        orbit_dot = Dot(color=PRIMARY_RED, radius=0.13)
+        orbit_dot.move_to(motion_path.point_from_proportion(0))
 
         orbit_glow = always_redraw(
-            lambda: Circle(radius=0.22, color=PRIMARY_YELLOW, stroke_width=4)
-            .set_fill(PRIMARY_YELLOW, opacity=0.14)
+            lambda: Circle(radius=0.24, color=PRIMARY_RED, stroke_width=4)
+            .set_fill(PRIMARY_RED, opacity=0.08)
+            .set_stroke(opacity=0.42)
             .move_to(orbit_dot)
         )
 
         guide = Line(
             orbit.point_from_proportion(0.0),
             orbit.point_from_proportion(0.5),
-            color=PRIMARY_ORANGE,
-            stroke_width=5,
+            color=GRAY_300,
+            stroke_width=4,
         )
-        guide.set_stroke(opacity=0.2)
+        guide.set_stroke(opacity=0.58)
 
-        self.add(support_ring, guide, orbit, center_core, orbit_dot, orbit_glow)
+        self.add(support_ring, guide, orbit, center_core, orbit_glow, orbit_dot)
+        self.wait(0.7)
         self.play(
-            FadeIn(support_ring, scale=0.95),
-            FadeIn(center_core, scale=0.9),
-            FadeIn(orbit_dot),
-            run_time=0.6,
-        )
-        self.play(
-            MoveAlongPath(orbit_dot, orbit),
-            run_time=3.6,
+            MoveAlongPath(orbit_dot, motion_path),
+            run_time=5.05,
             rate_func=linear,
         )
-        self.wait(0.12)
+        self.wait(0.55)

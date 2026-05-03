@@ -184,6 +184,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Empty lower Kanban lanes can make strong-color audits and human review read the board as top-heavy. Shorten the lane height or add restrained bottom lane rails that match the headers so the opening breath and final hold stay vertically balanced.
 - For transparent Manim WebMs, setting scene background opacity is not enough when the CLI command omits `--transparent`; set `config.transparent = True`, `config.background_opacity = 0.0`, and the scene camera background opacity before construction when the render command cannot be changed. Validate the promoted WebM with decoded alpha extrema, not metadata alone.
 - In ramp-lift scenes, do not leave the proof frame with only a ramp and one lifted actor after source cleanup. Keep quiet support actors staged near the ramp for balance, retire broad source and destination panels before the support proof, and inspect strict crowding findings full size to distinguish intentional actor-on-ramp contact from real actor-to-panel or actor-to-actor collisions.
+- For hero plus support asset pairs, let the hero carry the full slide-integration pacing and keep the support as a simpler documented micro-loop. Share the same red/gray visual grammar, put the support actor on a nearby lane instead of directly on its static guide, and remove hero terminal halos or old center guides before the final hold so the resolved frame is calmer than the proof path.
 
 ## Maintenance Rule
 

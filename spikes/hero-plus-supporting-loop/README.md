@@ -50,7 +50,8 @@ npx @slidev/cli build spikes/hero-plus-supporting-loop/slides.md
 ## Notes
 
 - The hero asset is the dominant visual and uses a wide framing.
-- The support asset is smaller and loops cleanly so it can behave like an accent or reinforcement element.
+- The hero asset is paced as a slide-integration clip with a visible opening breath, a proof path, cleanup, and a resolved final hold.
+- The support asset is intentionally a shorter micro-loop so it can behave like a subordinate accent or reinforcement element.
 - White PNG posters are included for review and fallback rendering.
 - Keep the Slidev imports local to this spike so the experiment remains self-contained.
 
@@ -58,6 +59,8 @@ npx @slidev/cli build spikes/hero-plus-supporting-loop/slides.md
 
 - A hero plus support pattern works best when the support asset is simpler and smaller than the main animation.
 - The support loop should be designed as a repeating accent, not a second headline.
+- The support actor should travel on a nearby motion lane rather than directly on top of its static track. That keeps the loop readable while avoiding actor-to-guide crowding in still-frame review.
+- The hero final hold should remove terminal rings, old center dots, and guide scaffolds that were useful during the mechanism but become residue once the supporting forms have resolved.
 - Separate render outputs are useful when the hero and the support asset need different framing or aspect ratios.
 - Poster PNGs remain useful for review because they make the composition readable even when the video frame is not visible immediately.
 - Keeping the poster visible behind the transparent video is a practical review fallback when headless Chromium does not paint the video frame.

@@ -60,6 +60,16 @@ Use `side-by-side comparison asset` when a Slidev comparison page embeds two rel
 - Remove route scaffolds and empty source slots before the resolved hold, then recenter the final actor or cluster so the clip does not end stranded in an old transfer layout.
 - Resting audits may report route-to-actor or route-to-slot notices for the guided side. Inspect the full-size frame and treat the notice as acceptable only when the route is visibly the track being followed and does not obscure the actor or receiver.
 
+# Hero Plus Support Assets
+
+Use `hero plus support asset` when one dominant transparent clip and one smaller looping clip are meant to appear together on a Slidev page.
+
+- Pace the hero as the explanatory slide-integration scene: visible opening structure, one strong proof path, cleanup, and a 5 to 7 second final hold.
+- Keep the support clip as a documented micro-loop only when it is clearly subordinate to the hero.
+- Use the same red/gray grammar in both assets so the support loop reinforces the hero rather than introducing a second palette.
+- Put the support actor on a nearby motion lane instead of directly on the static guide. Actor-on-guide contact can read as crowding in sampled stills, while a small lane offset still communicates the loop.
+- Remove terminal halos, old center dots, and guide scaffolds from the hero final hold unless they still cause the resolved state. A clean hero hold should be calmer than the proof path.
+
 # Time Rail Scenes
 
 Use `time rail` when a left-side timeline or spine should act as the narrator instead of a traveling red dot.

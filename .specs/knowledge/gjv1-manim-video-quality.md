@@ -1363,6 +1363,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render is 31.486 seconds at 1600x900 with 105 extracted 0.3-second white-background review frames; decoded alpha extrema are `(0, 255)`, frame composition audit sampled 106 frames with zero findings, resting-mobject audit reported zero blocking snapshots across 11 rest states, and strict crowding audit was reduced to 2 source-pulse review prompts that were inspected full size and accepted as intentional pulse-on-stem contact.
 
+## Hero Plus Supporting Loop
+
+- **Hypothesis**: A hero/support asset pair reads better when the hero carries slide-integration pacing and the support remains a simpler micro-loop using the same visual grammar.
+- **Result**: Confirmed on `spikes/hero-plus-supporting-loop/` after replacing the short multi-color orbit loops with a 29.33-second hero clip and a 6.30-second support loop.
+- **What worked**:
+  - showing the hero route, anchors, center, and support forms during the opening breath so the first still frame already explains the relationship,
+  - using one primary-red actor and gray structure across both outputs instead of several saturated palette roles,
+  - turning the hero into a proof path with quarter handoffs, then fading route traces, center guides, and terminal halo residue before the final hold,
+  - moving the support actor onto a nearby motion lane rather than directly on its static ring, which preserved the loop while clearing strict actor-to-guide crowding.
+- **Validation note**:
+  - the final render was reviewed with white-background 0.3-second contact sheets for both promoted videos; hero composition and crowding audits sampled 98 frames with zero blocking frames, support composition and crowding audits sampled 22 frames with zero blocking frames, both resting-mobject audits reported zero blocking snapshots across 2 rest states, and both VP9 WebMs decoded with alpha range `0..255`.
+
 # Reusable Process
 
 1. State the missing hypothesis.
