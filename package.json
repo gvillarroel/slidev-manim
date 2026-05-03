@@ -58,6 +58,8 @@
     "video:red-dot-circuit-spa": "uv run --script spikes/red-dot-circuit-spa/main.py",
     "dev:red-dot-fold-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-fold-spa",
     "video:red-dot-fold-spa": "uv run --script spikes/red-dot-fold-spa/main.py",
+    "dev:red-dot-eclipse-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-eclipse-spa",
+    "video:red-dot-eclipse-spa": "uv run --script spikes/red-dot-eclipse-spa/main.py",
     "dev:red-dot-hinge-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-hinge-spa",
     "video:red-dot-hinge-spa": "uv run --script spikes/red-dot-hinge-spa/main.py",
     "dev:red-dot-iris-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-iris-spa",
