@@ -27,3 +27,15 @@ This writes the rendered assets to:
 ```text
 videos/quality-scale-hierarchy/
 ```
+
+## Current quality pass
+
+- Promoted video: `videos/quality-scale-hierarchy/quality-scale-hierarchy.webm`
+- Poster: `videos/quality-scale-hierarchy/quality-scale-hierarchy.png`
+- Review frames: `videos/quality-scale-hierarchy/review-final-0.3s/`
+- Validation reports:
+  - `videos/quality-scale-hierarchy/composition-audit/report.md`
+  - `videos/quality-scale-hierarchy/crowding-audit/report.md`
+  - `videos/quality-scale-hierarchy/resting-mobject-audit/report.md`
+
+The current render is a transparent 27.49 second slide-integration asset with a visible opening scaffold, a staged size-hierarchy handoff, a held dominant-form proof, cleanup, and a centered final hold.

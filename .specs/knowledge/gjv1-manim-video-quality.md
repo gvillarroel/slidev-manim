@@ -438,6 +438,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - a final frame that reads in one glance.
 - **What to keep**:
   - make the main shape clearly larger, not just slightly larger, when testing hierarchy.
+- **2026-05-03 refinement**:
+  - reserve the final dominant/support cluster with faint target slots during the opening breath so the destination reads as pending hierarchy, not dead space,
+  - use one red route pulse per source actor and stop the neutral guide short of the target actor; route-on-pulse contacts are acceptable only while they visibly cause the handoff,
+  - after the source rail and outer frame disappear, recenter the resolved cluster before the final hold so the hierarchy does not remain stranded in the old transfer layout,
+  - remove the soft destination plate and terminal brackets before the final hold when the scale relationship is already self-explanatory.
+- **Validation note**:
+  - the latest render is 27.491 seconds, 1600x900, transparent VP9 with `alpha_mode=1` and decoded alpha extrema `0..255`; 91 white-background review frames were sampled at 0.3-second cadence, frame composition audit reported 0 blocking frames across 93 samples, resting-mobject audit reported 0 blocking snapshots across 6 rest states, and strict crowding findings were reduced to 19 route/pulse or transient slot-contact prompts inspected full size.
 
 ## Quality Anchored Orbit
 

@@ -554,6 +554,7 @@ Do not add text before exhausting those fixes.
 
 - make size contrast more obvious,
 - increase angular spacing in fan layouts,
+- for scale-hierarchy scenes, show the target size slots during the opening breath, then recenter the resolved dominant/support cluster after source cleanup. If the final hierarchy already reads without help, remove soft plates, route guides, and terminal brackets before the final hold.
 - for snap recoil scenes, show the destination slot or pressure surface before the snap, hold one stretched overshoot proof frame, then retire slots before support forms settle so outlines do not become crowding.
 - keep the pressure wall close enough to explain the snap but far enough from support forms to clear targeted crowding checks after the recoil.
 - after source cleanup in a snap recoil scene, recenter the resolved target stage so the final hold does not remain stranded in the old transfer lane.
