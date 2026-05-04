@@ -552,6 +552,13 @@ Do not add text before exhausting those fixes.
 - Do not let a broad target panel outline surround the leader during the capture proof. Use a stroke-free pale plate or let the open receiver strokes define the pocket, then remove the plate before the support handoff.
 - Fade the receiver and magnet core before the final landing morph unless they still cause the motion. Leaving the core in place while the leader expands can create actor-to-actor cleanup contact.
 
+### Keystone lock
+
+- Let the support forms assemble the receiving pocket before the leader arrives; otherwise the lock reads as a generic regroup.
+- Use the opening breath to show the source form, route hint, and faint destination pocket slots so the transfer has a visible purpose before motion starts.
+- Keep broad but quiet balancing scaffolds visible while the constrained cluster recenters. If the source or target plate disappears while the locked pocket is still right-weighted, 0.3-second composition audits can catch a one-frame off-center cleanup beat.
+- Once the cluster is centered, fade the source/target plates and route before the terminal hold. The final support should sit clear of the leader tip unless the contact itself is the pressure proof.
+
 ### Support and force
 
 - delay support motion until the leader reaches the mechanism,
