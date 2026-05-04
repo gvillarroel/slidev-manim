@@ -82,6 +82,17 @@ Use `time rail` when a left-side timeline or spine should act as the narrator in
 - To continue from agenda into content, keep the rail fixed, activate one tick, soften or remove future agenda items, and let the active card open into a detail panel. The first detailed beat should feel like the selected point now owns the stage, while the rail preserves orientation.
 - Avoid secondary red connector lines, row-outline boxes, or terminal rules inside the detail panel. If the rail is the narrator, extra red lines away from it read as annotation artifacts; use quiet gray local cues for detail rows.
 
+# Rhythm Gate Scenes
+
+Use `rhythm gate` when timing cadence is the mechanism and the viewer should read progress as a sequence of prepared openings.
+
+- Show the rail, source, destination, and every pending gate in the opening breath so the first frame reads as a timed path, not a moving-dot demo.
+- Open each gate before the actor reaches the center of the slot, then hold a proof frame where the actor is visibly inside the opened channel.
+- Give the opened channel real clearance around the active actor. If the actor scales during the proof, widen the gate rules or reduce the scale pulse before accepting strict crowding findings.
+- Keep beat marks off the gate-rule endpoints. A tiny mark that touches the lower end of a gate line can look harmless in thumbnails but still reads as zero-clearance residue in full-size audit overlays.
+- During cleanup, remove receiver slots, gate rules, and old source scaffolds before the actor scales into a terminal artifact. Faint leftovers can pull composition audits off-center even when the resolved cluster is visually centered.
+- Prefer separated terminal echo strokes, ticks, or corner marks over full rings that enclose the actor. Enclosing rings often become actor-to-outline crowding unless the containment is the explicit subject.
+
 # Gantt Timeline Scenes
 
 Use `native gantt timeline` when a generated Mermaid Gantt SVG becomes too dense, text-heavy, or visually static as fragment batches.

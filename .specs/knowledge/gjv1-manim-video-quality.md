@@ -1405,6 +1405,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - both full and content renders are 25.500 seconds and generated 85 white-background frames at 0.3-second cadence with decoded alpha range `0..255`; full and content composition/crowding audits sampled 86 frames each with zero blocking frames, and resting-mobject audits reported zero blocking snapshots across 4 rest states for each variant.
 
+## Quality Rhythm Gating
+
+- **Hypothesis**: A rhythm-gating scene reads better when timing cadence is the mechanism itself: prepared gates are visible from frame zero, each gate opens before the active actor reaches it, and each completed beat leaves a restrained mark.
+- **Result**: Confirmed on `spikes/quality-rhythm-gating/` after replacing a 5.9-second multicolor decorative transform with a 31.021-second transparent red/gray slide-integration render.
+- **What worked**:
+  - showing the rail, source slot, target slot, and all three gate columns during the opening breath so the first still frame explains the timed path,
+  - widening gate-rule clearance and reducing the proof scale pulse so the active red actor reads inside an open channel instead of touching the gate,
+  - moving beat marks away from gate-rule endpoints after strict crowding overlays caught zero-clearance contacts that thumbnails made easy to miss,
+  - removing receiver slots, source scaffolds, and gate rules before the terminal scale-up so cleanup frames no longer looked off-center or crowded,
+  - using separated echo strokes and corner brackets for the final rhythm artifact instead of full rings around the actor.
+- **Validation note**:
+  - the final render is 31.021 seconds at 1600x900 and generated 103 white-background frames at 0.3-second cadence; decoded alpha extrema are `0..255`, frame composition and frame crowding audits sampled 104 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 10 rest states.
+
 # Reusable Process
 
 1. State the missing hypothesis.
