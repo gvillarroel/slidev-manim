@@ -1398,6 +1398,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - moving the support actor onto a nearby motion lane rather than directly on its static ring, which preserved the loop while clearing strict actor-to-guide crowding.
 - **Validation note**:
   - the final render was reviewed with white-background 0.3-second contact sheets for both promoted videos; hero composition and crowding audits sampled 98 frames with zero blocking frames, support composition and crowding audits sampled 22 frames with zero blocking frames, both resting-mobject audits reported zero blocking snapshots across 2 rest states, and both VP9 WebMs decoded with alpha range `0..255`.
+- **2026-05-04 refinement**:
+  - increasing the support loop footprint inside its square render made the subordinate asset readable after downscaling without adding new text or chrome,
+  - strengthening the hero footprint required auditing the transient red halo, not only the base orbit; the first enlarged pass failed top/bottom margin checks because the halo radius extended beyond the visible track,
+  - adding built-in 0.3-second alpha-on-white review extraction to the runner made future hero/support scale passes reproducible and avoided one-off review scripts.
+- **Validation note**:
+  - the refined hero/support renders are 29.328 seconds and 6.299 seconds, with 98 and 21 alpha-on-white review frames at 0.3-second cadence and decoded alpha range `0..255`; final composition and crowding audits sampled 99/22 frames with zero blocking frames, resting-mobject audits reported zero blocking snapshots with notice-only intentional ring/actor contacts, and the skill self-containment audit passed.
 
 ## Quality Keystone Lock
 
