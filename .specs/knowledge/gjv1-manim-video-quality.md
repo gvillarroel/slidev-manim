@@ -1436,6 +1436,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render is 31.021 seconds at 1600x900 and generated 103 white-background frames at 0.3-second cadence; decoded alpha extrema are `0..255`, frame composition and frame crowding audits sampled 104 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 10 rest states.
 
+## Multi Video Grid
+
+- **Hypothesis**: A Slidev grid of Manim clips reads better when the slide supplies the labels and cards, while the videos share one red/gray mechanism grammar and each clip still has full slide-integration pacing.
+- **Result**: Confirmed on `spikes/multi-video-grid/` after replacing four 2.2-2.9 second title-card clips with four 25.6-30.8 second transparent motion assets.
+- **What worked**:
+  - removing embedded titles, subtitles, rounded local cards, and per-clip saturated palettes so the Slidev grid owns the chrome and the videos remain content-first,
+  - using frame-zero scaffolds for orbit, pulse, sweep, and merge so posters and fallback stills are meaningful before playback starts,
+  - giving each asset a visible proof beat, cleanup, and held terminal artifact instead of treating looping deck playback as the timing model,
+  - generating 0.3-second white-background review frames and contact sheets for each individual asset, because a combined grid screenshot can hide a weak member.
+- **Validation note**:
+  - final renders are 30.798s, 25.560s, 27.392s, and 25.598s with decoded alpha range `0..255`; 0.3-second composition audits sampled 104/86/92/86 frames with zero blocking frames, crowding audits sampled the same frames with zero blocking frames, and resting-mobject audits reported zero blocking snapshots. Notice-only rest contacts were expected actor-on-orbit, actor-on-ring, actor-on-track, or actor-on-receiver proof states.
+
 # Reusable Process
 
 1. State the missing hypothesis.

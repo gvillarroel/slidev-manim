@@ -70,6 +70,17 @@ Use `hero plus support asset` when one dominant transparent clip and one smaller
 - Put the support actor on a nearby motion lane instead of directly on the static guide. Actor-on-guide contact can read as crowding in sampled stills, while a small lane offset still communicates the loop.
 - Remove terminal halos, old center dots, and guide scaffolds from the hero final hold unless they still cause the resolved state. A clean hero hold should be calmer than the proof path.
 
+# Multi-Asset Grid Scenes
+
+Use `multi-asset grid` when a Slidev page embeds three or more independent Manim clips in one grid or repeated panel layout.
+
+- Let the Slidev layout own labels, titles, cards, shadows, and rounded chrome. The Manim assets should usually be content-first transparent clips with only the mechanism and quiet support geometry.
+- Use one shared visual grammar across the asset family, normally primary red for the active actor and grayscale for support. Four independent saturated palettes make a dense grid read as unrelated samples instead of one coherent system.
+- Give every promoted grid asset slide-integration pacing unless a shorter micro-loop is explicitly documented. Looping playback in the deck is not a substitute for a meaningful opening breath, proof beat, cleanup, and final hold in the exported clip.
+- Keep frame-zero scaffolds visible for each asset so posters and fallback stills are useful before video playback starts.
+- Generate dense review frames and contact sheets per asset, not only for the combined Slidev screenshot. A grid can look aligned while one member still has a weak mechanism, stale title chrome, or an under-held final state.
+- Resting audits may report notice-level contacts when an actor intentionally sits on an orbit, track, ring, or receiver during the proof. Treat those as acceptable only after full-size frame review confirms the guide is the mechanism and not stale residue.
+
 # Time Rail Scenes
 
 Use `time rail` when a left-side timeline or spine should act as the narrator instead of a traveling red dot.
