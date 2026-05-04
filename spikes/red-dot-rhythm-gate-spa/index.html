@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Rhythm Gate SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot rhythm gate visual narrative">
+        <div class="stage-frame" tabindex="0">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot rhythm gate narrative</title>
+            <desc id="stage-desc">
+              A single red point enters a quiet field, tests three cadence gate structures, gets compressed inside a narrow
+              central channel, then resolves into a calm rhythm frame where the point becomes the pulse that organizes the
+              whole system.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fbfbfb" />
+                <stop offset="100%" stop-color="#f2f2f2" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="50%" cy="50%" r="52%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="78%" stop-color="#ffffff" stop-opacity="0.26" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.92" />
+                <stop offset="68%" stop-color="#ffccd5" stop-opacity="0.2" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="gate-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96" />
+                <stop offset="56%" stop-color="#ffccd5" stop-opacity="0.24" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="814" cy="452" rx="724" ry="316" fill="url(#field-glow)" opacity="0.98" />
+            <ellipse cx="1198" cy="266" rx="236" ry="142" fill="#ffccd5" opacity="0.08" />
+            <ellipse cx="398" cy="670" rx="260" ry="152" fill="#ffffff" opacity="0.44" />
+
+            <g id="layout-root">
+              <rect x="186" y="214" width="1228" height="430" fill="#ffffff" opacity="0.16" />
+              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 220 274 H 1380" />
+                <path d="M 220 450 H 1380" />
+                <path d="M 220 626 H 1380" />
+                <path d="M 520 230 V 676" />
+                <path d="M 846 230 V 676" />
+                <path d="M 1172 230 V 676" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="base-rail"
+                  d="M 278 450 H 1266"
+                  fill="none"
+                  stroke="#d9d9d9"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  opacity="0.42"
+                />
+                <path
+                  id="narrative-spine"
+                  d="M 294 450 C 408 450, 478 450, 520 450"
+                  fill="none"
+                  stroke="#d8d8d8"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+                <path
+                  id="active-trail"
+                  d="M 520 450 C 580 446, 630 438, 690 426 C 748 416, 794 430, 846 450 C 900 470, 954 438, 1008 414 C 978 438, 930 448, 846 450"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-dasharray="0 2000"
+                  opacity="0"
+                />
+                <path
+                  id="center-guide"
+                  d="M 846 294 V 606"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="10 14"
+                  opacity="0"
+                />
+
+                <g id="candidate-a" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M -20 -72 V 72 M 20 -72 V 72 M -42 -86 H -10 M 10 -86 H 42 M -42 86 H -10 M 10 86 H 42"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <g id="candidate-b" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M -20 -82 V 82 M 20 -82 V 82 M -46 -96 H -10 M 10 -96 H 46 M -46 0 H -10 M 10 0 H 46 M -46 96 H -10 M 10 96 H 46"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <g id="candidate-c" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M -20 -62 V 28 M 20 -26 V 64 M -44 -76 H -10 M 10 78 H 44 M -10 28 H 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <circle id="echo-a" cx="738" cy="332" r="6" fill="#9e1b32" opacity="0" />
+                <circle id="echo-b" cx="904" cy="330" r="6" fill="#9e1b32" opacity="0" />
+                <circle id="echo-c" cx="1062" cy="332" r="6" fill="#9e1b32" opacity="0" />
+
+                <ellipse id="compression-halo" cx="846" cy="450" rx="176" ry="138" fill="url(#gate-glow)" opacity="0" />
+
+                <g id="pressure-left" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M -40 -116 V 116"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="7"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="pressure-right" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M 40 -116 V 116"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="7"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="pressure-top" style="color: #cfcfcf" opacity="0">
+                  <path
+                    d="M -118 -138 H -54 M 54 -138 H 118"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="pressure-bottom" style="color: #cfcfcf" opacity="0">
+                  <path
+                    d="M -118 138 H -54 M 54 138 H 118"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="meter-left" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M -96 -104 V 104"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="7"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="meter-right" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M 96 -104 V 104"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="7"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="meter-top" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M -166 -86 H -42 M 42 -86 H 166"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="7"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="meter-bottom" style="color: #4f4f4f" opacity="0">
+                  <path
+                    d="M -166 86 H -42 M 42 86 H 166"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="7"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <path
+                  id="active-top-path"
+                  d="M 680 364 H 804 M 888 364 H 1012"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  stroke-dasharray="0 800"
+                  opacity="0"
+                />
+
+                <path
+                  id="active-bottom-path"
+                  d="M 680 536 H 804 M 888 536 H 1012"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  stroke-dasharray="0 800"
+                  opacity="0"
+                />
+
+                <g id="meter-beats" style="color: #9e1b32" opacity="0">
+                  <path
+                    d="M 724 328 V 350 M 968 328 V 350 M 724 550 V 572 M 968 550 V 572"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <ellipse id="resolution-halo" cx="846" cy="450" rx="168" ry="146" fill="url(#gate-glow)" opacity="0" />
+
+                <g id="terminal-corners" style="color: #cfcfcf" opacity="0">
+                  <path
+                    d="M 650 320 H 682 M 650 320 V 352 M 1042 320 H 1010 M 1042 320 V 352 M 650 580 H 682 M 650 580 V 548 M 1042 580 H 1010 M 1042 580 V 548"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <circle id="dot-halo" cx="294" cy="450" r="72" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="294" cy="450" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

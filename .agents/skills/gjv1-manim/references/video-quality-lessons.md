@@ -195,6 +195,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Rhythm-gate scenes should treat timing cadence as the mechanism: show all pending gates in the opening breath, open each gate before the actor reaches it, hold a proof frame inside the opened channel, and record each completed beat with a separate mark.
 - Give active actors enough clearance from gate rules after any scale pulse. A gate that looks open in a thumbnail can still fail full-size crowding review if the actor and rule bounding boxes touch.
 - Keep beat marks away from gate-rule endpoints, and remove receiver slots, source scaffolds, and gate rules before a terminal actor scales up. Faint cleanup leftovers can create off-center or zero-clearance audit findings even after the mechanism has already resolved.
+- For browser-native rhythm-gate narratives, keep the search candidates, the tension channel, and the resolved frame on one shared center rail. Reusing that same rail makes the compression read as the chosen gate tightening into focus, while introducing a new off-rail device in tension or leaving the final rails fully red makes the sequence feel like a badge swap instead of cadence becoming structure.
 - For terminal rhythm artifacts, use separated echo strokes, beat ticks, or corner brackets rather than full rings around the actor unless containment is the subject. Rings around a core often read as actor-to-outline contact in strict crowding review.
 
 ## Maintenance Rule
