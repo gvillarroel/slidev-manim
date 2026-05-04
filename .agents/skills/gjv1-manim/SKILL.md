@@ -600,7 +600,9 @@ Do not add text before exhausting those fixes.
 - for orbit-guided motion, treat crowding audit findings as blocking only after full-size review confirms actor-to-actor, actor-to-outline, or guide-over-actor interference. Actor-on-path contact can be intentional when the guide is the track being followed.
 - when tightening a fan-out camera for hierarchy, audit the whole fan transition cadence and recenter for the earliest proof frames, not only the resolved hold,
 - push edge landings closer to the boundary if tension is the point,
-- for edge-tension scenes, show a faint target slot or temporary pressure wall during the opening breath, hold the overshoot against it in a proof frame, then remove abandoned source panels and the wall before the resolved hold.
+- for edge-tension scenes, show a faint target slot or temporary pressure wall during the opening breath, hold the overshoot against it in a proof frame, then remove abandoned source panels before the resolved hold.
+- if the resolved edge-tension hold intentionally stays right-weighted, keep a quiet left anchor or shortened tension tether as causal balance. Use thin filled bars for passive rails and walls when rest-state audits need to see them; zero-area `Line` mobjects may be visually present but ignored by bounds audits.
+- for hollow target slots, set stroke opacity directly rather than applying group opacity. Group opacity can make stroke-only circles look filled, which turns pending destinations into ghost actors.
 - let the lead form arrive first when the scene depends on delayed settle,
 - remove orbital or staging scaffolding before the final frame.
 

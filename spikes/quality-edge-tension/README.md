@@ -27,3 +27,11 @@ This writes the rendered assets to:
 ```text
 videos/quality-edge-tension/
 ```
+
+The runner also writes white-background review frames and contact sheets at:
+
+```text
+videos/quality-edge-tension/review-frames-0.3s/
+```
+
+The promoted WebM is rendered with transparency for Slidev integration.

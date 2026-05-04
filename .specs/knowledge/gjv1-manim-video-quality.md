@@ -1345,6 +1345,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render was reviewed with 83 extracted 0.3-second white-background frames and full-size proof frames at the opening, tilt proof, moving-probe beat, and final hold; composition audit sampled 84 frames with zero findings, crowding audit sampled 84 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and VP9 alpha decoded to a 0 to 255 range.
 
+## Quality Edge Tension
+
+- **Hypothesis**: An edge-tension scene reads better when the pressure proof is carried by one primary-red actor near a visible wall, while gray anchors keep the right-weighted terminal hold balanced without turning into a full frame.
+- **Result**: Confirmed on `spikes/quality-edge-tension/` after replacing the multicolor source/target layout with a transparent red/gray pressure-wall sequence.
+- **What worked**:
+  - replacing orange/yellow route cues and multicolor actors with one red leader, gray support dots, a pressure wall, and short red stress ticks,
+  - keeping hollow target slots in the opening breath, then setting stroke opacity directly so those slots stayed outlines instead of translucent filled disks,
+  - holding a stretched proof frame near the wall with enough clearance for strict crowding review,
+  - shortening the final passive tether so it balances the off-edge hold without visibly entering the red actor,
+  - using thin filled bars, not zero-area `Line` mobjects, for passive rails that rest-state bounds audits should count.
+- **Validation note**:
+  - the final render is 25.699 seconds at 1600x900 and generated 86 white-background review frames at 0.3-second cadence; decoded alpha extrema are `0..255`, frame composition and frame crowding audits sampled 87 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 5 rest states, and the skill self-containment audit passed.
+
 ## Mind Map Shape Token Lines
 
 - **Hypothesis**: A token-shape comparison reads more like generated growth when the opening breath shows only partial source and receiver hints, not every complete route.
