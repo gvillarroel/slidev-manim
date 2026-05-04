@@ -191,8 +191,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - removing the title band and visible backing plate so the packet itself owns the hierarchy,
   - using small gutters between adjacent field bodies and left-inset range labels so full-size review and strict crowding audits do not read packet boundaries or labels as accidental contacts,
   - keeping only separated terminal corner brackets for the final hold instead of enclosing the whole packet in a closed outline.
+- **2026-05-04 refinement**:
+  - the packet read better after replacing green/blue/orange field fills with one red header plus grayscale data fields, because bit structure became the hierarchy instead of category color,
+  - external top/bottom scan notches worked better than a full-height cursor or active outline; they prove the bit boundary without crossing field labels,
+  - retire each ghost slot label just before its field grows. Simultaneously growing a body over placeholder text can look acceptable in thumbnails but creates unreadable double text and strict crowding failures,
+  - set Manim transparency in both global config and the scene camera, then validate decoded alpha extrema. The render can be WebM and still be fully opaque if the camera background remains opaque.
 - **Validation note**:
-  - final 0.3-second white-background review frames, full-size proof frames, frame composition audit, frame crowding audit, and resting-mobject audit all cleared with zero blocking findings; WebM metadata reported 25.758 seconds at 1600x900.
+  - final 0.3-second white-background review frames, full-size proof frames, frame composition audit, frame crowding audit, resting-mobject audit, duration check, and decoded-alpha check all cleared; latest WebM is 25.759 seconds at 1600x900 with alpha extrema `0..255`.
 
 ## Mermaid Kanban SVG Unfold
 

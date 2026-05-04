@@ -112,7 +112,11 @@ Use `native packet fields` when a compact Mermaid packet SVG becomes a thin stri
 - Show the full two-row or multi-field packet scaffold during the opening breath before any field fills.
 - Grow each field body from its bit-range start while one primary-red cursor, scan line, or active outline proves progression.
 - Keep range labels inset from field edges and add tiny gutters between adjacent colored field bodies so strict crowding review does not read packet boundaries as accidental contact.
+- Prefer one active red role and grayscale data fields unless distinct semantic categories truly need multiple colors. In packet scenes, bit position usually matters more than category hue.
+- Put scan cues outside the field body when labels must remain readable. Short top/bottom boundary notches can prove progression without crossing text.
+- Retire the slot label just before the real field grows. Growing a body over ghost text creates double labels and strict crowding failures in sampled proof frames.
 - Remove title bands, visible stage plates, and closed terminal outlines unless they carry meaning. A clean page background with separated terminal brackets usually leaves the final hold calmer.
+- For transparent packet assets, set Manim transparency in config and on the scene camera, then validate decoded alpha extrema. WebM output alone does not prove transparency.
 
 # Kanban Board Scenes
 
