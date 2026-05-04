@@ -39,6 +39,10 @@ const facetUpperLeft = document.getElementById("facet-upper-left");
 const facetUpperRight = document.getElementById("facet-upper-right");
 const facetLowerRight = document.getElementById("facet-lower-right");
 const facetLowerLeft = document.getElementById("facet-lower-left");
+const facetAccentUpperLeft = document.getElementById("facet-accent-upper-left");
+const facetAccentUpperRight = document.getElementById("facet-accent-upper-right");
+const facetAccentLowerRight = document.getElementById("facet-accent-lower-right");
+const facetAccentLowerLeft = document.getElementById("facet-accent-lower-left");
 const anchorGrid = document.getElementById("anchor-grid");
 const resolutionHalo = document.getElementById("resolution-halo");
 const resolutionFrame = document.getElementById("resolution-frame");
@@ -56,7 +60,7 @@ const COLORS = {
 };
 
 const points = {
-  start: { x: 304, y: 450 },
+  start: { x: 352, y: 450 },
   ingress: { x: 564, y: 450 },
   ridgeCandidate: { x: 642, y: 356 },
   splitCandidate: { x: 836, y: 324 },
@@ -223,7 +227,15 @@ function applySceneOffset(phaseId) {
     resolution: -2,
   };
   const offsetY = offsets[phaseId] ?? 0;
-  sceneRoot.setAttribute("transform", `translate(0 ${offsetY})`);
+  const portraitScales = {
+    tension: 0.9,
+    transformation: 0.84,
+    resolution: 0.72,
+  };
+  const portraitScale = svg.dataset.layout === "portrait" ? (portraitScales[phaseId] ?? 1) : 1;
+  const scaleTransform =
+    portraitScale === 1 ? "" : ` translate(820 450) scale(${portraitScale}) translate(-820 -450)`;
+  sceneRoot.setAttribute("transform", `translate(0 ${offsetY})${scaleTransform}`);
 }
 
 function applyFraming(phaseId) {
@@ -301,6 +313,9 @@ function resetScene() {
   setGroupTransform(facetLowerRight, prism.lowerRight.x, prism.lowerRight.y, 1, 0);
   setGroupTransform(facetLowerLeft, prism.lowerLeft.x, prism.lowerLeft.y, 1, 0);
   [facetUpperLeft, facetUpperRight, facetLowerRight, facetLowerLeft].forEach((facet) => setOpacity(facet, 0));
+  [facetAccentUpperLeft, facetAccentUpperRight, facetAccentLowerRight, facetAccentLowerLeft].forEach((accent) =>
+    setOpacity(accent, 1),
+  );
 
   setOpacity(anchorGrid, 0);
   setOpacity(resolutionHalo, 0);
@@ -313,26 +328,26 @@ function renderAppearance(progress) {
 
   setDot(
     position,
-    lerp(4, 18, eased),
-    lerp(18, 84, eased),
-    clamp(progress * 1.8, 0, 1),
-    0.22 + pulseWave(progress, 1.2) * 0.18,
+    lerp(9, 18, eased),
+    lerp(36, 84, eased),
+    clamp(0.34 + progress * 1.5, 0, 1),
+    0.12 + pulseWave(progress, 1.2) * 0.12,
   );
   setOpacity(narrativeSpine, clamp((progress - 0.14) * 1.4, 0, 0.34));
 
-  const preview = clamp((progress - 0.42) * 1.7, 0, 1);
-  setOpacity(searchGuideA, preview * 0.18);
-  setOpacity(candidateRidge, preview * 0.14);
-  setOpacity(candidateSplit, preview * 0.1);
-  setOpacity(candidateChannel, preview * 0.08);
-  setOpacity(throatGuide, preview * 0.1);
-  setOpacity(clampLeft, preview * 0.05);
-  setOpacity(clampRight, preview * 0.05);
-  setOpacity(braceTop, preview * 0.08);
-  setOpacity(braceBottom, preview * 0.08);
+  const preview = clamp(0.58 + progress * 0.96, 0, 1);
+  setOpacity(searchGuideA, preview * 0.22);
+  setOpacity(candidateRidge, preview * 0.18);
+  setOpacity(candidateSplit, preview * 0.14);
+  setOpacity(candidateChannel, preview * 0.12);
+  setOpacity(throatGuide, preview * 0.12);
+  setOpacity(clampLeft, preview * 0.08);
+  setOpacity(clampRight, preview * 0.08);
+  setOpacity(braceTop, preview * 0.1);
+  setOpacity(braceBottom, preview * 0.1);
   setOpacity(pressureHalo, preview * 0.08);
-  setOpacity(prismShell, preview * 0.05);
-  setOpacity(prismBase, preview * 0.06);
+  setOpacity(prismShell, preview * 0.08);
+  setOpacity(prismBase, preview * 0.1);
 }
 
 function renderSearch(progress) {
@@ -475,6 +490,10 @@ function renderTransformation(progress) {
   setOpacity(facetUpperRight, upperRightReveal);
   setOpacity(facetLowerRight, lowerRightReveal);
   setOpacity(facetLowerLeft, lowerLeftReveal);
+  setOpacity(facetAccentUpperLeft, 1);
+  setOpacity(facetAccentUpperRight, 1);
+  setOpacity(facetAccentLowerRight, 1);
+  setOpacity(facetAccentLowerLeft, 1);
 
   setOpacity(anchorGrid, clamp((progress - 0.72) * 1.4, 0, 0.12));
   setOpacity(resolutionHalo, clamp((progress - 0.68) * 1.4, 0, 0.16));
@@ -489,10 +508,10 @@ function renderResolution(progress) {
   setOpacity(narrativeSpine, 0);
 
   setOpacity(prismShell, lerp(0.98, 1, settle));
-  setOpacity(prismBase, lerp(0.32, 0.42, settle));
-  setPathWindow(prismTrace, PRISM_TRACE_LENGTH, PRISM_TRACE_LENGTH, lerp(1, 0.24, settle));
-  setOpacity(prismAxisBase, lerp(0.22, 0.26, settle));
-  setPathWindow(prismAxisTrace, PRISM_AXIS_LENGTH, PRISM_AXIS_LENGTH, lerp(0.74, 0.32, settle));
+  setOpacity(prismBase, lerp(0.32, 0.3, settle));
+  setPathWindow(prismTrace, PRISM_TRACE_LENGTH, PRISM_TRACE_LENGTH, lerp(1, 0.12, settle));
+  setOpacity(prismAxisBase, lerp(0.22, 0.2, settle));
+  setPathWindow(prismAxisTrace, PRISM_AXIS_LENGTH, PRISM_AXIS_LENGTH, lerp(0.74, 0.18, settle));
 
   [
     throatGuide,
@@ -542,10 +561,13 @@ function renderResolution(progress) {
   setOpacity(facetUpperRight, 0.92);
   setOpacity(facetLowerRight, 0.9);
   setOpacity(facetLowerLeft, 0.9);
+  [facetAccentUpperLeft, facetAccentUpperRight, facetAccentLowerRight, facetAccentLowerLeft].forEach((accent) =>
+    setOpacity(accent, 0.28),
+  );
 
-  setOpacity(anchorGrid, lerp(0.12, 0.18, settle));
-  setOpacity(resolutionHalo, lerp(0.16, 0.28, settle));
-  setOpacity(resolutionFrame, lerp(0.24, 0.72, settle));
+  setOpacity(anchorGrid, lerp(0.12, 0.1, settle));
+  setOpacity(resolutionHalo, lerp(0.16, 0.2, settle));
+  setOpacity(resolutionFrame, lerp(0.24, 0.56, settle));
 }
 
 function render(elapsed) {

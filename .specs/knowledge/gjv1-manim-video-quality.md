@@ -1330,6 +1330,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 166. Tighten 3D camera zoom enough that the final hold reads as a slide asset, while validating the full tilt path for crop safety. A technically correct 3D model can still fail visually if it sits too small in a wide white field.
 167. Browser-native five-act runners should generate 0.3-second cadence frames and sheets as first-class outputs. Named proof screenshots are useful, but dense cadence review is what catches phase-boundary residue and proves the final hold is actually stable.
 168. In sparse browser-native openings, the first proof frame should put the lead actor at or near the next handoff entrance while target scaffolds are already visible enough for audit thresholds. A tiny actor short of the entrance can make an otherwise valid setup fail as off-center dead space.
+169. Browser-native prism or facet narratives need audit-visible destination scaffolds from frame zero. Bring the side-entry point close enough to the pending structure, keep the destination faint but threshold-detectable, demote internal red facet accents during the final hold, and compact the terminal prism for portrait proof frames so side facets and corner brackets survive mobile review.
 
 ## Manim 3D Depth Lab
 

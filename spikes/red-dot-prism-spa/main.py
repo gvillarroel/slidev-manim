@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import shutil
 import socket
 import subprocess
@@ -30,6 +31,8 @@ POSTER_PATH = OUTPUT_DIR / "poster-final.png"
 SCREENSHOTS_DIR = OUTPUT_DIR / "screenshots"
 REVIEW_FRAMES_DIR = OUTPUT_DIR / "review-frames"
 REVIEW_DIR = OUTPUT_DIR / "review"
+DENSE_REVIEW_FRAMES_DIR = REVIEW_DIR / "dense-frames"
+DENSE_CONTACT_SHEET_PATH = REVIEW_DIR / "dense-contact-sheet.png"
 SUMMARY_PATH = OUTPUT_DIR / "recording-summary.json"
 BROWSER_VALIDATION = OUTPUT_DIR / "browser-validation.json"
 CAPTURE_SCRIPT = SPIKE_DIR / "capture.mjs"
@@ -73,6 +76,7 @@ def ensure_output_dirs() -> None:
     SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
     REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
+    DENSE_REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def is_port_free(port: int) -> bool:
@@ -158,6 +162,37 @@ def extract_review_frames(video: Path, duration_seconds: float | None) -> None:
                     break
 
 
+def composite_on_white(image: Image.Image) -> Image.Image:
+    rgba = image.convert("RGBA")
+    background = Image.new("RGBA", rgba.size, "#ffffff")
+    background.alpha_composite(rgba)
+    return background.convert("RGB")
+
+
+def extract_dense_review_frames(video: Path, cadence_seconds: float = 0.3) -> int:
+    DENSE_REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    for old_file in DENSE_REVIEW_FRAMES_DIR.glob("*.png"):
+        old_file.unlink()
+
+    container = av.open(str(video))
+    next_time = 0.0
+    index = 0
+    try:
+        stream = container.streams.video[0]
+        for frame in container.decode(stream):
+            if frame.time is None:
+                continue
+            while frame.time + 1e-9 >= next_time:
+                image = composite_on_white(frame.to_image())
+                image.save(DENSE_REVIEW_FRAMES_DIR / f"frame-{index:04d}-{next_time:06.2f}s.png")
+                index += 1
+                next_time = round(index * cadence_seconds, 6)
+    finally:
+        container.close()
+
+    return index
+
+
 def copy_final_poster() -> None:
     source = SCREENSHOTS_DIR / "05-resolution.png"
     if source.exists():
@@ -204,6 +239,46 @@ def build_contact_sheet() -> None:
         image.close()
 
 
+def build_dense_contact_sheet() -> None:
+    images = sorted(DENSE_REVIEW_FRAMES_DIR.glob("*.png"))
+    if not images:
+        return
+
+    thumb_width, thumb_height = 320, 180
+    columns = 5
+    label_band = 34
+    gap = 12
+    rows = math.ceil(len(images) / columns)
+    canvas = Image.new(
+        "RGB",
+        (
+            columns * thumb_width + (columns + 1) * gap,
+            rows * (thumb_height + label_band) + (rows + 1) * gap,
+        ),
+        "#f7f7f7",
+    )
+    draw = ImageDraw.Draw(canvas)
+    label_font = font(16)
+
+    for index, path in enumerate(images):
+        image = Image.open(path).convert("RGB")
+        image.thumbnail((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+        x = gap + (index % columns) * (thumb_width + gap)
+        y = gap + (index // columns) * (thumb_height + label_band + gap)
+        tile = Image.new("RGB", (thumb_width, thumb_height), "#ffffff")
+        tile.paste(image, ((thumb_width - image.width) // 2, (thumb_height - image.height) // 2))
+        canvas.paste(tile, (x, y + label_band))
+        timestamp = path.stem.rsplit("-", 1)[-1]
+        draw.text((x + 6, y + 7), timestamp, fill="#333e48", font=label_font)
+        draw.rectangle(
+            (x, y + label_band, x + thumb_width - 1, y + label_band + thumb_height - 1),
+            outline="#cfcfcf",
+        )
+        image.close()
+
+    canvas.save(DENSE_CONTACT_SHEET_PATH)
+
+
 def run_composition_audit(video: Path) -> int | None:
     if not COMPOSITION_AUDIT.exists():
         return None
@@ -223,7 +298,12 @@ def run_composition_audit(video: Path) -> int | None:
     return result.returncode
 
 
-def write_summary(metrics: dict[str, float | int | None], port: int, composition_audit_exit_code: int | None) -> None:
+def write_summary(
+    metrics: dict[str, float | int | None],
+    port: int,
+    composition_audit_exit_code: int | None,
+    dense_review_frame_count: int,
+) -> None:
     browser_validation = json.loads(BROWSER_VALIDATION.read_text(encoding="utf-8")) if BROWSER_VALIDATION.exists() else {}
     summary = {
         "spike": SPIKE_NAME,
@@ -233,6 +313,12 @@ def write_summary(metrics: dict[str, float | int | None], port: int, composition
         "screenshots": [str(SCREENSHOTS_DIR / name) for name in REVIEW_CAPTURE_NAMES if (SCREENSHOTS_DIR / name).exists()],
         "mobile_screenshot": str(SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME) if (SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME).exists() else None,
         "metrics": metrics,
+        "dense_review_frames": {
+            "cadence_seconds": 0.3,
+            "count": dense_review_frame_count,
+            "directory": str(DENSE_REVIEW_FRAMES_DIR),
+            "contact_sheet": str(DENSE_CONTACT_SHEET_PATH) if DENSE_CONTACT_SHEET_PATH.exists() else None,
+        },
         "browser_validation": browser_validation,
         "composition_audit_exit_code": composition_audit_exit_code,
     }
@@ -257,10 +343,12 @@ def main() -> int:
         run_capture(args, port)
         metrics = video_metrics(VIDEO_PATH)
         extract_review_frames(VIDEO_PATH, metrics["duration_seconds"])
+        dense_review_frame_count = extract_dense_review_frames(VIDEO_PATH)
         copy_final_poster()
         build_contact_sheet()
+        build_dense_contact_sheet()
         composition_audit_exit_code = run_composition_audit(VIDEO_PATH)
-        write_summary(metrics, port, composition_audit_exit_code)
+        write_summary(metrics, port, composition_audit_exit_code, dense_review_frame_count)
         print(json.dumps(metrics, indent=2))
         return composition_audit_exit_code or 0
     finally:

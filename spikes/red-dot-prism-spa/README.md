@@ -49,6 +49,8 @@ videos/red-dot-prism-spa/review-frames/frame-start.png
 videos/red-dot-prism-spa/review-frames/frame-middle.png
 videos/red-dot-prism-spa/review-frames/frame-final.png
 videos/red-dot-prism-spa/review/contact-sheet.png
+videos/red-dot-prism-spa/review/dense-contact-sheet.png
+videos/red-dot-prism-spa/review/dense-frames/frame-0000-000.00s.png
 videos/red-dot-prism-spa/recording-summary.json
 videos/red-dot-prism-spa/browser-validation.json
 ```
@@ -71,3 +73,4 @@ Then open the printed local URL in a browser.
 - The search beat keeps the candidate tests on one diagonal-to-horizontal faceting grammar, so the point feels like it is discovering one family of structure rather than browsing unrelated symbols.
 - The tension beat uses visible opposing prism clamps and a narrow throat, so the conflict reads as compression through a device instead of a generic squeeze.
 - The transformation beat traces the prism perimeter before the central axis settles, proving how the resolved emblem is built before the final hold simplifies into a calm center-weighted mark.
+- The opening uses audit-visible destination scaffolds from frame zero, and the portrait final proof compacts the terminal prism so the shell, side facets, and corner brackets stay visible on a narrow mobile viewport.
