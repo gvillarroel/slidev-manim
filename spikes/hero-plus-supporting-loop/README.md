@@ -31,6 +31,8 @@ videos/hero-plus-supporting-loop/hero-plus-supporting-loop-hero.webm
 videos/hero-plus-supporting-loop/hero-plus-supporting-loop-hero.png
 videos/hero-plus-supporting-loop/hero-plus-supporting-loop-support.webm
 videos/hero-plus-supporting-loop/hero-plus-supporting-loop-support.png
+videos/hero-plus-supporting-loop/review/hero-plus-supporting-loop-hero-0.3s/contact-sheet.png
+videos/hero-plus-supporting-loop/review/hero-plus-supporting-loop-support-0.3s/contact-sheet.png
 ```
 
 ## Run the Slidev deck
@@ -65,3 +67,5 @@ npx @slidev/cli build spikes/hero-plus-supporting-loop/slides.md
 - Poster PNGs remain useful for review because they make the composition readable even when the video frame is not visible immediately.
 - Keeping the poster visible behind the transparent video is a practical review fallback when headless Chromium does not paint the video frame.
 - Putting the support loop in an absolute overlay keeps the hierarchy intact and prevents the secondary animation from being pushed out of view.
+- Built-in 0.3-second review extraction makes hero/support scale changes safer, because a larger hero orbit can pass in motion while its transient red halo still violates frame margins.
+- The support loop should fill enough of its square render to survive later downscaling; otherwise it becomes invisible when used as a subordinate overlay.

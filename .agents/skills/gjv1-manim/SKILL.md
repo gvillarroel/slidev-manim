@@ -69,6 +69,8 @@ Use `hero plus support asset` when one dominant transparent clip and one smaller
 - Use the same red/gray grammar in both assets so the support loop reinforces the hero rather than introducing a second palette.
 - Put the support actor on a nearby motion lane instead of directly on the static guide. Actor-on-guide contact can read as crowding in sampled stills, while a small lane offset still communicates the loop.
 - Remove terminal halos, old center dots, and guide scaffolds from the hero final hold unless they still cause the resolved state. A clean hero hold should be calmer than the proof path.
+- Size the support loop for its eventual downscaled embed, not only for the full square render. A tiny support loop can pass audits while disappearing in the actual slide hierarchy.
+- When enlarging a hero orbit or route, budget the full transient footprint of the red actor, halo, and proof pulse. The base track may have enough margin while the active halo still trips top/bottom frame pressure.
 
 # Multi-Asset Grid Scenes
 
