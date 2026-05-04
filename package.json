@@ -46,6 +46,8 @@
     "video:red-dot-bridge-spa": "uv run --script spikes/red-dot-bridge-spa/main.py",
     "dev:red-dot-alignment-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-alignment-spa",
     "video:red-dot-alignment-spa": "uv run --script spikes/red-dot-alignment-spa/main.py",
+    "dev:red-dot-anchor-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-anchor-spa",
+    "video:red-dot-anchor-spa": "uv run --script spikes/red-dot-anchor-spa/main.py",
     "dev:red-dot-arch-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-arch-spa",
     "video:red-dot-arch-spa": "uv run --script spikes/red-dot-arch-spa/main.py",
     "dev:red-dot-balance-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-balance-spa",

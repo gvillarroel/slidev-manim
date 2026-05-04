@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Anchor SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot anchor visual narrative">
+        <div class="stage-frame" tabindex="0">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot anchor narrative</title>
+            <desc id="stage-desc">
+              A single red point enters a quiet field, tests three mooring grammars, gets pulled into a narrow anchor
+              gate, then resolves as a centered anchor-like emblem that holds the field in place.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fbfbfb" />
+                <stop offset="100%" stop-color="#f2f2f2" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="50%" cy="48%" r="54%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="82%" stop-color="#ffffff" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.92" />
+                <stop offset="68%" stop-color="#ffccd5" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="anchor-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="62%" stop-color="#ffccd5" stop-opacity="0.24" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="812" cy="462" rx="736" ry="336" fill="url(#field-glow)" opacity="0.98" />
+            <ellipse cx="1124" cy="236" rx="232" ry="132" fill="#ffccd5" opacity="0.06" />
+            <ellipse cx="394" cy="698" rx="254" ry="144" fill="#ffffff" opacity="0.34" />
+
+            <g id="layout-root">
+              <rect x="164" y="128" width="1272" height="644" fill="#ffffff" opacity="0.14" />
+              <rect x="164" y="128" width="1272" height="644" fill="none" stroke="#cfcfcf" stroke-width="2" opacity="0.78" />
+              <g id="ambient-grid" opacity="0.08" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 220 220 H 1380" />
+                <path d="M 220 446 H 1380" />
+                <path d="M 220 672 H 1380" />
+                <path d="M 408 184 V 716" />
+                <path d="M 660 184 V 716" />
+                <path d="M 860 184 V 716" />
+                <path d="M 1060 184 V 716" />
+                <path d="M 1312 184 V 716" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="narrative-spine"
+                  d="M 294 456 C 434 456, 542 446, 618 430"
+                  fill="none"
+                  stroke="#d8d8d8"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+
+                <path
+                  id="search-guide-a"
+                  d="M 618 430 C 658 418, 692 398, 726 362"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-b"
+                  d="M 726 362 C 778 330, 828 320, 858 334"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-c"
+                  d="M 858 334 C 922 338, 960 356, 972 394"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+
+                <g id="candidate-hook" opacity="0">
+                  <path
+                    d="M -62 26 C -24 26 10 6 20 -24 C 26 -46 14 -66 -10 -72"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M 8 -74 L 28 -56"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="-8" cy="14" r="10" fill="#9e1b32" opacity="0.92" />
+                </g>
+
+                <g id="candidate-loop" opacity="0">
+                  <circle cx="0" cy="-4" r="44" fill="none" stroke="#4f4f4f" stroke-width="6" />
+                  <path
+                    d="M 0 40 V 90"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="0" cy="-4" r="10" fill="#9e1b32" opacity="0.9" />
+                </g>
+
+                <g id="candidate-stock" opacity="0">
+                  <path
+                    d="M -70 -42 H 70 M 0 -42 V 68"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <circle cx="0" cy="22" r="10" fill="#9e1b32" opacity="0.9" />
+                </g>
+
+                <ellipse id="tension-halo" cx="860" cy="446" rx="224" ry="228" fill="url(#anchor-glow)" opacity="0" />
+
+                <path
+                  id="stock-base"
+                  d="M 744 314 H 976"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+                <circle
+                  id="ring-base"
+                  cx="860"
+                  cy="438"
+                  r="96"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="7"
+                  opacity="0"
+                />
+                <path
+                  id="shank-base"
+                  d="M 860 344 V 648"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+                <path
+                  id="fluke-left-base"
+                  d="M 860 648 C 846 670, 808 688, 754 684 L 718 668 C 772 648, 804 620, 822 572"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="fluke-right-base"
+                  d="M 860 648 C 874 670, 912 688, 966 684 L 1002 668 C 948 648, 916 620, 898 572"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="keel-base"
+                  d="M 808 708 H 912"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+
+                <path
+                  id="stock-active"
+                  d="M 744 314 H 976"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+                <circle
+                  id="ring-active"
+                  cx="860"
+                  cy="438"
+                  r="96"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  opacity="0"
+                />
+                <path
+                  id="shank-active"
+                  d="M 860 344 V 648"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+                <path
+                  id="fluke-left-active"
+                  d="M 860 648 C 846 670, 808 688, 754 684 L 718 668 C 772 648, 804 620, 822 572"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="fluke-right-active"
+                  d="M 860 648 C 874 670, 912 688, 966 684 L 1002 668 C 948 648, 916 620, 898 572"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+
+                <circle id="resolution-halo" cx="860" cy="438" r="156" fill="url(#anchor-glow)" opacity="0" />
+                <circle id="resolution-echo" cx="860" cy="438" r="132" fill="none" stroke="#9e1b32" stroke-width="4" opacity="0" />
+
+                <circle id="dot-halo" cx="294" cy="456" r="72" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="294" cy="456" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
