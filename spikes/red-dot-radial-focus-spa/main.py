@@ -29,11 +29,13 @@ VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / "poster-final.png"
 SCREENSHOTS_DIR = OUTPUT_DIR / "screenshots"
 REVIEW_FRAMES_DIR = OUTPUT_DIR / "review-frames"
+DENSE_REVIEW_FRAMES_DIR = OUTPUT_DIR / "review-frames-0.3s"
 REVIEW_DIR = OUTPUT_DIR / "review"
 SUMMARY_PATH = OUTPUT_DIR / "recording-summary.json"
 BROWSER_VALIDATION = OUTPUT_DIR / "browser-validation.json"
 CAPTURE_SCRIPT = SPIKE_DIR / "capture.mjs"
 COMPOSITION_AUDIT = REPO_ROOT / ".agents" / "skills" / "gjv1-manim" / "scripts" / "frame-composition-audit.py"
+CROWDING_AUDIT = REPO_ROOT / ".agents" / "skills" / "gjv1-manim" / "scripts" / "frame-crowding-audit.py"
 REVIEW_CAPTURE_NAMES = (
     "01-appearance.png",
     "02-fanout.png",
@@ -42,7 +44,6 @@ REVIEW_CAPTURE_NAMES = (
     "05-resolution.png",
 )
 MOBILE_CAPTURE_NAME = "mobile-resolution.png"
-AUDIT_TIMES = "6.2,10.5,18,24.5,31.6"
 
 
 class SilentHandler(SimpleHTTPRequestHandler):
@@ -72,6 +73,7 @@ def ensure_output_dirs() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
     REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    DENSE_REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -158,6 +160,83 @@ def extract_review_frames(video: Path, duration_seconds: float | None) -> None:
                     break
 
 
+def white_background(image: Image.Image) -> Image.Image:
+    rgba = image.convert("RGBA")
+    background = Image.new("RGBA", rgba.size, "#ffffff")
+    background.alpha_composite(rgba)
+    return background.convert("RGB")
+
+
+def extract_dense_review_frames(video: Path, duration_seconds: float | None, cadence: float = 0.3) -> int:
+    DENSE_REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    for old_file in DENSE_REVIEW_FRAMES_DIR.glob("*.png"):
+        old_file.unlink()
+
+    if duration_seconds is None:
+        return 0
+
+    targets: list[float] = []
+    current = 0.0
+    while current <= duration_seconds + 1e-6:
+        targets.append(round(current, 3))
+        current += cadence
+    if targets and duration_seconds - targets[-1] > cadence * 0.45:
+        targets.append(round(max(0.0, duration_seconds - 0.05), 3))
+
+    saved_paths: list[Path] = []
+    with av.open(str(video)) as container:
+        stream = container.streams.video[0]
+        target_index = 0
+        for frame in container.decode(stream):
+            if frame.time is None:
+                continue
+            if frame.time + 1e-6 < targets[target_index]:
+                continue
+            image = white_background(frame.to_image())
+            target_time = targets[target_index]
+            out_path = DENSE_REVIEW_FRAMES_DIR / f"frame-{target_index:04d}-{target_time:06.3f}s.png"
+            image.save(out_path)
+            saved_paths.append(out_path)
+            target_index += 1
+            if target_index >= len(targets):
+                break
+
+    build_dense_contact_sheet(saved_paths)
+    return len(saved_paths)
+
+
+def build_dense_contact_sheet(paths: list[Path]) -> None:
+    if not paths:
+        return
+
+    thumbnails: list[Image.Image] = []
+    thumb_width, thumb_height = 240, 135
+    label_band = 28
+    columns = 6
+    label_font = font(13)
+
+    for path in paths:
+        image = Image.open(path).convert("RGB")
+        image.thumbnail((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+        tile = Image.new("RGB", (thumb_width, thumb_height + label_band), "#ffffff")
+        x = (thumb_width - image.width) // 2
+        tile.paste(image, (x, label_band))
+        draw = ImageDraw.Draw(tile)
+        timestamp = path.stem.rsplit("-", 1)[-1]
+        draw.text((8, 7), timestamp, fill="#333e48", font=label_font)
+        thumbnails.append(tile)
+        image.close()
+
+    rows = (len(thumbnails) + columns - 1) // columns
+    sheet = Image.new("RGB", (columns * thumb_width, rows * (thumb_height + label_band)), "#f7f7f7")
+    for index, tile in enumerate(thumbnails):
+        x = (index % columns) * thumb_width
+        y = (index // columns) * (thumb_height + label_band)
+        sheet.paste(tile, (x, y))
+        tile.close()
+    sheet.save(REVIEW_DIR / "contact-sheet-0.3s.png")
+
+
 def copy_final_poster() -> None:
     source = SCREENSHOTS_DIR / "05-resolution.png"
     if source.exists():
@@ -214,8 +293,10 @@ def run_composition_audit(video: Path) -> int | None:
         str(COMPOSITION_AUDIT),
         "--video",
         str(video),
-        "--times",
-        AUDIT_TIMES,
+        "--cadence",
+        "0.3",
+        "--out-dir",
+        str(OUTPUT_DIR / "composition-audit-0.3s"),
         "--write-overlays",
     ]
     print("Running:", " ".join(command))
@@ -223,7 +304,34 @@ def run_composition_audit(video: Path) -> int | None:
     return result.returncode
 
 
-def write_summary(metrics: dict[str, float | int | None], port: int, composition_audit_exit_code: int | None) -> None:
+def run_crowding_audit(video: Path) -> int | None:
+    if not CROWDING_AUDIT.exists():
+        return None
+    command = [
+        "uv",
+        "run",
+        "--script",
+        str(CROWDING_AUDIT),
+        "--video",
+        str(video),
+        "--cadence",
+        "0.3",
+        "--out-dir",
+        str(OUTPUT_DIR / "crowding-audit-0.3s"),
+        "--write-overlays",
+    ]
+    print("Running:", " ".join(command))
+    result = subprocess.run(command, cwd=REPO_ROOT, check=False)
+    return result.returncode
+
+
+def write_summary(
+    metrics: dict[str, float | int | None],
+    port: int,
+    dense_review_frame_count: int,
+    composition_audit_exit_code: int | None,
+    crowding_audit_exit_code: int | None,
+) -> None:
     browser_validation = json.loads(BROWSER_VALIDATION.read_text(encoding="utf-8")) if BROWSER_VALIDATION.exists() else {}
     summary = {
         "spike": SPIKE_NAME,
@@ -233,8 +341,15 @@ def write_summary(metrics: dict[str, float | int | None], port: int, composition
         "screenshots": [str(SCREENSHOTS_DIR / name) for name in REVIEW_CAPTURE_NAMES if (SCREENSHOTS_DIR / name).exists()],
         "mobile_screenshot": str(SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME) if (SCREENSHOTS_DIR / MOBILE_CAPTURE_NAME).exists() else None,
         "metrics": metrics,
+        "dense_review": {
+            "cadence_seconds": 0.3,
+            "frame_count": dense_review_frame_count,
+            "directory": str(DENSE_REVIEW_FRAMES_DIR),
+            "contact_sheet": str(REVIEW_DIR / "contact-sheet-0.3s.png"),
+        },
         "browser_validation": browser_validation,
         "composition_audit_exit_code": composition_audit_exit_code,
+        "crowding_audit_exit_code": crowding_audit_exit_code,
     }
     SUMMARY_PATH.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 
@@ -257,10 +372,12 @@ def main() -> int:
         run_capture(args, port)
         metrics = video_metrics(VIDEO_PATH)
         extract_review_frames(VIDEO_PATH, metrics["duration_seconds"])
+        dense_review_frame_count = extract_dense_review_frames(VIDEO_PATH, metrics["duration_seconds"])
         copy_final_poster()
         build_contact_sheet()
         composition_audit_exit_code = run_composition_audit(VIDEO_PATH)
-        write_summary(metrics, port, composition_audit_exit_code)
+        crowding_audit_exit_code = run_crowding_audit(VIDEO_PATH)
+        write_summary(metrics, port, dense_review_frame_count, composition_audit_exit_code, crowding_audit_exit_code)
         print(json.dumps(metrics, indent=2))
         return composition_audit_exit_code or 0
     finally:

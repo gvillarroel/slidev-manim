@@ -48,7 +48,11 @@ videos/red-dot-radial-focus-spa/screenshots/mobile-resolution.png
 videos/red-dot-radial-focus-spa/review-frames/frame-start.png
 videos/red-dot-radial-focus-spa/review-frames/frame-middle.png
 videos/red-dot-radial-focus-spa/review-frames/frame-final.png
+videos/red-dot-radial-focus-spa/review-frames-0.3s/
 videos/red-dot-radial-focus-spa/review/contact-sheet.png
+videos/red-dot-radial-focus-spa/review/contact-sheet-0.3s.png
+videos/red-dot-radial-focus-spa/composition-audit-0.3s/report.md
+videos/red-dot-radial-focus-spa/crowding-audit-0.3s/report.md
 videos/red-dot-radial-focus-spa/recording-summary.json
 videos/red-dot-radial-focus-spa/browser-validation.json
 ```

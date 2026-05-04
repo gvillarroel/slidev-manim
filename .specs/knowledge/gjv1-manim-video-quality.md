@@ -1448,6 +1448,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - final renders are 30.798s, 25.560s, 27.392s, and 25.598s with decoded alpha range `0..255`; 0.3-second composition audits sampled 104/86/92/86 frames with zero blocking frames, crowding audits sampled the same frames with zero blocking frames, and resting-mobject audits reported zero blocking snapshots. Notice-only rest contacts were expected actor-on-orbit, actor-on-ring, actor-on-track, or actor-on-receiver proof states.
 
+## Red Dot Radial Focus SPA
+
+- **Hypothesis**: A browser-native radial focus recording reads better when the first frame already shows the central hub and pending spokes, while old ingress history fades before the fan-out cards take over.
+- **Result**: Confirmed on `spikes/red-dot-radial-focus-spa/` after removing decorative background glows and broad plates, moving the entry point inward, making the hub scaffold visible from frame zero, fading the source trail during fan-out, moving the focus chips into a side pocket, and slightly enlarging the resolved radial cluster.
+- **What worked**:
+  - using a clean white stage with a faint grid instead of radial background glows, so the red/gray mechanism owns the hierarchy,
+  - showing the hub ring, destination slots, and route hints during the opening breath, which removed blank and left-weighted 0.3-second audit frames,
+  - retiring the long red ingress trail once the hub owns the fan-out, because the old route pulled composition detection toward the source even when the human-readable mechanism had moved on,
+  - placing associated chips beside the selected branch instead of below it, which made the focus handoff read as relationships rather than as lower-card clutter,
+  - adding dense 0.3-second review-frame extraction and cadence contact sheets directly to the runner so browser-native recordings get the same evidence level as Manim assets.
+- **Validation note**:
+  - the final render is 33.880 seconds at 1600x900 with 114 dense review frames at 0.3-second cadence; browser capture reported no console errors or page errors, the 0.3-second frame composition audit sampled 114 frames with zero blocking frames, and strict crowding audit overlays were inspected full size. The remaining crowding findings are expected review prompts from card-internal red strokes, selected-card brackets, and intentional hub-ring contact rather than visible mechanism collisions.
+
 # Reusable Process
 
 1. State the missing hypothesis.

@@ -81,6 +81,18 @@ Use `multi-asset grid` when a Slidev page embeds three or more independent Manim
 - Generate dense review frames and contact sheets per asset, not only for the combined Slidev screenshot. A grid can look aligned while one member still has a weak mechanism, stale title chrome, or an under-held final state.
 - Resting audits may report notice-level contacts when an actor intentionally sits on an orbit, track, ring, or receiver during the proof. Treat those as acceptable only after full-size frame review confirms the guide is the mechanism and not stale residue.
 
+# Browser-Native SVG Narratives
+
+Use `browser-native SVG narrative` when a spike records an HTML/SVG visual system through Playwright but still follows this repository's red/gray motion-language standards.
+
+- Generate dense 0.3-second review frames and a contact sheet from the promoted recording, not only named proof screenshots.
+- Make the first frame audit-visible: show the destination hub, slots, route hints, or receiver scaffold before any side-entering actor starts moving.
+- Fade old ingress trails once the hub, fan-out, or selected card owns the mechanism; long red history rails can pull sampled frames off center after the story has moved on.
+- Keep associated chips and callouts in a side pocket outside the selected card's rotation or swing lane. If they sit below the card, they can read as a crowded second body.
+- Use a clean white stage and subtle gray grid by default. Decorative glows, broad plates, and soft browser backgrounds often weaken sparse red/gray hierarchy.
+- Treat strict crowding findings on card internals, selected-card brackets, or intentional hub rings as full-size review prompts. Patch them only when the frame actually reads as collision or obscures the mechanism.
+- Keep durable browser-native refinements in [references/video-quality-lessons.md](references/video-quality-lessons.md).
+
 # Time Rail Scenes
 
 Use `time rail` when a left-side timeline or spine should act as the narrator instead of a traveling red dot.

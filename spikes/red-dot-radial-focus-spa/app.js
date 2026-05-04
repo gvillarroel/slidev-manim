@@ -67,8 +67,8 @@ const ROTATION_DETAIL_OPACITY = 0.46;
 const ROTATION_BEAM_OPACITY = 0.65;
 
 const points = {
-  start: { x: 332, y: 450 },
-  ingress: { x: 464, y: 450 },
+  start: { x: 500, y: 450 },
+  ingress: { x: 604, y: 450 },
   hub: { x: 824, y: 450 },
 };
 
@@ -85,9 +85,9 @@ const chipSets = {
     { x: 278, y: -132 },
   ],
   b: [
-    { x: 130, y: 96 },
-    { x: 208, y: 126 },
-    { x: 286, y: 112 },
+    { x: 392, y: -28 },
+    { x: 430, y: 14 },
+    { x: 392, y: 56 },
   ],
   c: [
     { x: -364, y: 88 },
@@ -98,7 +98,7 @@ const chipSets = {
 
 const chipAnchors = {
   a: { x: 194, y: -182 },
-  b: { x: 248, y: 70 },
+  b: { x: 346, y: 12 },
   c: { x: -250, y: 140 },
 };
 
@@ -218,12 +218,14 @@ function updatePhaseLabel(info) {
 function applyLayout() {
   const viewportRatio = window.innerWidth / window.innerHeight;
   if (viewportRatio < 0.9) {
+    svg.setAttribute("viewBox", "360 0 880 900");
     layoutRoot.setAttribute(
       "transform",
       "translate(0 -48) translate(800 450) scale(1.14) translate(-800 -450)",
     );
     svg.dataset.layout = "portrait";
   } else {
+    svg.setAttribute("viewBox", "0 0 1600 900");
     layoutRoot.setAttribute("transform", "");
     svg.dataset.layout = "landscape";
   }
@@ -251,20 +253,20 @@ function resetScene() {
 
 function renderAppearance(progress) {
   const eased = easeOut(progress);
-  const position = mixPoint(points.start, { x: 560, y: 450 }, eased * 0.58);
-  setDot(position, lerp(4, 19, eased), lerp(18, 82, eased), clamp(progress * 1.8, 0, 1), 0.26 + pulseWave(progress, 1.2) * 0.2);
-  setOpacity(narrativeSpine, clamp((progress - 0.18) * 1.6, 0, 0.34));
+  const position = mixPoint(points.start, points.ingress, eased);
+  setDot(position, lerp(12, 19, eased), lerp(48, 82, eased), lerp(0.72, 1, eased), 0.2 + pulseWave(progress, 1.2) * 0.14);
+  setOpacity(narrativeSpine, lerp(0.16, 0.34, eased));
   setTrailWindow(0, 0);
 
-  setOpacity(hubHalo, clamp((progress - 0.42) * 1.6, 0, 0.18));
-  setOpacity(hubShell, clamp((progress - 0.38) * 1.6, 0, 0.34));
-  setOpacity(hubRing, clamp((progress - 0.46) * 1.6, 0, 0.18));
-  setOpacity(futureSpokeA, clamp((progress - 0.42) * 1.5, 0, 0.32));
-  setOpacity(futureSpokeB, clamp((progress - 0.48) * 1.5, 0, 0.28));
-  setOpacity(futureSpokeC, clamp((progress - 0.54) * 1.5, 0, 0.28));
-  setOpacity(slotA, clamp((progress - 0.46) * 1.5, 0, 0.28));
-  setOpacity(slotB, clamp((progress - 0.52) * 1.5, 0, 0.24));
-  setOpacity(slotC, clamp((progress - 0.58) * 1.5, 0, 0.24));
+  setOpacity(hubHalo, lerp(0.08, 0.18, eased));
+  setOpacity(hubShell, lerp(0.2, 0.34, eased));
+  setOpacity(hubRing, lerp(0.22, 0.3, eased));
+  setOpacity(futureSpokeA, lerp(0.26, 0.32, eased));
+  setOpacity(futureSpokeB, lerp(0.23, 0.28, eased));
+  setOpacity(futureSpokeC, lerp(0.23, 0.28, eased));
+  setOpacity(slotA, lerp(0.22, 0.28, eased));
+  setOpacity(slotB, lerp(0.2, 0.24, eased));
+  setOpacity(slotC, lerp(0.2, 0.24, eased));
 }
 
 function renderFanout(progress) {
@@ -272,7 +274,8 @@ function renderFanout(progress) {
   const position = mixPoint(points.ingress, points.hub, easeInOut(travelProgress));
   setDot(position, lerp(19, 18, progress), lerp(82, 112, progress), 1, 0.28 + pulseWave(progress, 1.6) * 0.12);
   setOpacity(narrativeSpine, 0.24);
-  setTrailWindow(190 + progress * 330, 0.78);
+  const routeExit = easeOut(clamp((progress - 0.34) / 0.28, 0, 1));
+  setTrailWindow(lerp(260, 0, routeExit), lerp(0.64, 0.08, routeExit));
 
   [hubHalo, hubShell, hubRing].forEach((element) => setOpacity(element, 0.62));
 
@@ -361,7 +364,7 @@ function renderResolution(progress) {
   setOpacity(narrativeSpine, 0);
   setTrailWindow(0, 0);
 
-  setGroupTransform(orbitRig, points.hub.x + settleOffset.x, points.hub.y + settleOffset.y, 0.98, settleRotation);
+  setGroupTransform(orbitRig, points.hub.x + settleOffset.x, points.hub.y + settleOffset.y, 1.04, settleRotation);
   setLineEnd(spokeA, localTargets.a, 0.58, COLORS.darkGray, 4);
   setLineEnd(spokeB, localTargets.b, 0.58, COLORS.darkGray, 4);
   setLineEnd(spokeC, localTargets.c, 0.58, COLORS.darkGray, 4);
