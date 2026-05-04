@@ -52,6 +52,8 @@
     "video:red-dot-balance-spa": "uv run --script spikes/red-dot-balance-spa/main.py",
     "dev:red-dot-beacon-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-beacon-spa",
     "video:red-dot-beacon-spa": "uv run --script spikes/red-dot-beacon-spa/main.py",
+    "dev:red-dot-clamp-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-clamp-spa",
+    "video:red-dot-clamp-spa": "uv run --script spikes/red-dot-clamp-spa/main.py",
     "dev:red-dot-compass-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-compass-spa",
     "video:red-dot-compass-spa": "uv run --script spikes/red-dot-compass-spa/main.py",
     "dev:red-dot-circuit-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-circuit-spa",
