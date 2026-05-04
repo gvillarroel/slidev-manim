@@ -74,3 +74,4 @@ Then open the printed local URL in a browser.
 - The opening frame already shows the pending chamber and threshold family so the first proof frame reads as prepared intent, not decorative blank space.
 - The tension beat keeps the slit and the pending chamber visible together, so the proof frame reads as real passage pressure instead of a generic clamp.
 - The transformation beat converts the same shutters into the final frame grammar, so the resolution feels causal rather than swapped in.
+- Portrait review uses phase-specific crops plus phase-centered scene scaling, so the mobile proof frame stays on the slit or chamber instead of shrinking the desktop composition into a tall white field.

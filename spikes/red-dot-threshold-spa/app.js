@@ -93,11 +93,19 @@ const state = {
 };
 
 const PORTRAIT_VIEWBOXES = {
-  appearance: "150 96 560 780",
-  search: "220 96 560 780",
-  tension: "612 96 476 780",
-  transformation: "686 88 452 796",
-  resolution: "666 80 430 820",
+  appearance: "170 160 520 640",
+  search: "250 158 500 650",
+  tension: "680 170 360 650",
+  transformation: "716 156 360 660",
+  resolution: "706 160 344 628",
+};
+
+const PORTRAIT_STAGE_TRANSFORMS = {
+  appearance: { x: 430, y: 450, scale: 1.06 },
+  search: { x: 570, y: 450, scale: 1.1 },
+  tension: { x: 850, y: 450, scale: 1.16 },
+  transformation: { x: 944, y: 450, scale: 1.18 },
+  resolution: { x: 860, y: 450, scale: 1.26 },
 };
 
 function applyLayout(activePhase = "appearance") {
@@ -105,7 +113,11 @@ function applyLayout(activePhase = "appearance") {
   if (viewportRatio < 0.82) {
     svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
     svg.setAttribute("viewBox", PORTRAIT_VIEWBOXES[activePhase] ?? PORTRAIT_VIEWBOXES.appearance);
-    sceneRoot.setAttribute("transform", "");
+    const transform = PORTRAIT_STAGE_TRANSFORMS[activePhase] ?? PORTRAIT_STAGE_TRANSFORMS.appearance;
+    sceneRoot.setAttribute(
+      "transform",
+      `translate(${transform.x} ${transform.y}) scale(${transform.scale}) translate(${-transform.x} ${-transform.y})`,
+    );
     svg.dataset.layout = "portrait";
   } else {
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
@@ -418,7 +430,7 @@ function renderTransformation(progress) {
 function renderResolution(progress) {
   const settle = easeInOut(progress);
   const shift = lerp(0, points.final.x - points.transform.x, settle);
-  const ringFade = 1 - easeOut(clamp(progress / 0.46, 0, 1));
+  const ringFade = 1 - easeOut(clamp(progress / 0.34, 0, 1));
   const haloPulse = 0.18 + pulseWave(progress, 1.5) * 0.08;
 
   applyDot({ x: points.transform.x + shift, y: points.final.y }, 17, lerp(118, 82, progress), 1, haloPulse);
@@ -429,27 +441,27 @@ function renderResolution(progress) {
 
   setOpacity(unfoldGroup, 1);
   unfoldGroup.setAttribute("transform", `translate(${shift.toFixed(2)} 0)`);
-  orbitRing.setAttribute("r", lerp(126, 70, settle).toFixed(2));
-  orbitRingSecondary.setAttribute("r", lerp(158, 134, settle).toFixed(2));
-  setOpacity(orbitRing, 0.18 + ringFade * 0.18);
-  setOpacity(orbitRingSecondary, 0.1 + ringFade * 0.12);
+  orbitRing.setAttribute("r", lerp(126, 84, settle).toFixed(2));
+  orbitRingSecondary.setAttribute("r", lerp(158, 112, settle).toFixed(2));
+  setOpacity(orbitRing, 0.04 + ringFade * 0.08);
+  setOpacity(orbitRingSecondary, 0.01 + ringFade * 0.03);
 
-  frameParts.forEach((element) => setOpacity(element, 0.9));
-  [frameRuleTop, frameRuleBottom, framePierLeft, framePierRight].forEach((element) => setOpacity(element, 0.82));
-  setOpacity(centerThread, 0.68);
+  frameParts.forEach((element) => setOpacity(element, 0.96));
+  [frameRuleTop, frameRuleBottom, framePierLeft, framePierRight].forEach((element) => setOpacity(element, 0.9));
+  setOpacity(centerThread, 0.76);
   applyStrokeReveal(centerThread, 1, CENTER_THREAD_LENGTH);
   [supportLinkTop, supportLinkBottom].forEach((element, index) => {
-    setOpacity(element, index === 0 ? 0.56 : 0.5);
+    setOpacity(element, lerp(index === 0 ? 0.32 : 0.28, 0.04, settle));
     applyStrokeReveal(element, 1, index === 0 ? SUPPORT_TOP_LENGTH : SUPPORT_BOTTOM_LENGTH);
   });
-  setOpacity(supportNodeTop, 0.72);
-  setOpacity(supportNodeBottom, 0.68);
+  setOpacity(supportNodeTop, lerp(0.34, 0.06, settle));
+  setOpacity(supportNodeBottom, lerp(0.32, 0.05, settle));
 
   setOpacity(resolutionGroup, 1);
-  setOpacity(resolutionHalo, 0.3);
-  setOpacity(resolutionRule, 0.56);
+  setOpacity(resolutionHalo, 0.12);
+  setOpacity(resolutionRule, 0.62);
   setCircleCenter(resolutionHalo, { x: points.transform.x + shift, y: points.final.y });
-  resolutionHalo.setAttribute("r", lerp(146, 132, progress).toFixed(2));
+  resolutionHalo.setAttribute("r", lerp(128, 112, progress).toFixed(2));
 }
 
 function render(elapsed) {
