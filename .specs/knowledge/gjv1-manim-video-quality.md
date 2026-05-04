@@ -614,23 +614,28 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Snap Recoil
 
 - **Hypothesis**: A decisive arrival followed by a short recoil can feel sharper and more intentional than a perfectly smooth settle.
-- **Result**: Confirmed again after expanding the draft into a 25.9-second slide-integration scene with visible opening structure, a held overshoot proof beat, separated support settle, and a recentered final hold.
+- **Result**: Confirmed again after expanding the draft into a 25.9-second transparent slide-integration scene with visible opening structure, a held overshoot proof beat, separated support settle, and a recentered final hold.
 - **What worked**:
-  - the dominant green form arriving first with a visible overshoot,
+  - making the dominant form the only primary-red actor, with gray support forms resolving after the snap so the pressure beat owns the hierarchy,
   - showing faint target slots and a pressure wall during the opening breath, so the destination zone reads as pending structure instead of empty space,
   - holding a stretched overshoot near the wall long enough to survive 0.3-second proof-frame review,
   - a quick recoil into the final landing position,
+  - using open top/bottom target rails instead of a broad filled destination plate, because a filled plate under the leader created strict actor-to-panel crowding during the proof,
   - retiring target slots before the support settle so slot outlines do not become actor-to-outline crowding,
   - support forms resolving afterward so the snap remains the main beat,
   - keeping clear space between the support forms and the pressure wall in the settle frame,
   - recentering the target stage after source cleanup,
+  - setting `config.transparent = True`, `config.background_opacity = 0.0`, `self.camera.background_opacity = 0.0`, and `--transparent` before validating alpha with a VP9/libvpx decode path,
   - a final frame that still feels stable despite the sharper motion.
+- **Validation note**:
+  - the latest render is 25.866 seconds, 1600x900, transparent VP9 with decoded alpha extrema `0..255`; 86 white-background frames were extracted at 0.3-second cadence, frame composition and crowding audits sampled 87 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 5 rest states.
 - **What failed first**:
   - the draft was far below the 25-second pacing floor and had no visible opening breath,
   - the first overshoot was too small,
   - the snap risked reading like a normal arrival,
   - the recoil needed more contrast against the final settled position,
   - passive target slots and a too-near pressure wall triggered strict crowding findings after the main mechanism had already landed.
+  - leaving a broad destination plate under the red leader and removing the source plate before support departure both created sampled-frame audit failures.
 
 ## Quality Bumper Deflect
 

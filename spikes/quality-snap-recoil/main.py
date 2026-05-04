@@ -14,7 +14,6 @@ import sys
 from pathlib import Path
 
 from manim import (
-    DOWN,
     LEFT,
     RIGHT,
     UP,
@@ -22,15 +21,17 @@ from manim import (
     Circle,
     Ellipse,
     FadeOut,
-    Line,
-    MoveAlongPath,
     Rectangle,
     Scene,
     Transform,
     VGroup,
     WHITE,
+    config,
     smooth,
 )
+
+config.transparent = True
+config.background_opacity = 0.0
 
 SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parent.parent
@@ -39,13 +40,10 @@ OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
 PRIMARY_RED = "#9e1b32"
-PRIMARY_ORANGE = "#e77204"
-PRIMARY_YELLOW = "#f1c319"
-PRIMARY_GREEN = "#45842a"
-PRIMARY_BLUE = "#007298"
-PRIMARY_PURPLE = "#652f6c"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
+GRAY_500 = "#828282"
+GRAY_700 = "#333e48"
 
 
 class _Args(argparse.Namespace):
@@ -76,6 +74,7 @@ def render_command(args: _Args, stem: str, poster: bool) -> list[str]:
         quality_flag(args.quality),
         "-r",
         "1600,900",
+        "--transparent",
         "--format",
         "webm",
         "-o",
@@ -104,74 +103,82 @@ def slab(color: str, width: float, height: float) -> Rectangle:
 
 class QualitySnapRecoilScene(Scene):
     def construct(self) -> None:
+        config.background_opacity = 0.0
         self.camera.background_color = WHITE
+        self.camera.background_opacity = 0.0
 
-        frame = Rectangle(width=12.4, height=5.35, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0)
-        source_zone = Rectangle(width=4.0, height=4.05, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.24).move_to(LEFT * 3.05)
-        target_zone = Rectangle(width=4.45, height=4.05, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.3).move_to(RIGHT * 2.55)
+        source_zone = Rectangle(width=3.7, height=3.45, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.24).move_to(LEFT * 3.05)
+        target_zone = VGroup(
+            slab(GRAY_100, 3.45, 0.045).move_to(RIGHT * 0.9 + UP * 1.65),
+            slab(GRAY_100, 3.45, 0.045).move_to(RIGHT * 0.9 + UP * -1.45),
+        ).set_fill(opacity=0.55)
 
         source = VGroup(
-            slab(PRIMARY_GREEN, 2.58, 0.82).move_to(LEFT * 3.42 + UP * 0.74),
-            slab(PRIMARY_BLUE, 1.72, 0.72).move_to(LEFT * 2.44 + DOWN * 0.1),
-            slab(PRIMARY_PURPLE, 1.18, 0.56).move_to(LEFT * 1.98 + DOWN * 0.96),
+            slab(PRIMARY_RED, 2.42, 0.78).move_to(LEFT * 3.42 + UP * 0.72),
+            slab(GRAY_500, 1.58, 0.56).move_to(LEFT * 2.7 + UP * -0.4),
+            slab(GRAY_700, 1.02, 0.42).move_to(LEFT * 2.32 + UP * -1.12),
         )
 
-        final_green = Circle(radius=0.86, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 2.2 + UP * 0.36)
-        snap_green = Ellipse(width=2.22, height=1.12, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 3.2 + UP * 0.36)
-        final_blue = Circle(radius=0.48, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.68 + DOWN * 0.4)
-        blue_overshoot = Circle(radius=0.55, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 3.92 + DOWN * 0.28)
-        final_purple = Circle(radius=0.26, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 2.72 + DOWN * 1.16)
-        purple_overshoot = Circle(radius=0.31, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 2.98 + DOWN * 1.32)
+        final_leader = Circle(radius=0.78, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 0.45 + UP * 0.42)
+        snap_leader = Ellipse(width=2.18, height=0.98, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 1.4 + UP * 0.42)
+        final_support = Circle(radius=0.45, stroke_width=0, fill_color=GRAY_500, fill_opacity=1).move_to(RIGHT * 1.6 + UP * -0.38)
+        support_overshoot = Circle(radius=0.5, stroke_width=0, fill_color=GRAY_500, fill_opacity=1).move_to(RIGHT * 1.87 + UP * -0.3)
+        final_echo = Circle(radius=0.24, stroke_width=0, fill_color=GRAY_700, fill_opacity=1).move_to(RIGHT * 0.63 + UP * -1.02)
+        echo_overshoot = Circle(radius=0.28, stroke_width=0, fill_color=GRAY_700, fill_opacity=1).move_to(RIGHT * 0.89 + UP * -1.18)
 
         slots = VGroup(
-            Circle(radius=0.91, stroke_color=GRAY_200, stroke_width=4, fill_opacity=0).move_to(final_green),
-            Circle(radius=0.52, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(final_blue),
-            Circle(radius=0.3, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(final_purple),
+            Circle(radius=0.84, stroke_color=GRAY_200, stroke_width=4, fill_opacity=0).move_to(final_leader),
+            Circle(radius=0.5, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(final_support),
+            Circle(radius=0.29, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(final_echo),
         ).set_stroke(opacity=0.36)
 
-        guide = Line(LEFT * 1.05 + UP * 0.36, RIGHT * 2.45 + UP * 0.36, color=PRIMARY_ORANGE, stroke_width=6).set_stroke(opacity=0.3)
-        pressure_wall = Line(RIGHT * 4.75 + DOWN * 0.72, RIGHT * 4.75 + UP * 1.44, color=PRIMARY_RED, stroke_width=6).set_stroke(opacity=0.28)
-        accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_YELLOW, fill_opacity=1).move_to(guide.get_start())
+        guide = VGroup(
+            slab(GRAY_200, 1.05, 0.045).move_to(LEFT * 0.7 + UP * 0.08),
+            slab(GRAY_200, 0.8, 0.045).move_to(RIGHT * 0.8 + UP * 0.08),
+        ).set_fill(opacity=0.46)
+        pressure_wall = slab(PRIMARY_RED, 0.045, 1.72).move_to(RIGHT * 2.9 + UP * 0.4).set_fill(opacity=0.28)
 
-        self.add(frame, source_zone, target_zone, slots, guide, pressure_wall, source, accent)
+        self.add(source_zone, target_zone, slots, guide, pressure_wall, source)
         self.wait(3.0)
 
-        self.play(guide.animate.set_stroke(opacity=1), pressure_wall.animate.set_stroke(opacity=0.7), run_time=1.0)
-        self.play(MoveAlongPath(accent, guide), run_time=2.35, rate_func=smooth)
-        self.play(accent.animate.move_to(pressure_wall.get_center()).set_fill(PRIMARY_RED, opacity=1), run_time=0.55)
-        self.play(Transform(source[0], snap_green.copy()), run_time=1.3, rate_func=smooth)
-        self.wait(1.35)
-        self.play(Transform(source[0], final_green.copy()), accent.animate.move_to(final_green.get_center()), run_time=1.15, rate_func=smooth)
-        self.wait(0.8)
-        self.play(FadeOut(slots), run_time=0.55)
+        self.play(guide.animate.set_fill(opacity=0.7), pressure_wall.animate.set_fill(opacity=0.72), run_time=1.0)
+        self.play(Transform(source[0], snap_leader.copy()), run_time=2.0, rate_func=smooth)
+        self.wait(1.7)
+        self.play(
+            Transform(source[0], final_leader.copy()),
+            pressure_wall.animate.set_fill(opacity=0.42),
+            guide.animate.set_fill(opacity=0.24),
+            run_time=1.3,
+            rate_func=smooth,
+        )
+        self.wait(1.0)
+        self.play(FadeOut(guide), FadeOut(pressure_wall), FadeOut(slots), run_time=0.9)
         self.play(
             AnimationGroup(
-                Transform(source[1], blue_overshoot.copy()),
-                Transform(source[2], purple_overshoot.copy()),
+                Transform(source[1], support_overshoot.copy()),
+                Transform(source[2], echo_overshoot.copy()),
+                FadeOut(source_zone),
                 lag_ratio=0.22,
             ),
-            run_time=2.1,
+            run_time=2.4,
             rate_func=smooth,
         )
         self.play(
             AnimationGroup(
-                Transform(source[1], final_blue.copy()),
-                Transform(source[2], final_purple.copy()),
+                Transform(source[1], final_support.copy()),
+                Transform(source[2], final_echo.copy()),
                 lag_ratio=0.16,
             ),
-            run_time=1.35,
+            run_time=1.6,
             rate_func=smooth,
         )
-        self.wait(0.7)
+        self.wait(1.2)
         self.play(
-            FadeOut(source_zone),
-            FadeOut(guide),
-            FadeOut(pressure_wall),
-            FadeOut(accent),
-            run_time=1.25,
+            FadeOut(target_zone),
+            run_time=1.6,
+            rate_func=smooth,
         )
-        self.play(VGroup(target_zone, source).animate.shift(LEFT * 1.1), run_time=1.35, rate_func=smooth)
-        self.wait(7.0)
+        self.wait(8.2)
 
 
 def render_variant(args: _Args) -> None:
