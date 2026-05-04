@@ -151,6 +151,7 @@ Use `side formula handoff` for table transformations where two or more source ce
 - If a human calls out a bad timestamp, extract that exact frame at full size and treat it as stronger evidence than the surrounding contact sheet.
 - If a callout is about an existing rendered video, patch and rerender the video itself; skill updates are not a substitute for fixing the artifact.
 - For camera moves, dense SVG imports, large panels, or overlapping clusters, run the automated frame composition audit before saying there are no crop or overlap problems.
+- For simple direct-transfer clips that are meant to be promoted Slidev assets, do not accept a three-second decorative move. Give the clip a prepared source and destination, one active proof route, cleanup, and a 5 to 7 second resolved hold.
 - For continuation scenes that introduce a second column later, reveal visible destination scaffolds early enough that the setup frame still balances before the lists or detailed content appear.
 - When an opening beat reserves a destination zone before motion reaches it, add faint target slots or scaffolds so the breath does not read as unused blank space.
 - Keep only the experiments whose still frames remain intentional without narration.

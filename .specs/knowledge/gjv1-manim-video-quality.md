@@ -1331,6 +1331,7 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 167. Browser-native five-act runners should generate 0.3-second cadence frames and sheets as first-class outputs. Named proof screenshots are useful, but dense cadence review is what catches phase-boundary residue and proves the final hold is actually stable.
 168. In sparse browser-native openings, the first proof frame should put the lead actor at or near the next handoff entrance while target scaffolds are already visible enough for audit thresholds. A tiny actor short of the entrance can make an otherwise valid setup fail as off-center dead space.
 169. Browser-native prism or facet narratives need audit-visible destination scaffolds from frame zero. Bring the side-entry point close enough to the pending structure, keep the destination faint but threshold-detectable, demote internal red facet accents during the final hold, and compact the terminal prism for portrait proof frames so side facets and corner brackets survive mobile review.
+170. Simple direct-transfer videos still need slide-integration pacing when they are promoted assets. Replace three-second decorative moves with a visible source, prepared destination, active route proof, cleanup, and a 5 to 7 second resolved hold.
 
 ## Manim 3D Depth Lab
 
@@ -1391,6 +1392,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - fading the plates only after the locked cluster is centered, then holding a cleaner red/gray terminal arrangement with the rear support clear of the keystone tip.
 - **Validation note**:
   - the final render was reviewed with 91 extracted 0.3-second white-background frames and full-size opening, pocket, lock, cleanup, and final-hold frames; composition audit sampled 92 frames with zero blocking frames, crowding audit sampled 92 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and VP9/libvpx alpha decoded with range `0..255`.
+
+## Circle Left To Right
+
+- **Hypothesis**: A minimum left-to-right circle demo becomes a real Slidev asset when the route is staged as source, prepared destination, active proof, cleanup, and final hold instead of a short decorative translation.
+- **Result**: Confirmed on `spikes/circle-left-to-right/` after replacing a 3.13-second green/orange/yellow move with a 25.5-second red/gray source-to-target handoff.
+- **What worked**:
+  - showing the source slot, midpoint slot, destination slot, and quiet rail in the first frame so the opening breath has a complete pending structure,
+  - using one primary-red circle and active rail segment as the only saturated mechanism, with gray slots and ticks as support,
+  - fading the active red route and checkpoint before the final hold while leaving enough gray rail/source context to keep the right-side landing balanced,
+  - generating dense 0.3-second review frames directly in the runner with `imageio-ffmpeg` and `-c:v libvpx-vp9`, because PyAV/native FFmpeg review can show transparent VP9 WebMs against black.
+- **Validation note**:
+  - both full and content renders are 25.500 seconds and generated 85 white-background frames at 0.3-second cadence with decoded alpha range `0..255`; full and content composition/crowding audits sampled 86 frames each with zero blocking frames, and resting-mobject audits reported zero blocking snapshots across 4 rest states for each variant.
 
 # Reusable Process
 
