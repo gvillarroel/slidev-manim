@@ -977,6 +977,11 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 
 - **Hypothesis**: A support-to-support relay can make the final regroup feel more designed if the accent clearly passes from one support role to another before the dominant form arrives.
 - **Result**: Confirmed again after expanding the draft into a 25.5-second slide-integration scene with visible opening pads, held support-to-support proof frames, delayed green arrival, cleanup, and a recentered final hold.
+- **2026-05-05 refinement**:
+  - converted the clip from a multicolor opaque local-frame scene into a content-first transparent red/gray relay asset,
+  - enlarged the mechanism footprint while removing broad frame and anchor chrome, because a left source tick touched the leader and created persistent strict-crowding failures without adding meaning,
+  - kept the first two relay legs visible for the support-to-support proof, then changed the final relay cue into a brief freestanding trigger that fades before the red leader crosses its lane,
+  - removed the terminal halo/pulse residue in favor of a calmer red/gray final cluster with separated corner brackets.
 - **What worked**:
   - a two-segment relay path that gives the handoff a visible first and second leg,
   - a proof frame where the blue support, purple support, and accent define the relay before the green form fully joins,
@@ -993,6 +998,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - closed receiver outlines around support actors created strict actor-to-outline clearance failures,
   - the third relay route crossed too close to the arriving green actor until it became a short gate cue,
   - the first long render cleared the mechanism but failed off-center audits after the source scaffold disappeared.
+- **Validation note**:
+  - the refined render is 26.530 seconds at 1600x900 with 88 alpha-on-white review frames at 0.3-second cadence and decoded alpha range `0..255`; frame composition audit sampled 89 frames with zero findings, frame crowding audit sampled 89 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 6 rest states.
 
 ## Quality Sling Release
 
