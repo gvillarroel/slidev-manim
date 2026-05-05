@@ -46,6 +46,8 @@
     "video:red-dot-bridge-spa": "uv run --script spikes/red-dot-bridge-spa/main.py",
     "dev:red-dot-turbine-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-turbine-spa",
     "video:red-dot-turbine-spa": "uv run --script spikes/red-dot-turbine-spa/main.py",
+    "dev:red-dot-hourglass-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-hourglass-spa",
+    "video:red-dot-hourglass-spa": "uv run --script spikes/red-dot-hourglass-spa/main.py",
     "dev:red-dot-moire-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-moire-spa",
     "video:red-dot-moire-spa": "uv run --script spikes/red-dot-moire-spa/main.py",
     "dev:red-dot-alignment-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-alignment-spa",
