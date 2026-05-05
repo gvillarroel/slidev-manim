@@ -90,6 +90,8 @@
     "video:red-dot-loom-spa": "uv run --script spikes/red-dot-loom-spa/main.py",
     "dev:red-dot-orbit-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-orbit-spa",
     "video:red-dot-orbit-spa": "uv run --script spikes/red-dot-orbit-spa/main.py",
+    "dev:red-dot-peel-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-peel-spa",
+    "video:red-dot-peel-spa": "uv run --script spikes/red-dot-peel-spa/main.py",
     "dev:red-dot-sling-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-sling-spa",
     "video:red-dot-sling-spa": "uv run --script spikes/red-dot-sling-spa/main.py",
     "dev:red-dot-weave-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-weave-spa",
