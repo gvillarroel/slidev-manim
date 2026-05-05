@@ -1504,6 +1504,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render is 33.880 seconds at 1600x900 with 114 dense review frames at 0.3-second cadence; browser capture reported no console errors or page errors, the 0.3-second frame composition audit sampled 114 frames with zero blocking frames, and strict crowding audit overlays were inspected full size. The remaining crowding findings are expected review prompts from card-internal red strokes, selected-card brackets, and intentional hub-ring contact rather than visible mechanism collisions.
 
+## Red Dot Threshold SPA
+
+- **Hypothesis**: A browser-native threshold narrative reads better when the exported recording starts on a meaningful frame, search targets stay neutral around the red point, and the portrait resolution crop is ratio-aware instead of a generic desktop zoom.
+- **Result**: Confirmed on `spikes/red-dot-threshold-spa/` after trimming the Playwright startup blank, widening the search candidate openings, demoting active target outlines to neutral gray, fading visited search forms before the gate proof, and tightening the portrait resolution viewBox so terminal brackets no longer clip on mobile.
+- **What worked**:
+  - trimming the promoted WebM after capture removed the blank 0.0-second review frame, but the transcode had to assign sequential PTS values and a frame time base so duration metadata stayed valid for audits,
+  - keeping candidate apertures neutral and wider gave the single red point clearer hierarchy in still frames than red outlines wrapped around the same actor,
+  - fading search candidates, echoes, and arcs during the tension phase let the gate become the proof frame instead of competing with old route history,
+  - matching the portrait resolution viewBox ratio to the handset capture prevented `preserveAspectRatio="slice"` from cutting the chamber brackets into edge fragments.
+- **Validation note**:
+  - the final render is 32.360 seconds at 1600x900 with 108 extracted 0.3-second review frames; browser capture reported no console errors or page errors, the built-in proof-frame composition audit sampled 5 frames with zero blocking frames, and the dense 0.3-second composition audit sampled 109 frames with zero blocking frames and one notice-only startup fragment. Strict crowding audit still reports search/gate/chamber clearance prompts that were inspected full size and treated as intentional point-on-route, point-in-threshold, or ring/frame proof contacts rather than visible collisions.
+
 ## Manim Camera Focus Lab
 
 - **Hypothesis**: A camera-led tour reads better when long travel frames fully include both origin and destination panels, while local focus stops use one uncluttered red guide dot and open receiver brackets instead of a halo inside closed boxes.

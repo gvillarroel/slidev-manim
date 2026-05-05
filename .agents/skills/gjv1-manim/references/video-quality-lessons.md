@@ -226,6 +226,9 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Validate camera travel holds with both dense frame composition audit and resting-mobject audit. Long pans can keep panels technically visible while held frames still put origin or destination panels inside the camera safety margin.
 - For transparent VP9 WebM review extraction, decode with `libvpx-vp9` and seek after input when exact frames are needed. Seeking before input can produce false blank review frames on transparent WebMs.
 - In camera-focus transform stops, leave real gutters between transformed stack bars or tokens. A tight stack can look fine in motion while 0.3-second stills reveal overlapping slabs.
+- Browser-native Playwright captures can contain a real blank startup frame before the app has rendered, even when the page waits for readiness before screenshots. If the promoted WebM is trimmed after capture, assign sequential PTS values and a stable frame time base during transcode; otherwise metadata can report a tiny duration for hundreds of frames and cadence audits will sample nothing.
+- In browser-native threshold/search beats, keep candidate slots neutral and wide enough that the red point has visible clearance in still frames. Red target outlines around the same point create stacked actors; neutral perimeter cues plus smaller outside echoes keep the single red actor dominant.
+- For browser-native threshold resolutions on portrait screenshots, `preserveAspectRatio="slice"` crops horizontally unless the viewBox ratio is close to the handset ratio. A wide desktop crop can cut terminal brackets into edge fragments even when the desktop final hold is centered.
 
 ## Maintenance Rule
 

@@ -14,6 +14,7 @@ import shutil
 import socket
 import subprocess
 import threading
+from fractions import Fraction
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -136,6 +137,40 @@ def video_metrics(video: Path) -> dict[str, float | int | None]:
             "width": stream.codec_context.width,
             "height": stream.codec_context.height,
         }
+
+
+def trim_recording_start(video: Path, trim_seconds: float = 0.3) -> None:
+    temp_video = video.with_name(f"{video.stem}-trimmed{video.suffix}")
+    if temp_video.exists():
+        temp_video.unlink()
+
+    with av.open(str(video)) as input_container:
+        input_stream = input_container.streams.video[0]
+        frame_rate = input_stream.average_rate or 25
+        frame_time_base = Fraction(frame_rate.denominator, frame_rate.numerator)
+        with av.open(str(temp_video), "w") as output_container:
+            output_stream = output_container.add_stream("libvpx-vp9", rate=frame_rate)
+            output_stream.width = input_stream.codec_context.width
+            output_stream.height = input_stream.codec_context.height
+            output_stream.pix_fmt = "yuv420p"
+            output_stream.time_base = frame_time_base
+            output_stream.options = {"deadline": "good", "cpu-used": "4", "crf": "32", "b:v": "0"}
+
+            output_index = 0
+            for frame in input_container.decode(input_stream):
+                if frame.time is not None and frame.time < trim_seconds:
+                    continue
+                frame.pts = output_index
+                frame.time_base = frame_time_base
+                frame.duration = 1
+                output_index += 1
+                for packet in output_stream.encode(frame):
+                    output_container.mux(packet)
+
+            for packet in output_stream.encode():
+                output_container.mux(packet)
+
+    temp_video.replace(video)
 
 
 def extract_review_frames(video: Path, duration_seconds: float | None) -> None:
@@ -348,6 +383,7 @@ def main() -> int:
             return 0
 
         run_capture(args, port)
+        trim_recording_start(VIDEO_PATH)
         metrics = video_metrics(VIDEO_PATH)
         extract_review_frames(VIDEO_PATH, metrics["duration_seconds"])
         cadence_review_frames = extract_cadence_review_frames(VIDEO_PATH, metrics["duration_seconds"])

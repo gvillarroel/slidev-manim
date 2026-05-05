@@ -97,7 +97,7 @@ const PORTRAIT_VIEWBOXES = {
   search: "250 158 500 650",
   tension: "680 170 360 650",
   transformation: "716 156 360 660",
-  resolution: "706 160 344 628",
+  resolution: "680 70 360 780",
 };
 
 const PORTRAIT_STAGE_TRANSFORMS = {
@@ -105,7 +105,7 @@ const PORTRAIT_STAGE_TRANSFORMS = {
   search: { x: 570, y: 450, scale: 1.1 },
   tension: { x: 850, y: 450, scale: 1.16 },
   transformation: { x: 944, y: 450, scale: 1.18 },
-  resolution: { x: 860, y: 450, scale: 1.26 },
+  resolution: { x: 860, y: 450, scale: 1.06 },
 };
 
 function applyLayout(activePhase = "appearance") {
@@ -245,13 +245,13 @@ function applyDot(position, radius, haloRadius, opacity, haloOpacity, scaleX = 1
 
 function setCandidateState(element, mode) {
   if (mode === "active") {
-    setStrokeColor(element, COLORS.primaryRed);
-    setOpacity(element, 0.96);
+    setStrokeColor(element, COLORS.dark);
+    setOpacity(element, 0.82);
     return;
   }
   if (mode === "visited") {
     setStrokeColor(element, COLORS.mutedRed);
-    setOpacity(element, 0.54);
+    setOpacity(element, 0.34);
     return;
   }
   if (mode === "faint") {
@@ -366,6 +366,9 @@ function renderTension(progress) {
   setCandidateState(searchTop, "visited");
   setCandidateState(searchMid, "visited");
   setCandidateState(searchBottom, "visited");
+  setOpacity(searchTop, 0.18 * residue);
+  setOpacity(searchMid, 0.16 * residue);
+  setOpacity(searchBottom, 0.14 * residue);
   setOpacity(searchEchoTop, 0.18 * residue);
   setOpacity(searchEchoMid, 0.16 * residue);
   setOpacity(searchEchoBottom, 0.14 * residue);
@@ -451,11 +454,11 @@ function renderResolution(progress) {
   setOpacity(centerThread, 0.76);
   applyStrokeReveal(centerThread, 1, CENTER_THREAD_LENGTH);
   [supportLinkTop, supportLinkBottom].forEach((element, index) => {
-    setOpacity(element, lerp(index === 0 ? 0.32 : 0.28, 0.04, settle));
+    setOpacity(element, lerp(index === 0 ? 0.32 : 0.28, 0, settle));
     applyStrokeReveal(element, 1, index === 0 ? SUPPORT_TOP_LENGTH : SUPPORT_BOTTOM_LENGTH);
   });
-  setOpacity(supportNodeTop, lerp(0.34, 0.06, settle));
-  setOpacity(supportNodeBottom, lerp(0.32, 0.05, settle));
+  setOpacity(supportNodeTop, lerp(0.34, 0, settle));
+  setOpacity(supportNodeBottom, lerp(0.32, 0, settle));
 
   setOpacity(resolutionGroup, 1);
   setOpacity(resolutionHalo, 0.12);

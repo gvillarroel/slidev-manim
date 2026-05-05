@@ -72,6 +72,8 @@ Then open the printed local URL in a browser.
 - Press `Space` to pause or resume.
 - Press `R` to restart the narrative.
 - The opening frame already shows the pending chamber and threshold family so the first proof frame reads as prepared intent, not decorative blank space.
+- The promoted recording trims the browser recorder's startup blank after capture so 0.3-second review starts on the actual narrative frame.
+- Search apertures stay neutral and wide enough that the single red point reads as the active actor instead of colliding with red target outlines.
 - The tension beat keeps the slit and the pending chamber visible together, so the proof frame reads as real passage pressure instead of a generic clamp.
 - The transformation beat converts the same shutters into the final frame grammar, so the resolution feels causal rather than swapped in.
-- Portrait review uses phase-specific crops plus phase-centered scene scaling, so the mobile proof frame stays on the slit or chamber instead of shrinking the desktop composition into a tall white field.
+- Portrait review uses phase-specific crops plus phase-centered scene scaling, and the resolution crop is ratio-matched for `slice` so the mobile proof frame keeps the full chamber bracket grammar visible.

@@ -89,6 +89,7 @@ Use `browser-native SVG narrative` when a spike records an HTML/SVG visual syste
 
 - Generate dense 0.3-second review frames and a contact sheet from the promoted recording, not only named proof screenshots.
 - Make the first frame audit-visible: show the destination hub, slots, route hints, or receiver scaffold before any side-entering actor starts moving.
+- If Playwright recording starts with a blank browser frame, trim the promoted recording after capture and preserve explicit output frame timestamps. A frame-count-valid WebM with broken duration metadata will make cadence audits miss the real scene.
 - Fade old ingress trails once the hub, fan-out, or selected card owns the mechanism; long red history rails can pull sampled frames off center after the story has moved on.
 - Keep associated chips and callouts in a side pocket outside the selected card's rotation or swing lane. If they sit below the card, they can read as a crowded second body.
 - Use a clean white stage and subtle gray grid by default. Decorative glows, broad plates, and soft browser backgrounds often weaken sparse red/gray hierarchy.
@@ -228,6 +229,7 @@ Do not say the video is finished just because the render succeeded or one audit 
 9. For browser-native SVG search beats, keep active target cues on perimeters and move visited echoes outside closed outlines after the beat. Faint placeholder internals are safer than stacked red marks inside a card or slot.
 10. For browser-native five-act narratives, inspect the tension-to-transformation cleanup at dense cadence. Retire old search scaffolds and side-entry trails before a centered hub, ring, or system becomes the proof frame, or the still frame will keep reading the previous route.
 11. For browser-native prism or facet narratives, make frame-zero destination scaffolds strong enough for dense composition audits, then demote internal red facet accents and compact the terminal cluster for portrait proof frames.
+12. For browser-native threshold narratives using `preserveAspectRatio="slice"`, make portrait viewBox ratios match the handset ratio closely or the terminal bracket grammar can crop into disconnected edge fragments.
 
 ## What must be true before “done”
 
