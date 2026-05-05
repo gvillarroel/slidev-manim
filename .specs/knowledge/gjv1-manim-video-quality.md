@@ -160,6 +160,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the latest render is 25.900 seconds with 86 white-background review frames at 0.3-second cadence; frame composition and frame crowding audits sampled 87 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 4 rest states, and decoded VP9 alpha range is `0..255`.
 
+## Mermaid Diagram Side By Side
+
+- **Hypothesis**: A Manim companion video reads better beside a static Mermaid flowchart when it reinforces the flow with neutral native geometry instead of repeating Mermaid's colorful diagram styling.
+- **Result**: Confirmed on `spikes/mermaid-diagram-side-by-side/` after replacing a 4.33-second rounded multicolor loop with a 27.5-second transparent red/gray handoff asset.
+- **What worked**:
+  - keeping the Mermaid diagram as the explicit static structure while the Manim clip uses larger native cards, short route segments, and one primary-red pulse,
+  - showing source, transform slot, output slot, rails, and pending routes during the opening breath so the first still frame is meaningful,
+  - leaving small gaps between route segments and card borders so the pulse does not read as a card-edge defect,
+  - using the terminal output brackets as the final artifact instead of leaving a red dot near the frame edge,
+  - clearing the spike-local Manim staging directory and generating built-in 0.3-second alpha-on-white review frames from the promoted WebM.
+- **Validation note**:
+  - the final render is 27.5 seconds with 92 alpha-on-white review frames at 0.3-second cadence and decoded alpha range `0..255`; frame composition and crowding audits sampled 93 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 8 rest states.
+
 ## Mermaid Auth Sequence
 
 - **Hypothesis**: A native Mermaid sequence-diagram asset reads better as a transparent content-first clip when participant identity is neutral and the red accent is reserved for receiver causality and return-token proof.

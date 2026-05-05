@@ -86,6 +86,16 @@ Use `multi-asset grid` when a Slidev page embeds three or more independent Manim
 - Generate dense review frames and contact sheets per asset, not only for the combined Slidev screenshot. A grid can look aligned while one member still has a weak mechanism, stale title chrome, or an under-held final state.
 - Resting audits may report notice-level contacts when an actor intentionally sits on an orbit, track, ring, or receiver during the proof. Treat those as acceptable only after full-size frame review confirms the guide is the mechanism and not stale residue.
 
+# Mermaid Companion Assets
+
+Use `mermaid companion asset` when a Slidev page already has a static Mermaid diagram and the Manim video should reinforce only one mechanism beside it.
+
+- Let Mermaid own the explicit diagram syntax and labels. The Manim asset should usually be a native red/gray motion companion, not a second multicolor diagram.
+- Show the full pending native flow during the opening breath: source card, destination slots, short route segments, and receiver cues should all be visible before the pulse moves.
+- Keep route segments slightly detached from card borders. A red pulse parked on a card edge reads as a still-frame defect even when the route is semantically correct.
+- Use one terminal artifact with margin, such as separated output brackets. Avoid leaving the active dot at the frame edge during the final hold.
+- Keep durable companion-asset refinements in [references/video-quality-lessons.md](references/video-quality-lessons.md).
+
 # Browser-Native SVG Narratives
 
 Use `browser-native SVG narrative` when a spike records an HTML/SVG visual system through Playwright but still follows this repository's red/gray motion-language standards.
