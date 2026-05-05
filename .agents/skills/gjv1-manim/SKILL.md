@@ -155,6 +155,18 @@ Use `native kanban board` when a Mermaid Kanban SVG unfold becomes a tiny static
 - Use separated corner brackets around the terminal card instead of enclosing the full board. The final hold should identify the output without turning the whole board into a red frame artifact.
 - For transparent Slidev assets, make both the scene and render command transparent; scene opacity alone is not enough if the Manim CLI render omits `--transparent`.
 
+# State Diagram Scenes
+
+Use `native state flow` when a Mermaid state diagram SVG unfold becomes a thin static strip, renders too slowly through `SVGMobject`, or leaves labels and state bodies without a clear handoff mechanism.
+
+- Keep the `.mmd`, generated SVG, PNG, and fragments as inspectable artifacts, but promote native Manim state cards, arrows, receiver cues, and one active pulse when the state transition is the subject.
+- Use a two-row or otherwise expanded layout for small state diagrams instead of accepting a thin horizontal strip with large dead space.
+- Show faint labeled receiver slots in the opening breath so frame zero explains the pending states before the first pulse moves.
+- Stop the active pulse at the receiver entrance and fade or reset it before the next handoff. A pulse parked over the state label reads as a text defect.
+- Make receiver cues outline-only. Animating whole cue opacity can fill the card and obscure the label even when the final card is clean.
+- Remove decorative guide rails or review frames before the final hold unless they still cause the state relationship. The resolved hold should usually keep only state cards, arrows, the terminal state, and a small separated accent.
+- Keep review extraction dependencies lazy inside helper functions so rest-state audits can import the scene with their lean dependency set.
+
 # Data and Formula Scenes
 
 Use `side formula handoff` for table transformations where two or more source cells create a derived value.

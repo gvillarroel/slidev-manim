@@ -214,6 +214,21 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - final 0.3-second white-background review frames covered 97 samples; full-size proof frames at the opening, both handoffs, and final hold were reviewed; composition audit reported 0 blocking frames with 3 notice-only handoff frames; resting-mobject audit reported 0 blocking snapshots; WebM metadata reported `alpha_mode=1`, 28.928 seconds, and 1600x900.
 
+## Mermaid State Diagram SVG Unfold
+
+- **Hypothesis**: A small Mermaid state diagram reads better and renders more reliably when the generated SVG stays as an inspectable artifact but the promoted video is rebuilt as native Manim state cards, arrows, receiver cues, and one active pulse.
+- **Result**: Confirmed on `spikes/mermaid-state-svg-unfold/` after replacing the generic SVG-fragment unfold, which stalled at medium-quality render, with a 30.960-second native state-flow render.
+- **What worked**:
+  - keeping the `.mmd`, full Mermaid SVG, PNG, and fragments as inspection artifacts while avoiding `SVGMobject` for the promoted video path,
+  - using a larger two-row state layout instead of one thin horizontal strip, so the mechanism survives still-frame review without adding explanatory title text,
+  - showing faint labeled receiver slots in the opening breath, then revealing real state cards over them so frame zero already explains the pending diagram,
+  - stopping the primary-red pulse at receiver entrances rather than letting it sit over state labels,
+  - making receiver cues outline-only; animating whole cue opacity filled the card and obscured text in sampled frames,
+  - removing decorative guide rails before the final pass and limiting terminal brackets to the output card, which kept the resolved hold cleaner than the proof frame,
+  - moving review-only dependencies such as `imageio-ffmpeg` and Pillow into helper functions so rest-state audits can import the scene with the audit runner's lean dependency set.
+- **Validation note**:
+  - final review used 103 extracted 0.3-second white-background frames, full-size opening/proof/final frame inspection, decoded VP9 alpha range `0..255`, frame composition audit with 0 findings across 104 samples, frame crowding audit with 0 blocking frames across 104 samples, and resting-mobject audit with 0 blocking snapshots across 7 rest states.
+
 ## Red Dot Narrative SPA
 
 - **Hypothesis**: A browser-native visual narrative that loops interactively records better when capture mode disables looping, starts with a meaningful first frame, and holds the resolved state after the authored timeline completes.
