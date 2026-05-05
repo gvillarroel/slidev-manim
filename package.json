@@ -94,6 +94,8 @@
     "video:red-dot-sling-spa": "uv run --script spikes/red-dot-sling-spa/main.py",
     "dev:red-dot-weave-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-weave-spa",
     "video:red-dot-weave-spa": "uv run --script spikes/red-dot-weave-spa/main.py",
+    "dev:red-dot-rosette-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-rosette-spa",
+    "video:red-dot-rosette-spa": "uv run --script spikes/red-dot-rosette-spa/main.py",
     "dev:red-point-narrative-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-point-narrative-spa",
     "video:red-point-narrative-spa": "uv run --script spikes/red-point-narrative-spa/main.py",
     "record:mp4": "node scripts/record-slidev-to-mp4.mjs",
