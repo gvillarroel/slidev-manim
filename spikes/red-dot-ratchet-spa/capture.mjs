@@ -34,13 +34,13 @@ const args = parseArgs(process.argv);
 const captures = [
   { file: "01-appearance.png", at: 4200 },
   { file: "02-search.png", at: 10800 },
-  { file: "03-tension.png", at: 18400 },
-  { file: "04-transformation.png", at: 26300 },
-  { file: "05-resolution.png", at: 34400 },
+  { file: "03-tension.png", at: 18100 },
+  { file: "04-transformation.png", at: 26200 },
+  { file: "05-resolution.png", at: 34200 },
 ];
 const mobileCapture = {
   file: "mobile-resolution.png",
-  at: 34400,
+  at: 34200,
   width: 430,
   height: 932,
 };
