@@ -86,6 +86,16 @@ Use `multi-asset grid` when a Slidev page embeds three or more independent Manim
 - Generate dense review frames and contact sheets per asset, not only for the combined Slidev screenshot. A grid can look aligned while one member still has a weak mechanism, stale title chrome, or an under-held final state.
 - Resting audits may report notice-level contacts when an actor intentionally sits on an orbit, track, ring, or receiver during the proof. Treat those as acceptable only after full-size frame review confirms the guide is the mechanism and not stale residue.
 
+# Reference Gallery Scenes
+
+Use `reference gallery` when a single Manim video compares many related API effects, animation classes, or visual variants in a repeated grid.
+
+- Keep the compared targets as identical as possible. Per-tile saturated colors usually make the gallery compare color roles instead of behavior.
+- Show the full grid at frame zero, then hold it before the first row or column activates. A gallery poster or first sampled frame should already explain the comparison surface.
+- Use primary red only for the active row, active effect, or brief completion cue; demote persistent labels, side bars, and done marks to gray.
+- Prefer one active row or column at a time. Highlighting the entire grid makes every tile feel active, while a row/column pass preserves hierarchy.
+- If the gallery is transparent, generate alpha-on-white review frames with a VP9 alpha-aware decoder. Generic video audits can misread transparent margins as black foreground and should be treated as prompts for full-size review.
+
 # Frame Wrapper Embed Assets
 
 Use `frame wrapper embed asset` when a transparent Manim clip will be placed inside Slidev browser chrome, phone frames, device mockups, or other external UI wrappers.

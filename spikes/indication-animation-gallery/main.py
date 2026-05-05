@@ -1,7 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # dependencies = [
+#   "imageio-ffmpeg>=0.6.0",
 #   "manim>=0.20.0",
+#   "pillow>=11.0.0",
 # ]
 # ///
 
@@ -48,13 +50,11 @@ OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
+REVIEW_FRAMES_DIR = OUTPUT_DIR / "review-frames-0.3s"
+CONTACT_SHEET_PATH = OUTPUT_DIR / "review-contact-sheet-0.3s.png"
+VALIDATION_PATH = OUTPUT_DIR / "validation.txt"
 
 PRIMARY_RED = "#9e1b32"
-PRIMARY_ORANGE = "#e77204"
-PRIMARY_YELLOW = "#f1c319"
-PRIMARY_GREEN = "#45842a"
-PRIMARY_BLUE = "#007298"
-PRIMARY_PURPLE = "#652f6c"
 WHITE = "#ffffff"
 GRAY = "#333e48"
 GRAY_100 = "#e7e7e7"
@@ -70,7 +70,6 @@ TEXT_FONT = "Arial"
 class TileSpec:
     key: str
     label: str
-    color: str
     row: int
     col: int
 
@@ -90,27 +89,26 @@ class _Args(argparse.Namespace):
 
 
 TILE_SPECS = (
-    TileSpec("apply_wave", "ApplyWave", PRIMARY_GREEN, 0, 0),
-    TileSpec("blink", "Blink", PRIMARY_BLUE, 0, 1),
-    TileSpec("circumscribe", "Circumscribe", PRIMARY_PURPLE, 0, 2),
-    TileSpec("flash", "Flash", PRIMARY_ORANGE, 1, 0),
-    TileSpec("focus_on", "FocusOn", PRIMARY_BLUE, 1, 1),
-    TileSpec("indicate", "Indicate", PRIMARY_RED, 1, 2),
-    TileSpec("show_passing_flash", "ShowPassingFlash", PRIMARY_GREEN, 2, 0),
+    TileSpec("apply_wave", "ApplyWave", 0, 0),
+    TileSpec("blink", "Blink", 0, 1),
+    TileSpec("circumscribe", "Circumscribe", 0, 2),
+    TileSpec("flash", "Flash", 1, 0),
+    TileSpec("focus_on", "FocusOn", 1, 1),
+    TileSpec("indicate", "Indicate", 1, 2),
+    TileSpec("show_passing_flash", "ShowPassingFlash", 2, 0),
     TileSpec(
         "show_passing_flash_thin",
         "ShowPassingFlash\nWithThinningStrokeWidth",
-        PRIMARY_PURPLE,
         2,
         1,
     ),
-    TileSpec("wiggle", "Wiggle", PRIMARY_ORANGE, 2, 2),
+    TileSpec("wiggle", "Wiggle", 2, 2),
 )
 
-TILE_WIDTH = 3.78
-TILE_HEIGHT = 1.54
-COL_X = (-4.28, 0.0, 4.28)
-ROW_Y = (1.72, -0.12, -1.96)
+TILE_WIDTH = 3.92
+TILE_HEIGHT = 1.62
+COL_X = (-4.32, 0.0, 4.32)
+ROW_Y = (1.7, -0.16, -2.02)
 
 
 def parse_args() -> _Args:
@@ -162,7 +160,7 @@ def label_text(text: str, *, max_width: float, font_size: int = 21) -> Text:
     return label
 
 
-def make_actor(color: str) -> VGroup:
+def make_actor() -> VGroup:
     shadow = Rectangle(
         width=1.2,
         height=0.54,
@@ -182,7 +180,7 @@ def make_actor(color: str) -> VGroup:
         width=0.62,
         height=0.18,
         stroke_width=0,
-        fill_color=color,
+        fill_color=GRAY_600,
         fill_opacity=1,
     ).move_to(body.get_center())
     return VGroup(shadow, body, accent)
@@ -196,20 +194,20 @@ def make_tile(spec: TileSpec) -> Tile:
         stroke_color=GRAY_200,
         stroke_width=2,
         fill_color=WHITE,
-        fill_opacity=0.96,
+        fill_opacity=0.98,
     ).move_to(center)
     color_bar = Rectangle(
-        width=0.14,
+        width=0.1,
         height=TILE_HEIGHT - 0.26,
         stroke_width=0,
-        fill_color=spec.color,
-        fill_opacity=1,
+        fill_color=GRAY_300,
+        fill_opacity=0.95,
     ).move_to(frame.get_left() + RIGHT * 0.2)
     is_multiline = "\n" in spec.label
     label = label_text(spec.label, max_width=TILE_WIDTH - 0.72, font_size=16 if is_multiline else 21)
     label.move_to(frame.get_top() + DOWN * (0.38 if is_multiline else 0.32))
 
-    actor = make_actor(spec.color).move_to(center + DOWN * (0.35 if is_multiline else 0.17))
+    actor = make_actor().move_to(center + DOWN * (0.35 if is_multiline else 0.17))
     guide: Line | Circle | None = None
     guide_mobject = VGroup()
     if spec.key == "show_passing_flash":
@@ -224,7 +222,7 @@ def make_tile(spec: TileSpec) -> Tile:
         guide = Circle(radius=0.47, color=GRAY_300, stroke_width=5).move_to(actor)
         guide_mobject.add(guide)
 
-    mark = Square(side_length=0.18, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
+    mark = Square(side_length=0.14, stroke_width=0, fill_color=GRAY_600, fill_opacity=1)
     mark.move_to(frame.get_top() + DOWN * 0.26 + RIGHT * (TILE_WIDTH / 2 - 0.32))
 
     group = VGroup(frame, color_bar, label, guide_mobject, actor)
@@ -239,33 +237,20 @@ class IndicationAnimationGalleryScene(Scene):
         if self.is_poster():
             self.camera.background_color = PAGE_BACKGROUND
 
-        stage = Rectangle(
-            width=13.1,
-            height=7.1,
-            stroke_color=GRAY_200,
-            stroke_width=2,
-            fill_color=PAGE_BACKGROUND,
-            fill_opacity=0.96,
-        ).shift(DOWN * 0.05)
         title = label_text("manim.animation.indication", max_width=8.0, font_size=28)
         title.move_to(UP * 3.2 + LEFT * 2.55)
         title_rule = Line(
             title.get_right() + RIGHT * 0.34,
             RIGHT * 5.75 + UP * 3.2,
-            color=PRIMARY_RED,
-            stroke_width=5,
+            color=GRAY_300,
+            stroke_width=3,
         )
 
         tiles = [make_tile(spec) for spec in TILE_SPECS]
         tile_group = VGroup(*[tile.group for tile in tiles])
+        composition = VGroup(title, title_rule, tile_group).shift(RIGHT * 0.1 + DOWN * 0.25)
 
-        self.add(stage)
-        self.play(
-            FadeIn(title, shift=UP * 0.1),
-            FadeIn(title_rule),
-            LaggedStart(*[FadeIn(tile.group, shift=UP * 0.1) for tile in tiles], lag_ratio=0.05),
-            run_time=1.4,
-        )
+        self.add(composition)
         self.wait(2.5)
 
         self.play_row(
@@ -333,10 +318,10 @@ class IndicationAnimationGalleryScene(Scene):
 
         self.play(
             tile_group.animate.set_opacity(0.98),
-            title_rule.animate.set_stroke(width=7),
+            title_rule.animate.set_stroke(PRIMARY_RED, width=5),
             run_time=0.8,
         )
-        self.play(title_rule.animate.set_stroke(width=5), run_time=0.7)
+        self.play(title_rule.animate.set_stroke(GRAY_300, width=3), run_time=0.7)
         self.wait(6.2)
 
     def play_row(self, row_tiles: list[Tile], animations: list[object]) -> None:
@@ -353,14 +338,104 @@ class IndicationAnimationGalleryScene(Scene):
         )
 
 
+def extract_review_frames(cadence: float = 0.3) -> tuple[int, float]:
+    import imageio_ffmpeg
+    from PIL import Image, ImageDraw
+
+    if REVIEW_FRAMES_DIR.exists():
+        shutil.rmtree(REVIEW_FRAMES_DIR)
+    REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    target_pattern = str(REVIEW_FRAMES_DIR / "frame-%04d.png")
+    fps = f"{int(round(1 / cadence * 30))}/30"
+    filtergraph = (
+        "[0:v]format=rgba[fg];"
+        "color=c=white:s=1600x900:d=120[bg];"
+        f"[bg][fg]overlay=shortest=1:format=auto,format=rgb24,fps=fps={fps}"
+    )
+    subprocess.run(
+        [
+            ffmpeg,
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-c:v",
+            "libvpx-vp9",
+            "-i",
+            str(VIDEO_PATH),
+            "-filter_complex",
+            filtergraph,
+            target_pattern,
+        ],
+        check=True,
+    )
+
+    _frame_count, duration = imageio_ffmpeg.count_frames_and_secs(str(VIDEO_PATH))
+    frames = sorted(REVIEW_FRAMES_DIR.glob("*.png"))
+    thumb_width, thumb_height, label_height, columns = 320, 180, 28, 6
+    rows = max(1, (len(frames) + columns - 1) // columns)
+    sheet = Image.new("RGB", (columns * thumb_width, rows * (thumb_height + label_height)), "white")
+    draw = ImageDraw.Draw(sheet)
+    for index, frame_path in enumerate(frames):
+        image = Image.open(frame_path).convert("RGB")
+        image.thumbnail((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+        x = (index % columns) * thumb_width
+        y = (index // columns) * (thumb_height + label_height)
+        sheet.paste(image, (x, y))
+        draw.text((x + 6, y + thumb_height + 6), f"{index * cadence:.1f}s", fill=(40, 40, 40))
+    sheet.save(CONTACT_SHEET_PATH)
+    return len(frames), duration
+
+
+def decoded_alpha_range(sample_fps: int = 2) -> tuple[int, int]:
+    import imageio_ffmpeg
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    command = [
+        ffmpeg,
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-c:v",
+        "libvpx-vp9",
+        "-i",
+        str(VIDEO_PATH),
+        "-vf",
+        f"fps={sample_fps},alphaextract,format=gray",
+        "-f",
+        "rawvideo",
+        "-",
+    ]
+    result = subprocess.run(command, check=True, stdout=subprocess.PIPE)
+    if not result.stdout:
+        raise RuntimeError("Alpha validation produced no decoded samples.")
+    return min(result.stdout), max(result.stdout)
+
+
 def main() -> int:
     args = parse_args()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
     for target, poster in ((VIDEO_PATH, False), (POSTER_PATH, True)):
         env = {**os.environ, "SPIKE_RENDER_TARGET": "poster" if poster else "video"}
         result = subprocess.run(render_command(args, target, poster=poster), check=False, env=env)
         if result.returncode != 0:
             return result.returncode
         promote(target.name, target)
+    review_count, duration = extract_review_frames()
+    alpha_min, alpha_max = decoded_alpha_range()
+    VALIDATION_PATH.write_text(
+        "\n".join(
+            [
+                f"duration_seconds={duration:.3f}",
+                f"review_frame_count={review_count}",
+                f"decoded_alpha_range={alpha_min}..{alpha_max}",
+                f"contact_sheet={CONTACT_SHEET_PATH}",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     return 0
 
 
