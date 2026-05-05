@@ -88,6 +88,8 @@
     "video:red-dot-relay-spa": "uv run --script spikes/red-dot-relay-spa/main.py",
     "dev:red-dot-semaphore-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-semaphore-spa",
     "video:red-dot-semaphore-spa": "uv run --script spikes/red-dot-semaphore-spa/main.py",
+    "dev:red-dot-tuning-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-tuning-spa",
+    "video:red-dot-tuning-spa": "uv run --script spikes/red-dot-tuning-spa/main.py",
     "dev:red-dot-prism-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-prism-spa",
     "video:red-dot-prism-spa": "uv run --script spikes/red-dot-prism-spa/main.py",
     "dev:red-dot-threshold-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-threshold-spa",
