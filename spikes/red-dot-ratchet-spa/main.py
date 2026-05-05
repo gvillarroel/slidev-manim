@@ -29,6 +29,9 @@ VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / "poster-final.png"
 SCREENSHOTS_DIR = OUTPUT_DIR / "screenshots"
 REVIEW_FRAMES_DIR = OUTPUT_DIR / "review-frames"
+CADENCE_REVIEW_DIR = OUTPUT_DIR / "review-frames-0.3s"
+CADENCE_FRAMES_DIR = CADENCE_REVIEW_DIR / "frames"
+CADENCE_SHEETS_DIR = CADENCE_REVIEW_DIR / "sheets"
 REVIEW_DIR = OUTPUT_DIR / "review"
 SUMMARY_PATH = OUTPUT_DIR / "recording-summary.json"
 BROWSER_VALIDATION = OUTPUT_DIR / "browser-validation.json"
@@ -42,7 +45,7 @@ REVIEW_CAPTURE_NAMES = (
     "05-resolution.png",
 )
 MOBILE_CAPTURE_NAME = "mobile-resolution.png"
-AUDIT_TIMES = "4.2,10.8,18.4,26.3,34.4"
+AUDIT_TIMES = "4.2,10.8,18.1,26.2,34.2"
 
 
 class SilentHandler(SimpleHTTPRequestHandler):
@@ -72,6 +75,8 @@ def ensure_output_dirs() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
     REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    CADENCE_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    CADENCE_SHEETS_DIR.mkdir(parents=True, exist_ok=True)
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -139,9 +144,9 @@ def extract_review_frames(video: Path, duration_seconds: float | None) -> None:
         old_file.unlink()
 
     if duration_seconds is None:
-        targets = [4.2, 18.0, 34.0]
+        targets = [4.2, 18.1, 35.0]
     else:
-        targets = [4.2, min(18.0, duration_seconds / 2), max(duration_seconds - 0.8, 1.0)]
+        targets = [4.2, min(18.1, duration_seconds / 2), max(duration_seconds - 0.8, 1.0)]
 
     names = ["frame-start.png", "frame-middle.png", "frame-final.png"]
 
@@ -156,6 +161,41 @@ def extract_review_frames(video: Path, duration_seconds: float | None) -> None:
                 target_index += 1
                 if target_index >= len(targets):
                     break
+
+
+def extract_cadence_review_frames(video: Path, duration_seconds: float | None, cadence: float = 0.3) -> int:
+    CADENCE_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    CADENCE_SHEETS_DIR.mkdir(parents=True, exist_ok=True)
+    for directory in (CADENCE_FRAMES_DIR, CADENCE_SHEETS_DIR):
+        for old_file in directory.glob("*.png"):
+            old_file.unlink()
+
+    end_time = duration_seconds or 0
+    if end_time <= 0:
+        return 0
+
+    targets = [round(index * cadence, 3) for index in range(int(end_time / cadence) + 2)]
+    target_index = 0
+    saved: list[tuple[float, Path]] = []
+
+    with av.open(str(video)) as container:
+        stream = container.streams.video[0]
+        for frame in container.decode(stream):
+            if frame.time is None:
+                continue
+            while target_index < len(targets) and frame.time >= targets[target_index]:
+                image = frame.to_image().convert("RGBA")
+                background = Image.new("RGBA", image.size, "#ffffff")
+                background.alpha_composite(image)
+                path = CADENCE_FRAMES_DIR / f"frame-{target_index:03d}-{targets[target_index]:06.2f}s.png"
+                background.convert("RGB").save(path)
+                saved.append((targets[target_index], path))
+                target_index += 1
+            if frame.time > end_time:
+                break
+
+    build_cadence_contact_sheets(saved)
+    return len(saved)
 
 
 def copy_final_poster() -> None:
@@ -204,6 +244,48 @@ def build_contact_sheet() -> None:
         image.close()
 
 
+def build_cadence_contact_sheets(frames: list[tuple[float, Path]]) -> None:
+    if not frames:
+        return
+
+    thumb_width, thumb_height = 320, 180
+    columns, rows = 5, 5
+    label_band = 28
+    pad = 14
+    per_sheet = columns * rows
+    title_font = font(18)
+    label_font = font(15)
+
+    for sheet_index in range((len(frames) + per_sheet - 1) // per_sheet):
+        chunk = frames[sheet_index * per_sheet : (sheet_index + 1) * per_sheet]
+        sheet = Image.new(
+            "RGB",
+            (
+                columns * thumb_width + (columns + 1) * pad,
+                rows * (thumb_height + label_band) + (rows + 1) * pad + 32,
+            ),
+            "#f7f7f7",
+        )
+        draw = ImageDraw.Draw(sheet)
+        draw.text((pad, 8), f"Red dot ratchet 0.3s review sheet {sheet_index + 1}", fill="#333e48", font=title_font)
+
+        for index, (timestamp, path) in enumerate(chunk):
+            column = index % columns
+            row = index // columns
+            x = pad + column * (thumb_width + pad)
+            y = 32 + pad + row * (thumb_height + label_band + pad)
+            with Image.open(path) as image:
+                tile_image = image.convert("RGB")
+                tile_image.thumbnail((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+                tile = Image.new("RGB", (thumb_width, thumb_height), "#ffffff")
+                tile.paste(tile_image, ((thumb_width - tile_image.width) // 2, (thumb_height - tile_image.height) // 2))
+            sheet.paste(tile, (x, y + label_band))
+            draw.text((x + 4, y + 4), f"{timestamp:05.2f}s", fill="#9e1b32", font=label_font)
+            draw.rectangle((x, y + label_band, x + thumb_width - 1, y + label_band + thumb_height - 1), outline="#cfcfcf")
+
+        sheet.save(CADENCE_SHEETS_DIR / f"contact-sheet-{sheet_index + 1:02d}.png")
+
+
 def run_composition_audit(video: Path) -> int | None:
     if not COMPOSITION_AUDIT.exists():
         return None
@@ -223,7 +305,12 @@ def run_composition_audit(video: Path) -> int | None:
     return result.returncode
 
 
-def write_summary(metrics: dict[str, float | int | None], port: int, composition_audit_exit_code: int | None) -> None:
+def write_summary(
+    metrics: dict[str, float | int | None],
+    port: int,
+    composition_audit_exit_code: int | None,
+    cadence_review_frames: int,
+) -> None:
     browser_validation = json.loads(BROWSER_VALIDATION.read_text(encoding="utf-8")) if BROWSER_VALIDATION.exists() else {}
     summary = {
         "spike": SPIKE_NAME,
@@ -235,6 +322,12 @@ def write_summary(metrics: dict[str, float | int | None], port: int, composition
         "metrics": metrics,
         "browser_validation": browser_validation,
         "composition_audit_exit_code": composition_audit_exit_code,
+        "cadence_review": {
+            "cadence_seconds": 0.3,
+            "frames": cadence_review_frames,
+            "frames_dir": str(CADENCE_FRAMES_DIR),
+            "sheets_dir": str(CADENCE_SHEETS_DIR),
+        },
     }
     SUMMARY_PATH.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 
@@ -257,10 +350,11 @@ def main() -> int:
         run_capture(args, port)
         metrics = video_metrics(VIDEO_PATH)
         extract_review_frames(VIDEO_PATH, metrics["duration_seconds"])
+        cadence_review_frames = extract_cadence_review_frames(VIDEO_PATH, metrics["duration_seconds"])
         copy_final_poster()
         build_contact_sheet()
         composition_audit_exit_code = run_composition_audit(VIDEO_PATH)
-        write_summary(metrics, port, composition_audit_exit_code)
+        write_summary(metrics, port, composition_audit_exit_code, cadence_review_frames)
         print(json.dumps(metrics, indent=2))
         return composition_audit_exit_code or 0
     finally:

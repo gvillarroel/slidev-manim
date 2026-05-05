@@ -2,9 +2,9 @@ const TOTAL_DURATION = 36_000;
 const PHASES = [
   { id: "appearance", label: "appearance", duration: 5_000 },
   { id: "search", label: "search for form", duration: 7_000 },
-  { id: "tension", label: "tension", duration: 8_000 },
+  { id: "tension", label: "tension", duration: 7_000 },
   { id: "transformation", label: "transformation", duration: 8_000 },
-  { id: "resolution", label: "resolution", duration: 8_000 },
+  { id: "resolution", label: "resolution", duration: 9_000 },
 ];
 
 const svg = document.getElementById("stage");
@@ -17,36 +17,34 @@ const activeTrail = document.getElementById("active-trail");
 const searchGuideA = document.getElementById("search-guide-a");
 const searchGuideB = document.getElementById("search-guide-b");
 const searchGuideC = document.getElementById("search-guide-c");
-const candidateRamp = document.getElementById("candidate-ramp");
-const candidatePocket = document.getElementById("candidate-pocket");
+const candidateRack = document.getElementById("candidate-rack");
+const candidatePawl = document.getElementById("candidate-pawl");
 const candidateWheel = document.getElementById("candidate-wheel");
-const tensionGuide = document.getElementById("tension-guide");
+
+const throatArc = document.getElementById("throat-arc");
 const pawlGuide = document.getElementById("pawl-guide");
-const trackArcBack = document.getElementById("track-arc-back");
-const trackArcFront = document.getElementById("track-arc-front");
-const toothA = document.getElementById("tooth-a");
-const toothB = document.getElementById("tooth-b");
-const toothC = document.getElementById("tooth-c");
-const capturePocket = document.getElementById("capture-pocket");
-const pawlBody = document.getElementById("pawl-body");
-const pawlAccent = document.getElementById("pawl-accent");
 const pressureHalo = document.getElementById("pressure-halo");
-const resolveArc = document.getElementById("resolve-arc");
-const resolveToothA = document.getElementById("resolve-tooth-a");
-const resolveToothB = document.getElementById("resolve-tooth-b");
-const resolveToothC = document.getElementById("resolve-tooth-c");
-const resolveToothD = document.getElementById("resolve-tooth-d");
-const resolvePawl = document.getElementById("resolve-pawl");
-const resolvePawlAccent = document.getElementById("resolve-pawl-accent");
-const resolveTrace = document.getElementById("resolve-trace");
-const resolveCorners = document.getElementById("resolve-corners");
+const toothBank = document.getElementById("tooth-bank");
+const pawlClamp = document.getElementById("pawl-clamp");
+
+const wheelBase = document.getElementById("wheel-base");
+const wheelRing = document.getElementById("wheel-ring");
+const wheelTrace = document.getElementById("wheel-trace");
+const pawlTrace = document.getElementById("pawl-trace");
+const toothOne = document.getElementById("tooth-one");
+const toothTwo = document.getElementById("tooth-two");
+const toothThree = document.getElementById("tooth-three");
+const toothFour = document.getElementById("tooth-four");
+const pawlFinal = document.getElementById("pawl-final");
+const anchorGrid = document.getElementById("anchor-grid");
 const resolutionHalo = document.getElementById("resolution-halo");
+const resolutionFrame = document.getElementById("resolution-frame");
 const dotCore = document.getElementById("dot-core");
 const dotHalo = document.getElementById("dot-halo");
 
 const ACTIVE_TRAIL_LENGTH = activeTrail.getTotalLength();
-const TENSION_GUIDE_LENGTH = tensionGuide.getTotalLength();
-const RESOLVE_TRACE_LENGTH = resolveTrace.getTotalLength();
+const WHEEL_TRACE_LENGTH = wheelTrace.getTotalLength();
+const PAWL_TRACE_LENGTH = pawlTrace.getTotalLength();
 const FULL_VIEWBOX = "0 0 1600 900";
 
 const COLORS = {
@@ -55,16 +53,30 @@ const COLORS = {
 };
 
 const points = {
-  start: { x: 300, y: 450 },
-  ingress: { x: 530, y: 450 },
-  ramp: { x: 674, y: 396 },
-  pocket: { x: 824, y: 522 },
-  wheel: { x: 996, y: 396 },
-  approach: { x: 946, y: 398 },
-  capture: { x: 804, y: 490 },
-  upperRight: { x: 904, y: 360 },
+  start: { x: 296, y: 452 },
+  entry: { x: 550, y: 452 },
+  rack: { x: 656, y: 396 },
+  pawl: { x: 822, y: 338 },
+  wheel: { x: 992, y: 406 },
+  throat: { x: 934, y: 452 },
+  pocket: { x: 842, y: 452 },
+  crest: { x: 840, y: 330 },
   center: { x: 820, y: 450 },
 };
+
+const toothOrigins = [
+  { x: 930, y: 380, angle: -10 },
+  { x: 948, y: 426, angle: 0 },
+  { x: 948, y: 484, angle: 0 },
+  { x: 930, y: 530, angle: 10 },
+];
+
+const toothTargets = [
+  { x: 878, y: 356, angle: -58 },
+  { x: 924, y: 410, angle: -18 },
+  { x: 924, y: 490, angle: 18 },
+  { x: 878, y: 544, angle: 58 },
+];
 
 const state = {
   playing: true,
@@ -113,12 +125,6 @@ function segmentedPoint(progress, segments) {
   return segments[segments.length - 1].to;
 }
 
-function pointOnPath(path, totalLength, progress) {
-  const length = clamp(progress, 0, 1) * totalLength;
-  const point = path.getPointAtLength(length);
-  return { x: point.x, y: point.y };
-}
-
 function setOpacity(element, value) {
   element.setAttribute("opacity", clamp(value, 0, 1).toFixed(3));
 }
@@ -128,15 +134,15 @@ function setCircleCenter(element, point) {
   element.setAttribute("cy", point.y.toFixed(2));
 }
 
+function setCircleRadius(element, radius) {
+  element.setAttribute("r", radius.toFixed(2));
+}
+
 function setGroupTransform(element, x, y, scale = 1, rotate = 0) {
   element.setAttribute(
     "transform",
     `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${rotate.toFixed(2)}) scale(${scale.toFixed(3)})`,
   );
-}
-
-function setTranslate(element, x = 0, y = 0) {
-  element.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
 }
 
 function setDot(position, radius, haloRadius, opacity, haloOpacity, scaleX = 1, scaleY = 1) {
@@ -196,11 +202,11 @@ function updatePhaseLabel(info) {
 
 function applySceneOffset(phaseId) {
   const offsets = {
-    appearance: 16,
-    search: 24,
-    tension: 10,
-    transformation: 2,
-    resolution: -2,
+    appearance: 10,
+    search: 18,
+    tension: 14,
+    transformation: 6,
+    resolution: 0,
   };
   const offsetY = offsets[phaseId] ?? 0;
   sceneRoot.setAttribute("transform", `translate(0 ${offsetY})`);
@@ -213,11 +219,11 @@ function applyFraming(phaseId) {
   }
 
   const frames = {
-    appearance: { x: 92, y: 24, width: 856, height: 860 },
-    search: { x: 238, y: 6, width: 790, height: 888 },
-    tension: { x: 426, y: 0, width: 684, height: 900 },
-    transformation: { x: 442, y: 0, width: 668, height: 900 },
-    resolution: { x: 482, y: 0, width: 624, height: 900 },
+    appearance: { x: 118, y: 142, width: 1120, height: 644 },
+    search: { x: 166, y: 126, width: 1130, height: 666 },
+    tension: { x: 560, y: 90, width: 582, height: 784 },
+    transformation: { x: 540, y: 74, width: 590, height: 804 },
+    resolution: { x: 590, y: 98, width: 470, height: 706 },
   };
   const frame = frames[phaseId] ?? { x: 0, y: 0, width: 1600, height: 900 };
   svg.setAttribute("viewBox", `${frame.x} ${frame.y} ${frame.width} ${frame.height}`);
@@ -226,7 +232,10 @@ function applyFraming(phaseId) {
 function applyLayout() {
   const viewportRatio = window.innerWidth / window.innerHeight;
   if (viewportRatio < 0.9) {
-    layoutRoot.setAttribute("transform", "translate(0 -6)");
+    layoutRoot.setAttribute(
+      "transform",
+      "translate(0 -10) translate(800 450) scale(1.055) translate(-800 -450)",
+    );
     svg.dataset.layout = "portrait";
     svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
   } else {
@@ -238,7 +247,7 @@ function applyLayout() {
 }
 
 function resetScene() {
-  setDot(points.start, 18, 76, 0, 0);
+  setDot(points.start, 18, 72, 0, 0);
   setOpacity(narrativeSpine, 0);
   setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, 0, 0);
 
@@ -247,260 +256,244 @@ function resetScene() {
     setOpacity(guide, 0);
   });
 
-  setGroupTransform(candidateRamp, points.ramp.x, points.ramp.y, 1, -4);
-  setGroupTransform(candidatePocket, points.pocket.x, points.pocket.y, 1, 0);
-  setGroupTransform(candidateWheel, points.wheel.x, points.wheel.y, 1, 6);
-  [candidateRamp, candidatePocket, candidateWheel].forEach((element) => setOpacity(element, 0));
+  setGroupTransform(candidateRack, points.rack.x, points.rack.y, 1, -2);
+  setGroupTransform(candidatePawl, points.pawl.x, points.pawl.y, 1, -8);
+  setGroupTransform(candidateWheel, points.wheel.x, points.wheel.y, 1, 16);
+  [candidateRack, candidatePawl, candidateWheel].forEach((element) => setOpacity(element, 0));
 
-  setOpacity(tensionGuide, 0);
+  setOpacity(throatArc, 0);
   setOpacity(pawlGuide, 0);
-  setOpacity(trackArcBack, 0);
-  setOpacity(trackArcFront, 0);
-  setOpacity(toothA, 0);
-  setOpacity(toothB, 0);
-  setOpacity(toothC, 0);
-  setOpacity(capturePocket, 0);
-  setOpacity(pawlBody, 0);
-  setOpacity(pawlAccent, 0);
+  setCircleRadius(pressureHalo, 124);
   setOpacity(pressureHalo, 0);
-  [trackArcBack, trackArcFront, toothA, toothB, toothC, capturePocket].forEach((element) => setTranslate(element, 0, 0));
-  setGroupTransform(pawlBody, 860, 328, 1, 0);
+  setGroupTransform(toothBank, 930, 452, 1, 0);
+  setGroupTransform(pawlClamp, 756, 408, 1, 0);
+  setOpacity(toothBank, 0);
+  setOpacity(pawlClamp, 0);
 
-  setOpacity(resolveArc, 0);
-  setOpacity(resolveToothA, 0);
-  setOpacity(resolveToothB, 0);
-  setOpacity(resolveToothC, 0);
-  setOpacity(resolveToothD, 0);
-  setOpacity(resolvePawl, 0);
-  setOpacity(resolvePawlAccent, 0);
-  setPathWindow(resolveTrace, RESOLVE_TRACE_LENGTH, 0, 0);
-  setOpacity(resolveCorners, 0);
+  setCircleRadius(wheelBase, 110);
+  setCircleRadius(wheelRing, 110);
+  setCircleRadius(wheelTrace, 110);
+  setOpacity(wheelBase, 0);
+  setOpacity(wheelRing, 0);
+  setPathWindow(wheelTrace, WHEEL_TRACE_LENGTH, 0, 0);
+  setPathWindow(pawlTrace, PAWL_TRACE_LENGTH, 0, 0);
+
+  const teeth = [toothOne, toothTwo, toothThree, toothFour];
+  teeth.forEach((tooth, index) => {
+    const origin = toothOrigins[index];
+    setGroupTransform(tooth, origin.x, origin.y, 0.82, origin.angle);
+    setOpacity(tooth, 0);
+  });
+
+  setGroupTransform(pawlFinal, 760, 512, 0.9, -4);
+  setOpacity(pawlFinal, 0);
+  setOpacity(anchorGrid, 0);
+  setCircleRadius(resolutionHalo, 176);
   setOpacity(resolutionHalo, 0);
-  [resolveArc, resolveToothA, resolveToothB, resolveToothC, resolveToothD, resolveCorners].forEach((element) =>
-    setTranslate(element, 0, 0),
-  );
-  setGroupTransform(resolvePawl, 878, 340, 1, 0);
+  setOpacity(resolutionFrame, 0);
 }
 
 function renderAppearance(progress) {
   const eased = easeOut(progress);
-  const position = mixPoint(points.start, points.ingress, eased * 0.9);
-  const preview = clamp((progress - 0.44) * 1.75, 0, 1);
+  const position = mixPoint(points.start, points.entry, eased * 0.92);
 
   setDot(
     position,
     lerp(4, 18, eased),
-    lerp(18, 88, eased),
+    lerp(16, 82, eased),
     clamp(progress * 1.8, 0, 1),
-    0.22 + pulseWave(progress, 1.1) * 0.18,
+    0.2 + pulseWave(progress, 1.15) * 0.18,
   );
-  setOpacity(narrativeSpine, clamp((progress - 0.1) * 1.4, 0, 0.34));
+  setOpacity(narrativeSpine, clamp((progress - 0.08) * 1.55, 0, 0.36));
 
-  setOpacity(searchGuideA, preview * 0.24);
-  setOpacity(candidateRamp, preview * 0.18);
-  setOpacity(candidatePocket, preview * 0.12);
+  const preview = clamp((progress - 0.34) * 1.95, 0, 1);
+  setOpacity(searchGuideA, preview * 0.18);
+  setOpacity(searchGuideB, preview * 0.08);
+  setOpacity(searchGuideC, preview * 0.04);
+  setOpacity(candidateRack, preview * 0.16);
+  setOpacity(candidatePawl, preview * 0.12);
   setOpacity(candidateWheel, preview * 0.1);
-
-  setOpacity(tensionGuide, preview * 0.08);
-  setOpacity(pawlGuide, preview * 0.08);
-  setOpacity(trackArcBack, preview * 0.08);
-  setOpacity(trackArcFront, preview * 0.06);
-  setOpacity(toothA, preview * 0.08);
-  setOpacity(toothB, preview * 0.06);
-  setOpacity(toothC, preview * 0.04);
-  setOpacity(capturePocket, preview * 0.05);
-  setOpacity(pawlBody, preview * 0.06);
-  setOpacity(pawlAccent, preview * 0.05);
-  setOpacity(pressureHalo, preview * 0.08);
-
-  setOpacity(resolveArc, preview * 0.06);
-  setOpacity(resolveToothA, preview * 0.06);
-  setOpacity(resolveToothB, preview * 0.05);
-  setOpacity(resolveToothC, preview * 0.04);
-  setOpacity(resolvePawl, preview * 0.05);
+  setOpacity(throatArc, preview * 0.12);
 }
 
 function renderSearch(progress) {
   const position = segmentedPoint(progress, [
-    { start: 0, end: 0.24, from: points.ingress, to: points.ramp },
-    { start: 0.24, end: 0.56, from: points.ramp, to: points.pocket },
-    { start: 0.56, end: 0.84, from: points.pocket, to: points.wheel },
-    { start: 0.84, end: 1, from: points.wheel, to: points.approach },
+    { start: 0, end: 0.24, from: points.entry, to: points.rack },
+    { start: 0.24, end: 0.54, from: points.rack, to: points.pawl },
+    { start: 0.54, end: 0.82, from: points.pawl, to: points.wheel },
+    { start: 0.82, end: 1, from: points.wheel, to: points.throat },
   ]);
 
-  const revealA = clamp(progress / 0.2, 0, 1);
-  const revealB = clamp((progress - 0.2) / 0.24, 0, 1);
-  const revealC = clamp((progress - 0.52) / 0.24, 0, 1);
-  const activeA = progress < 0.26 ? 1 : 0;
-  const activeB = progress >= 0.26 && progress < 0.62 ? 1 : 0;
-  const activeC = progress >= 0.62 ? 1 : 0;
+  setDot(position, 18, 84, 1, 0.22 + pulseWave(progress, 1.8) * 0.1);
+  setOpacity(narrativeSpine, lerp(0.3, 0.14, progress));
+  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.24, 0.12, progress));
 
-  setDot(position, 18, 92, 1, 0.22 + pulseWave(progress, 1.8) * 0.1);
-  setOpacity(narrativeSpine, lerp(0.22, 0.05, progress));
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.12, 0.04, progress));
+  const revealA = clamp(progress / 0.22, 0, 1);
+  const revealB = clamp((progress - 0.22) / 0.22, 0, 1);
+  const revealC = clamp((progress - 0.5) / 0.22, 0, 1);
 
-  searchGuideA.setAttribute("stroke", activeA ? COLORS.primaryRed : COLORS.lineGray);
-  searchGuideB.setAttribute("stroke", activeB ? COLORS.primaryRed : COLORS.lineGray);
-  searchGuideC.setAttribute("stroke", activeC ? COLORS.primaryRed : COLORS.lineGray);
+  searchGuideA.setAttribute("stroke", progress < 0.3 ? COLORS.primaryRed : COLORS.lineGray);
+  searchGuideB.setAttribute("stroke", progress >= 0.3 && progress < 0.62 ? COLORS.primaryRed : COLORS.lineGray);
+  searchGuideC.setAttribute("stroke", progress >= 0.62 ? COLORS.primaryRed : COLORS.lineGray);
   setOpacity(searchGuideA, 0.2 + revealA * 0.22);
-  setOpacity(searchGuideB, 0.1 + revealB * 0.24);
+  setOpacity(searchGuideB, 0.12 + revealB * 0.22);
   setOpacity(searchGuideC, 0.08 + revealC * 0.24);
 
-  setGroupTransform(candidateRamp, points.ramp.x, points.ramp.y, lerp(0.88, activeA ? 1.04 : 0.96, revealA), -4);
-  setGroupTransform(candidatePocket, points.pocket.x, points.pocket.y, lerp(0.88, activeB ? 1.04 : 0.96, revealB), 0);
-  setGroupTransform(candidateWheel, points.wheel.x, points.wheel.y, lerp(0.84, activeC ? 1.05 : 0.96, revealC), 6);
-  setOpacity(candidateRamp, activeA ? 1 : revealA * 0.34 + 0.14);
-  setOpacity(candidatePocket, activeB ? 1 : revealB * 0.34 + 0.14);
-  setOpacity(candidateWheel, activeC ? 1 : revealC * 0.36 + 0.12);
+  const activeA = progress < 0.3 ? 1 : 0;
+  const activeB = progress >= 0.3 && progress < 0.62 ? 1 : 0;
+  const activeC = progress >= 0.62 ? 1 : 0;
 
-  setOpacity(tensionGuide, 0.12);
-  setOpacity(pawlGuide, 0.1);
-  setOpacity(trackArcBack, 0.08);
-  setOpacity(trackArcFront, 0.07);
-  setOpacity(toothA, 0.08);
-  setOpacity(toothB, 0.06);
-  setOpacity(toothC, 0.05);
-  setOpacity(capturePocket, 0.06);
-  setOpacity(pawlBody, 0.08);
-  setOpacity(pawlAccent, 0.08);
-  setOpacity(pressureHalo, 0.08);
-
-  setOpacity(resolveArc, 0.06);
-  setOpacity(resolveToothA, 0.06);
-  setOpacity(resolveToothB, 0.05);
-  setOpacity(resolveToothC, 0.04);
-  setOpacity(resolvePawl, 0.04);
+  setGroupTransform(candidateRack, points.rack.x, points.rack.y, lerp(0.9, activeA ? 1.06 : 0.97, revealA), -2);
+  setGroupTransform(candidatePawl, points.pawl.x, points.pawl.y, lerp(0.9, activeB ? 1.05 : 0.97, revealB), -8);
+  setGroupTransform(candidateWheel, points.wheel.x, points.wheel.y, lerp(0.88, activeC ? 1.05 : 0.97, revealC), 16);
+  setOpacity(candidateRack, activeA ? 1 : revealA * 0.34 + 0.14);
+  setOpacity(candidatePawl, activeB ? 1 : revealB * 0.34 + 0.14);
+  setOpacity(candidateWheel, activeC ? 1 : revealC * 0.34 + 0.12);
+  setOpacity(throatArc, 0.14);
 }
 
 function renderTension(progress) {
-  const travel = clamp(progress / 0.44, 0, 1);
-  const collapse = clamp((progress - 0.42) / 0.5, 0, 1);
-  const pathPosition = pointOnPath(tensionGuide, TENSION_GUIDE_LENGTH, easeInOut(travel));
-  const position = mixPoint(pathPosition, points.capture, easeInOut(collapse));
-  const compression = Math.sin(clamp(progress / 0.86, 0, 1) * Math.PI);
-  const pawlDrop = lerp(0, 44, easeInOut(clamp(progress / 0.7, 0, 1)));
-  const arcLift = lerp(0, -14, easeInOut(clamp(progress / 0.7, 0, 1)));
+  const ingress = easeInOut(clamp(progress / 0.28, 0, 1));
+  const squeeze = clamp((progress - 0.22) / 0.34, 0, 1);
+  const recoil = clamp((progress - 0.48) / 0.26, 0, 1);
+  const position = mixPoint(points.throat, points.pocket, ingress);
+  const recoilShift = lerp(0, 10, recoil);
+  const dotPosition = { x: position.x - recoilShift, y: position.y };
+  const bankShift = lerp(930, 910, easeInOut(squeeze));
+  const clampShift = lerp(756, 782, easeInOut(squeeze));
 
   setDot(
-    position,
+    dotPosition,
     lerp(18, 16, progress),
-    lerp(92, 126, progress),
+    lerp(84, 110, progress),
     1,
-    0.24 + pulseWave(progress, 2.2) * 0.1,
-    lerp(1, 0.54, compression),
-    lerp(1, 1.88, compression),
+    0.24 + pulseWave(progress, 2.0) * 0.1,
+    lerp(1, 0.76, recoil),
+    lerp(1, 1.18, recoil),
   );
-  setOpacity(narrativeSpine, lerp(0.12, 0.03, progress));
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.08, 0.02, progress));
+  setOpacity(narrativeSpine, lerp(0.12, 0.02, progress));
+  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.12, 0.02, progress));
 
   [searchGuideA, searchGuideB, searchGuideC].forEach((guide, index) => {
     guide.setAttribute("stroke", index === 2 ? COLORS.primaryRed : COLORS.lineGray);
-    setOpacity(guide, lerp(0.18, 0, progress));
+    setOpacity(guide, lerp(index === 2 ? 0.18 : 0.12, 0, progress));
   });
 
-  const rampPosition = mixPoint(points.ramp, { x: 728, y: 404 }, collapse);
-  const pocketPosition = mixPoint(points.pocket, { x: 790, y: 500 }, collapse);
-  const wheelPosition = mixPoint(points.wheel, { x: 916, y: 396 }, collapse);
-  setGroupTransform(candidateRamp, rampPosition.x, rampPosition.y, lerp(0.96, 0.72, collapse), -8);
-  setGroupTransform(candidatePocket, pocketPosition.x, pocketPosition.y, lerp(0.96, 0.7, collapse), 0);
-  setGroupTransform(candidateWheel, wheelPosition.x, wheelPosition.y, lerp(0.96, 0.76, collapse), 4);
-  setOpacity(candidateRamp, lerp(0.3, 0.05, collapse));
-  setOpacity(candidatePocket, lerp(0.28, 0.05, collapse));
-  setOpacity(candidateWheel, lerp(1, 0.12, collapse));
+  setGroupTransform(candidateRack, lerp(points.rack.x, 708, progress), lerp(points.rack.y, 424, progress), lerp(0.98, 0.78, progress), -12);
+  setGroupTransform(candidatePawl, lerp(points.pawl.x, 820, progress), lerp(points.pawl.y, 384, progress), lerp(0.98, 0.72, progress), -6);
+  setGroupTransform(candidateWheel, lerp(points.wheel.x, 934, progress), lerp(points.wheel.y, 434, progress), lerp(1, 0.8, progress), 8);
+  setOpacity(candidateRack, lerp(0.28, 0.04, progress));
+  setOpacity(candidatePawl, lerp(0.22, 0.04, progress));
+  setOpacity(candidateWheel, lerp(0.78, 0.06, progress));
 
-  setOpacity(tensionGuide, clamp((progress - 0.02) * 1.8, 0, 0.74));
-  setOpacity(pawlGuide, clamp((progress - 0.02) * 1.8, 0, 0.7));
-  setOpacity(trackArcBack, clamp((progress - 0.04) * 1.6, 0, 1));
-  setOpacity(trackArcFront, clamp((progress - 0.08) * 1.6, 0, 0.84));
-  setOpacity(toothA, clamp((progress - 0.04) * 1.6, 0, 1));
-  setOpacity(toothB, clamp((progress - 0.08) * 1.6, 0, 1));
-  setOpacity(toothC, clamp((progress - 0.12) * 1.55, 0, 1));
-  setOpacity(capturePocket, clamp((progress - 0.14) * 1.6, 0, 1));
-  setOpacity(pawlBody, clamp((progress - 0.08) * 1.6, 0, 1));
-  setOpacity(pawlAccent, clamp((progress - 0.1) * 1.6, 0, 1));
-  setOpacity(pressureHalo, clamp((progress - 0.08) * 1.55, 0, 0.44));
-
-  [trackArcBack, trackArcFront, toothA, toothB, toothC, capturePocket].forEach((element) => setTranslate(element, 0, arcLift));
-  setGroupTransform(pawlBody, 860, 328 + pawlDrop, 1, 0);
-  setTranslate(pawlAccent, 0, pawlDrop);
+  setCircleRadius(pressureHalo, lerp(124, 140, progress));
+  setOpacity(pressureHalo, clamp((progress - 0.02) * 1.5, 0, 0.24));
+  setOpacity(throatArc, lerp(0.14, 0.28, progress));
+  setOpacity(pawlGuide, clamp((progress - 0.08) * 1.8, 0, 0.26));
+  setGroupTransform(toothBank, bankShift, 452, 1, 0);
+  setGroupTransform(pawlClamp, clampShift, 408, 1, lerp(0, 7, squeeze));
+  setOpacity(toothBank, clamp((progress - 0.04) * 1.8, 0, 1));
+  setOpacity(pawlClamp, clamp((progress - 0.1) * 1.8, 0, 1));
 }
 
 function renderTransformation(progress) {
-  const routeProgress = easeInOut(clamp(progress / 0.92, 0, 1));
-  const position = pointOnPath(resolveTrace, RESOLVE_TRACE_LENGTH, routeProgress);
-  const open = easeOut(progress);
+  const route = segmentedPoint(progress, [
+    { start: 0, end: 0.42, from: points.pocket, to: points.crest },
+    { start: 0.42, end: 1, from: points.crest, to: points.center },
+  ]);
+  const arcLift = Math.sin(clamp((progress - 0.42) / 0.58, 0, 1) * Math.PI) * 14;
+  const position =
+    progress <= 0.42
+      ? route
+      : {
+          x: route.x,
+          y: route.y - arcLift,
+        };
+  const shellReveal = easeInOut(clamp((progress - 0.1) / 0.72, 0, 1));
+  const traceReveal = easeInOut(clamp((progress - 0.14) / 0.42, 0, 1));
+  const pawlReveal = easeInOut(clamp((progress - 0.34) / 0.36, 0, 1));
+  const teeth = [toothOne, toothTwo, toothThree, toothFour];
 
-  setDot(position, 16, 100, 1, 0.2 + pulseWave(progress, 2.0) * 0.08);
+  setDot(
+    position,
+    16,
+    100,
+    1,
+    0.22 + pulseWave(progress, 1.9) * 0.08,
+    lerp(0.76, 1, shellReveal),
+    lerp(1.18, 1, shellReveal),
+  );
   setOpacity(narrativeSpine, 0);
   setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, 0);
+  [searchGuideA, searchGuideB, searchGuideC, candidateRack, candidatePawl, candidateWheel].forEach((element) => setOpacity(element, 0));
 
-  [candidateRamp, candidatePocket, candidateWheel, searchGuideA, searchGuideB, searchGuideC].forEach((element) => {
-    setOpacity(element, 0);
+  setOpacity(throatArc, clamp(0.28 - progress * 0.34, 0, 1));
+  setOpacity(pawlGuide, lerp(0.26, 0.18, progress));
+  setCircleRadius(pressureHalo, lerp(140, 126, progress));
+  setOpacity(pressureHalo, lerp(0.24, 0.12, progress));
+  setGroupTransform(toothBank, lerp(910, 924, progress), 452, 1, 0);
+  setOpacity(toothBank, lerp(1, 0, clamp((progress - 0.18) * 1.45, 0, 1)));
+  setGroupTransform(pawlClamp, lerp(782, 772, progress), lerp(408, 454, progress), lerp(1, 0.9, progress), lerp(7, -8, progress));
+  setOpacity(pawlClamp, lerp(1, 0, clamp((progress - 0.2) * 1.45, 0, 1)));
+
+  setOpacity(wheelBase, clamp((progress - 0.08) * 1.6, 0, 0.88));
+  setOpacity(wheelRing, clamp(shellReveal * 1.08, 0, 0.94));
+  setPathWindow(wheelTrace, WHEEL_TRACE_LENGTH, WHEEL_TRACE_LENGTH * traceReveal, traceReveal * 0.96);
+  setPathWindow(pawlTrace, PAWL_TRACE_LENGTH, PAWL_TRACE_LENGTH * pawlReveal, pawlReveal * 0.94);
+
+  teeth.forEach((tooth, index) => {
+    const reveal = easeOut(clamp((progress - 0.18 - index * 0.08) / 0.22, 0, 1));
+    const origin = toothOrigins[index];
+    const target = toothTargets[index];
+    setGroupTransform(
+      tooth,
+      lerp(origin.x, target.x, reveal),
+      lerp(origin.y, target.y, reveal),
+      lerp(0.82, 1, reveal),
+      lerp(origin.angle, target.angle, reveal),
+    );
+    setOpacity(tooth, clamp(reveal * 1.15, 0, 0.94));
   });
 
-  setOpacity(tensionGuide, lerp(0.74, 0.06, progress));
-  setOpacity(pawlGuide, lerp(0.7, 0.02, progress));
-  setOpacity(trackArcBack, clamp(1 - progress * 1.0, 0, 1));
-  setOpacity(trackArcFront, clamp(0.84 - progress * 0.92, 0, 1));
-  setOpacity(toothA, clamp(1 - progress * 1.05, 0, 1));
-  setOpacity(toothB, clamp(1 - progress * 1.02, 0, 1));
-  setOpacity(toothC, clamp(1 - progress * 0.98, 0, 1));
-  setOpacity(capturePocket, clamp(1 - progress * 1.2, 0, 1));
-  setOpacity(pawlBody, clamp(1 - progress * 0.96, 0, 1));
-  setOpacity(pawlAccent, clamp(1 - progress * 1.02, 0, 1));
-  setOpacity(pressureHalo, clamp(0.44 - progress * 0.52, 0, 1));
-  [trackArcBack, trackArcFront, toothA, toothB, toothC, capturePocket].forEach((element) =>
-    setTranslate(element, 0, lerp(-14, -6, progress)),
-  );
-  setGroupTransform(pawlBody, 860, lerp(372, 348, progress), 1, 0);
-  setTranslate(pawlAccent, 0, lerp(44, 10, progress));
-
-  setOpacity(resolveArc, clamp(progress * 1.45, 0, 0.98));
-  setOpacity(resolveToothA, clamp((progress - 0.04) * 1.55, 0, 0.98));
-  setOpacity(resolveToothB, clamp((progress - 0.1) * 1.55, 0, 0.98));
-  setOpacity(resolveToothC, clamp((progress - 0.16) * 1.55, 0, 0.98));
-  setOpacity(resolveToothD, clamp((progress - 0.24) * 1.55, 0, 0.98));
-  setOpacity(resolvePawl, clamp((progress - 0.12) * 1.5, 0, 1));
-  setOpacity(resolvePawlAccent, clamp((progress - 0.18) * 1.55, 0, 0.96));
-  setPathWindow(resolveTrace, RESOLVE_TRACE_LENGTH, RESOLVE_TRACE_LENGTH * routeProgress, 0.9);
-  setOpacity(resolveCorners, clamp((progress - 0.68) * 1.4, 0, 0.42));
-  setOpacity(resolutionHalo, clamp((progress - 0.74) * 1.45, 0, 0.12));
-
-  [resolveArc, resolveToothA, resolveToothB, resolveToothC, resolveToothD].forEach((element) =>
-    setTranslate(element, 0, lerp(8, -4, open)),
-  );
-  setGroupTransform(resolvePawl, 878, lerp(348, 340, progress), 1, 0);
+  setGroupTransform(pawlFinal, lerp(772, 786, pawlReveal), lerp(512, 522, pawlReveal), lerp(0.9, 1, pawlReveal), lerp(-4, -10, pawlReveal));
+  setOpacity(pawlFinal, clamp((progress - 0.34) * 1.5, 0, 0.94));
+  setOpacity(anchorGrid, clamp((progress - 0.46) * 1.55, 0, 0.24));
+  setOpacity(resolutionHalo, clamp((progress - 0.54) * 1.4, 0, 0.2));
+  setOpacity(resolutionFrame, clamp((progress - 0.7) * 1.6, 0, 0.16));
 }
 
 function renderResolution(progress) {
   const settle = easeOut(progress);
   const holdPulse = 0.16 + pulseWave(progress, 1.2) * 0.05;
-  const position = mixPoint(points.upperRight, points.center, settle);
 
-  setDot(position, 16, 100, 1, holdPulse);
+  setDot(points.center, 16, 96, 1, holdPulse);
   setOpacity(narrativeSpine, 0);
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, 0);
+  setOpacity(activeTrail, 0);
+  setOpacity(throatArc, 0);
+  setOpacity(pawlGuide, lerp(0.1, 0.04, settle));
+  setOpacity(pressureHalo, 0);
+  setOpacity(toothBank, 0);
+  setOpacity(pawlClamp, 0);
 
-  [tensionGuide, pawlGuide, trackArcBack, trackArcFront, toothA, toothB, toothC, capturePocket, pawlBody, pawlAccent, pressureHalo].forEach((element) => {
-    setOpacity(element, 0);
+  setCircleRadius(wheelBase, 110);
+  setCircleRadius(wheelRing, 110);
+  setOpacity(wheelBase, lerp(0.12, 0.05, settle));
+  setOpacity(wheelRing, lerp(0.94, 0.88, settle));
+  setPathWindow(wheelTrace, WHEEL_TRACE_LENGTH, WHEEL_TRACE_LENGTH, lerp(0.12, 0.03, settle));
+  setPathWindow(pawlTrace, PAWL_TRACE_LENGTH, PAWL_TRACE_LENGTH, lerp(0.16, 0.04, settle));
+
+  [toothOne, toothTwo, toothThree, toothFour].forEach((tooth, index) => {
+    const target = toothTargets[index];
+    setGroupTransform(tooth, target.x, target.y, 1, target.angle);
+    setOpacity(tooth, lerp(0.94, 0.86, settle));
   });
 
-  setOpacity(resolveArc, 0.96);
-  setOpacity(resolveToothA, 0.96);
-  setOpacity(resolveToothB, 0.96);
-  setOpacity(resolveToothC, 0.94);
-  setOpacity(resolveToothD, 0.9);
-  setOpacity(resolvePawl, lerp(1, 0.42, settle));
-  setOpacity(resolvePawlAccent, lerp(0.96, 0.18, settle));
-  setPathWindow(resolveTrace, RESOLVE_TRACE_LENGTH, RESOLVE_TRACE_LENGTH, lerp(0.9, 0, settle));
-  setOpacity(resolveCorners, lerp(0.42, 0.92, settle));
-  setOpacity(resolutionHalo, lerp(0.12, 0.22, settle));
-
-  [resolveArc, resolveToothA, resolveToothB, resolveToothC, resolveToothD].forEach((element) =>
-    setTranslate(element, 0, lerp(-4, -18, settle)),
-  );
-  setTranslate(resolveCorners, 0, lerp(0, -4, settle));
-  setGroupTransform(resolvePawl, 878, lerp(340, 326, settle), 1, 0);
+  setGroupTransform(pawlFinal, 786, 522, 1, -10);
+  setOpacity(pawlFinal, lerp(0.94, 0.86, settle));
+  setOpacity(anchorGrid, lerp(0.16, 0.08, settle));
+  setCircleRadius(resolutionHalo, lerp(172, 176, settle));
+  setOpacity(resolutionHalo, lerp(0.2, 0.3, settle));
+  setOpacity(resolutionFrame, lerp(0.18, 0.84, settle));
 }
 
 function render(elapsed) {
