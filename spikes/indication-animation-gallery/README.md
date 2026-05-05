@@ -40,4 +40,4 @@ This renders the video and poster to:
 videos/indication-animation-gallery/
 ```
 
-The WebM is rendered with transparency for slide integration; the poster uses the project review background.
+The WebM is rendered with transparency for slide integration; the poster uses the project review background. The runner also extracts `review-frames-0.3s/`, writes `review-contact-sheet-0.3s.png`, and records duration plus decoded alpha range in `validation.txt`.

@@ -23,6 +23,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render was reviewed with 0.3-second alpha-on-white contact sheets and full-size proof frames at the opening, summary entrance, and final hold; composition audit sampled 91 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and WebM metadata reported `alpha_mode=1`.
 
+## Indication Animation Gallery
+
+- **Hypothesis**: A reference gallery for many related Manim indication classes reads better when the target objects are visually identical and the active row carries the only primary-red emphasis.
+- **Result**: Confirmed on `spikes/indication-animation-gallery/` after replacing per-tile saturated color bars and colored actors with neutral gray targets, removing the broad in-video stage plate, showing the full grid from frame zero, and making completion marks secondary.
+- **What worked**:
+  - showing the full 3 by 3 comparison scaffold at the first frame instead of spending the opening breath on a fade from blank,
+  - using gray side bars and identical gray target actors so behavior differences, not color categories, define the comparison,
+  - reserving primary red for the active row outlines and indication effects, then returning the title rule and completion marks to gray for the final hold,
+  - moving built-in review extraction into the runner so the documented command produces 0.3-second alpha-on-white frames, a contact sheet, and decoded alpha validation.
+- **Validation note**:
+  - the refined render is 26.300 seconds at 1600x900 with 87 alpha-on-white review frames and decoded alpha range `0..255`; strict crowding audit sampled 89 frames with zero blocking frames. Frame composition audit left 3 full-size-inspected prompts caused by transparent VP9 audit decoding and transient margins, and the resting audit left one final-hold centering warning plus expected label/internal overlap notices.
+
 ## Manim Semantic Transform Lab
 
 - **Hypothesis**: A transform-gallery scene reads better when every later example has a prepared proof bay visible in the opening breath, instead of appearing as disconnected lower-row mini-scenes.
