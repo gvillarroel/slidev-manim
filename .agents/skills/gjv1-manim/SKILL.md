@@ -621,6 +621,8 @@ Do not add text before exhausting those fixes.
 - Let the support forms assemble the receiving pocket before the leader arrives; otherwise the lock reads as a generic regroup.
 - Use the opening breath to show the source form, route hint, and faint destination pocket slots so the transfer has a visible purpose before motion starts.
 - Keep broad but quiet balancing scaffolds visible while the constrained cluster recenters. If the source or target plate disappears while the locked pocket is still right-weighted, 0.3-second composition audits can catch a one-frame off-center cleanup beat.
+- Avoid broad closed receiver outlines around the pocket when the leader has not arrived yet. Open slots and support jaws usually reserve the destination with fewer actor-to-outline or actor-to-support audit prompts.
+- If the proof requires the leader to enter a support pocket, treat one strict insertion-frame crowding prompt as a full-size review cue before patching. Patch it only when the red actor visibly obscures the support geometry or the pocket stops reading as the mechanism.
 - Once the cluster is centered, fade the source/target plates and route before the terminal hold. The final support should sit clear of the leader tip unless the contact itself is the pressure proof.
 
 ### Support and force
