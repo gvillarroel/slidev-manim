@@ -38,7 +38,7 @@ videos/quality-rhythm-gating/review-frames-0.3s/
 
 ## Current validation
 
-- Duration: 31.021 seconds at 30 fps.
+- Duration: 30.521 seconds at 30 fps.
 - Transparency: decoded VP9 alpha range is `0..255`.
-- Review: 103 white-background cadence frames were extracted at 0.3-second cadence.
-- Audits: composition and frame-crowding audits sampled 104 frames with zero blocking frames; resting-mobject audit reported zero blocking snapshots across 10 rest states.
+- Review: 102 white-background cadence frames were extracted at 0.3-second cadence.
+- Audits: composition and frame-crowding audits sampled 103 frames with zero blocking frames; resting-mobject audit reported zero blocking snapshots across 10 rest states, with 6 notice-only expected contacts.

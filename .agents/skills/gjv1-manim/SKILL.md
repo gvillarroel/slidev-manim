@@ -143,7 +143,9 @@ Use `rhythm gate` when timing cadence is the mechanism and the viewer should rea
 - Open each gate before the actor reaches the center of the slot, then hold a proof frame where the actor is visibly inside the opened channel.
 - Give the opened channel real clearance around the active actor. If the actor scales during the proof, widen the gate rules or reduce the scale pulse before accepting strict crowding findings.
 - Keep beat marks off the gate-rule endpoints. A tiny mark that touches the lower end of a gate line can look harmless in thumbnails but still reads as zero-clearance residue in full-size audit overlays.
+- Prefer open launch and landing bracket slots with visible gaps when the active actor begins or lands inside a slot. Closed boxes around the actor often become actor-to-outline crowding in still-frame review.
 - During cleanup, remove receiver slots, gate rules, and old source scaffolds before the actor scales into a terminal artifact. Faint leftovers can pull composition audits off-center even when the resolved cluster is visually centered.
+- If a side landing resolves into a centered terminal artifact, retire the traveling actor at the proof beat and introduce a centered core after the route scaffolds disappear. Moving the old actor through fading gates or slots can create off-center cleanup frames and actor-to-guide contacts.
 - Prefer separated terminal echo strokes, ticks, or corner marks over full rings that enclose the actor. Enclosing rings often become actor-to-outline crowding unless the containment is the explicit subject.
 
 # Gantt Timeline Scenes

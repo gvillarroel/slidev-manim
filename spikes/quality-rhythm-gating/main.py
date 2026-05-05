@@ -203,19 +203,21 @@ def gate_column(x: float) -> VGroup:
 
 def source_slot() -> VGroup:
     return VGroup(
-        Rectangle(width=1.0, height=0.78, stroke_color=GRAY_200, stroke_width=2.2, fill_opacity=0).move_to(
-            LEFT * 5.05
-        ),
-        Line([-5.55, -0.55, 0], [-5.55, 0.55, 0], color=GRAY_300, stroke_width=3.0),
+        Line([-5.58, -0.42, 0], [-5.58, 0.42, 0], color=GRAY_300, stroke_width=3.0),
+        Line([-5.46, 0.55, 0], [-5.18, 0.55, 0], color=GRAY_200, stroke_width=2.2),
+        Line([-5.46, -0.55, 0], [-5.18, -0.55, 0], color=GRAY_200, stroke_width=2.2),
+        Line([-4.72, 0.55, 0], [-4.48, 0.55, 0], color=GRAY_200, stroke_width=2.2),
+        Line([-4.72, -0.55, 0], [-4.48, -0.55, 0], color=GRAY_200, stroke_width=2.2),
     ).set_opacity(0.72)
 
 
 def target_slot() -> VGroup:
     return VGroup(
-        Rectangle(width=1.18, height=0.96, stroke_color=GRAY_200, stroke_width=2.2, fill_opacity=0).move_to(
-            RIGHT * 5.05
-        ),
-        Line([5.58, -0.66, 0], [5.58, 0.66, 0], color=GRAY_300, stroke_width=3.0),
+        Line([5.35, -0.52, 0], [5.35, 0.52, 0], color=GRAY_300, stroke_width=3.0),
+        Line([5.23, 0.66, 0], [4.98, 0.66, 0], color=GRAY_200, stroke_width=2.2),
+        Line([5.23, -0.66, 0], [4.98, -0.66, 0], color=GRAY_200, stroke_width=2.2),
+        Line([4.48, 0.66, 0], [4.22, 0.66, 0], color=GRAY_200, stroke_width=2.2),
+        Line([4.48, -0.66, 0], [4.22, -0.66, 0], color=GRAY_200, stroke_width=2.2),
     ).set_opacity(0.72)
 
 
@@ -246,8 +248,8 @@ class QualityRhythmGatingScene(Scene):
         self.camera.background_opacity = 0.0
 
         rail = Line(LEFT * 5.55, RIGHT * 5.55, color=GRAY_200, stroke_width=4).set_opacity(0.42)
-        upper_review_rail = Line([-5.95, 2.85, 0], [5.95, 2.85, 0], color=GRAY_200, stroke_width=2).set_opacity(0.55)
-        lower_review_rail = Line([-5.95, -2.85, 0], [5.95, -2.85, 0], color=GRAY_200, stroke_width=2).set_opacity(0.55)
+        upper_review_rail = Line([-4.4, 2.56, 0], [4.4, 2.56, 0], color=GRAY_200, stroke_width=2).set_opacity(0.42)
+        lower_review_rail = Line([-4.4, -2.56, 0], [4.4, -2.56, 0], color=GRAY_200, stroke_width=2).set_opacity(0.42)
         gates = VGroup(gate_column(-2.7), gate_column(0.0), gate_column(2.7))
         source = source_slot()
         target = target_slot()
@@ -264,7 +266,7 @@ class QualityRhythmGatingScene(Scene):
         self.add(upper_review_rail, lower_review_rail, rail, source, target, gates, beat_slots, actor)
         self.wait(2.7)
 
-        positions = [-5.05, -2.7, 0.0, 2.7, 5.05]
+        positions = [-5.05, -2.7, 0.0, 2.7, 4.75]
         beat_marks: list[Rectangle] = []
         for index, gate in enumerate(gates):
             entrance = RIGHT * (positions[index + 1] - 0.68)
@@ -300,7 +302,7 @@ class QualityRhythmGatingScene(Scene):
             self.play(beat_mark.animate.set_fill(GRAY_500, opacity=0.72), run_time=0.35)
             self.wait(0.42)
 
-        self.play(actor.animate.move_to(RIGHT * 5.05), target.animate.set_opacity(0.92), run_time=1.25, rate_func=smooth)
+        self.play(actor.animate.move_to(RIGHT * 4.75), target.animate.set_opacity(0.72), run_time=1.25, rate_func=smooth)
         self.wait(0.75)
 
         beat_mark_group = VGroup(*beat_marks)
@@ -323,8 +325,9 @@ class QualityRhythmGatingScene(Scene):
         ).set_stroke(opacity=0.68)
         brackets = terminal_brackets().move_to(ORIGIN)
 
+        self.remove(actor)
         self.play(
-            Transform(actor, terminal_core),
+            FadeIn(terminal_core),
             Transform(beat_mark_group, compact_marks),
             gates.animate.set_opacity(0.0),
             source.animate.set_opacity(0.0),
@@ -333,7 +336,7 @@ class QualityRhythmGatingScene(Scene):
             upper_review_rail.animate.set_opacity(0.18),
             lower_review_rail.animate.set_opacity(0.18),
             rail.animate.scale(0.38).move_to(DOWN * 1.05).set_opacity(0.16),
-            run_time=1.55,
+            run_time=1.05,
             rate_func=smooth,
         )
         self.play(
@@ -349,7 +352,7 @@ class QualityRhythmGatingScene(Scene):
         )
         self.play(FadeIn(terminal_echoes), FadeIn(brackets), run_time=0.75, rate_func=smooth)
         self.wait(0.35)
-        self.play(actor.animate.scale(1.08), run_time=0.32, rate_func=there_and_back)
+        self.play(terminal_core.animate.scale(1.08), run_time=0.32, rate_func=there_and_back)
         self.wait(6.4)
 
 

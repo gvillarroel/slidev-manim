@@ -1551,6 +1551,12 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - using separated echo strokes and corner brackets for the final rhythm artifact instead of full rings around the actor.
 - **Validation note**:
   - the final render is 31.021 seconds at 1600x900 and generated 103 white-background frames at 0.3-second cadence; decoded alpha extrema are `0..255`, frame composition and frame crowding audits sampled 104 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 10 rest states.
+- **Second-pass refinement**:
+  - use open launch and landing bracket slots, not closed boxes, when the active actor starts or lands inside a slot. Closed outlines can read as actor-to-outline crowding even when the mechanism is balanced.
+  - if a side target resolves into a centered terminal artifact, retire the traveling actor at the proof beat and introduce the centered core after gate/source/target scaffolds disappear. Dragging the old actor through fading guides can create off-center and actor-to-guide transition failures.
+  - keep broad review rails short and soft enough to support composition without becoming full-frame borders.
+- **Validation note**:
+  - the refined render is 30.521 seconds at 1600x900 and generated 102 white-background frames at 0.3-second cadence; decoded alpha extrema are `0..255`, frame composition and frame crowding audits sampled 103 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 10 rest states with 6 notice-only expected contacts.
 
 ## Multi Video Grid
 
