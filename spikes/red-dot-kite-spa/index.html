@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Kite SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot kite visual narrative">
+        <div class="stage-frame" tabindex="0">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot kite narrative</title>
+            <desc id="stage-desc">
+              A single red point enters a quiet field, tests a family of kite-like frames, is pulled into a crossed
+              tension point, then resolves into a calm centered kite emblem.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fcfcfc" />
+                <stop offset="100%" stop-color="#f2f2f2" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="50%" cy="48%" r="48%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="78%" stop-color="#ffffff" stop-opacity="0.34" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.9" />
+                <stop offset="72%" stop-color="#ffccd5" stop-opacity="0.18" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="plate-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06" />
+                <stop offset="14%" stop-color="#ffffff" stop-opacity="0.94" />
+                <stop offset="86%" stop-color="#ffffff" stop-opacity="0.94" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06" />
+              </linearGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="812" cy="448" rx="706" ry="318" fill="url(#field-glow)" opacity="0.96" />
+            <ellipse cx="1140" cy="272" rx="226" ry="146" fill="#ffccd5" opacity="0.08" />
+            <ellipse cx="468" cy="640" rx="310" ry="182" fill="#ffffff" opacity="0.42" />
+
+            <g id="layout-root">
+              <rect x="108" y="110" width="1384" height="680" fill="#ffffff" opacity="0.56" />
+              <rect x="142" y="180" width="1316" height="540" fill="url(#plate-fade)" opacity="0.94" />
+              <rect x="202" y="220" width="1196" height="460" fill="#ffffff" opacity="0.16" />
+
+              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 214 252 H 1386" />
+                <path d="M 214 450 H 1386" />
+                <path d="M 214 648 H 1386" />
+                <path d="M 382 220 V 680" />
+                <path d="M 800 220 V 680" />
+                <path d="M 1218 220 V 680" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="narrative-spine"
+                  d="M 340 450 C 450 450, 538 450, 600 450"
+                  fill="none"
+                  stroke="#d8d8d8"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+                <path
+                  id="active-trail"
+                  d="M 340 450 C 450 450, 538 450, 600 450"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="9"
+                  stroke-linecap="round"
+                  stroke-dasharray="0 800"
+                  opacity="0"
+                />
+
+                <g id="destination-guide" opacity="0">
+                  <path
+                    id="guide-shell"
+                    d="M 820 260 L 930 404 L 820 560 L 710 404 Z"
+                    fill="none"
+                    stroke="#cfcfcf"
+                    stroke-width="4"
+                    stroke-linejoin="round"
+                    stroke-dasharray="10 14"
+                  />
+                  <path
+                    id="guide-spine"
+                    d="M 820 260 L 820 560"
+                    fill="none"
+                    stroke="#cfcfcf"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-dasharray="10 14"
+                  />
+                  <path
+                    id="guide-tail"
+                    d="M 820 560 L 846 598 L 820 630 L 794 662"
+                    fill="none"
+                    stroke="#cfcfcf"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="8 12"
+                  />
+                </g>
+
+                <path
+                  id="search-guide-a"
+                  d="M 600 450 C 634 422, 664 392, 700 360"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-b"
+                  d="M 700 360 C 746 330, 782 314, 820 312"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-c"
+                  d="M 820 312 C 860 320, 896 338, 920 372"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-return"
+                  d="M 920 372 C 930 392, 922 410, 892 420"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+
+                <g id="candidate-lozenge" opacity="0">
+                  <path
+                    d="M 0 -58 L 54 0 L 0 58 L -54 0 Z"
+                    fill="#ffffff"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M -14 0 H 14" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-spar" opacity="0">
+                  <path
+                    d="M 0 -70 L 62 2 L 0 64 L -62 2 Z"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M 0 -48 L 0 48" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -16 10 H 16" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-kite" opacity="0">
+                  <path
+                    d="M 0 -72 L 68 8 L 0 76 L -68 8 Z"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M 0 -42 L 0 60" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  <path d="M 0 76 L 18 102 L 0 126" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" />
+                  <path d="M -18 10 H 18" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                </g>
+
+                <g id="anchor-group" opacity="0">
+                  <g id="anchor-nw">
+                    <path d="M 650 248 H 682 M 650 248 V 280" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  </g>
+                  <g id="anchor-ne">
+                    <path d="M 990 248 H 958 M 990 248 V 280" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  </g>
+                  <g id="anchor-sw">
+                    <path d="M 650 610 H 682 M 650 610 V 578" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  </g>
+                  <g id="anchor-se">
+                    <path d="M 990 610 H 958 M 990 610 V 578" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" />
+                  </g>
+                </g>
+
+                <g id="tension-lines" opacity="0">
+                  <path id="tether-nw" d="M 676 274 L 820 430" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" />
+                  <path id="tether-ne" d="M 964 274 L 820 430" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" />
+                  <path id="tether-sw" d="M 676 584 L 820 430" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" />
+                  <path id="tether-se" d="M 964 584 L 820 430" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" />
+                </g>
+
+                <path
+                  id="pressure-diamond"
+                  d="M 820 348 L 892 430 L 820 512 L 748 430 Z"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="5"
+                  stroke-linejoin="round"
+                  stroke-dasharray="10 12"
+                  opacity="0"
+                />
+                <path
+                  id="pressure-spar"
+                  d="M 820 368 L 820 494"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 10"
+                  opacity="0"
+                />
+                <circle id="pressure-halo" cx="820" cy="430" r="126" fill="url(#halo-gradient)" opacity="0" />
+
+                <path
+                  id="kite-underlay"
+                  d="M 820 260 L 930 404 L 820 560 L 710 404 Z"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="5"
+                  stroke-linejoin="round"
+                  stroke-dasharray="10 14"
+                  opacity="0"
+                />
+                <path
+                  id="kite-shell"
+                  d="M 820 260 L 930 404 L 820 560 L 710 404 Z"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="5"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="kite-trace"
+                  d="M 820 430 L 820 260 L 930 404 L 820 560 L 710 404 L 820 430"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-dasharray="0 2200"
+                  opacity="0"
+                />
+                <path
+                  id="kite-spine"
+                  d="M 820 260 L 820 560"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+                <path
+                  id="spine-trace"
+                  d="M 820 260 L 820 560"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  stroke-dasharray="0 800"
+                  opacity="0"
+                />
+                <path
+                  id="wing-brace-left"
+                  d="M 780 376 L 820 430 L 760 452"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="wing-brace-right"
+                  d="M 860 376 L 820 430 L 880 452"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="tail-link"
+                  d="M 820 560 L 846 598 L 820 630 L 794 662"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="tail-trace"
+                  d="M 820 560 L 846 598 L 820 630 L 794 662"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-dasharray="0 420"
+                  opacity="0"
+                />
+                <g id="tail-node-top" opacity="0">
+                  <path
+                    d="M 846 586 L 864 598 L 846 612 L 828 598 Z"
+                    fill="#ffffff"
+                    stroke="#4f4f4f"
+                    stroke-width="4"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <g id="tail-node-bottom" opacity="0">
+                  <path
+                    d="M 794 650 L 812 662 L 794 676 L 776 662 Z"
+                    fill="#ffffff"
+                    stroke="#4f4f4f"
+                    stroke-width="4"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <circle id="resolution-halo" cx="820" cy="430" r="168" fill="url(#halo-gradient)" opacity="0" />
+                <g id="resolution-frame" opacity="0" stroke="#9e1b32" stroke-width="5" stroke-linecap="round" fill="none">
+                  <path d="M 662 276 H 704 M 662 276 V 318" />
+                  <path d="M 978 276 H 936 M 978 276 V 318" />
+                  <path d="M 662 610 H 704 M 662 610 V 568" />
+                  <path d="M 978 610 H 936 M 978 610 V 568" />
+                </g>
+
+                <circle id="dot-halo" cx="340" cy="450" r="76" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="340" cy="450" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

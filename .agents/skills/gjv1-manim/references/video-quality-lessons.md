@@ -229,6 +229,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Browser-native Playwright captures can contain a real blank startup frame before the app has rendered, even when the page waits for readiness before screenshots. If the promoted WebM is trimmed after capture, assign sequential PTS values and a stable frame time base during transcode; otherwise metadata can report a tiny duration for hundreds of frames and cadence audits will sample nothing.
 - In browser-native threshold/search beats, keep candidate slots neutral and wide enough that the red point has visible clearance in still frames. Red target outlines around the same point create stacked actors; neutral perimeter cues plus smaller outside echoes keep the single red actor dominant.
 - For browser-native threshold resolutions on portrait screenshots, `preserveAspectRatio="slice"` crops horizontally unless the viewBox ratio is close to the handset ratio. A wide desktop crop can cut terminal brackets into edge fragments even when the desktop final hold is centered.
+- If a browser-native five-act narrative already resolves cleanly but the `appearance` and `search` proof frames still audit as vertically off-center, apply one phase-specific whole-scene vertical nudge to those early acts instead of lowering the centered tension or resolution geometry. This keeps the exploratory family in the middle composition band without weakening the later emblem.
 
 ## Maintenance Rule
 

@@ -68,6 +68,8 @@
     "video:red-dot-hinge-spa": "uv run --script spikes/red-dot-hinge-spa/main.py",
     "dev:red-dot-iris-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-iris-spa",
     "video:red-dot-iris-spa": "uv run --script spikes/red-dot-iris-spa/main.py",
+    "dev:red-dot-kite-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-kite-spa",
+    "video:red-dot-kite-spa": "uv run --script spikes/red-dot-kite-spa/main.py",
     "dev:red-dot-keystone-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-keystone-spa",
     "video:red-dot-keystone-spa": "uv run --script spikes/red-dot-keystone-spa/main.py",
     "dev:red-dot-labyrinth-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-labyrinth-spa",
