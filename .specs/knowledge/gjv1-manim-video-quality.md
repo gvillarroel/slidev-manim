@@ -1466,6 +1466,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - fading the plates only after the locked cluster is centered, then holding a cleaner red/gray terminal arrangement with the rear support clear of the keystone tip.
 - **Validation note**:
   - the final render was reviewed with 91 extracted 0.3-second white-background frames and full-size opening, pocket, lock, cleanup, and final-hold frames; composition audit sampled 92 frames with zero blocking frames, crowding audit sampled 92 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and VP9/libvpx alpha decoded with range `0..255`.
+- **2026-05-05 refinement**:
+  - enlarging the leader and support pocket made the lock proof survive contact-sheet review better than the earlier smaller composition,
+  - removing broad pale source/target plates and the closed keystone receiver outline kept the scene content-first and avoided foreground boxes around the actor,
+  - shortening the stretch beat let the red keystone prove pressure before entering the pocket instead of sitting across the support jaws,
+  - adding built-in 0.3-second alpha-on-white review extraction made the spike self-reviewing like the newer quality-family runners.
+- **Validation note**:
+  - the refined render is 26.600 seconds at 1600x900 with 89 alpha-on-white review frames and decoded alpha range `0..255`; composition audit sampled 90 frames with zero blocking frames, strict crowding audit left one full-size-inspected insertion prompt at 10.800s, resting-mobject audit left one right-weighted lock-proof warning plus expected pocket-contact notices, and the skill self-containment audit passed.
 
 ## Circle Left To Right
 
