@@ -352,6 +352,7 @@ class CameraFocusNarrationScene(MovingCameraScene):
         )
         self.play(
             self.camera.frame.animate.set(width=8.4).move_to(B_CENTER),
+            traveler.animate.move_to(b_parts["window"].get_center() + LEFT * 0.58),
             run_time=0.6,
             rate_func=smooth,
         )
@@ -382,6 +383,7 @@ class CameraFocusNarrationScene(MovingCameraScene):
         )
         self.play(
             self.camera.frame.animate.set(width=8.5).move_to(C_CENTER),
+            traveler.animate.move_to(c_parts["center_slot"].get_center() + LEFT * 0.56),
             run_time=0.65,
             rate_func=smooth,
         )
@@ -402,12 +404,16 @@ class CameraFocusNarrationScene(MovingCameraScene):
             route_ab.animate.set_stroke(opacity=0.12),
             route_bc.animate.set_stroke(opacity=0.12),
             route_ca.animate.set_stroke(opacity=0.1),
-            final_route.animate.set_stroke(width=3.0).set_opacity(0.62),
             terminal_mark.animate.set_opacity(1).scale(1.12),
             run_time=1.05,
             rate_func=smooth,
         )
-        self.wait(6.2)
+        self.play(
+            final_route.animate.set_stroke(width=2.2).set_opacity(0.24),
+            run_time=0.45,
+            rate_func=smooth,
+        )
+        self.wait(5.75)
 
     def _station_a(self) -> tuple[VGroup, dict[str, object]]:
         box = panel().move_to(A_CENTER)
@@ -550,7 +556,7 @@ class CameraFocusNarrationScene(MovingCameraScene):
                 Transform(left_stack[0], final_stack[0]),
                 Transform(left_stack[1], final_stack[1]),
                 Transform(left_stack[2], final_stack[2]),
-                traveler.animate.move_to(center_slot.get_center() + RIGHT * 0.42),
+                traveler.animate.move_to(center_slot.get_center() + DOWN * 1.2),
                 lag_ratio=0.08,
             ),
             run_time=2.45,
