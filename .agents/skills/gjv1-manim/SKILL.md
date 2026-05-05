@@ -48,6 +48,9 @@ Use `sequence handoff` for protocol or Mermaid sequence-diagram animations.
 - Use compact route-label chips for long cross-lane messages. Bare labels on long arrows tend to disappear into lifelines or compete with the route.
 - Make return paths visibly different from requests, usually red and dashed, while normal request routes stay black or gray. Use additional route colors only when the user asks for a colored protocol view.
 - Give the resolved frame one terminal artifact, such as a token badge, so the final hold has a center of interest after the protocol mechanics finish.
+- For content-first transparent sequence assets, prefer neutral white/gray participant cards and gray request routes over saturated per-participant colors. Let primary red carry receiver cues, returns, and the terminal artifact.
+- Faint red receiver slots in the opening breath can make the pending handoff survive still-frame review and keep active-color composition audits from centering only on a top row.
+- Strict crowding audits on native sequence diagrams often flag expected route-to-label, route-to-slot, activation-bar, and card-internal contacts. Inspect those timestamps full size, then patch only contacts that obscure labels or make the receiver mechanism ambiguous.
 
 # Comparison Panel Scenes
 
@@ -750,6 +753,7 @@ When the first pass looks weak, it is usually because of one of these:
 - the final frame is busier than the mechanism frame,
 - the chosen proof frame is wrong even though the motion itself is good.
 - a guide was faded down but not removed, so it reads as accidental background residue.
+- stale Manim partial movies or promoted outputs survived a style change because the spike-local staging directory was reused.
 - a direct SVG morph crosses incompatible topology and creates translucent plates, persistent strokes, or ambiguous in-between geometry.
 - child roles move before the new body exists, making them appear unsupported even if the final frame is clean.
 - contact-sheet thumbnails make small intentional child-role geometry look like source residue; inspect the frame at full size before patching.

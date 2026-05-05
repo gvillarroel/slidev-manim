@@ -36,6 +36,7 @@ videos/mermaid-auth-sequence/mermaid-auth-sequence-v3.webm
 videos/mermaid-auth-sequence/mermaid-auth-sequence-v4.webm
 videos/mermaid-auth-sequence/mermaid-auth-sequence-v5.webm
 videos/mermaid-auth-sequence/mermaid-auth-sequence-v6.webm
+videos/mermaid-auth-sequence/mermaid-auth-sequence-v7.webm
 ```
 
 ## Critique Log
@@ -46,6 +47,7 @@ videos/mermaid-auth-sequence/mermaid-auth-sequence-v6.webm
 4. `v4` introduced a yellow pulse that moves before each route settles. This made the handoff readable in still frames, but the long API-to-service pass needed a cleaner label treatment.
 5. `v5` converted route labels into compact chips and faded the mechanism scaffolds after their causal beat. The final hold became cleaner, but the terminal token still needed a stronger landing.
 6. `v6` added the final token badge, tightened label placement, softened completed routes, and kept only the participant cards, lifelines, activation history, route labels, and token for the final hold.
+7. `v7` removes the local rounded stage plate, replaces the multicolor participant system with white/gray cards, uses gray request routes plus primary-red receiver cues/returns, clears Manim staging before promoted renders, and writes dense 0.3-second review frames/contact sheets after the normal render.
 
 ## Learnings
 
@@ -53,11 +55,16 @@ videos/mermaid-auth-sequence/mermaid-auth-sequence-v6.webm
 - Long cross-lane sequence messages need route labels in compact chips so the text does not compete with lifelines.
 - Receiver slots should be visible during the proof frame and removed or softened before the final hold.
 - A final token or terminal artifact gives the resolved frame a center of interest after the protocol mechanics finish.
+- For content-first transparent sequence assets, neutral participant cards and gray request routes keep hierarchy calmer than per-participant saturated colors.
+- Faint primary-red receiver slots in the opening breath make the pending handoff visible in still frames and give active-color audits a meaningful vertical span.
+- Clear the spike-local Manim staging directory before promoted renders when changing visual style, because cached partial movies can preserve stale proof frames.
 
 ## Validation
 
 - Final render: `videos/mermaid-auth-sequence/mermaid-auth-sequence.webm`
-- Duration: 25.191 seconds at 1600x900 and 30 fps.
-- Composition audit: 51 sampled frames at 0.5-second cadence, 0 blocking frames.
-- Resting mobject audit: 6 rest snapshots, 0 blocking snapshots.
+- Duration: 25.791 seconds at 1600x900 and 30 fps.
+- Review extraction: 87 alpha-on-white frames at 0.3-second cadence plus 5 contact sheets under `videos/mermaid-auth-sequence/review/`.
+- Composition audit: 87 sampled frames at 0.3-second cadence; blocking prompts remain on early active-color centering and were inspected full-size.
+- Frame crowding audit: 87 sampled frames at 0.3-second cadence; blocking prompts remain on intentional route/slot/label contacts and were inspected full-size.
+- Resting mobject audit: 6 rest snapshots, 0 blocking snapshots, notice-only expected internal sequence-diagram overlaps.
 - Transparency: VP9 `alpha_mode=1`; `alphaextract` confirmed alpha range 0-255.

@@ -160,6 +160,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the latest render is 25.900 seconds with 86 white-background review frames at 0.3-second cadence; frame composition and frame crowding audits sampled 87 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 4 rest states, and decoded VP9 alpha range is `0..255`.
 
+## Mermaid Auth Sequence
+
+- **Hypothesis**: A native Mermaid sequence-diagram asset reads better as a transparent content-first clip when participant identity is neutral and the red accent is reserved for receiver causality and return-token proof.
+- **Result**: Confirmed on `spikes/mermaid-auth-sequence/` after adding a `v7` default variant with white/gray participant cards, gray request routes, primary-red receiver slots/return paths/token artifact, no local stage plate, spike-local Manim staging cleanup, and built-in 0.3-second review-frame/contact-sheet extraction.
+- **What worked**:
+  - replacing saturated participant colors with neutral cards so the protocol mechanics own the hierarchy,
+  - keeping faint red receiver slots visible during the opening breath so the pending handoff survives still frames and active-color audits have a real vertical footprint,
+  - composing the `Public API` label from separate word mobjects after full-size review caught the word gap collapsing in the rendered card,
+  - clearing `videos/<spike>/.manim` before promoted renders so cached partial movies cannot preserve stale styling after a visual patch,
+  - validating transparent VP9 with `alphaextract`; PyAV image conversion can report opaque alpha even when the promoted WebM carries a real alpha plane.
+- **Validation note**:
+  - the final render is 25.791 seconds at 1600x900 and generated 87 alpha-on-white frames at 0.3-second cadence plus five contact sheets. VP9 alphaextract decoded alpha range `0..255`; resting-mobject audit reported zero blocking snapshots across six rest states; frame composition and crowding audits still report expected sequence-diagram prompts around active-color centering and route/slot/label contacts, which were inspected full size rather than treated as silent passes.
+
 ## Mermaid Venn SVG Unfold
 
 - **Hypothesis**: A Venn diagram reads better when the generated SVG remains an inspectable artifact, but the video is rebuilt as native Manim circles, prepared slots, and an explicit overlap lens instead of fading generic SVG fragments.
