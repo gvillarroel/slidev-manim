@@ -390,6 +390,8 @@ Classify the experiment before coding. This determines what proof frame to sampl
 - `organic fractal line`
 - `scale spine line`
 
+For organic fractal mind maps, hold receiver slots through child-branch proof frames, make the active child route and terminal bud strong enough to beat the left source box in still-frame review, then fade settled route residue far enough from card edges that the final pulse does not read as trunk-to-card crowding.
+
 ### Camera-led narrative families
 
 - `red guide tour`

@@ -1466,6 +1466,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - leaving route endpoints and terminal buds outside card outlines so active organic growth reads as arrival instead of actor-to-outline contact.
 - **Validation note**:
   - the final render is 31.486 seconds at 1600x900 with 105 extracted 0.3-second white-background review frames; decoded alpha extrema are `(0, 255)`, frame composition audit sampled 106 frames with zero findings, resting-mobject audit reported zero blocking snapshots across 11 rest states, and strict crowding audit was reduced to 2 source-pulse review prompts that were inspected full size and accepted as intentional pulse-on-stem contact.
+- **2026-05-05 refinement**:
+  - child branch proofs read better when the receiver slot stays visible until the child card body lands; fading the slot during line growth makes the red child route look like a decorative twig rather than a causal arrival,
+  - active child branches need a slightly thicker stroke and larger terminal bud than category trunk residue, because the left red source otherwise dominates 0.3-second still frames,
+  - organic trunk endpoints should keep real air from category card edges before the terminal cleanup pulse; a near-card residue bbox can fail strict crowding even when the visual branch appears faint,
+  - built-in review extraction should use lazy `imageio-ffmpeg` and Pillow imports, clear the spike-local Manim staging directory before promotion, and validate VP9 alpha with `libvpx-vp9` alpha samples.
+- **Validation note**:
+  - the refined render is 31.486 seconds at 1600x900 with 105 alpha-on-white review frames at 0.3-second cadence and decoded alpha range `0..255`; composition and strict crowding audits sampled 106 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 11 rest states, and the skill self-containment audit passed.
 
 ## Hero Plus Supporting Loop
 

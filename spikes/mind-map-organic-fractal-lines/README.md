@@ -35,6 +35,7 @@ The spike tests `organic fractal line`:
 - second-level twigs appear only on longer category trunks,
 - active growth is red,
 - settled growth becomes low-opacity gray residue,
+- receiver slots remain visible until each child card lands, so the child handoff survives sampled still frames,
 - nodes appear after the terminal bud reaches the destination.
 
 # Color System
@@ -57,5 +58,9 @@ The render writes:
 
 - `videos/mind-map-organic-fractal-lines/mind-map-organic-fractal-lines.webm`
 - `videos/mind-map-organic-fractal-lines/mind-map-organic-fractal-lines.png`
+- `videos/mind-map-organic-fractal-lines/review-frames-0.3s/frames/*.png`
+- `videos/mind-map-organic-fractal-lines/review-frames-0.3s/sheets/contact-sheet-*.png`
+- `videos/mind-map-organic-fractal-lines/review-frames-0.3s/alpha/*.png`
 
 The default scene is at least 25 seconds long and includes a final hold for slide integration.
+The runner clears its spike-local Manim staging directory before rendering, then extracts alpha-on-white review frames and alpha samples from the promoted WebM.

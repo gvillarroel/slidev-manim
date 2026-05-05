@@ -1,7 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # dependencies = [
+#   "imageio-ffmpeg>=0.6.0",
 #   "manim>=0.20.0",
+#   "pillow>=10.0.0",
 # ]
 # ///
 
@@ -43,6 +45,8 @@ OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
+REVIEW_DIR = OUTPUT_DIR / "review-frames-0.3s"
+REVIEW_CADENCE = 0.3
 
 PRIMARY_RED = "#9e1b32"
 WHITE = "#ffffff"
@@ -145,6 +149,133 @@ def promote_rendered_file(target_name: str, destination: Path) -> None:
         raise FileNotFoundError(f"Could not find {target_name} under {STAGING_DIR}")
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(max(matches, key=lambda path: path.stat().st_mtime), destination)
+
+
+def clear_staging_dir() -> None:
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
+
+
+def load_review_font(size: int = 13):
+    from PIL import ImageFont
+
+    for font_name in ("arial.ttf", "DejaVuSans.ttf"):
+        try:
+            return ImageFont.truetype(font_name, size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
+
+
+def write_review_frames(video_path: Path, cadence: float = REVIEW_CADENCE) -> dict[str, object]:
+    import imageio_ffmpeg
+    from PIL import Image, ImageDraw
+
+    review_dir = REVIEW_DIR
+    frames_dir = review_dir / "frames"
+    alpha_dir = review_dir / "alpha"
+    sheets_dir = review_dir / "sheets"
+    if review_dir.exists():
+        shutil.rmtree(review_dir)
+    frames_dir.mkdir(parents=True, exist_ok=True)
+    alpha_dir.mkdir(parents=True, exist_ok=True)
+    sheets_dir.mkdir(parents=True, exist_ok=True)
+
+    ffmpeg = Path(imageio_ffmpeg.get_ffmpeg_exe()).resolve()
+    subprocess.run(
+        [
+            str(ffmpeg),
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            "color=c=white:s=1600x900:r=30",
+            "-c:v",
+            "libvpx-vp9",
+            "-i",
+            str(video_path),
+            "-filter_complex",
+            f"[1:v]format=rgba[fg];[0:v][fg]overlay=format=auto:shortest=1,fps=1/{cadence}",
+            str(frames_dir / "frame-%04d.png"),
+        ],
+        check=True,
+    )
+    subprocess.run(
+        [
+            str(ffmpeg),
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-y",
+            "-c:v",
+            "libvpx-vp9",
+            "-i",
+            str(video_path),
+            "-vf",
+            "alphaextract,fps=1/10",
+            str(alpha_dir / "alpha-%03d.png"),
+        ],
+        check=True,
+    )
+
+    frame_paths = sorted(frames_dir.glob("frame-*.png"))
+    if not frame_paths:
+        raise RuntimeError(f"No review frames extracted from {video_path}")
+
+    alpha_min = 255
+    alpha_max = 0
+    for alpha_path in alpha_dir.glob("alpha-*.png"):
+        extrema = Image.open(alpha_path).convert("L").getextrema()
+        alpha_min = min(alpha_min, int(extrema[0]))
+        alpha_max = max(alpha_max, int(extrema[1]))
+
+    font = load_review_font(13)
+    title_font = load_review_font(18)
+    thumb_width = 320
+    thumb_height = 180
+    columns = 5
+    rows = 4
+    padding = 18
+    chunk_size = columns * rows
+
+    for sheet_index in range(math.ceil(len(frame_paths) / chunk_size)):
+        chunk = frame_paths[sheet_index * chunk_size : (sheet_index + 1) * chunk_size]
+        sheet = Image.new(
+            "RGB",
+            (padding + columns * (thumb_width + padding), 52 + rows * (thumb_height + 30 + padding)),
+            WHITE,
+        )
+        draw = ImageDraw.Draw(sheet)
+        draw.text(
+            (padding, 14),
+            f"Mind map organic fractal lines 0.3s review {sheet_index + 1} ({len(chunk)} frames)",
+            fill=GRAY,
+            font=title_font,
+        )
+        for index, frame_path in enumerate(chunk):
+            x = padding + (index % columns) * (thumb_width + padding)
+            y = 52 + (index // columns) * (thumb_height + 30 + padding)
+            image = Image.open(frame_path).convert("RGB").resize((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+            sheet.paste(image, (x, y))
+            timestamp = (sheet_index * chunk_size + index) * cadence
+            draw.text((x, y + thumb_height + 4), f"{timestamp:05.2f}s", fill=GRAY, font=font)
+        sheet.save(sheets_dir / f"contact-sheet-{sheet_index + 1:02d}.png")
+
+    result = {
+        "review_dir": str(review_dir),
+        "review_frame_count": len(frame_paths),
+        "review_cadence_seconds": cadence,
+        "alpha_range": [alpha_min, alpha_max],
+    }
+    print(
+        "review_frames="
+        f"{result['review_frame_count']} cadence={cadence}s "
+        f"alpha={alpha_min}..{alpha_max} sheets={len(list(sheets_dir.glob('contact-sheet-*.png')))}"
+    )
+    return result
 
 
 def clean_labels(raw: str) -> list[str]:
@@ -379,12 +510,12 @@ class MindMapOrganicFractalLinesScene(Scene):
         layouts = category_layouts(scene_categories())
         source = root.get_right() + RIGHT * 0.22
         category_slots = VGroup(*[slot_box(1.86, 0.58, layout.center, opacity=0.48) for layout in layouts])
-        child_slots = VGroup(*[slot_box(1.28, 0.34, center, opacity=0.48) for layout in layouts for center in layout.child_centers])
+        child_slots = VGroup(*[slot_box(1.28, 0.34, center, opacity=0.56) for layout in layouts for center in layout.child_centers])
 
         pending_trunks = VGroup()
         pending_children = VGroup()
         for layout_index, layout in enumerate(layouts):
-            end = layout.center + LEFT * 1.12
+            end = layout.center + LEFT * 1.3
             pending_trunks.add(
                 organic_fractal_line(
                     source,
@@ -452,7 +583,7 @@ class MindMapOrganicFractalLinesScene(Scene):
             category_card.move_to(layout.center)
             category_card.set_z_index(5)
 
-            end = category_card.get_left() + LEFT * 0.24
+            end = category_card.get_left() + LEFT * 0.42
             trunk = organic_fractal_line(
                 source,
                 end,
@@ -520,27 +651,27 @@ class MindMapOrganicFractalLinesScene(Scene):
                     child_end,
                     0.14 if child_index % 2 == 0 else -0.14,
                     PRIMARY_RED,
-                    0.88,
-                    1.95,
+                    0.94,
+                    2.35,
                     2,
                     phase=index * 1.6 + child_index * 0.9,
                     side_count=2,
                     depth=1,
                 )
                 active_children.add(child_line)
-                child_bud = bud(child_end, 0.052, PRIMARY_RED, 1, 7)
+                child_bud = bud(child_end, 0.072, PRIMARY_RED, 1, 7)
 
                 self.play(
                     FadeOut(pending_children[child_slot_base + child_index]),
                     LaggedStart(*[Create(stem) for stem in child_line], lag_ratio=0.14),
                     FadeIn(child_bud, scale=0.55),
-                    FadeOut(child_slots[child_slot_base + child_index]),
                     run_time=0.56,
                     rate_func=rate_functions.ease_in_out_cubic,
                 )
                 self.play(
                     FadeOut(child_bud, scale=1.35),
                     FadeIn(child_card[0], scale=0.82),
+                    FadeOut(child_slots[child_slot_base + child_index]),
                     *[stem.animate.set_stroke(color=GRAY_300, opacity=0.28) for stem in child_line],
                     run_time=0.3,
                     rate_func=rate_functions.ease_out_cubic,
@@ -553,8 +684,8 @@ class MindMapOrganicFractalLinesScene(Scene):
         self.play(FadeIn(pulse, scale=0.7), run_time=0.2)
         self.play(
             pulse.animate.scale(3.15).set_fill(PRIMARY_RED, opacity=0),
-            *[stem.animate.set_stroke(color=GRAY_300, opacity=0.22) for trunk in active_trunks for stem in trunk],
-            *[stem.animate.set_stroke(color=GRAY_300, opacity=0.18) for child in active_children for stem in child],
+            *[stem.animate.set_stroke(color=GRAY_300, opacity=0.16) for trunk in active_trunks for stem in trunk],
+            *[stem.animate.set_stroke(color=GRAY_300, opacity=0.13) for child in active_children for stem in child],
             run_time=0.85,
             rate_func=rate_functions.ease_out_cubic,
         )
@@ -577,11 +708,13 @@ def render_variant(args: _Args) -> int:
         "MIND_MAP_ROOT_TEXT": args.root_text,
         "MIND_MAP_BRANCHES": args.branches,
     }
+    clear_staging_dir()
     for poster in (False, True):
         result = subprocess.run(render_command(args, poster), check=False, env=env)
         if result.returncode != 0:
             return result.returncode
         promote_rendered_file((POSTER_PATH if poster else VIDEO_PATH).name, POSTER_PATH if poster else VIDEO_PATH)
+    write_review_frames(VIDEO_PATH)
     return 0
 
 
