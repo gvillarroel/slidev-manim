@@ -84,6 +84,8 @@
     "video:red-dot-prism-spa": "uv run --script spikes/red-dot-prism-spa/main.py",
     "dev:red-dot-threshold-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-threshold-spa",
     "video:red-dot-threshold-spa": "uv run --script spikes/red-dot-threshold-spa/main.py",
+    "dev:red-dot-shear-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-shear-spa",
+    "video:red-dot-shear-spa": "uv run --script spikes/red-dot-shear-spa/main.py",
     "dev:red-dot-lattice-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-lattice-spa",
     "video:red-dot-lattice-spa": "uv run --script spikes/red-dot-lattice-spa/main.py",
     "dev:red-dot-loom-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-loom-spa",
