@@ -32,3 +32,4 @@ videos/time-rail-branching/time-rail-branching.png
 - Motion family: `time rail`.
 - Hypothesis: if the rail emits branches only after the active time segment reaches each tick, the branches read as consequences of time rather than generic side arrows.
 - Branch guides should soften after the branch card lands so the final frame does not look mid-transition.
+- Transparent branch reviews should use stroke-only pending slots and an alpha-on-white review surface; filled placeholders can become gray blocks and full red receiver outlines can make a single branch dominate sampled still frames.

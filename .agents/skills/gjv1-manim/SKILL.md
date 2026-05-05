@@ -141,7 +141,10 @@ Use `time rail` when a left-side timeline or spine should act as the narrator in
 - Branches should emit from the rail only after the active segment reaches the tick. Soften branch guides after their card lands so the final frame does not look mid-transition.
 - Use a terminal rule or final rail state as the resolved artifact. Do not leave disconnected pulses at former tick or branch positions.
 - For transparent time-rail sequences, prefer outline-only pending card slots over filled placeholder bars. Filled slots can look like a static wireframe before the rail proves causality.
+- In transparent time-rail scenes, avoid semi-transparent white fills for pending slots or card bodies. VP9 alpha review can show those fills as dull gray blocks on white; use stroke-only pending slots and opaque white landed cards.
+- In branching time-rail scenes, do not turn the whole receiver slot into a red rectangle during activation unless that rectangle is the subject. Let the rail, tick, short branch guide, and card accent carry the red role so a single top branch does not become the composition center.
 - Keep terminal artifacts attached to the rail itself, such as a completed rail with a bottom cap. Detached red rules away from the spine compete with the rail's narrator role.
+- When auditing transparent VP9 time-rail renders, generate an alpha-on-white review transcode or frame set with `libvpx-vp9` before trusting frame composition and crowding results. Generic decoders can treat the transparent canvas as black foreground.
 - To continue from agenda into content, keep the rail fixed, activate one tick, soften or remove future agenda items, and let the active card open into a detail panel. The first detailed beat should feel like the selected point now owns the stage, while the rail preserves orientation.
 - Avoid secondary red connector lines, row-outline boxes, or terminal rules inside the detail panel. If the rail is the narrator, extra red lines away from it read as annotation artifacts; use quiet gray local cues for detail rows.
 

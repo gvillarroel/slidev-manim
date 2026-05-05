@@ -104,6 +104,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - use outline-only pending card slots in the opening breath; filled placeholder bars can read like a static wireframe instead of a mechanism,
   - let each tick emit a short branch cue only after the rail reaches it, then soften the branch so the rail remains the narrator,
   - keep the terminal artifact on the rail itself, such as a filled rail plus bottom cap, rather than placing a detached terminal rule in a distant corner.
+- **2026-05-05 branching refinement**:
+  - remove local filled stages from transparent time-rail videos when the slide surface can supply the white background, then validate decoded alpha instead of relying on stream metadata,
+  - keep pending branch slots as stroke-only outlines; semi-transparent white fills in VP9 alpha can review as dull gray blocks on alpha-on-white contact sheets,
+  - avoid making the whole receiver slot a red rectangle during branch activation, because it becomes a top-heavy actor in sampled still frames; use the rail, tick, branch guide, and card accent for the active red role,
+  - run composition and crowding audits against an alpha-on-white review transcode when the audit decoder cannot composite transparent VP9 correctly.
+- **Validation note**:
+  - the refined `spikes/time-rail-branching/` render is 28.66 seconds at 1600x900 with 95 alpha-on-white review frames at 0.3-second cadence and decoded alpha range `0..255`; alpha-on-white composition audit sampled 96 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and strict crowding left one full-size-inspected rail-to-tick contact that is the intended proof state.
 
 ## Split Screen Sync
 

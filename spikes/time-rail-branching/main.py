@@ -92,27 +92,29 @@ def promote_rendered_file(target_name: str, destination: Path) -> None:
     shutil.copy2(matches[-1], destination)
 
 
-from manim import DOWN, LEFT, RIGHT, UP, Circle, Create, FadeIn, Line, Rectangle, Scene, Text, Transform, VGroup, linear
+from manim import DOWN, LEFT, RIGHT, UP, Circle, Create, FadeIn, FadeOut, Line, Rectangle, Scene, Text, Transform, VGroup, linear
 
 
 class TimeRailBranchingScene(Scene):
     def construct(self) -> None:
-        if os.environ.get("SPIKE_RENDER_TARGET") == "poster":
+        is_poster = os.environ.get("SPIKE_RENDER_TARGET") == "poster"
+        if is_poster:
             self.camera.background_color = PAGE_BACKGROUND
 
-        stage = Rectangle(width=12.8, height=7.15, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=0.96)
-        rail_x = -4.9
+        stage = Rectangle(width=12.8, height=7.15, stroke_width=0, fill_color=PAGE_BACKGROUND, fill_opacity=1)
+        rail_x = -4.35
         rail_start = LEFT * abs(rail_x) + UP * 2.55
         rail_end = LEFT * abs(rail_x) + DOWN * 2.55
-        base_rail = Line(rail_start, rail_end, color=GRAY_300, stroke_width=8)
+        base_rail = Line(rail_start, rail_end, color=GRAY_300, stroke_width=7)
+        base_rail.set_opacity(0.72)
         active_rail = Line(rail_start, rail_start, color=PRIMARY_RED, stroke_width=9)
-        terminal_rule = Line(RIGHT * 3.15 + DOWN * 2.55, RIGHT * 4.35 + DOWN * 2.55, color=PRIMARY_RED, stroke_width=6)
-        terminal_rule.set_opacity(0)
+        terminal_cap = Line(rail_end + LEFT * 0.34, rail_end + RIGHT * 0.34, color=PRIMARY_RED, stroke_width=8)
+        terminal_cap.set_opacity(0)
 
         branches = [
-            ("A", "First fork", "One branch opens when\ntime reaches this mark.", 1.45, RIGHT * 0.05 + UP * 1.45),
-            ("B", "Middle fork", "The rail keeps ownership\nwhile the side state lands.", 0.0, RIGHT * 0.9 + UP * 0.0),
-            ("C", "Late fork", "The ending keeps branch guides\nquiet and subordinate.", -1.45, RIGHT * 0.05 + DOWN * 1.45),
+            ("A", "First fork", "One branch opens when\ntime reaches this mark.", 1.45, RIGHT * 0.45 + UP * 1.45),
+            ("B", "Middle fork", "The rail keeps ownership\nwhile the side state lands.", 0.0, RIGHT * 1.18 + UP * 0.0),
+            ("C", "Late fork", "The ending keeps branch guides\nquiet and subordinate.", -1.45, RIGHT * 0.45 + DOWN * 1.45),
         ]
 
         branch_guides = []
@@ -122,12 +124,13 @@ class TimeRailBranchingScene(Scene):
         branch_slots = VGroup()
         for label, title, body, y, card_position in branches:
             mark_position = LEFT * abs(rail_x) + UP * y
-            guide = Line(mark_position + RIGHT * 0.2, card_position + LEFT * 3.25, color=GRAY_300, stroke_width=4)
-            guide.set_opacity(0.2)
+            guide = Line(mark_position + RIGHT * 0.28, card_position + LEFT * 3.12, color=GRAY_300, stroke_width=4)
+            guide.set_opacity(0.32)
             branch_guides.append(guide)
 
             pending = Circle(radius=0.14, color=GRAY_300, stroke_width=2)
             pending.set_fill(PAGE_BACKGROUND, opacity=1)
+            pending.set_stroke(opacity=0.82)
             pending.move_to(mark_position)
             pending_marks.add(pending)
 
@@ -136,12 +139,15 @@ class TimeRailBranchingScene(Scene):
             active.move_to(mark_position)
             active_marks.append(active)
 
-            slot = Rectangle(width=5.7, height=1.22, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0.18)
+            slot = Rectangle(width=5.7, height=1.22, stroke_color=GRAY_300, stroke_width=2.2, fill_color=WHITE, fill_opacity=0)
+            slot.set_stroke(opacity=0.9)
             slot.move_to(card_position)
             branch_slots.add(slot)
             cards.append(self.build_card(label, title, body).move_to(card_position))
 
-        self.add(stage, base_rail, active_rail, *branch_guides, branch_slots, pending_marks, terminal_rule)
+        if is_poster:
+            self.add(stage)
+        self.add(base_rail, active_rail, *branch_guides, branch_slots, pending_marks, terminal_cap)
         self.wait(2.8)
 
         for index, (_, _, _, y, _) in enumerate(branches):
@@ -150,26 +156,32 @@ class TimeRailBranchingScene(Scene):
             branch_guides[index].set_color(PRIMARY_RED)
             self.play(
                 Transform(pending_marks[index], active_marks[index]),
-                branch_slots[index].animate.set_stroke(color=PRIMARY_RED, width=2.4, opacity=0.52),
+                branch_slots[index].animate.set_stroke(color=GRAY_300, width=2.2, opacity=0.9),
                 Create(branch_guides[index]),
                 run_time=0.95,
             )
             self.play(FadeIn(cards[index], shift=RIGHT * 0.2), run_time=1.0)
             self.play(
                 branch_guides[index].animate.set_color(GRAY_300).set_opacity(0.24),
-                branch_slots[index].animate.set_stroke(color=GRAY_200, width=2, opacity=0.22),
+                branch_slots[index].animate.set_stroke(color=GRAY_200, width=2, opacity=0.0),
                 run_time=0.35,
             )
             self.wait(2.45)
 
-        self.play(terminal_rule.animate.set_opacity(1), run_time=0.8)
+        self.play(active_rail.animate.put_start_and_end_on(rail_start, rail_end), run_time=0.75, rate_func=linear)
+        self.play(
+            terminal_cap.animate.set_opacity(1),
+            FadeOut(branch_slots),
+            *[guide.animate.set_opacity(0.14) for guide in branch_guides],
+            run_time=0.8,
+        )
         self.wait(6.5)
 
     def build_card(self, label: str, title: str, body: str) -> VGroup:
-        background = Rectangle(width=5.7, height=1.22, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=0.96)
+        background = Rectangle(width=5.7, height=1.22, stroke_color=GRAY_200, stroke_width=2, fill_color=WHITE, fill_opacity=1)
         accent = Rectangle(width=0.11, height=1.22, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
         accent.move_to(background.get_left() + RIGHT * 0.055)
-        badge = Rectangle(width=0.58, height=0.3, stroke_width=0, fill_color=GRAY_700, fill_opacity=0.96)
+        badge = Rectangle(width=0.58, height=0.3, stroke_width=0, fill_color=GRAY_700, fill_opacity=1)
         badge_label = Text(label, font=FONT_FAMILY, font_size=13, color=WHITE)
         title_text = Text(title, font=FONT_FAMILY, font_size=22, color=GRAY)
         body_text = Text(body, font=FONT_FAMILY, font_size=14, color=GRAY_600)
@@ -181,6 +193,8 @@ class TimeRailBranchingScene(Scene):
 def main() -> int:
     args = parse_args()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
     for poster in (False, True):
         env_target = "poster" if poster else "video"
         result = subprocess.run(render_command(args, poster=poster), check=False, env={**os.environ, "SPIKE_RENDER_TARGET": env_target})
