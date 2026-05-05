@@ -32,6 +32,8 @@ The render writes:
 
 - `videos/manim-camera-focus-lab/manim-camera-focus-lab.webm`
 - `videos/manim-camera-focus-lab/manim-camera-focus-lab.png`
+- `videos/manim-camera-focus-lab/review-frames-0.3s/frames/`
+- `videos/manim-camera-focus-lab/review-frames-0.3s/sheets/contact-sheet-*.png`
 
 # Review Notes
 
@@ -41,3 +43,14 @@ The intended proof moments are:
 - first local focus stop where the red guide activates a slot,
 - wide transition frames before each travel move,
 - final full-map hold with the route visible and the camera centered.
+
+# Latest Validation
+
+The polished render is 36.56 seconds at 1600x900. The runner clears its Manim staging directory before rendering, promotes the latest WebM/PNG, and extracts 123 alpha-on-white review frames at 0.3-second cadence.
+
+Validation run:
+
+- frame composition audit at 0.3-second cadence: 123 sampled frames, 0 blocking frames,
+- resting-mobject audit: 6 rest snapshots, 0 blocking snapshots,
+- strict frame-crowding audit: 25 review prompts, inspected full size as expected dot-on-route, guide-near-bracket, and transformed-stack proof contacts,
+- decoded VP9 alpha check: alpha extrema `0..255`.

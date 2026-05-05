@@ -217,6 +217,11 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - Give active actors enough clearance from gate rules after any scale pulse. A gate that looks open in a thumbnail can still fail full-size crowding review if the actor and rule bounding boxes touch.
 - Keep beat marks away from gate-rule endpoints, and remove receiver slots, source scaffolds, and gate rules before a terminal actor scales up. Faint cleanup leftovers can create off-center or zero-clearance audit findings even after the mechanism has already resolved.
 - For terminal rhythm artifacts, use separated echo strokes, beat ticks, or corner brackets rather than full rings around the actor unless containment is the subject. Rings around a core often read as actor-to-outline contact in strict crowding review.
+- For camera-led Manim tours, prefer one primary-red guide dot over a decorative halo unless the halo has causal meaning. Halos around the guide can collide with focus dots, brackets, and transformed bars in sampled proof frames.
+- Use open receiver brackets for camera-focus slots that the guide enters. Closed receiver rectangles can make the proof frame read as guide-to-outline crowding even when playback looks acceptable.
+- Validate camera travel holds with both dense frame composition audit and resting-mobject audit. Long pans can keep panels technically visible while held frames still put origin or destination panels inside the camera safety margin.
+- For transparent VP9 WebM review extraction, decode with `libvpx-vp9` and seek after input when exact frames are needed. Seeking before input can produce false blank review frames on transparent WebMs.
+- In camera-focus transform stops, leave real gutters between transformed stack bars or tokens. A tight stack can look fine in motion while 0.3-second stills reveal overlapping slabs.
 
 ## Maintenance Rule
 

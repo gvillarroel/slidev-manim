@@ -386,6 +386,8 @@ Follow these baseline rules:
 - keep support elements subordinate to the mechanism being tested.
 - budget time before coding: opening breath, mechanism beats, and final hold should add up to at least 25 seconds for normal slide-integration scenes.
 - for a `red guide tour`, use one primary-red companion marker as the viewer's guide through a large diagram. The marker should travel between distant zones, pause as the camera frames each stop, and sometimes trigger or participate in the local mechanism before moving on. If the tour needs a nested explanation, use [references/red-guide-detail-tour.md](references/red-guide-detail-tour.md) so the marker can become a pinned upper-left pointer before a solid detail panel opens.
+- for camera-led focus stops, prefer one red guide dot and open receiver brackets. Decorative halos and closed slots can create zero-clearance still frames around the very marker meant to explain the stop.
+- for long camera travel holds, validate both the rendered frame audit and the resting-mobject audit. Widen the travel frame enough that origin and destination panels are visible with real margin before the guide starts crossing.
 
 ## 4. Render and extract proof frames
 
