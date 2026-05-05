@@ -1627,6 +1627,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - increasing gutters between transformed stack bars so the mechanism reads as a resolved stack rather than overlapped slabs.
 - **Validation note**:
   - the final render is 36.56 seconds at 1600x900 with 123 alpha-on-white review frames at 0.3-second cadence; frame composition audit sampled 123 frames with 0 blocking frames, resting-mobject audit reported 0 blocking snapshots across 6 rest states, decoded VP9 alpha extrema were `0..255`, and strict crowding was reduced to 25 full-size review prompts judged as expected dot-on-route, guide-near-bracket, and transformed-stack proof contacts.
+- **2026-05-05 second-pass refinement**:
+  - moving the guide marker inside the next destination panel before tightening the camera removed red edge-parked still frames during zoom-ins,
+  - splitting the final reframe from the completed-route reveal kept diagonal route history from appearing as red edge fragments while the camera widened,
+  - reducing completed-route opacity in the final hold let the terminal map read as a resolved composition instead of a red route diagram,
+  - moving the recenter guide onto a lower proof lane kept visible air between the active guide dot and the transformed stack bars.
+- **Validation note**:
+  - the refined render is 36.56 seconds at 1600x900 with 122 alpha-on-white review frames at 0.3-second cadence; frame composition audit sampled 123 frames with 0 blocking frames, resting-mobject audit reported 0 blocking snapshots across 6 rest states, decoded VP9 alpha extrema were `0..255`, and strict crowding left 23 full-size-inspected guide-on-route, guide-near-bracket, and transformed-stack proof prompts.
 
 # Reusable Process
 

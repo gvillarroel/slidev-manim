@@ -17,6 +17,8 @@ Move the camera only after the viewer can see where it is going. A destination s
 7. Retire or soften transient guide scaffolds before the resolved hold.
 8. Recenter cleanly for the final hold so the last frame is a complete composition, not a cropped travel view.
 9. For transparent slide assets, let panels, routes, and grid structure carry the scene; avoid a full-frame opaque stage plate unless the slide needs that local surface.
+10. Move the guide marker inside the next destination panel before tightening the camera. A guide that remains at a route endpoint during the zoom can become a red edge artifact in sampled still frames.
+11. During the final wide reframe, keep completed route history invisible or very subdued until the camera has settled. Reintroduce it as a quiet trace after the map is framed, not as a dominant red path during the reframe.
 
 ## Moving Camera Choices
 
@@ -35,6 +37,8 @@ Use open receiver brackets for local focus slots when a red guide dot enters the
 Keep the guide marker as one primary-red dot unless the halo carries a specific meaning. A decorative halo can collide with focus dots, receiver brackets, or transformed stack bars in sampled still frames and make the camera stop read crowded.
 
 When a local mechanism transforms bars, tokens, or dots into a prepared slot, leave visible vertical or horizontal gutters between the transformed pieces. A stack that looks acceptable while moving can collapse into true overlap in a 0.3-second proof frame.
+
+If the guide dot participates in a transform stop, give it a distinct proof lane rather than sending it through the transformed bars. The viewer should be able to separate the active guide from the resolved output in still frames.
 
 ## Proof Frames
 
@@ -56,5 +60,6 @@ Run the resting-mobject audit after camera widths are tuned. It catches held tra
 - If the camera stop feels like a static zoom, make the red guide trigger or participate in a local mechanism.
 - If a neighboring panel is cropped at the edge, either widen enough to include it as context or tighten enough to remove it entirely.
 - If the final hold feels stranded, remove transient supports and return to a centered map or centered resolved cluster.
+- If the final hold feels dominated by old route history, split the reframe and route-history reveal into separate beats and lower the completed-route opacity.
 - If labels are needed, make them local to panels. Avoid fixed labels that explain what the camera should be proving through motion.
 - If strict crowding reports many guide contacts, inspect whether the guide halo or closed receiver slot is the cause before changing the whole camera path.

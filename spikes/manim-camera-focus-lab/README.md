@@ -46,11 +46,17 @@ The intended proof moments are:
 
 # Latest Validation
 
-The polished render is 36.56 seconds at 1600x900. The runner clears its Manim staging directory before rendering, promotes the latest WebM/PNG, and extracts 123 alpha-on-white review frames at 0.3-second cadence.
+The polished render is 36.56 seconds at 1600x900. The runner clears its Manim staging directory before rendering, promotes the latest WebM/PNG, and extracts 122 alpha-on-white review frames at 0.3-second cadence.
 
 Validation run:
 
 - frame composition audit at 0.3-second cadence: 123 sampled frames, 0 blocking frames,
 - resting-mobject audit: 6 rest snapshots, 0 blocking snapshots,
-- strict frame-crowding audit: 25 review prompts, inspected full size as expected dot-on-route, guide-near-bracket, and transformed-stack proof contacts,
+- strict frame-crowding audit: 23 review prompts, inspected full size as expected dot-on-route, guide-near-bracket, and transformed-stack proof contacts,
 - decoded VP9 alpha check: alpha extrema `0..255`.
+
+Second-pass refinement:
+
+- the guide now moves inside the next focus panel before each zoom-in, so sampled frames no longer park the red dot on the camera edge,
+- the final wide reframe happens before the red route history fades back in, and that route history is subdued so the terminal map hold stays calm,
+- the recenter transform uses a lower proof lane for the guide dot, leaving visible air between the active guide and the transformed stack bars.
