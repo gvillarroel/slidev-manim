@@ -704,21 +704,23 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Counterlift Balance
 
 - **Hypothesis**: A counterlift should feel more deliberate if a visible beam tilts while one side rises and the other drops.
-- **Result**: Confirmed again after expanding the draft into a 25.17-second slide-integration scene with a visible setup, curved setup paths, held counterlift proof, cleanup, and final hold.
+- **Result**: Confirmed again after polishing the draft into a 25.766-second transparent slide-integration scene with visible setup, curved setup paths, held counterlift proof, cleanup, final hold, and built-in 0.3-second alpha-on-white review extraction.
 - **What worked**:
-  - the orange beam tilting enough to read as load transfer instead of decoration,
-  - the green leader rising on one end while the blue support drops on the other,
-  - a yellow pivot that stays visible through the proof frame,
-  - using faint receiver marks in the opening breath so the rise/drop lanes are prepared before motion,
-  - curving setup handoffs around the beam so actors do not cross the support surface in sampled frames,
-  - keeping the purple counter actor in a separate pocket near the pivot instead of letting the beam cut through it,
-  - removing broad pale staging panels and retiring the beam before the final cluster, so the hold has no support residue.
+  - using one primary-red leader with gray supports, beam, and pivot so the lift is the only saturated active role,
+  - keeping source, beam, pivot, and prepared rise/drop lane ticks visible in the opening breath,
+  - moving the source pocket slightly right after shifting the target stage left, so setup and proof frames both pass centering review,
+  - curving the setup handoff upward around the beam and raising the prepared lift lane so the red leader never skims the beam in sampled frames,
+  - using side-tick receiver marks instead of closed slots, which preserves lane intent without creating actor-to-outline crowding,
+  - keeping a softened beam and pivot in the final hold because the counterlift relationship still depends on them; removing every scaffold made the final read less causal,
+  - decoding the transparent VP9 with `libvpx-vp9` during built-in review extraction and confirming alpha range `0..255`.
 - **What failed first**:
-  - the original render was only 2.47 seconds and had no opening breath or final hold,
-  - the first version kept the beam too static,
-  - the opposing motions looked like regrouping instead of weighted exchange,
-  - the support roles were too close together to read as separate ends of a mechanism,
-  - broad pale target panels created noisy strict-crowding findings because the audit treated them as one support envelope behind the actors.
+  - the baseline used multiple saturated colors, so hierarchy depended on category color instead of the lift mechanism,
+  - morphing into unrelated circles discarded the beam relationship during the final hold,
+  - rectangular receiver slots enclosed actors and failed strict crowding even when the frame looked plausible,
+  - a low setup arc let the red leader skim the beam in one 0.3-second proof frame,
+  - changing structural gray to a neutral unsaturated value made active-color centering track only the red terminal marks, so the project gray token remained better for this transparent balance asset.
+- **Validation note**:
+  - the final render produced 86 alpha-on-white review frames at 0.3-second cadence; frame composition audit sampled 87 frames with zero blocking frames, frame crowding audit sampled 87 with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 4 rest states, and decoded alpha range was `0..255`.
 
 ## Quality Fork Diverge
 

@@ -24,3 +24,7 @@ The render writes:
 
 - `videos/quality-counterlift-balance/quality-counterlift-balance.webm`
 - `videos/quality-counterlift-balance/quality-counterlift-balance.png`
+- `videos/quality-counterlift-balance/review-frames-0.3s/frames/*.png`
+- `videos/quality-counterlift-balance/review-frames-0.3s/sheets/contact-sheet-*.png`
+
+The default render is a transparent 1600x900 WebM. Use `--skip-review` to skip the built-in 0.3-second alpha-on-white review extraction.
