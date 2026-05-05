@@ -48,6 +48,8 @@
     "video:red-dot-turbine-spa": "uv run --script spikes/red-dot-turbine-spa/main.py",
     "dev:red-dot-domino-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-domino-spa",
     "video:red-dot-domino-spa": "uv run --script spikes/red-dot-domino-spa/main.py",
+    "dev:red-dot-pulley-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-pulley-spa",
+    "video:red-dot-pulley-spa": "uv run --script spikes/red-dot-pulley-spa/main.py",
     "dev:red-dot-moire-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-moire-spa",
     "video:red-dot-moire-spa": "uv run --script spikes/red-dot-moire-spa/main.py",
     "dev:red-dot-alignment-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-alignment-spa",
