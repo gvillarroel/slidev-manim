@@ -127,6 +127,14 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Reusable artifact**: The self-contained skill example `examples/overlap-free-treemap-unfold.py` preserves this pattern for future treemap videos.
 - **Validation note**:
   - broad composition and resting-mobject audits can pass even when the render is too short for slide integration; duration remains a separate blocking check.
+- **2026-05-05 refinement**:
+  - removing the in-video title/subtitle band and broad local stage made the treemap a content-first transparent slide asset instead of a self-contained explainer card,
+  - using true neutral grays for passive chart scaffolds kept active-color audits from treating blue-tinted gray headers as the main actor,
+  - replacing each pending slot with the red active outline before the cue animation avoided outline-on-outline crowding in sampled frames,
+  - increasing leaf gutters gave red active outlines enough clearance from neighboring slots while preserving the treemap relationship,
+  - forcing the Manim `--transparent` flag from the spike wrapper and decoding review frames with `libvpx-vp9` were both needed to validate real VP9 alpha.
+- **Validation note**:
+  - the refined render is 25.863 seconds at 1600x900 with 86 alpha-on-white review frames at 0.3-second cadence and decoded alpha range `0..255`; frame composition and crowding audits sampled 87 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 7 rest states.
 
 ## Mermaid Requirement SVG Unfold
 
