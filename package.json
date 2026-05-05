@@ -62,6 +62,8 @@
     "video:red-dot-compass-spa": "uv run --script spikes/red-dot-compass-spa/main.py",
     "dev:red-dot-circuit-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-circuit-spa",
     "video:red-dot-circuit-spa": "uv run --script spikes/red-dot-circuit-spa/main.py",
+    "dev:red-dot-crank-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-crank-spa",
+    "video:red-dot-crank-spa": "uv run --script spikes/red-dot-crank-spa/main.py",
     "dev:red-dot-fold-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-fold-spa",
     "video:red-dot-fold-spa": "uv run --script spikes/red-dot-fold-spa/main.py",
     "dev:red-dot-funnel-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-funnel-spa",
