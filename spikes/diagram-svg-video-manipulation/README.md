@@ -58,7 +58,10 @@ Generated source SVGs and role fragments are written under:
 - `videos/diagram-svg-video-manipulation/.generated/mermaid/diagram-normalized.svg`
 - `videos/diagram-svg-video-manipulation/.generated/fragments/`
 
-Review frames and audit overlays may be written under:
+The runner also writes 0.3-second alpha-on-white review frames and a contact sheet under:
 
 - `videos/diagram-svg-video-manipulation/review-frames/`
+
+Audit overlays may be written under:
+
 - `videos/diagram-svg-video-manipulation/composition-audit/`

@@ -1,7 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # dependencies = [
+#   "imageio-ffmpeg",
 #   "manim>=0.20.0",
+#   "pillow",
 # ]
 # ///
 
@@ -9,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import math
 import os
 import shutil
 import subprocess
@@ -55,10 +58,13 @@ PRIMARY_GREEN = "#45842a"
 PRIMARY_BLUE = "#007298"
 PRIMARY_PURPLE = "#652f6c"
 PRIMARY_RED = "#9e1b32"
+BLACK = "#000000"
 WHITE = "#ffffff"
 GRAY = "#333e48"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b5b5b5"
+GRAY_500 = "#828282"
 PAGE_BACKGROUND = "#f7f7f7"
 
 config.transparent = True
@@ -68,21 +74,21 @@ SVG_NS = "http://www.w3.org/2000/svg"
 SVG_NS_MAP = {"svg": SVG_NS, "xhtml": "http://www.w3.org/1999/xhtml"}
 VIEW_BOX = "0 0 1000 560"
 
-MERMAID_DIAGRAM = f"""%%{{init: {{"theme":"base","themeVariables":{{"fontFamily":"Open Sans, Arial, sans-serif","primaryColor":"{PRIMARY_GREEN}","primaryTextColor":"{WHITE}","primaryBorderColor":"{PRIMARY_GREEN}","lineColor":"{PRIMARY_ORANGE}","textColor":"{WHITE}"}}}}}}%%
+MERMAID_DIAGRAM = f"""%%{{init: {{"theme":"base","themeVariables":{{"fontFamily":"Open Sans, Arial, sans-serif","primaryColor":"{GRAY_100}","primaryTextColor":"{BLACK}","primaryBorderColor":"{GRAY_300}","lineColor":"{GRAY_500}","textColor":"{BLACK}"}}}}}}%%
 flowchart LR
     spec(Spec) --> svg(SVG)
     svg --> video(Video)
 
-    classDef specNode fill:{PRIMARY_GREEN},stroke:{PRIMARY_GREEN},color:{WHITE};
-    classDef svgNode fill:{PRIMARY_BLUE},stroke:{PRIMARY_BLUE},color:{WHITE};
-    classDef videoNode fill:{PRIMARY_PURPLE},stroke:{PRIMARY_PURPLE},color:{WHITE};
+    classDef specNode fill:{GRAY_100},stroke:{GRAY_300},color:{BLACK};
+    classDef svgNode fill:{GRAY_100},stroke:{GRAY_300},color:{BLACK};
+    classDef videoNode fill:{GRAY_100},stroke:{GRAY_300},color:{BLACK};
     class spec specNode;
     class svg svgNode;
     class video videoNode;
 """
 
 ROLE_BY_LABEL = {"Spec": "node_spec", "SVG": "node_svg", "Video": "node_video"}
-ROLE_COLORS = {"node_spec": PRIMARY_GREEN, "node_svg": PRIMARY_BLUE, "node_video": PRIMARY_PURPLE}
+ROLE_COLORS = {"node_spec": GRAY_100, "node_svg": GRAY_100, "node_video": GRAY_100}
 
 
 @dataclass(frozen=True)
@@ -97,18 +103,18 @@ class _Args(argparse.Namespace):
 
 ROLE_PLACEMENTS: dict[str, dict[str, RolePlacement]] = {
     "source": {
-        "node_spec": RolePlacement(2.32, LEFT * 4.0 + DOWN * 0.12),
-        "node_svg": RolePlacement(2.32, ORIGIN + DOWN * 0.12),
-        "node_video": RolePlacement(2.32, RIGHT * 4.0 + DOWN * 0.12),
-        "edge_spec_svg": RolePlacement(1.56, LEFT * 2.0 + DOWN * 0.12),
-        "edge_svg_video": RolePlacement(1.56, RIGHT * 2.0 + DOWN * 0.12),
+        "node_spec": RolePlacement(2.68, LEFT * 4.15 + UP * 1.85),
+        "node_svg": RolePlacement(2.68, UP * 1.85),
+        "node_video": RolePlacement(2.68, RIGHT * 4.15 + UP * 1.85),
+        "edge_spec_svg": RolePlacement(1.24, LEFT * 2.08 + UP * 1.85),
+        "edge_svg_video": RolePlacement(1.24, RIGHT * 2.08 + UP * 1.85),
     },
     "target": {
-        "node_spec": RolePlacement(2.32, LEFT * 3.25 + DOWN * 1.48),
-        "node_svg": RolePlacement(2.32, UP * 1.58),
-        "node_video": RolePlacement(2.32, RIGHT * 3.25 + DOWN * 1.48),
-        "edge_spec_svg": RolePlacement(3.0, LEFT * 1.58 + UP * 0.12),
-        "edge_svg_video": RolePlacement(3.0, RIGHT * 1.58 + UP * 0.12),
+        "node_spec": RolePlacement(2.86, LEFT * 3.3 + DOWN * 1.2),
+        "node_svg": RolePlacement(2.86, UP * 0.8),
+        "node_video": RolePlacement(2.86, RIGHT * 3.3 + DOWN * 1.2),
+        "edge_spec_svg": RolePlacement(2.66, LEFT * 1.62 + DOWN * 0.23),
+        "edge_svg_video": RolePlacement(2.66, RIGHT * 1.62 + DOWN * 0.23),
     },
 }
 
@@ -120,18 +126,14 @@ ROLE_Z_INDEX = {
     "node_video": 3,
 }
 
-LABELS = {
-    "node_spec": ("Spec", PRIMARY_GREEN),
-    "node_svg": ("SVG", PRIMARY_BLUE),
-    "node_video": ("Video", PRIMARY_PURPLE),
-}
+LABELS = {"node_spec": "Spec", "node_svg": "SVG", "node_video": "Video"}
 
 SPLIT_SHIFT = {
-    "node_spec": LEFT * 0.14 + UP * 0.2,
-    "node_svg": UP * 0.28,
-    "node_video": RIGHT * 0.14 + UP * 0.2,
-    "edge_spec_svg": LEFT * 0.08 + DOWN * 0.18,
-    "edge_svg_video": RIGHT * 0.08 + DOWN * 0.18,
+    "node_spec": LEFT * 0.18 + UP * 0.2,
+    "node_svg": UP * 0.26,
+    "node_video": RIGHT * 0.18 + UP * 0.2,
+    "edge_spec_svg": LEFT * 0.12 + DOWN * 0.16,
+    "edge_svg_video": RIGHT * 0.12 + DOWN * 0.16,
 }
 
 
@@ -177,6 +179,97 @@ def promote(target_name: str, destination: Path) -> None:
         raise FileNotFoundError(target_name)
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(matches[-1], destination)
+
+
+def extract_review_frames(video_path: Path, out_dir: Path, cadence: float = 0.3) -> tuple[int, Path]:
+    import imageio_ffmpeg
+    from PIL import Image, ImageDraw, ImageFont
+
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    subprocess.run(
+        [
+            ffmpeg,
+            "-y",
+            "-c:v",
+            "libvpx-vp9",
+            "-i",
+            str(video_path),
+            "-filter_complex",
+            f"color=c=white:s=1600x900[bg];[0:v]format=rgba[fg];[bg][fg]overlay=shortest=1,fps={1 / cadence}",
+            str(out_dir / "frame-%04d.png"),
+        ],
+        check=True,
+    )
+
+    frames = sorted(out_dir.glob("frame-*.png"))
+    sheet_path = out_dir / "contact-sheet.png"
+    thumb_width, thumb_height = 240, 135
+    label_height = 24
+    columns = 5
+    rows = math.ceil(len(frames) / columns)
+    sheet = Image.new("RGB", (columns * thumb_width, rows * (thumb_height + label_height)), PAGE_BACKGROUND)
+    draw = ImageDraw.Draw(sheet)
+    try:
+        font = ImageFont.truetype("arial.ttf", 13)
+    except OSError:
+        font = ImageFont.load_default()
+
+    for index, frame_path in enumerate(frames):
+        image = Image.open(frame_path).convert("RGB")
+        image.thumbnail((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+        tile = Image.new("RGB", (thumb_width, thumb_height), WHITE)
+        tile.paste(image, ((thumb_width - image.width) // 2, (thumb_height - image.height) // 2))
+        x = (index % columns) * thumb_width
+        y = (index // columns) * (thumb_height + label_height)
+        sheet.paste(tile, (x, y + label_height))
+        draw.text((x + 4, y + 4), f"{index * cadence:05.1f}s", fill=GRAY, font=font)
+        draw.rectangle(
+            [x, y + label_height, x + thumb_width - 1, y + label_height + thumb_height - 1],
+            outline=GRAY_200,
+        )
+
+    sheet.save(sheet_path)
+    return len(frames), sheet_path
+
+
+def decoded_alpha_range(video_path: Path) -> tuple[int, int]:
+    import imageio_ffmpeg
+    from PIL import Image
+
+    sample_dir = GENERATED_DIR / "alpha-samples"
+    if sample_dir.exists():
+        shutil.rmtree(sample_dir)
+    sample_dir.mkdir(parents=True, exist_ok=True)
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    subprocess.run(
+        [
+            ffmpeg,
+            "-y",
+            "-v",
+            "error",
+            "-c:v",
+            "libvpx-vp9",
+            "-i",
+            str(video_path),
+            "-vf",
+            "format=rgba,alphaextract,fps=1/7",
+            str(sample_dir / "alpha-%03d.png"),
+        ],
+        check=True,
+    )
+
+    extrema: list[tuple[int, int]] = []
+    for sample in sample_dir.glob("alpha-*.png"):
+        channel_range = Image.open(sample).convert("L").getextrema()
+        extrema.append(channel_range)
+    if not extrema:
+        raise RuntimeError("No alpha samples were decoded")
+    return min(low for low, _ in extrema), max(high for _, high in extrema)
 
 
 def find_group_by_id(root: ET.Element, role: str) -> ET.Element:
@@ -262,11 +355,11 @@ def paint_mermaid_node(element: ET.Element, color: str) -> None:
         tag_name = child.tag.rsplit("}", 1)[-1]
         if tag_name in {"rect", "path", "circle", "ellipse", "polygon"}:
             child.attrib["fill"] = color
-            child.attrib["stroke"] = color
-            child.attrib["stroke-width"] = "0"
+            child.attrib["stroke"] = GRAY_300
+            child.attrib["stroke-width"] = "2"
         if tag_name == "rect":
-            child.attrib.setdefault("rx", "12")
-            child.attrib.setdefault("ry", "12")
+            child.attrib["rx"] = "0"
+            child.attrib["ry"] = "0"
 
 
 def normalize_mermaid_svg(source_svg: Path, destination: Path) -> None:
@@ -327,7 +420,7 @@ def load_svg_role(stage: str, role: str, source_svg: Path) -> SVGMobject:
     mobject = SVGMobject(str(fragment_path))
     if role.startswith("node_"):
         mobject.stretch_to_fit_width(placement.width)
-        mobject.stretch_to_fit_height(0.98)
+        mobject.stretch_to_fit_height(1.02)
     else:
         mobject.scale_to_fit_width(placement.width)
     mobject.move_to(placement.position)
@@ -337,10 +430,10 @@ def load_svg_role(stage: str, role: str, source_svg: Path) -> SVGMobject:
 
 def build_node(stage: str, role: str, source_svg: Path) -> VGroup:
     shape = load_svg_role(stage, role, source_svg)
-    label, color = LABELS[role]
-    shape.set_fill(color, opacity=1)
-    shape.set_stroke(color, width=0)
-    text = Text(label, font_size=26, color=WHITE)
+    label = LABELS[role]
+    shape.set_fill(WHITE, opacity=1)
+    shape.set_stroke(GRAY, width=2.2, opacity=0.9)
+    text = Text(label, font_size=30, color=BLACK)
     text.move_to(shape.get_center())
     text.set_z_index(ROLE_Z_INDEX[role] + 1)
     return VGroup(shape, text)
@@ -355,10 +448,10 @@ def build_straight_arrow(start, end) -> Arrow:
         start=start,
         end=end,
         buff=0.08,
-        stroke_width=3.4,
+        stroke_width=3.2,
         max_tip_length_to_length_ratio=0.085,
         max_stroke_width_to_length_ratio=14,
-        color=PRIMARY_ORANGE,
+        color=GRAY_500,
     )
 
 
@@ -367,9 +460,9 @@ def build_curved_arrow(start, end, angle: float) -> CurvedArrow:
         start,
         end,
         angle=angle,
-        stroke_width=3.4,
+        stroke_width=3.2,
         tip_length=0.1,
-        color=PRIMARY_ORANGE,
+        color=GRAY_500,
     )
 
 
@@ -380,13 +473,13 @@ def build_edge(stage: str, role: str, _source_svg: Path) -> Arrow | CurvedArrow:
 
     if stage == "source":
         if role == "edge_spec_svg":
-            edge = build_straight_arrow(spec + RIGHT * 1.34, svg + LEFT * 1.34)
+            edge = build_straight_arrow(spec + RIGHT * 1.56, svg + LEFT * 1.56)
         else:
-            edge = build_straight_arrow(svg + RIGHT * 1.34, video + LEFT * 1.34)
+            edge = build_straight_arrow(svg + RIGHT * 1.56, video + LEFT * 1.56)
     elif role == "edge_spec_svg":
-        edge = build_curved_arrow(spec + UP * 0.72 + RIGHT * 1.0, svg + DOWN * 0.72 + LEFT * 0.86, angle=-0.18)
+        edge = build_curved_arrow(spec + UP * 0.7 + RIGHT * 1.08, svg + DOWN * 0.7 + LEFT * 1.0, angle=-0.18)
     else:
-        edge = build_curved_arrow(svg + DOWN * 0.72 + RIGHT * 0.86, video + UP * 0.72 + LEFT * 1.0, angle=-0.18)
+        edge = build_curved_arrow(svg + DOWN * 0.7 + RIGHT * 1.0, video + UP * 0.7 + LEFT * 1.08, angle=-0.18)
 
     edge.set_z_index(ROLE_Z_INDEX[role])
     edge.set_opacity(0.9)
@@ -430,14 +523,18 @@ def stage_panel() -> VGroup:
 def target_slots(opacity: float = 1.0) -> VGroup:
     slots = VGroup()
     for role in ("node_spec", "node_svg", "node_video"):
-        slot = Rectangle(
-            width=ROLE_PLACEMENTS["target"][role].width + 0.26,
-            height=1.16,
-            stroke_color=GRAY_200,
-            stroke_width=1.4,
-            fill_color=WHITE,
-            fill_opacity=0.14,
-        ).move_to(placement_center("target", role))
+        width = ROLE_PLACEMENTS["target"][role].width + 0.34
+        height = 1.24
+        arm = 0.3
+        center = placement_center("target", role)
+        slot = VGroup()
+        for sx in (-1, 1):
+            for sy in (-1, 1):
+                corner = center + RIGHT * sx * width / 2 + UP * sy * height / 2
+                slot.add(
+                    Line(corner, corner + LEFT * sx * arm, color=GRAY_300, stroke_width=1.7),
+                    Line(corner, corner + DOWN * sy * arm, color=GRAY_300, stroke_width=1.7),
+                )
         slot.set_z_index(0)
         slots.add(slot)
     slots.set_opacity(opacity)
@@ -445,9 +542,9 @@ def target_slots(opacity: float = 1.0) -> VGroup:
 
 
 def terminal_brackets_for(node: VGroup | SVGMobject) -> VGroup:
-    width = node.width + 1.54
-    height = node.height + 1.02
-    arm = 0.34
+    width = node.width + 0.72
+    height = node.height + 0.46
+    arm = 0.28
     center = node.get_center()
     brackets = VGroup()
     for sx in (-1, 1):
@@ -455,8 +552,8 @@ def terminal_brackets_for(node: VGroup | SVGMobject) -> VGroup:
             if sx == -1 and sy == 1:
                 continue
             corner = center + RIGHT * sx * width / 2 + UP * sy * height / 2
-            horizontal = Line(corner, corner + LEFT * sx * arm, color=PRIMARY_RED, stroke_width=3.6)
-            vertical = Line(corner, corner + DOWN * sy * arm, color=PRIMARY_RED, stroke_width=3.6)
+            horizontal = Line(corner, corner + LEFT * sx * arm, color=PRIMARY_RED, stroke_width=3.2)
+            vertical = Line(corner, corner + DOWN * sy * arm, color=PRIMARY_RED, stroke_width=3.2)
             horizontal.shift(DOWN * sy * 0.035)
             vertical.shift(LEFT * sx * 0.035)
             brackets.add(horizontal, vertical)
@@ -465,7 +562,7 @@ def terminal_brackets_for(node: VGroup | SVGMobject) -> VGroup:
 
 
 def handle_for(role: str, part: VGroup | SVGMobject) -> Circle:
-    handle = Circle(radius=0.105, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
+    handle = Circle(radius=0.105, stroke_width=1.4, stroke_color=GRAY_500, fill_color=GRAY_500, fill_opacity=1)
     if role.startswith("node_"):
         handle.move_to(part.get_corner(UP + RIGHT) + LEFT * 0.24 + DOWN * 0.18)
     else:
@@ -488,17 +585,17 @@ class DiagramSvgVideoManipulationScene(Scene):
         source_parts = build_stage_parts("source", svg_paths)
         target_parts = build_stage_parts("target", svg_paths)
 
-        panel = stage_panel()
         if poster_mode:
-            self.add(ordered_parts(target_parts), terminal_brackets_for(target_parts["node_video"]))
+            poster_parts = ordered_parts(target_parts)
+            self.add(poster_parts, terminal_brackets_for(poster_parts))
             return
 
-        target_hint = target_slots(opacity=0.38)
+        target_hint = target_slots(opacity=0.68)
 
-        self.add(panel, target_hint, ordered_parts(source_parts))
-        self.wait(2.6)
+        self.add(target_hint, ordered_parts(source_parts))
+        self.wait(2.8)
 
-        handles = {role: handle_for(role, part) for role, part in source_parts.items()}
+        handles = {role: handle_for(role, source_parts[role]) for role in ("node_spec", "node_svg", "node_video")}
         self.play(FadeIn(VGroup(*handles.values()), scale=0.7), run_time=0.75)
         self.play(
             AnimationGroup(
@@ -508,7 +605,7 @@ class DiagramSvgVideoManipulationScene(Scene):
                 ],
                 *[
                     handles[role].animate.shift(SPLIT_SHIFT[role])
-                    for role in ("node_spec", "edge_spec_svg", "node_svg", "edge_svg_video", "node_video")
+                    for role in ("node_spec", "node_svg", "node_video")
                 ],
                 lag_ratio=0.06,
             ),
@@ -518,13 +615,13 @@ class DiagramSvgVideoManipulationScene(Scene):
         self.wait(1.1)
 
         self.play(
-            target_hint.animate.set_opacity(1),
-            FadeOut(panel[1]),
+            target_hint.animate.set_opacity(0.78),
             FadeOut(VGroup(*handles.values()), scale=0.75),
             run_time=0.7,
         )
         self.play(
             AnimationGroup(
+                FadeOut(target_hint),
                 Transform(source_parts["edge_spec_svg"], target_parts["edge_spec_svg"], path_arc=-0.18),
                 Transform(source_parts["edge_svg_video"], target_parts["edge_svg_video"], path_arc=0.18),
                 Transform(source_parts["node_spec"], target_parts["node_spec"], path_arc=-0.24),
@@ -536,8 +633,7 @@ class DiagramSvgVideoManipulationScene(Scene):
             rate_func=smooth,
         )
         self.wait(1.0)
-        self.play(FadeOut(target_hint), run_time=0.55)
-        self.wait(0.45)
+        self.wait(0.7)
 
         pulse_core = Circle(radius=0.16, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1)
         pulse_halo = Circle(radius=0.31, stroke_width=2.2, stroke_color=PRIMARY_RED, fill_color=PRIMARY_RED, fill_opacity=0.1)
@@ -555,13 +651,15 @@ class DiagramSvgVideoManipulationScene(Scene):
         self.play(MoveAlongPath(pulse, first_path), run_time=2.05, rate_func=smooth)
         self.play(pulse.animate.move_to(second_start), run_time=0.28, rate_func=smooth)
         self.play(MoveAlongPath(pulse, second_path), run_time=2.05, rate_func=smooth)
-        terminal_brackets = terminal_brackets_for(source_parts["node_video"])
-        self.play(FadeOut(pulse, scale=1.25), FadeOut(panel[0]), FadeIn(terminal_brackets), run_time=0.8)
+        terminal_brackets = terminal_brackets_for(ordered_parts(source_parts))
+        self.play(FadeOut(pulse, scale=1.25), FadeIn(terminal_brackets), run_time=0.8)
         self.wait(6.5)
 
 
 def render_variant(args: _Args) -> None:
     video_path, poster_path = output_paths()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
 
     video_env = os.environ.copy()
     video_env["SPIKE_RENDER_TARGET"] = "video"
@@ -576,6 +674,12 @@ def render_variant(args: _Args) -> None:
     if result.returncode != 0:
         raise SystemExit(result.returncode)
     promote(poster_path.name, poster_path)
+
+    frame_count, sheet_path = extract_review_frames(video_path, OUTPUT_DIR / "review-frames" / "final-0p3")
+    alpha_low, alpha_high = decoded_alpha_range(video_path)
+    print(f"review_frames={frame_count}")
+    print(f"contact_sheet={sheet_path}")
+    print(f"decoded_alpha_range={alpha_low}..{alpha_high}")
 
 
 def main() -> int:
