@@ -346,6 +346,14 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - setting `config.transparent = True`, `config.background_opacity = 0.0`, and `self.camera.background_opacity = 0.0`, then validating alpha through a VP9/libvpx `alphaextract` path instead of trusting PyAV's RGB decode.
 - **Validation note**:
   - strict crowding audits can still flag graph connector-to-node proximity, text inside node bodies, or pulse-on-route contact; inspect the overlays full size and reserve blocking status for contacts that obscure actors or leave scaffolds after their causal beat. The final hold should not retain route-to-terminal-accent contact.
+- **2026-05-05 refinement**:
+  - neutral white/gray imported SVG node bodies and gray routes made the remap read as one diagram system instead of three category badges plus an orange path,
+  - gray extraction handles were clearer than red handles, because red handles became the active actor in composition audits and competed with the later route pulse,
+  - an audit-visible opening scaffold needs enough vertical footprint, but it should be real target geometry rather than top/bottom rails or a local frame,
+  - a full-graph terminal bracket kept the final red accent centered on the resolved mechanism; a bracket only on the output card made active-color review chase the right edge,
+  - strict active-color composition findings during the moving pulse should be inspected full size before patching; a routing pulse is allowed to travel off center when the full graph remains balanced.
+- **Validation note**:
+  - the refined render is 26.564 seconds at 1600x900 with 88 alpha-on-white review frames at 0.3-second cadence and decoded alpha range `0..255`; crowding audit sampled 90 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots with 2 expected overlap notices, and strict composition audit was reduced to 8 full-size-inspected active-motion prompts.
 
 ## Quadrant Arrow Drop
 
