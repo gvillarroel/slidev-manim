@@ -68,11 +68,11 @@ const STEM_LENGTH = cascadeStem.getTotalLength();
 const ARC_LENGTH = cascadeArc.getTotalLength();
 
 const points = {
-  start: { x: 308, y: 450 },
-  appearanceSettle: { x: 392, y: 450 },
-  searchTop: { x: 724, y: 336 },
-  searchMid: { x: 834, y: 418 },
-  searchBottom: { x: 748, y: 570 },
+  start: { x: 410, y: 450 },
+  appearanceSettle: { x: 510, y: 450 },
+  searchTop: { x: 580, y: 336 },
+  searchMid: { x: 716, y: 418 },
+  searchBottom: { x: 480, y: 570 },
   pushStart: { x: 708, y: 558 },
   pushHold: { x: 734, y: 550 },
   center: { x: 900, y: 450 },
@@ -165,7 +165,10 @@ function applyLayout() {
     );
     svg.dataset.layout = "portrait";
   } else {
-    sceneRoot.setAttribute("transform", "");
+    sceneRoot.setAttribute(
+      "transform",
+      "translate(850 450) scale(1.08) translate(-850 -450)",
+    );
     svg.dataset.layout = "landscape";
   }
 }
@@ -276,10 +279,10 @@ function renderAppearance(progress) {
   setOpacity(entryLane, 0.2 + progress * 0.18);
   setTrailWindow(0, 0);
 
-  setOpacity(targetRing, 0.26 + progress * 0.18);
-  setOpacity(targetAxis, 0.18 + progress * 0.14);
-  setOpacity(targetCross, 0.08 + progress * 0.08);
-  setSlotLayout(0.18 + progress * 0.1);
+  setOpacity(targetRing, 0.34 + progress * 0.18);
+  setOpacity(targetAxis, 0.26 + progress * 0.14);
+  setOpacity(targetCross, 0.12 + progress * 0.1);
+  setSlotLayout(0.28 + progress * 0.14);
 
   setOpacity(searchPathTop, 0.14 + progress * 0.12);
   setOpacity(searchPathMid, 0.14 + progress * 0.12);
@@ -288,11 +291,11 @@ function renderAppearance(progress) {
   setOpacity(candidateMid, 0.22 + progress * 0.16);
   setOpacity(candidateBottom, 0.22 + progress * 0.16);
 
-  setOpacity(corridorRailTop, 0.08 + progress * 0.08);
-  setOpacity(corridorRailBottom, 0.08 + progress * 0.08);
+  setOpacity(corridorRailTop, 0.16 + progress * 0.1);
+  setOpacity(corridorRailBottom, 0.16 + progress * 0.1);
   CORRIDOR_BASES.forEach((base, index) => {
     setGroupTransform(corridorBars[index], base.x, base.y, 0);
-    setOpacity(corridorBars[index], 0.08 + progress * 0.06);
+    setOpacity(corridorBars[index], 0.14 + progress * 0.08);
   });
 }
 
@@ -330,22 +333,23 @@ function renderSearch(progress) {
 
   applyDot(position, 19, 74, 1, 0.28 + pulseWave(progress, 2.1) * 0.14, scaleX, scaleY, rotation);
   setOpacity(entryLane, 0.14);
-  setTrailWindow(124 + progress * 84, 0.22 - clamp((progress - 0.52) / 0.48, 0, 1) * 0.06);
+  setTrailWindow(106 + progress * 62, 0.2 - clamp((progress - 0.5) / 0.5, 0, 1) * 0.17);
+  const candidateResidue = 1 - easeOut(clamp((progress - 0.76) / 0.18, 0, 1));
 
-  setOpacity(targetRing, 0.42);
-  setOpacity(targetAxis, 0.3);
-  setOpacity(targetCross, 0.14);
-  setSlotLayout(0.34);
+  setOpacity(targetRing, 0.48);
+  setOpacity(targetAxis, 0.34);
+  setOpacity(targetCross, 0.18);
+  setSlotLayout(0.4);
 
-  setOpacity(searchPathTop, 0.62);
-  setOpacity(searchPathMid, 0.62);
-  setOpacity(searchPathBottom, 0.62);
-  setOpacity(candidateTop, 0.72);
-  setOpacity(candidateMid, 0.72);
-  setOpacity(candidateBottom, 0.72);
-  setOpacity(echoTop, progress >= 0.26 ? 0.36 : 0);
-  setOpacity(echoMid, progress >= 0.54 ? 0.34 : 0);
-  setOpacity(echoBottom, progress >= 0.82 ? 0.36 : 0);
+  setOpacity(searchPathTop, progress < 0.26 ? 0.62 : 0.16 * candidateResidue);
+  setOpacity(searchPathMid, progress >= 0.24 && progress < 0.52 ? 0.62 : 0.16 * candidateResidue);
+  setOpacity(searchPathBottom, progress >= 0.5 && progress < 0.76 ? 0.16 : 0.12 * candidateResidue);
+  setOpacity(candidateTop, 0.72 * candidateResidue);
+  setOpacity(candidateMid, 0.72 * candidateResidue);
+  setOpacity(candidateBottom, 0.72 * candidateResidue);
+  setOpacity(echoTop, progress >= 0.26 ? 0.36 * candidateResidue : 0);
+  setOpacity(echoMid, progress >= 0.54 ? 0.34 * candidateResidue : 0);
+  setOpacity(echoBottom, progress >= 0.82 ? 0.36 * candidateResidue : 0);
 
   setOpacity(corridorRailTop, 0.22);
   setOpacity(corridorRailBottom, 0.22);
@@ -384,13 +388,13 @@ function renderTension(progress) {
     lerp(0.98, 0.7, squeeze),
     -8,
   );
-  setOpacity(entryLane, 0.08 * residue);
-  setTrailWindow(392, 0.54 * (1 - easeOut(clamp((progress - 0.16) / 0.3, 0, 1))));
+  setOpacity(entryLane, 0.04 * residue);
+  setTrailWindow(210, 0.28 * (1 - easeOut(clamp((progress - 0.06) / 0.24, 0, 1))));
 
-  setOpacity(targetRing, 0.2 + squeeze * 0.08);
-  setOpacity(targetAxis, 0.14 + squeeze * 0.06);
-  setOpacity(targetCross, 0.06);
-  setSlotLayout(0.18 + squeeze * 0.06);
+  setOpacity(targetRing, 0.24 + squeeze * 0.08);
+  setOpacity(targetAxis, 0.16 + squeeze * 0.06);
+  setOpacity(targetCross, 0.04);
+  setSlotLayout(0.16 + squeeze * 0.06);
 
   setOpacity(searchPathTop, 0.12 * residue);
   setOpacity(searchPathMid, 0.12 * residue);
@@ -439,7 +443,7 @@ function renderTransformation(progress) {
   applyDot(dotPosition, lerp(18, 17, progress), lerp(98, 120, ringTakeover), 1, 0.24 + pulseWave(progress, 2.2) * 0.12);
 
   setOpacity(entryLane, 0);
-  setTrailWindow(180, 0.12 * corridorFade);
+  setTrailWindow(120, 0.05 * corridorFade);
 
   setOpacity(targetRing, 0.18 + ringTakeover * 0.14);
   setOpacity(targetAxis, 0.12 + ringTakeover * 0.08);

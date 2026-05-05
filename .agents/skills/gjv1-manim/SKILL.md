@@ -116,6 +116,8 @@ Use `browser-native SVG narrative` when a spike records an HTML/SVG visual syste
 - Fade old ingress trails once the hub, fan-out, or selected card owns the mechanism; long red history rails can pull sampled frames off center after the story has moved on.
 - Keep associated chips and callouts in a side pocket outside the selected card's rotation or swing lane. If they sit below the card, they can read as a crowded second body.
 - Use a clean white stage and subtle gray grid by default. Decorative glows, broad plates, and soft browser backgrounds often weaken sparse red/gray hierarchy.
+- For content-first browser-native recordings, remove fixed local matte plates once the full viewport can be the review surface. If the actor enters from one side, pull the entry anchor inward and make the pending receiver strong enough at frame zero instead of balancing the frame with decorative chrome.
+- Keep candidate internals neutral during search beats. Red rules inside candidate dominoes, cards, or slots become secondary actors and can create strict crowding with the moving point; let the single red actor own the search and fade active guides before they sit under it.
 - Treat strict crowding findings on card internals, selected-card brackets, or intentional hub rings as full-size review prompts. Patch them only when the frame actually reads as collision or obscures the mechanism.
 - Keep durable browser-native refinements in [references/video-quality-lessons.md](references/video-quality-lessons.md).
 

@@ -1594,6 +1594,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render is 32.360 seconds at 1600x900 with 108 extracted 0.3-second review frames; browser capture reported no console errors or page errors, the built-in proof-frame composition audit sampled 5 frames with zero blocking frames, and the dense 0.3-second composition audit sampled 109 frames with zero blocking frames and one notice-only startup fragment. Strict crowding audit still reports search/gate/chamber clearance prompts that were inspected full size and treated as intentional point-on-route, point-in-threshold, or ring/frame proof contacts rather than visible collisions.
 
+## Red Dot Domino SPA
+
+- **Hypothesis**: A browser-native domino narrative reads better as a content-first full-viewport recording when the receiver scaffold balances the opening, candidate tests stay neutral, and stale guides fade before the pressure corridor and radial resolution take over.
+- **Result**: Confirmed on `spikes/red-dot-domino-spa/` after removing broad local matte plates and decorative page glows, enlarging/recentering the scene, pulling the side-entry anchor inward, strengthening the opening receiver scaffold, demoting internal candidate red marks to neutral gray, offsetting candidate probe positions, and fading active search guides before they sit under the red actor.
+- **What worked**:
+  - using the full white viewport as the review surface instead of a nested stage plate, then balancing the opening with real story geometry rather than fixed chrome,
+  - keeping the red role singular: candidate internals became gray support marks while the moving point carried search, pressure, and resolution,
+  - widening the still-frame clearance around candidate bars and fading completed search guides during the handoff into the corridor,
+  - accepting the remaining transformation crowding prompt only after full-size review confirmed it was the red actor traveling its own cascade path, not a collision with support geometry.
+- **Validation note**:
+  - the final render is 38.120 seconds at 1600x900 with 127 extracted 0.3-second review frames; browser capture reported no console errors or page errors, the built-in proof-frame composition audit sampled 5 frames with zero blocking frames, dense composition audit sampled 128 frames with zero blocking frames and one notice-only route proof, strict crowding audit was reduced to one full-size-inspected dot-on-route transformation prompt, and the skill self-containment audit passed.
+
 ## Manim Camera Focus Lab
 
 - **Hypothesis**: A camera-led tour reads better when long travel frames fully include both origin and destination panels, while local focus stops use one uncluttered red guide dot and open receiver brackets instead of a halo inside closed boxes.
