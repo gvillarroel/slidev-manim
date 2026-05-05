@@ -1,7 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # dependencies = [
+#   "imageio-ffmpeg>=0.6.0",
 #   "manim>=0.20.1",
+#   "pillow>=10.0.0",
 # ]
 # ///
 
@@ -21,7 +23,6 @@ from manim import (
     RIGHT,
     UP,
     AnimationGroup,
-    Circle,
     Create,
     Dot,
     FadeIn,
@@ -35,6 +36,7 @@ from manim import (
     VGroup,
     VMobject,
     WHITE,
+    config,
     smooth,
 )
 
@@ -45,6 +47,10 @@ OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 VIDEO_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.webm"
 POSTER_PATH = OUTPUT_DIR / f"{SPIKE_NAME}.png"
+REVIEW_DIR = OUTPUT_DIR / "review-frames-0.3s"
+REVIEW_FRAMES_DIR = REVIEW_DIR / "frames"
+REVIEW_SHEETS_DIR = REVIEW_DIR / "sheets"
+REVIEW_CADENCE = 0.3
 
 BLACK = "#000000"
 PRIMARY_RED = "#9e1b32"
@@ -59,13 +65,15 @@ GRAY_500 = "#828282"
 GRAY_600 = "#696969"
 GRAY_700 = "#4f4f4f"
 GRAY_900 = "#1c1c1c"
-HIGHLIGHT_RED = "#ffccd5"
 FONT_FAMILY = "Arial"
 
-FULL_MAP_WIDTH = 24.2
-A_CENTER = LEFT * 7.7 + UP * 3.0
-B_CENTER = RIGHT * 7.45 + UP * 3.05
-C_CENTER = DOWN * 3.65
+FULL_MAP_WIDTH = 20.8
+A_CENTER = LEFT * 6.45 + UP * 2.85
+B_CENTER = RIGHT * 6.45 + UP * 2.85
+C_CENTER = DOWN * 3.0
+
+config.transparent = True
+config.background_opacity = 0.0
 
 
 class _Args(argparse.Namespace):
@@ -113,6 +121,82 @@ def promote(target_name: str, destination: Path) -> None:
     shutil.copy2(max(matches, key=lambda path: path.stat().st_mtime), destination)
 
 
+def clear_staging() -> None:
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
+
+
+def extract_review_frames(video: Path, out_dir: Path = REVIEW_DIR, cadence: float = REVIEW_CADENCE) -> None:
+    import math
+    import re
+
+    import imageio_ffmpeg
+    from PIL import Image, ImageDraw, ImageFont
+
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    REVIEW_FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+    REVIEW_SHEETS_DIR.mkdir(parents=True, exist_ok=True)
+
+    ffmpeg = Path(imageio_ffmpeg.get_ffmpeg_exe()).resolve()
+    probe = subprocess.run(
+        [str(ffmpeg), "-hide_banner", "-i", str(video)],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    match = re.search(r"Duration: (\d+):(\d+):(\d+\.\d+)", probe.stderr)
+    if not match:
+        raise RuntimeError(f"Could not read video duration for {video}")
+
+    duration = int(match.group(1)) * 3600 + int(match.group(2)) * 60 + float(match.group(3))
+    frame_count = int(math.floor(duration / cadence)) + 1
+    for index in range(frame_count):
+        timestamp = min(index * cadence, max(0.0, duration - 0.001))
+        target = REVIEW_FRAMES_DIR / f"frame-{index:03d}-{timestamp:06.2f}s.png"
+        subprocess.run(
+            [
+                str(ffmpeg),
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-c:v",
+                "libvpx-vp9",
+                "-i",
+                str(video),
+                "-ss",
+                f"{timestamp:.3f}",
+                "-frames:v",
+                "1",
+                "-filter_complex",
+                "[0:v]format=rgba[fg];color=c=white:s=1600x900[bg];[bg][fg]overlay=shortest=1,format=rgb24",
+                str(target),
+            ],
+            check=True,
+        )
+
+    images = sorted(REVIEW_FRAMES_DIR.glob("*.png"))
+    thumb_width, thumb_height = 320, 180
+    columns, rows_per_sheet = 5, 6
+    font = ImageFont.load_default()
+    for sheet_index in range(math.ceil(len(images) / (columns * rows_per_sheet))):
+        chunk = images[sheet_index * columns * rows_per_sheet : (sheet_index + 1) * columns * rows_per_sheet]
+        rows = math.ceil(len(chunk) / columns)
+        sheet = Image.new("RGB", (columns * thumb_width, rows * (thumb_height + 18) + 26), PAGE_BACKGROUND)
+        draw = ImageDraw.Draw(sheet)
+        draw.text((8, 8), f"{SPIKE_NAME} 0.3s sheet {sheet_index + 1}", fill=GRAY, font=font)
+        for tile_index, path in enumerate(chunk):
+            image = Image.open(path).convert("RGB")
+            image.thumbnail((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+            x = (tile_index % columns) * thumb_width
+            y = 26 + (tile_index // columns) * (thumb_height + 18)
+            sheet.paste(image, (x + (thumb_width - image.width) // 2, y))
+            draw.rectangle([x, y, x + thumb_width - 1, y + thumb_height - 1], outline=GRAY_200)
+            draw.text((x + 4, y + 4), path.stem.split("-")[-1], fill=GRAY, font=font)
+        sheet.save(REVIEW_SHEETS_DIR / f"contact-sheet-{sheet_index + 1:02d}.png")
+
+
 def text_label(value: str, size: int = 22, color: str = GRAY_700) -> Text:
     return Text(value, font=FONT_FAMILY, font_size=size, color=color)
 
@@ -136,6 +220,24 @@ def outline(width: float, height: float, color: str = GRAY_400, stroke_width: fl
     return Rectangle(width=width, height=height, stroke_color=color, stroke_width=stroke_width, fill_opacity=0)
 
 
+def receiver_brackets(width: float, height: float, color: str = GRAY_400, stroke_width: float = 2.0) -> VGroup:
+    x0 = -width / 2
+    x1 = width / 2
+    y0 = -height / 2
+    y1 = height / 2
+    arm = min(width, height) * 0.26
+    return VGroup(
+        Line([x0, y1, 0], [x0 + arm, y1, 0]),
+        Line([x0, y1, 0], [x0, y1 - arm, 0]),
+        Line([x1, y1, 0], [x1 - arm, y1, 0]),
+        Line([x1, y1, 0], [x1, y1 - arm, 0]),
+        Line([x0, y0, 0], [x0 + arm, y0, 0]),
+        Line([x0, y0, 0], [x0, y0 + arm, 0]),
+        Line([x1, y0, 0], [x1 - arm, y0, 0]),
+        Line([x1, y0, 0], [x1, y0 + arm, 0]),
+    ).set_stroke(color=color, width=stroke_width)
+
+
 def polyline(points: list, color: str, stroke_width: float, opacity: float = 1.0) -> VMobject:
     route = VMobject()
     route.set_points_as_corners(points)
@@ -156,16 +258,15 @@ def grid_lines() -> VGroup:
 class CameraFocusNarrationScene(MovingCameraScene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
+        self.camera.background_opacity = 0.0
         self.camera.frame.set(width=FULL_MAP_WIDTH).move_to(ORIGIN)
         self.camera.frame.save_state()
 
         stage = Rectangle(
             width=32.0,
             height=22.0,
-            stroke_color=GRAY_100,
-            stroke_width=1,
-            fill_color=PAGE_BACKGROUND,
-            fill_opacity=0.98,
+            stroke_width=0,
+            fill_opacity=0,
         )
         grid = grid_lines()
         station_a, a_parts = self._station_a()
@@ -174,49 +275,45 @@ class CameraFocusNarrationScene(MovingCameraScene):
 
         route_ab = polyline(
             [
-                A_CENTER + RIGHT * 2.55,
-                LEFT * 2.9 + UP * 4.55,
-                RIGHT * 2.55 + UP * 4.55,
-                B_CENTER + LEFT * 2.55,
+                A_CENTER + RIGHT * 3.35,
+                LEFT * 2.1 + UP * 4.1,
+                RIGHT * 2.1 + UP * 4.1,
+                B_CENTER + LEFT * 3.35,
             ],
             GRAY_400,
-            4.0,
-            0.46,
+            3.2,
+            0.32,
         )
         route_bc = polyline(
             [
-                B_CENTER + DOWN * 1.45,
-                RIGHT * 8.1 + DOWN * 0.1,
-                RIGHT * 3.0 + DOWN * 5.25,
-                C_CENTER + RIGHT * 2.45,
+                B_CENTER + DOWN * 2.05,
+                RIGHT * 6.85 + DOWN * 0.25,
+                RIGHT * 2.45 + DOWN * 4.35,
+                C_CENTER + RIGHT * 3.35,
             ],
             GRAY_400,
-            4.0,
-            0.42,
+            3.2,
+            0.3,
         )
         route_ca = polyline(
             [
-                C_CENTER + LEFT * 2.35,
-                LEFT * 5.7 + DOWN * 5.55,
-                LEFT * 10.05 + DOWN * 0.8,
-                A_CENTER + DOWN * 1.35,
+                C_CENTER + LEFT * 3.35,
+                LEFT * 4.6 + DOWN * 4.35,
+                LEFT * 8.3 + DOWN * 0.65,
+                A_CENTER + DOWN * 2.05,
             ],
             GRAY_400,
-            2.5,
-            0.22,
+            2.3,
+            0.16,
         )
         route_group = VGroup(route_ab, route_bc, route_ca)
         for route in route_group:
             route.set_z_index(1)
 
-        traveler = Dot(A_CENTER + LEFT * 2.1, radius=0.13, color=PRIMARY_RED).set_z_index(12)
-        traveler_halo = Circle(radius=0.27, color=PRIMARY_RED, stroke_width=3).set_fill(HIGHLIGHT_RED, 0.08)
-        traveler_halo.move_to(traveler).set_z_index(11)
-        traveler_halo.add_updater(lambda halo: halo.move_to(traveler))
-
+        traveler = Dot(A_CENTER + LEFT * 2.45 + UP * 0.2, radius=0.13, color=PRIMARY_RED).set_z_index(12)
         diagram = VGroup(grid, route_group, station_a, station_b, station_c)
         world = VGroup(stage, diagram)
-        self.add(stage, grid, route_group, station_a, station_b, station_c, traveler_halo, traveler)
+        self.add(stage, grid, route_group, station_a, station_b, station_c, traveler)
         self.wait(2.7)
 
         self.play(
@@ -233,11 +330,11 @@ class CameraFocusNarrationScene(MovingCameraScene):
         route_ca.set_stroke(opacity=0)
         self.wait(0.55)
 
-        active_ab = route_ab.copy().set_stroke(PRIMARY_RED, width=5.0, opacity=0.9).set_z_index(4)
+        active_ab = route_ab.copy().set_stroke(PRIMARY_RED, width=4.2, opacity=0.86).set_z_index(4)
         self.play(
             station_b.animate.set_opacity(1),
-            route_ab.animate.set_stroke(opacity=0.46),
-            self.camera.frame.animate.set(width=23.6).move_to((A_CENTER + B_CENTER) / 2 + UP * 0.05),
+            route_ab.animate.set_stroke(opacity=0.28),
+            self.camera.frame.animate.set(width=20.8).move_to((A_CENTER + B_CENTER) / 2 + UP * 0.05),
             run_time=1.2,
             rate_func=smooth,
         )
@@ -263,11 +360,11 @@ class CameraFocusNarrationScene(MovingCameraScene):
         route_ab.set_stroke(opacity=0)
         self.wait(0.55)
 
-        active_bc = route_bc.copy().set_stroke(PRIMARY_RED, width=5.0, opacity=0.86).set_z_index(4)
+        active_bc = route_bc.copy().set_stroke(PRIMARY_RED, width=4.2, opacity=0.82).set_z_index(4)
         self.play(
             station_c.animate.set_opacity(1),
-            route_bc.animate.set_stroke(opacity=0.42),
-            self.camera.frame.animate.set(width=20.4).move_to(RIGHT * 5.2 + DOWN * 0.4),
+            route_bc.animate.set_stroke(opacity=0.26),
+            self.camera.frame.animate.set(width=20.4).move_to(RIGHT * 3.8 + DOWN * 0.3),
             run_time=1.15,
             rate_func=smooth,
         )
@@ -294,20 +391,20 @@ class CameraFocusNarrationScene(MovingCameraScene):
         terminal_mark = Dot(C_CENTER + RIGHT * 1.75 + DOWN * 0.1, radius=0.16, color=PRIMARY_RED).set_z_index(12)
         terminal_mark.set_opacity(0)
         self.add(terminal_mark)
-        traveler_halo.clear_updaters()
         self.play(
-            diagram.animate.set_opacity(0),
-            FadeOut(traveler_halo),
             traveler.animate.move_to(terminal_mark).set_opacity(0),
-            run_time=0.45,
+            run_time=0.35,
             rate_func=smooth,
         )
-        self.camera.frame.restore()
         self.play(
-            diagram.animate.set_opacity(0.96),
-            final_route.animate.set_opacity(0.84),
+            self.camera.frame.animate.set(width=FULL_MAP_WIDTH).move_to(RIGHT * 0.35),
+            diagram.animate.set_opacity(0.88),
+            route_ab.animate.set_stroke(opacity=0.12),
+            route_bc.animate.set_stroke(opacity=0.12),
+            route_ca.animate.set_stroke(opacity=0.1),
+            final_route.animate.set_stroke(width=3.0).set_opacity(0.62),
             terminal_mark.animate.set_opacity(1).scale(1.12),
-            run_time=0.7,
+            run_time=1.05,
             rate_func=smooth,
         )
         self.wait(6.2)
@@ -321,14 +418,14 @@ class CameraFocusNarrationScene(MovingCameraScene):
             slab(GRAY_600, 1.16, 0.3).move_to(A_CENTER + LEFT * 1.32 + DOWN * 0.32),
             slab(GRAY_400, 0.86, 0.24).move_to(A_CENTER + LEFT * 1.1 + DOWN * 0.78),
         )
-        slot = outline(1.2, 1.34, GRAY_400, 2.2).move_to(A_CENTER + RIGHT * 1.45 + DOWN * 0.22)
+        slot = receiver_brackets(1.2, 1.34, GRAY_400, 2.2).move_to(A_CENTER + RIGHT * 1.45 + DOWN * 0.22)
         slot_label = text_label("slot", 18, GRAY_500).next_to(slot, DOWN, buff=0.12)
         rail_top = Line(slot.get_left() + UP * 0.45, slot.get_right() + UP * 0.45, color=GRAY_300, stroke_width=3)
         rail_bottom = Line(slot.get_left() + DOWN * 0.45, slot.get_right() + DOWN * 0.45, color=GRAY_300, stroke_width=3)
         target = VGroup(
-            slab(GRAY_900, 0.88, 0.28).move_to(slot.get_center() + UP * 0.34),
+            slab(GRAY_900, 0.88, 0.28).move_to(slot.get_center() + UP * 0.42),
             slab(GRAY_600, 0.68, 0.23).move_to(slot.get_center()),
-            slab(PRIMARY_RED, 0.46, 0.18).move_to(slot.get_center() + DOWN * 0.31),
+            slab(PRIMARY_RED, 0.46, 0.18).move_to(slot.get_center() + DOWN * 0.42),
         )
         group = VGroup(box, title, header, source, slot, slot_label, rail_top, rail_bottom).set_z_index(3)
         return group, {"source": source, "slot": slot, "rails": VGroup(rail_top, rail_bottom), "target": target}
@@ -343,8 +440,8 @@ class CameraFocusNarrationScene(MovingCameraScene):
             for col in range(4):
                 dots.add(Dot(B_CENTER + LEFT * 1.55 + RIGHT * col * 0.54 + UP * (0.24 - row * 0.48), radius=0.08, color=GRAY_500))
         focus_dot = Dot(B_CENTER + LEFT * 0.47 + UP * 0.24, radius=0.11, color=BLACK)
-        window = outline(1.08, 0.78, GRAY_400, 2.1).move_to(focus_dot)
-        output_slot = outline(1.36, 1.0, GRAY_400, 2.0).move_to(B_CENTER + RIGHT * 1.42 + DOWN * 0.17)
+        window = receiver_brackets(1.08, 0.78, GRAY_400, 2.1).move_to(focus_dot)
+        output_slot = receiver_brackets(1.36, 1.0, GRAY_400, 2.0).move_to(B_CENTER + RIGHT * 1.42 + DOWN * 0.17)
         output_hint = Line(output_slot.get_left(), output_slot.get_right(), color=GRAY_300, stroke_width=3)
         bridge = Line(window.get_right(), output_slot.get_left(), color=GRAY_300, stroke_width=3).set_opacity(0.75)
         selected = slab(PRIMARY_RED, 0.72, 0.26).move_to(output_slot.get_center())
@@ -360,13 +457,13 @@ class CameraFocusNarrationScene(MovingCameraScene):
             slab(GRAY_500, 0.96, 0.25).move_to(C_CENTER + LEFT * 1.68 + DOWN * 0.14),
             slab(GRAY_400, 0.72, 0.21).move_to(C_CENTER + LEFT * 1.52 + DOWN * 0.56),
         )
-        center_slot = outline(1.46, 1.4, GRAY_400, 2.1).move_to(C_CENTER + RIGHT * 0.25 + DOWN * 0.1)
+        center_slot = receiver_brackets(1.46, 1.4, GRAY_400, 2.1).move_to(C_CENTER + RIGHT * 0.25 + DOWN * 0.1)
         final_stack = VGroup(
-            slab(GRAY_900, 1.2, 0.34).move_to(center_slot.get_center() + UP * 0.36),
+            slab(GRAY_900, 1.2, 0.34).move_to(center_slot.get_center() + UP * 0.46),
             slab(GRAY_600, 0.92, 0.28).move_to(center_slot.get_center()),
-            slab(PRIMARY_RED, 0.68, 0.22).move_to(center_slot.get_center() + DOWN * 0.34),
+            slab(PRIMARY_RED, 0.68, 0.22).move_to(center_slot.get_center() + DOWN * 0.46),
         )
-        final_anchor = outline(0.9, 0.9, GRAY_300, 1.6).move_to(C_CENTER + RIGHT * 1.92 + DOWN * 0.08)
+        final_anchor = receiver_brackets(0.9, 0.9, GRAY_300, 1.6).move_to(C_CENTER + RIGHT * 1.92 + DOWN * 0.08)
         final_anchor_label = text_label("hold", 18, GRAY_500).next_to(final_anchor, DOWN, buff=0.12)
         group = VGroup(box, title, header, left_stack, center_slot, final_anchor, final_anchor_label).set_z_index(3)
         return group, {"left_stack": left_stack, "center_slot": center_slot, "final_stack": final_stack, "final_anchor": final_anchor}
@@ -394,6 +491,12 @@ class CameraFocusNarrationScene(MovingCameraScene):
             run_time=2.75,
             rate_func=smooth,
         )
+        self.play(
+            slot.animate.set_stroke(GRAY_300, width=1.4).set_opacity(0.45),
+            rails.animate.set_stroke(GRAY_300, width=2.2).set_opacity(0.28),
+            run_time=0.45,
+            rate_func=smooth,
+        )
 
     def _focus_detail(self, parts: dict[str, object], traveler: Dot) -> None:
         dots = parts["dots"]
@@ -405,7 +508,7 @@ class CameraFocusNarrationScene(MovingCameraScene):
         self.play(
             window.animate.set_stroke(PRIMARY_RED, width=3.5),
             bridge.animate.set_stroke(PRIMARY_RED, width=4).set_opacity(0.86),
-            traveler.animate.move_to(window.get_center() + RIGHT * 0.18),
+            traveler.animate.move_to(window.get_center() + LEFT * 0.5),
             run_time=0.9,
             rate_func=smooth,
         )
@@ -421,6 +524,13 @@ class CameraFocusNarrationScene(MovingCameraScene):
             output_slot.animate.set_stroke(PRIMARY_RED, width=3),
             traveler.animate.move_to(output_slot.get_center() + RIGHT * 0.42),
             run_time=1.25,
+            rate_func=smooth,
+        )
+        self.play(
+            window.animate.set_stroke(GRAY_300, width=1.4).set_opacity(0.36),
+            bridge.animate.set_stroke(GRAY_300, width=2.0).set_opacity(0.32),
+            output_slot.animate.set_stroke(GRAY_300, width=1.4).set_opacity(0.5),
+            run_time=0.4,
             rate_func=smooth,
         )
 
@@ -454,16 +564,24 @@ class CameraFocusNarrationScene(MovingCameraScene):
             run_time=1.4,
             rate_func=smooth,
         )
+        self.play(
+            center_slot.animate.set_opacity(0.18),
+            final_anchor.animate.set_stroke(GRAY_300, width=1.4).set_opacity(0.48),
+            run_time=0.35,
+            rate_func=smooth,
+        )
 
 
 def main() -> int:
     args = parse_args()
+    clear_staging()
     for poster in (False, True):
         env = {**os.environ, "SPIKE_RENDER_TARGET": "poster" if poster else "video"}
         result = subprocess.run(render_command(args, poster), check=False, env=env)
         if result.returncode != 0:
             return result.returncode
         promote((POSTER_PATH if poster else VIDEO_PATH).name, POSTER_PATH if poster else VIDEO_PATH)
+    extract_review_frames(VIDEO_PATH)
     return 0
 
 

@@ -1494,6 +1494,20 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render is 33.880 seconds at 1600x900 with 114 dense review frames at 0.3-second cadence; browser capture reported no console errors or page errors, the 0.3-second frame composition audit sampled 114 frames with zero blocking frames, and strict crowding audit overlays were inspected full size. The remaining crowding findings are expected review prompts from card-internal red strokes, selected-card brackets, and intentional hub-ring contact rather than visible mechanism collisions.
 
+## Manim Camera Focus Lab
+
+- **Hypothesis**: A camera-led tour reads better when long travel frames fully include both origin and destination panels, while local focus stops use one uncluttered red guide dot and open receiver brackets instead of a halo inside closed boxes.
+- **Result**: Confirmed on `spikes/manim-camera-focus-lab/` after removing the full opaque stage plate, tightening the map layout, moving route endpoints off panel borders, replacing closed receiver slots with open brackets, removing the guide halo, and spacing transformed stacks so proof frames remain readable.
+- **What worked**:
+  - clearing the Manim staging directory before promoted renders so cached partial movies do not preserve stale camera waits,
+  - decoding VP9 WebM frames with `libvpx-vp9` and seeking after input when extracting 0.3-second review frames; seeking before input produced false blank frames in this transparent WebM,
+  - using open receiver brackets when the red guide enters a slot, because closed rectangles enclosed the guide and created zero-clearance still frames,
+  - keeping the guide marker as a single red dot; the previous halo made focus stops look crowded around black focus dots and bracket corners,
+  - validating travel holds with both frame composition and resting-mobject audits, then widening camera frames until origin and destination panels had real edge margin,
+  - increasing gutters between transformed stack bars so the mechanism reads as a resolved stack rather than overlapped slabs.
+- **Validation note**:
+  - the final render is 36.56 seconds at 1600x900 with 123 alpha-on-white review frames at 0.3-second cadence; frame composition audit sampled 123 frames with 0 blocking frames, resting-mobject audit reported 0 blocking snapshots across 6 rest states, decoded VP9 alpha extrema were `0..255`, and strict crowding was reduced to 25 full-size review prompts judged as expected dot-on-route, guide-near-bracket, and transformed-stack proof contacts.
+
 # Reusable Process
 
 1. State the missing hypothesis.
