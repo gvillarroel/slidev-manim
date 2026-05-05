@@ -1,6 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # dependencies = [
+#   "imageio-ffmpeg>=0.6.0",
 #   "manim>=0.20.0",
 # ]
 # ///
@@ -29,6 +30,7 @@ from manim import (
     Transform,
     VGroup,
     WHITE,
+    config,
     smooth,
 )
 
@@ -39,22 +41,25 @@ OUTPUT_DIR = REPO_ROOT / "videos" / SPIKE_NAME
 STAGING_DIR = OUTPUT_DIR / ".manim"
 
 PRIMARY_RED = "#9e1b32"
-PRIMARY_ORANGE = "#e77204"
-PRIMARY_YELLOW = "#f1c319"
-PRIMARY_GREEN = "#45842a"
-PRIMARY_BLUE = "#007298"
-PRIMARY_PURPLE = "#652f6c"
 GRAY_100 = "#e7e7e7"
 GRAY_200 = "#cfcfcf"
+GRAY_300 = "#b7b7b7"
+GRAY_500 = "#737373"
+GRAY_700 = "#3d3d3d"
+
+config.transparent = True
+config.background_opacity = 0.0
 
 
 class _Args(argparse.Namespace):
     quality: str
+    skip_review: bool
 
 
 def parse_args() -> _Args:
     parser = argparse.ArgumentParser(description="Render the quality-staged-convergence spike.")
     parser.add_argument("--quality", choices=("low", "medium", "high", "production", "4k"), default="medium")
+    parser.add_argument("--skip-review", action="store_true", help="Skip extracting 0.3s white-background review frames.")
     return parser.parse_args(namespace=_Args())
 
 
@@ -107,86 +112,96 @@ def soft_panel(width: float, height: float) -> Rectangle:
     return Rectangle(width=width, height=height, stroke_width=0, fill_color=GRAY_100, fill_opacity=0.2)
 
 
-def corner_brackets(width: float, height: float, leg: float, color: str = PRIMARY_RED) -> VGroup:
+def corner_brackets(width: float, height: float, leg: float, gap: float, color: str = PRIMARY_RED) -> VGroup:
     half_w = width / 2
     half_h = height / 2
+    inner_w = half_w - leg
+    inner_h = half_h - leg
     return VGroup(
-        Line(LEFT * half_w + UP * half_h, LEFT * (half_w - leg) + UP * half_h, color=color, stroke_width=5),
-        Line(LEFT * half_w + UP * half_h, LEFT * half_w + UP * (half_h - leg), color=color, stroke_width=5),
-        Line(RIGHT * half_w + UP * half_h, RIGHT * (half_w - leg) + UP * half_h, color=color, stroke_width=5),
-        Line(RIGHT * half_w + UP * half_h, RIGHT * half_w + UP * (half_h - leg), color=color, stroke_width=5),
-        Line(LEFT * half_w + DOWN * half_h, LEFT * (half_w - leg) + DOWN * half_h, color=color, stroke_width=5),
-        Line(LEFT * half_w + DOWN * half_h, LEFT * half_w + DOWN * (half_h - leg), color=color, stroke_width=5),
-        Line(RIGHT * half_w + DOWN * half_h, RIGHT * (half_w - leg) + DOWN * half_h, color=color, stroke_width=5),
-        Line(RIGHT * half_w + DOWN * half_h, RIGHT * half_w + DOWN * (half_h - leg), color=color, stroke_width=5),
+        Line(LEFT * (half_w - gap) + UP * half_h, LEFT * inner_w + UP * half_h, color=color, stroke_width=5),
+        Line(LEFT * half_w + UP * (half_h - gap), LEFT * half_w + UP * inner_h, color=color, stroke_width=5),
+        Line(RIGHT * (half_w - gap) + UP * half_h, RIGHT * inner_w + UP * half_h, color=color, stroke_width=5),
+        Line(RIGHT * half_w + UP * (half_h - gap), RIGHT * half_w + UP * inner_h, color=color, stroke_width=5),
+        Line(LEFT * (half_w - gap) + DOWN * half_h, LEFT * inner_w + DOWN * half_h, color=color, stroke_width=5),
+        Line(LEFT * half_w + DOWN * (half_h - gap), LEFT * half_w + DOWN * inner_h, color=color, stroke_width=5),
+        Line(RIGHT * (half_w - gap) + DOWN * half_h, RIGHT * inner_w + DOWN * half_h, color=color, stroke_width=5),
+        Line(RIGHT * half_w + DOWN * (half_h - gap), RIGHT * half_w + DOWN * inner_h, color=color, stroke_width=5),
     )
 
 
 class QualityStagedConvergenceScene(Scene):
     def construct(self) -> None:
         self.camera.background_color = WHITE
+        self.camera.background_opacity = 0.0
 
-        source_zone = soft_panel(3.35, 3.85).move_to(LEFT * 3.75)
+        source_zone = soft_panel(3.1, 3.6).move_to(LEFT * 3.85)
         lane_zone = VGroup(
-            Line(LEFT * 0.85 + UP * 1.28, LEFT * 0.85 + DOWN * 1.28, color=GRAY_200, stroke_width=3),
-            Line(RIGHT * 0.85 + UP * 1.28, RIGHT * 0.85 + DOWN * 1.28, color=GRAY_200, stroke_width=3),
-        ).move_to(LEFT * 0.62)
-        target_zone = soft_panel(3.2, 3.85).move_to(RIGHT * 2.05)
+            Line(LEFT * 1.03 + UP * 1.38, LEFT * 1.03 + DOWN * 1.38, color=GRAY_200, stroke_width=3),
+            Line(RIGHT * 1.03 + UP * 1.38, RIGHT * 1.03 + DOWN * 1.38, color=GRAY_200, stroke_width=3),
+        ).move_to(LEFT * 0.48)
+        target_zone = soft_panel(4.3, 3.6).move_to(RIGHT * 2.65)
+        target_edge = Line(RIGHT * 4.8 + UP * 1.46, RIGHT * 4.8 + DOWN * 1.46, color=GRAY_200, stroke_width=3)
 
         source = VGroup(
-            slab(PRIMARY_GREEN, 2.42, 0.7).move_to(LEFT * 3.92 + UP * 0.9),
-            slab(PRIMARY_BLUE, 1.82, 0.64).move_to(LEFT * 3.46 + DOWN * 0.06),
-            slab(PRIMARY_PURPLE, 1.32, 0.54).move_to(LEFT * 3.12 + DOWN * 1.0),
+            slab(GRAY_700, 2.22, 0.64).move_to(LEFT * 4.0 + UP * 0.88),
+            slab(GRAY_500, 1.66, 0.48).move_to(LEFT * 3.58 + DOWN * 0.08),
+            slab(GRAY_300, 1.12, 0.38).move_to(LEFT * 3.22 + DOWN * 0.92),
         )
 
         lane_slots = VGroup(
-            slab(GRAY_200, 0.92, 0.3).move_to(LEFT * 0.62 + UP * 0.36),
-            slab(GRAY_200, 0.78, 0.28).move_to(LEFT * 0.62),
-            slab(GRAY_200, 0.62, 0.24).move_to(LEFT * 0.62 + DOWN * 0.36),
+            slab(GRAY_200, 0.82, 0.22).move_to(LEFT * 0.48 + UP * 0.52),
+            slab(GRAY_200, 0.62, 0.18).move_to(LEFT * 0.48),
+            slab(GRAY_200, 0.46, 0.14).move_to(LEFT * 0.48 + DOWN * 0.52),
         )
         lane_slots.set_opacity(0.33)
 
         target_slots = VGroup(
-            Circle(radius=0.62, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 1.65 + UP * 0.5),
-            Circle(radius=0.32, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 2.66 + DOWN * 0.25),
-            Circle(radius=0.2, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 1.68 + DOWN * 0.78),
+            Circle(radius=0.56, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 1.55 + UP * 0.55),
+            Circle(radius=0.27, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 2.55 + DOWN * 0.08),
+            Circle(radius=0.17, stroke_color=GRAY_200, stroke_width=3, fill_opacity=0).move_to(RIGHT * 1.62 + DOWN * 0.78),
         )
         target_slots.set_stroke(opacity=0.42)
 
-        route_in = Line(LEFT * 2.1, LEFT * 1.75, color=GRAY_200, stroke_width=3)
-        accent = Circle(radius=0.12, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(route_in.get_start())
+        route_in = Line(LEFT * 2.2, LEFT * 2.05, color=GRAY_200, stroke_width=3)
+        accent = Circle(radius=0.1, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(route_in.get_start())
 
-        lane_green = slab(PRIMARY_GREEN, 0.94, 0.2).move_to(LEFT * 0.62 + UP * 0.55)
-        lane_blue = slab(PRIMARY_BLUE, 0.78, 0.18).move_to(LEFT * 0.62)
-        lane_purple = slab(PRIMARY_PURPLE, 0.62, 0.16).move_to(LEFT * 0.62 + DOWN * 0.55)
+        lane_red = slab(PRIMARY_RED, 0.72, 0.18).move_to(LEFT * 0.48 + UP * 0.58)
+        lane_dark = slab(GRAY_700, 0.54, 0.16).move_to(LEFT * 0.48)
+        lane_mid = slab(GRAY_500, 0.38, 0.14).move_to(LEFT * 0.48 + DOWN * 0.58)
 
-        final_green = Circle(radius=0.62, stroke_width=0, fill_color=PRIMARY_GREEN, fill_opacity=1).move_to(RIGHT * 1.65 + UP * 0.5)
-        final_blue = Circle(radius=0.32, stroke_width=0, fill_color=PRIMARY_BLUE, fill_opacity=1).move_to(RIGHT * 2.66 + DOWN * 0.25)
-        final_purple = Circle(radius=0.2, stroke_width=0, fill_color=PRIMARY_PURPLE, fill_opacity=1).move_to(RIGHT * 1.68 + DOWN * 0.78)
+        final_red = Circle(radius=0.56, stroke_width=0, fill_color=PRIMARY_RED, fill_opacity=1).move_to(RIGHT * 0.07 + UP * 0.55)
+        final_dark = Circle(radius=0.27, stroke_width=0, fill_color=GRAY_700, fill_opacity=1).move_to(RIGHT * 1.03 + DOWN * 0.08)
+        final_mid = Circle(radius=0.17, stroke_width=0, fill_color=GRAY_500, fill_opacity=1).move_to(RIGHT * 0.17 + DOWN * 0.78)
 
-        terminal_brackets = corner_brackets(2.7, 2.25, 0.28).move_to(RIGHT * 2.02 + DOWN * 0.05)
+        terminal_brackets = corner_brackets(3.05, 2.45, 0.34, 0.1).move_to(RIGHT * 0.57 + DOWN * 0.02)
 
-        self.add(source_zone, lane_zone, lane_slots, target_zone, target_slots, source, accent)
+        self.add(source_zone, lane_zone, lane_slots, target_zone, target_edge, target_slots, source, accent)
         self.wait(2.7)
         self.play(MoveAlongPath(accent, route_in), run_time=1.4, rate_func=smooth)
-        self.play(FadeOut(accent), FadeOut(lane_slots), run_time=0.6)
         self.play(
             AnimationGroup(
-                Transform(source[0], lane_green.copy()),
-                Transform(source[1], lane_blue.copy()),
-                Transform(source[2], lane_purple.copy()),
-                lag_ratio=0.16,
+                FadeOut(accent, run_time=0.5),
+                FadeOut(lane_slots, run_time=0.5),
+                FadeOut(target_edge, run_time=1.2),
+                AnimationGroup(
+                    Transform(source[0], lane_red.copy()),
+                    Transform(source[1], lane_dark.copy()),
+                    Transform(source[2], lane_mid.copy()),
+                    lag_ratio=0.16,
+                    run_time=3.2,
+                ),
+                lag_ratio=0,
             ),
             run_time=3.2,
             rate_func=smooth,
         )
         self.wait(3.0)
-        self.play(FadeOut(target_slots), FadeOut(target_zone), run_time=0.8)
+        self.play(FadeOut(target_slots), FadeOut(lane_zone), run_time=0.8)
         self.play(
             AnimationGroup(
-                Transform(source[0], final_green.copy()),
-                Transform(source[1], final_blue.copy()),
-                Transform(source[2], final_purple.copy()),
+                Transform(source[0], final_red.copy()),
+                Transform(source[1], final_dark.copy()),
+                Transform(source[2], final_mid.copy()),
                 lag_ratio=0.08,
             ),
             run_time=3.5,
@@ -194,9 +209,8 @@ class QualityStagedConvergenceScene(Scene):
         )
         self.play(
             FadeOut(source_zone),
-            FadeOut(lane_zone),
+            FadeOut(target_zone),
             FadeIn(terminal_brackets, scale=0.98),
-            VGroup(source, terminal_brackets).animate.shift(LEFT * 1.45),
             run_time=2.3,
             rate_func=smooth,
         )
@@ -205,6 +219,8 @@ class QualityStagedConvergenceScene(Scene):
 
 def render_variant(args: _Args) -> None:
     video_path, poster_path = output_paths()
+    if STAGING_DIR.exists():
+        shutil.rmtree(STAGING_DIR)
     result = subprocess.run(render_command(args, video_path.stem, poster=False), check=False)
     if result.returncode != 0:
         raise SystemExit(result.returncode)
@@ -213,6 +229,58 @@ def render_variant(args: _Args) -> None:
     if result.returncode != 0:
         raise SystemExit(result.returncode)
     promote(poster_path.name, poster_path)
+    if not args.skip_review:
+        extract_review_frames(video_path)
+
+
+def extract_review_frames(video_path: Path) -> None:
+    import imageio_ffmpeg
+
+    review_dir = OUTPUT_DIR / "review-frames"
+    review_dir.mkdir(parents=True, exist_ok=True)
+    for path in review_dir.glob("frame_*.png"):
+        path.unlink()
+    contact_sheet = review_dir / "contact-sheet.png"
+    if contact_sheet.exists():
+        contact_sheet.unlink()
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    subprocess.run(
+        [
+            ffmpeg,
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            "color=c=white:s=1600x900:r=30",
+            "-c:v",
+            "libvpx-vp9",
+            "-i",
+            str(video_path),
+            "-filter_complex",
+            "[1:v]format=rgba[fg];[0:v][fg]overlay=shortest=1:format=auto,fps=10/3",
+            str(review_dir / "frame_%04d.png"),
+        ],
+        check=True,
+    )
+    subprocess.run(
+        [
+            ffmpeg,
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-framerate",
+            "10/3",
+            "-i",
+            str(review_dir / "frame_%04d.png"),
+            "-vf",
+            "scale=320:-1,tile=5x17:margin=8:padding=4:color=white",
+            str(contact_sheet),
+        ],
+        check=True,
+    )
 
 
 def main() -> int:

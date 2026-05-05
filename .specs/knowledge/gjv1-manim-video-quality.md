@@ -756,14 +756,17 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Staged Convergence
 
 - **Hypothesis**: Converging through a narrow shared lane can feel more choreographed than collapsing directly into the final cluster.
-- **Result**: Confirmed again after expanding the short draft into a 25.6-second transparent slide-integration scene with a visible opening scaffold, a held compressed-lane proof, cleanup of route and slot guides, and a centered 8.1-second final hold.
+- **Result**: Confirmed again after expanding the short draft into a transparent slide-integration scene with a visible opening scaffold, a held compressed-lane proof, cleanup of route and slot guides, and a centered final hold. The latest polish pass tightened the scene to 25.0 seconds, reduced the palette to one primary-red leader plus gray supports, and removed the static cleanup gap before compression.
 - **What worked**:
   - a visible narrow lane that all forms pass through,
   - strong contrast between the staged lane and the circular landing,
   - enough compression in the lane to make the second release feel earned,
   - guide removal before the final convergence so the staging geometry owns the intermediate beat,
   - using open lane rails instead of a closed outline, because a closed box reads as a support envelope around every compressed actor in strict crowding review,
-  - retiring the red cue before the lane proof and letting the final release be carried by the actors, so the proof frame does not inherit route residue.
+  - retiring the red cue before the lane proof and letting the final release be carried by the actors, so the proof frame does not inherit route residue,
+  - using a temporary destination edge only during the opening scaffold to balance sampled setup frames, then fading it as compression begins so it does not pull the lane proof off center,
+  - sending the final morph directly to the centered resolved cluster instead of morphing to a right-side target and correcting it with a later recenter shift,
+  - fading the setup cue and temporary edge during the compression transform rather than in a separate static cleanup beat, because 0.3-second review caught that gap as dead off-center time.
 - **What failed first**:
   - the first lane was too loose,
   - the convergence looked too close to a direct transfer,
@@ -772,6 +775,8 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - a closed lane outline and late red release cue generated strict crowding prompts that were visible enough to simplify.
 - **Validation note**:
   - final review used 86 extracted 0.3-second white-background frames, full-size opening/lane/release/final proof-frame inspection, frame composition audit with zero blocking frames across 86 samples, resting-mobject audit with zero blocking snapshots across 3 rest states, VP9 `alpha_mode=1`, and decoded alpha range `0..255`. The strict crowding audit still reported 11 transition prompts during actor remaps; full-size overlays showed expected transform contact rather than persistent final-frame crowding.
+- **2026-05-04 validation note**:
+  - the final render was reviewed with 83 white-background frames at 0.3-second cadence; frame composition audit sampled 84 frames with zero findings, frame crowding audit sampled 84 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 3 rest states, and decoded VP9 alpha range was `0..255`.
 
 ## Quality Arc Handoff
 
