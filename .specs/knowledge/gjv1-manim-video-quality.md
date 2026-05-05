@@ -443,11 +443,11 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 ## Quality Mask Transfer
 
 - **Hypothesis**: A traveling mask band can make a reveal feel more authored than plain fade-ins.
-- **Result**: Confirmed again after expanding the draft into a paced slide-integration scene with visible opening structure, staged mask passes, scaffold cleanup before compaction, a transparent VP9 output, and a clean terminal hold. The 2026-05-03 pass made the final cluster larger, better centered, and more earned by introducing faint compact receiver targets before the landing morph.
+- **Result**: Confirmed again after expanding the draft into a paced slide-integration scene with visible opening structure, staged mask passes, scaffold cleanup before compaction, a transparent VP9 output, and a clean terminal hold. The 2026-05-05 pass simplified the scene from multicolor category transfer into a red/gray mask grammar: the red aperture is the narrator, gray forms are support, and the final red circle is the only dominant artifact.
 - **What worked**:
-  - a neutral vertical band that acts as a reveal device,
+  - a narrow red aperture that acts as the reveal device without needing a separate yellow or orange traveler,
   - top-row chips as a source state and circles as a distilled target state,
-  - faint matching-color stroke-only destination slots during the opening breath, so the lower row reads as pending structure and stays part of the saturated composition audit,
+  - neutral destination slots during the opening breath, with only the terminal slot red, so the pending target stays readable without reintroducing category colors,
   - a faint exit gate that balances the opening breath, then disappears before the band reaches it so strict crowding review does not see two guides colliding,
   - stopping the mask at multiple proof beats so each revealed circle has a readable cause,
   - removing the source row and route lines before the exit sweep, then removing the target slots, band, and active accent before the compact landing morph, so cleanup frames do not inherit source stems, guide collisions, or accent residue,
@@ -461,11 +461,11 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - the first compact cluster felt muddy,
   - ghost chips were too visible and competed with the landing state,
   - making opening receiver slots too strong caused colored slots to become extra active actors in crowding review, while gray-only slots disappeared from composition centering; subtle matching-color outlines were the workable compromise,
-  - removing the panel and mask band before the compact morph cleared one residue notice but created off-center cleanup samples, so full-size review accepted the notice-only fade-through instead,
+  - dragging a fading mask to the far-right exit created one off-center cleanup sample at 18.9s; fading the mask in place before the compact morph kept the cleanup centered,
   - leaving the source row and yellow accent during the compacting morph created strict actor-to-actor clearance failures even after the broad composition audit passed,
   - connected terminal bracket corners created audit-only zero-clearance failures until the corner strokes were split.
 - **Validation note**:
-  - the latest render is 27.66 seconds, 1600x900, transparent VP9 with decoded alpha range `0..255`; the runner now writes 92 white-background 0.3-second review frames and contact sheets, composition and frame-crowding audits sampled 93 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 6 rest states.
+  - the latest render is 27.428 seconds, 1600x900, transparent VP9 with decoded alpha range `0..255`; the runner now writes 91 white-background 0.3-second review frames and contact sheets, composition and frame-crowding audits sampled 92 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots across 7 rest states.
 
 ## Quality Rhythm Gating
 
