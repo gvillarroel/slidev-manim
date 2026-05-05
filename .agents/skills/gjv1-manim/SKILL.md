@@ -462,6 +462,8 @@ uv run --with av --with pillow .agents/skills/gjv1-manim/examples/contact-sheet-
 
 For component remaps, imported SVGs, deletion beats, or any scene where something appears to flicker in the background, also extract a half-second review set. Keep the images on a white background and build contact sheets, but open suspicious frames full size before patching. One-second sampling can miss unsupported child roles, lingering guides, and ambiguous SVG morph states.
 
+When a runner builds its own contact sheet, calculate tile rows from the extracted frame count instead of hard-coding the grid. A small duration increase can overflow a fixed sheet and break review extraction after an otherwise successful render.
+
 For camera framing, panel crops, dense SVG clusters, or possible overlaps, also run the automated composition audit:
 
 ```bash
@@ -674,6 +676,8 @@ Do not add text before exhausting those fixes.
 - for snap recoil scenes, prefer one primary-red leader with gray support forms. Use open target rails or receiver slots rather than a broad filled destination plate under the leader; filled plates can create actor-to-panel crowding during the stretched proof even when the motion reads correctly.
 - for staged convergence scenes, use open rails or separated brackets for the narrow lane rather than a closed box around the compressed actors. Retire any red cue before the held lane proof, then remove slot and rail scaffolds before the centered final hold.
 - for staged convergence openings, a temporary destination edge can balance a left-heavy source scaffold, but fade that edge during the compression transform rather than in a separate static cleanup beat. The final morph should land directly on the centered resolved cluster instead of relying on a later recenter shift.
+- for staged convergence scenes, if a leader or transforming bar must cross a lane rail, fade the rail during the crossing and restore it for the held proof. A rail that remains visible under the actor can fail strict crowding and read like actor-to-guide contact.
+- use thin filled rails or faint filled receiver slots when rest-state audits need scaffolds to count toward balance. Zero-area `Line` mobjects can look visible but be ignored by bounds checks.
 - for terminal corner brackets, give the horizontal and vertical strokes a real gap at each corner. Connected L-shaped brackets can create zero-clearance strict-crowding failures even when the actors themselves have enough air.
 - for anchored orbit scenes, reserve target slots during the opening breath and keep each satellite on a distinct lane. If the second orbit crosses the first satellite's proof position, the still frame reads as collision even when the final layout is clean.
 - for orbit-guided motion, treat crowding audit findings as blocking only after full-size review confirms actor-to-actor, actor-to-outline, or guide-over-actor interference. Actor-on-path contact can be intentional when the guide is the track being followed.

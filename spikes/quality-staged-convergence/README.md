@@ -14,7 +14,15 @@ If the forms first align into a narrow shared lane and only then converge into t
 
 # Current Result
 
-The promoted render is a 25.0-second transparent WebM with a visible opening scaffold, one primary-red leader, gray support forms, a held compressed-lane proof, cleanup of transient slots and rails, and a centered final hold with separated corner brackets.
+The promoted render is a 25.7-second transparent WebM with a visible opening scaffold, one primary-red leader, gray support forms, a real source-to-lane handoff, a held compressed-lane proof, receiver slots that survive into the target landing, cleanup of transient rails, and a centered final hold with separated corner brackets.
+
+# Validation
+
+- 86 white-background review frames at 0.3-second cadence plus a dynamic contact sheet.
+- Frame composition audit: 87 sampled frames, 0 blocking frames.
+- Frame crowding audit: 87 sampled frames, 0 blocking frames.
+- Resting-mobject audit: 4 rest snapshots, 0 blocking snapshots.
+- VP9 transparency: `alpha_mode=1`, decoded alpha range `0..255`.
 
 # Run
 

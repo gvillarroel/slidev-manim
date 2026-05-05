@@ -808,6 +808,14 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - final review used 86 extracted 0.3-second white-background frames, full-size opening/lane/release/final proof-frame inspection, frame composition audit with zero blocking frames across 86 samples, resting-mobject audit with zero blocking snapshots across 3 rest states, VP9 `alpha_mode=1`, and decoded alpha range `0..255`. The strict crowding audit still reported 11 transition prompts during actor remaps; full-size overlays showed expected transform contact rather than persistent final-frame crowding.
 - **2026-05-04 validation note**:
   - the final render was reviewed with 83 white-background frames at 0.3-second cadence; frame composition audit sampled 84 frames with zero findings, frame crowding audit sampled 84 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 3 rest states, and decoded VP9 alpha range was `0..255`.
+- **2026-05-05 refinement**:
+  - a visible handoff dot helped the source-to-lane beat read better than a static cue, but the dot must stop outside the lane rail; strict crowding overlays correctly caught 25px actor-to-rail clearance as too tight,
+  - fading lane rails out during the crossing and fading them back in for the held compression proof kept the mechanism readable while clearing transition-frame crowding,
+  - a very thin filled destination edge balanced the opening breath in both human review and resting-mobject audit; zero-area `Line` rails looked visible but did not contribute to rest-state bounds,
+  - faint filled receiver slots made the pending target audit-visible without turning the scene into a broad target plate,
+  - review contact-sheet generation should size tile rows from the extracted frame count; the 25.7-second render produced 86 frames and overflowed a fixed 5-by-17 sheet.
+- **Validation note**:
+  - the refined render is 25.700 seconds at 1600x900 with 86 white-background 0.3-second review frames and decoded VP9 alpha range `0..255`; frame composition and crowding audits sampled 87 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots across 4 rest states, and the skill self-containment audit passed.
 
 ## Quality Arc Handoff
 
