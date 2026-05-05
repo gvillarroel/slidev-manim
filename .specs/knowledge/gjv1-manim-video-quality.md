@@ -1524,6 +1524,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - final renders are 30.798s, 25.560s, 27.392s, and 25.598s with decoded alpha range `0..255`; 0.3-second composition audits sampled 104/86/92/86 frames with zero blocking frames, crowding audits sampled the same frames with zero blocking frames, and resting-mobject audits reported zero blocking snapshots. Notice-only rest contacts were expected actor-on-orbit, actor-on-ring, actor-on-track, or actor-on-receiver proof states.
 
+## Device Frame Embed
+
+- **Hypothesis**: Browser-frame and device-frame transparent clips read better when the Manim asset owns only the content motion, while the Slidev frame owns all browser or phone chrome.
+- **Result**: Confirmed on `spikes/device-frame-embed/` after replacing multicolor source/processor/output roles with neutral gray cards, removing local red focus boxes, enlarging the tall device composition, separating route segments from card interiors, and adding built-in 0.3-second alpha-on-white review extraction for both aspect ratios.
+- **What worked**:
+  - designing the 16:9 browser and 9:16 phone variants separately instead of relying on one scaled composition,
+  - using one primary-red pulse as the only active accent so the external frame can provide the UI context,
+  - keeping receiver slots visible during the opening breath, then fading them as real cards land so the final hold does not inherit local chrome,
+  - clearing the Manim staging directory before each promoted render and promoting outputs by modification time to avoid stale frame reuse,
+  - generating per-variant cadence sheets directly from the runner so browser and device embeds get equal still-frame review.
+- **Validation note**:
+  - both final renders are 26.400 seconds and generated 88 alpha-on-white review frames at 0.3-second cadence with decoded alpha range `0..255`; composition and strict crowding audits sampled 89 frames per variant with zero blocking frames, and resting-mobject audits reported zero blocking snapshots across 3 rest states per variant.
+
 ## Red Dot Radial Focus SPA
 
 - **Hypothesis**: A browser-native radial focus recording reads better when the first frame already shows the central hub and pending spokes, while old ingress history fades before the fan-out cards take over.

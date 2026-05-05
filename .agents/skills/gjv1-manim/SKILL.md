@@ -86,6 +86,16 @@ Use `multi-asset grid` when a Slidev page embeds three or more independent Manim
 - Generate dense review frames and contact sheets per asset, not only for the combined Slidev screenshot. A grid can look aligned while one member still has a weak mechanism, stale title chrome, or an under-held final state.
 - Resting audits may report notice-level contacts when an actor intentionally sits on an orbit, track, ring, or receiver during the proof. Treat those as acceptable only after full-size frame review confirms the guide is the mechanism and not stale residue.
 
+# Frame Wrapper Embed Assets
+
+Use `frame wrapper embed asset` when a transparent Manim clip will be placed inside Slidev browser chrome, phone frames, device mockups, or other external UI wrappers.
+
+- Let the Slidev frame own the browser shell, phone bezel, title bar, notch, shadows, and surrounding chrome. The Manim video should usually contain only the content-region mechanism.
+- Build separate compositions for wide and tall embeds instead of cropping one scene into both ratios. Tall device renders often need larger cards, longer vertical routes, and stronger spacing to avoid shrinking into a small center icon.
+- Use one primary-red actor for the handoff and keep source, processor, and output cards in neutral gray. Multiple saturated role colors compete with the external frame and make the transparent asset feel like a second UI system.
+- Keep route segments outside the card interiors and fade receiver slots as the real cards land. A route or slot that survives into the final hold reads as local chrome residue inside the device frame.
+- Generate 0.3-second alpha-on-white review frames per aspect ratio, then inspect at least one proof frame and the final hold full size before judging the embed from the Slidev deck.
+
 # Mermaid Companion Assets
 
 Use `mermaid companion asset` when a Slidev page already has a static Mermaid diagram and the Manim video should reinforce only one mechanism beside it.

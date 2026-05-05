@@ -28,6 +28,8 @@ videos/device-frame-embed/device-frame-embed-browser.webm
 videos/device-frame-embed/device-frame-embed-browser.png
 videos/device-frame-embed/device-frame-embed-device.webm
 videos/device-frame-embed/device-frame-embed-device.png
+videos/device-frame-embed/review-frames-0.3s/browser/sheets/
+videos/device-frame-embed/review-frames-0.3s/device/sheets/
 ```
 
 ## Run the Slidev deck
@@ -51,3 +53,6 @@ npx @slidev/cli build spikes/device-frame-embed/slides.md
 - Transparent WebM plus a white PNG poster remains the most practical delivery pair for review and playback.
 - Local Vite imports and per-slide readiness state make embedded media more reliable in Slidev.
 - Keep the Slidev template simple when combining raw HTML with embedded media; fewer wrappers means fewer parser issues.
+- Build the wide and tall Manim compositions independently. The tall device version needs larger vertical spacing and stronger card scale than the browser version, or the asset turns into a tiny center icon inside the phone chrome.
+- Use one primary-red pulse for the handoff and neutral gray content cards. Extra source, processor, and receipt colors compete with the Slidev frame and weaken the transparent asset.
+- Generate 0.3-second alpha-on-white review frames for each promoted aspect ratio so the embed can be judged without opening the Slidev deck.
