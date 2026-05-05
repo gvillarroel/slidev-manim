@@ -1,0 +1,228 @@
+:root {
+  --primary-red: #9e1b32;
+  --highlight-red: #ffccd5;
+  --page-background: #f7f7f7;
+  --white: #ffffff;
+  --gray: #333e48;
+  --gray-200: #cfcfcf;
+  --gray-300: #b5b5b5;
+  --gray-400: #9c9c9c;
+  --gray-700: #4f4f4f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--page-background);
+  color: var(--gray);
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.app-shell,
+.stage-panel,
+.stage-frame {
+  width: 100vw;
+  height: 100vh;
+}
+
+.stage-frame {
+  position: relative;
+}
+
+.stage {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.phase-chip,
+.timeline-overlay,
+.control-cluster {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.phase-chip {
+  top: 4%;
+  left: 3.4%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(207, 207, 207, 0.52);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+
+.phase-label {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: lowercase;
+}
+
+.timeline-overlay {
+  left: 15%;
+  right: 15%;
+  bottom: 4%;
+  display: grid;
+  gap: 6px;
+}
+
+.timeline-track {
+  position: relative;
+  height: 3px;
+  background: rgba(207, 207, 207, 0.75);
+  overflow: hidden;
+}
+
+.timeline-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary-red) 0%, #bf304b 100%);
+  box-shadow: 0 0 16px rgba(158, 27, 50, 0.22);
+}
+
+.timeline-dots {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.timeline-dot {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--gray-300);
+  background: var(--white);
+  transition: transform 240ms ease, border-color 240ms ease, background-color 240ms ease;
+}
+
+.timeline-dot.is-active,
+.timeline-dot.is-complete {
+  border-color: var(--primary-red);
+  background: var(--primary-red);
+}
+
+.timeline-dot.is-active {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 4px rgba(255, 204, 213, 0.52);
+}
+
+.control-cluster {
+  right: 3.4%;
+  bottom: 9%;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(207, 207, 207, 0.52);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+.stage-frame:hover .phase-chip,
+.stage-frame:focus-within .phase-chip,
+.stage-frame:hover .timeline-overlay,
+.stage-frame:focus-within .timeline-overlay,
+.stage-frame:hover .control-cluster,
+.stage-frame:focus-within .control-cluster {
+  opacity: 0.88;
+  pointer-events: auto;
+}
+
+.hud-button {
+  min-width: 78px;
+  border: 1px solid rgba(79, 79, 79, 0.18);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--gray);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.hud-button:hover,
+.hud-button:focus-visible {
+  background: var(--primary-red);
+  color: var(--white);
+  border-color: var(--primary-red);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+@media (max-width: 980px) {
+  .phase-chip {
+    top: 3%;
+    left: 3.8%;
+  }
+
+  .timeline-overlay {
+    left: 12%;
+    right: 12%;
+    bottom: 3.6%;
+  }
+
+  .control-cluster {
+    right: 3.8%;
+    bottom: 8%;
+  }
+}
+
+@media (max-width: 640px) {
+  .phase-chip {
+    top: 2.2%;
+    left: 4.6%;
+    padding: 8px 10px;
+    max-width: 76vw;
+  }
+
+  .eyebrow {
+    font-size: 0.62rem;
+  }
+
+  .phase-label {
+    font-size: 0.92rem;
+  }
+
+  .timeline-overlay {
+    left: 8%;
+    right: 8%;
+    bottom: 2.4%;
+  }
+
+  .control-cluster {
+    right: 4.6%;
+    bottom: 6%;
+  }
+
+  .timeline-dot {
+    width: 7px;
+    height: 7px;
+  }
+}
