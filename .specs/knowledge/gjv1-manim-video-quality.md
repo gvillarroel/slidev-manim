@@ -965,6 +965,14 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - a red guide riding on top of the green actor looked like a stain instead of an active guide,
   - simultaneous support release made blue and purple cross too tightly in still-frame review,
   - leaving the final cluster in the old right-side target zone created dead space after source cleanup.
+- **2026-05-05 refinement**:
+  - turning the multicolor source and final cluster into true neutral grays made the red proof dot the only active actor; blue-tinted dark gray was enough to confuse active-color composition audits,
+  - keeping the bridge rails gray, not red, preserved the bridge as support geometry and prevented strict crowding review from treating the whole passage as an actor,
+  - lifting the red proof dot above the bridge lane gave visible clearance from both the rail and the crossing form,
+  - replacing close terminal corner brackets with a detached red completion mark kept the final hold resolved without wrapping the actors in red geometry,
+  - adding built-in 0.3-second alpha-on-white review extraction and decoded alpha validation made the spike self-reviewing like the newer quality-family runners.
+- **Validation note**:
+  - the refined render is 30.300 seconds at 1600x900 with 101 alpha-on-white review frames and decoded alpha range `0..255`; composition and strict crowding audits sampled 102 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots with notice-only expected guide contacts.
 
 ## Quality Keystone Lock
 
