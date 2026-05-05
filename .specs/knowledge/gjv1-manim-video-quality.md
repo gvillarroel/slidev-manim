@@ -87,6 +87,11 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - avoid diagonal red connectors, red row-outline boxes, and extra terminal red rules after point 1 opens,
   - keep red reserved for the rail, active tick, and active card accent,
   - use quiet gray row cues when the detail panel needs progressive focus.
+- **2026-05-04 sequence refinement**:
+  - text-bearing time-rail assets can still be transparent when the slide supplies the white surface, but avoid a broad local stage plate unless contrast requires it,
+  - use outline-only pending card slots in the opening breath; filled placeholder bars can read like a static wireframe instead of a mechanism,
+  - let each tick emit a short branch cue only after the rail reaches it, then soften the branch so the rail remains the narrator,
+  - keep the terminal artifact on the rail itself, such as a filled rail plus bottom cap, rather than placing a detached terminal rule in a distant corner.
 
 ## Split Screen Sync
 

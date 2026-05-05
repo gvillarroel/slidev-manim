@@ -104,6 +104,8 @@ Use `time rail` when a left-side timeline or spine should act as the narrator in
 - Keep the left rail visually stable while content resolves to the right; the viewer should read the rail as an organizing timeline, not as a decorative divider.
 - Branches should emit from the rail only after the active segment reaches the tick. Soften branch guides after their card lands so the final frame does not look mid-transition.
 - Use a terminal rule or final rail state as the resolved artifact. Do not leave disconnected pulses at former tick or branch positions.
+- For transparent time-rail sequences, prefer outline-only pending card slots over filled placeholder bars. Filled slots can look like a static wireframe before the rail proves causality.
+- Keep terminal artifacts attached to the rail itself, such as a completed rail with a bottom cap. Detached red rules away from the spine compete with the rail's narrator role.
 - To continue from agenda into content, keep the rail fixed, activate one tick, soften or remove future agenda items, and let the active card open into a detail panel. The first detailed beat should feel like the selected point now owns the stage, while the rail preserves orientation.
 - Avoid secondary red connector lines, row-outline boxes, or terminal rules inside the detail panel. If the rail is the narrator, extra red lines away from it read as annotation artifacts; use quiet gray local cues for detail rows.
 
