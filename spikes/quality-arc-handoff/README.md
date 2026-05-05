@@ -24,3 +24,4 @@ The render writes:
 
 - `videos/quality-arc-handoff/quality-arc-handoff.webm` with VP9 alpha
 - `videos/quality-arc-handoff/quality-arc-handoff.png`
+- `videos/quality-arc-handoff/review-frames-0.3s/` with alpha-on-white cadence frames and contact sheets

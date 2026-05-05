@@ -782,6 +782,13 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
   - after source cleanup, the final cluster initially remained too far right and failed off-center audits until it was shifted toward the middle.
 - **2026-05-03 validation note**:
   - final review used 96 extracted 0.3-second white-background frames, full-size arc/support/final proof-frame inspection, a frame composition audit with zero blocking frames across 97 samples, a resting-mobject audit with zero blocking snapshots across 6 rest states, VP9 `alpha_mode=1`, and decoded alpha range `0..255`. Strict crowding fell from 75 baseline prompts to 16 transition-only route/actor prompts; full-size overlays showed expected path-following contact rather than final-hold crowding.
+- **2026-05-04 refinement**:
+  - replacing the orange/green/blue/purple route grammar with one primary-red leader and gray supports made the curved handoff read as one mechanism instead of a multicolor sample,
+  - removing the local outer frame and pale panels let the clip behave as a transparent Slidev asset while open source and receiver brackets still made frame zero meaningful,
+  - keeping the source bracket, receiver brackets, and faint arc rails visible through the recentering transform prevented the cleanup from becoming right-weighted; fading them only after the final cluster settled cleared the sampled off-center frames,
+  - adding built-in 0.3-second alpha-on-white review extraction to the runner made contact-sheet review reproducible, but review-only dependencies need lazy imports so Manim scene audits can import the script without installing capture helpers.
+- **2026-05-04 validation note**:
+  - the refined render is 26.828 seconds and generated 89 alpha-on-white review frames at 0.3-second cadence with decoded alpha range `0..255`; frame composition and strict crowding audits sampled 90 frames with zero blocking frames, and resting-mobject audit reported zero blocking snapshots with notice-only scaffold and transformed-shape proximity.
 
 ## Quality Corridor Squeeze
 
