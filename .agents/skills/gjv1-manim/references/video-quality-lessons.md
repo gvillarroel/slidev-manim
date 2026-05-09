@@ -264,6 +264,7 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - For browser-native Playwright videos, separate recording from proof screenshots. Screenshots taken inside the recorded session can add enough wall-clock overhead that the WebM includes the next loop even when the app timeline is correct.
 - Browser-native app timestamps and encoded WebM timestamps may not map one-to-one after Playwright recording and transcode. Buffer the capture, trim the promoted artifact to one clean pass, and run audits on video-specific proof times drawn from the dense contact sheet.
 - When a content-first browser narrative removes its local matte plate, use real future scaffolds to balance frame zero. A faint destination system that will later receive the actor is better than decorative page chrome, but it must be strong enough to count in still-frame review.
+- For browser-native terminal bracket cues, use separated strokes with real gaps and enough clearance from the resolved outline. If the layout also records portrait screenshots with `preserveAspectRatio="slice"`, scale or reposition the terminal cue specifically for portrait; a desktop-safe bracket can still become clipped edge residue on mobile.
 
 ## Maintenance Rule
 

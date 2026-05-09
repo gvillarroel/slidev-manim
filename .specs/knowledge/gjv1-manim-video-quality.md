@@ -1647,6 +1647,19 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render is 38.120 seconds at 1600x900 with 127 extracted 0.3-second review frames; browser capture reported no console errors or page errors, the built-in proof-frame composition audit sampled 5 frames with zero blocking frames, dense composition audit sampled 128 frames with zero blocking frames and one notice-only route proof, strict crowding audit was reduced to one full-size-inspected dot-on-route transformation prompt, and the skill self-containment audit passed.
 
+## Red Dot Arch SPA
+
+- **Hypothesis**: A browser-native arch narrative reads better when the full white viewport becomes the review surface, the opening uses real future passage scaffolds for balance, and red is reserved for the moving point, route trace, and terminal cue.
+- **Result**: Confirmed on `spikes/red-dot-arch-spa/` after removing the broad local matte and decorative page wash, enlarging the mechanism, adding phase-aware horizontal staging for the early search proof, strengthening frame-zero receiver scaffolds, demoting static candidate/stone internals to gray, and moving terminal bracket cues away from the resolved arch.
+- **What worked**:
+  - using story geometry rather than a white card to balance the opening after the local matte was removed,
+  - shifting early appearance/search phases right, then easing later phases back to center so the lintel search proof clears dense composition without stranding the resolved arch,
+  - demoting internal candidate and stone marks from red to neutral gray so the moving red point remains the single active actor,
+  - splitting terminal corner brackets into separated strokes and moving them away from the arch outline to reduce final-hold crowding,
+  - scaling the terminal bracket group specifically in portrait layout after the mobile proof screenshot caught clipping under `preserveAspectRatio="slice"`.
+- **Validation note**:
+  - the final render is 34.560 seconds at 1600x900 with 864 frames and 116 extracted 0.3-second review samples; browser capture reported no console errors or page errors, built-in proof-time composition audit and dense 0.3-second composition audit both reported zero blocking frames, strict crowding was reduced to 5 full-size-inspected search-candidate proof prompts, the mobile resolution screenshot was checked for clipping, and the skill self-containment audit passed.
+
 ## Red Dot Constellation SPA
 
 - **Hypothesis**: A browser-native constellation narrative reads better when the recording starts on real story geometry, the browser viewport supplies the review surface, and proof screenshots are separated from video capture so screenshot overhead cannot push the WebM into the next loop.

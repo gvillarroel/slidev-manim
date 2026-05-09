@@ -218,14 +218,14 @@ function updatePhaseLabel(info) {
 
 function applySceneOffset(phaseId) {
   const offsets = {
-    appearance: 18,
-    search: 30,
-    tension: 10,
-    transformation: 4,
-    resolution: -2,
+    appearance: { x: 110, y: 18 },
+    search: { x: 80, y: 30 },
+    tension: { x: 30, y: 10 },
+    transformation: { x: 0, y: 4 },
+    resolution: { x: 0, y: -2 },
   };
-  const offsetY = offsets[phaseId] ?? 0;
-  sceneRoot.setAttribute("transform", `translate(0 ${offsetY})`);
+  const offset = offsets[phaseId] ?? { x: 0, y: 0 };
+  sceneRoot.setAttribute("transform", `translate(${offset.x} ${offset.y})`);
 }
 
 function applyFraming(phaseId) {
@@ -255,7 +255,7 @@ function applyLayout() {
     svg.dataset.layout = "portrait";
     svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
   } else {
-    layoutRoot.setAttribute("transform", "");
+    layoutRoot.setAttribute("transform", "translate(800 450) scale(1.12) translate(-800 -450)");
     svg.dataset.layout = "landscape";
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   }
@@ -312,34 +312,37 @@ function resetScene() {
   setOpacity(anchorGrid, 0);
   setOpacity(resolutionHalo, 0);
   setOpacity(resolutionFrame, 0);
+  resolutionFrame.setAttribute("transform", "");
 }
 
 function renderAppearance(progress) {
   const eased = easeOut(progress);
   const position = mixPoint(points.start, points.ingress, eased * 0.82);
+  const scaffold = 0.28 + clamp(progress * 1.6, 0, 0.72);
 
   setDot(
     position,
-    lerp(4, 18, eased),
-    lerp(18, 84, eased),
-    clamp(progress * 1.8, 0, 1),
-    0.22 + pulseWave(progress, 1.2) * 0.18,
+    lerp(9, 18, eased),
+    lerp(36, 84, eased),
+    0.42 + clamp(progress * 1.4, 0, 0.58),
+    0.12 + pulseWave(progress, 1.2) * 0.12,
   );
-  setOpacity(narrativeSpine, clamp((progress - 0.14) * 1.4, 0, 0.34));
+  setOpacity(narrativeSpine, 0.16 + clamp(progress * 1.2, 0, 0.18));
 
-  const preview = clamp((progress - 0.42) * 1.7, 0, 1);
-  setOpacity(searchGuideA, preview * 0.18);
-  setOpacity(candidateLintel, preview * 0.14);
-  setOpacity(candidateGable, preview * 0.1);
-  setOpacity(candidateArch, preview * 0.08);
-  setOpacity(thresholdGuide, preview * 0.08);
-  setOpacity(sillGuide, preview * 0.08);
-  setOpacity(jambLeft, preview * 0.05);
-  setOpacity(jambRight, preview * 0.05);
-  setOpacity(crownBlock, preview * 0.05);
-  setOpacity(archShell, preview * 0.05);
-  setOpacity(archBase, preview * 0.06);
-  setOpacity(doorwayBase, preview * 0.05);
+  setOpacity(searchGuideA, scaffold * 0.16);
+  setOpacity(searchGuideB, scaffold * 0.1);
+  setOpacity(searchGuideC, scaffold * 0.1);
+  setOpacity(candidateLintel, scaffold * 0.16);
+  setOpacity(candidateGable, scaffold * 0.14);
+  setOpacity(candidateArch, scaffold * 0.16);
+  setOpacity(thresholdGuide, scaffold * 0.2);
+  setOpacity(sillGuide, scaffold * 0.16);
+  setOpacity(jambLeft, scaffold * 0.1);
+  setOpacity(jambRight, scaffold * 0.1);
+  setOpacity(crownBlock, scaffold * 0.1);
+  setOpacity(archShell, scaffold * 0.12);
+  setOpacity(archBase, scaffold * 0.14);
+  setOpacity(doorwayBase, scaffold * 0.12);
 }
 
 function renderSearch(progress) {
@@ -351,8 +354,8 @@ function renderSearch(progress) {
   ]);
 
   setDot(position, 18, 88, 1, 0.22 + pulseWave(progress, 1.8) * 0.1);
-  setOpacity(narrativeSpine, lerp(0.22, 0.06, progress));
-  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.12, 0.04, progress));
+  setOpacity(narrativeSpine, lerp(0.18, 0.02, progress));
+  setPathWindow(activeTrail, ACTIVE_TRAIL_LENGTH, ACTIVE_TRAIL_LENGTH, lerp(0.1, 0.02, progress));
 
   const revealA = clamp(progress / 0.22, 0, 1);
   const revealB = clamp((progress - 0.22) / 0.22, 0, 1);
@@ -372,18 +375,18 @@ function renderSearch(progress) {
   setGroupTransform(candidateLintel, points.lintelCandidate.x, points.lintelCandidate.y, lerp(0.88, activeA ? 1.04 : 0.96, revealA), -4);
   setGroupTransform(candidateGable, points.gableCandidate.x, points.gableCandidate.y, lerp(0.88, activeB ? 1.05 : 0.96, revealB), 0);
   setGroupTransform(candidateArch, points.archCandidate.x, points.archCandidate.y, lerp(0.84, activeC ? 1.05 : 0.95, revealC), 4);
-  setOpacity(candidateLintel, activeA ? 1 : revealA * 0.34 + 0.14);
-  setOpacity(candidateGable, activeB ? 1 : revealB * 0.34 + 0.14);
-  setOpacity(candidateArch, activeC ? 1 : revealC * 0.34 + 0.12);
+  setOpacity(candidateLintel, activeA ? 1 : revealA * 0.24 + 0.08);
+  setOpacity(candidateGable, activeB ? 1 : revealB * 0.24 + 0.08);
+  setOpacity(candidateArch, activeC ? 1 : revealC * 0.26 + 0.1);
 
-  setOpacity(thresholdGuide, 0.14);
-  setOpacity(sillGuide, 0.1);
-  setOpacity(jambLeft, 0.06);
-  setOpacity(jambRight, 0.06);
-  setOpacity(crownBlock, 0.06);
-  setOpacity(archShell, 0.05);
-  setOpacity(archBase, 0.08);
-  setOpacity(doorwayBase, 0.06);
+  setOpacity(thresholdGuide, 0.18);
+  setOpacity(sillGuide, 0.12);
+  setOpacity(jambLeft, 0.08);
+  setOpacity(jambRight, 0.08);
+  setOpacity(crownBlock, 0.08);
+  setOpacity(archShell, 0.08);
+  setOpacity(archBase, 0.1);
+  setOpacity(doorwayBase, 0.08);
 }
 
 function renderTension(progress) {
@@ -610,6 +613,11 @@ function renderResolution(progress) {
   setOpacity(anchorGrid, lerp(0.12, 0.16, settle));
   setOpacity(resolutionHalo, lerp(0.16, 0.26, settle));
   setOpacity(resolutionFrame, lerp(0.24, 0.68, settle));
+  if (svg.dataset.layout === "portrait") {
+    resolutionFrame.setAttribute("transform", "translate(820 450) scale(0.42) translate(-820 -450)");
+  } else {
+    resolutionFrame.setAttribute("transform", "");
+  }
 }
 
 function render(elapsed) {

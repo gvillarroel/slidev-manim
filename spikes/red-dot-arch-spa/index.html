@@ -25,42 +25,18 @@
             </desc>
 
             <defs>
-              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fcfcfc" />
-                <stop offset="100%" stop-color="#f2f2f2" />
-              </linearGradient>
-              <radialGradient id="field-glow" cx="50%" cy="48%" r="48%">
-                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
-                <stop offset="78%" stop-color="#ffffff" stop-opacity="0.34" />
-                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
-              </radialGradient>
               <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.88" />
                 <stop offset="72%" stop-color="#ffccd5" stop-opacity="0.18" />
                 <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
               </radialGradient>
-              <linearGradient id="plate-fade" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
-                <stop offset="14%" stop-color="#ffffff" stop-opacity="0.94" />
-                <stop offset="86%" stop-color="#ffffff" stop-opacity="0.94" />
-                <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08" />
-              </linearGradient>
             </defs>
 
-            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
-            <ellipse cx="812" cy="448" rx="710" ry="316" fill="url(#field-glow)" opacity="0.96" />
-            <ellipse cx="1102" cy="258" rx="232" ry="148" fill="#ffccd5" opacity="0.08" />
-            <ellipse cx="474" cy="654" rx="296" ry="174" fill="#ffffff" opacity="0.4" />
+            <rect x="0" y="0" width="1600" height="900" fill="#ffffff" />
 
             <g id="layout-root">
-              <rect x="108" y="110" width="1384" height="680" fill="#ffffff" opacity="0.56" />
-              <rect x="142" y="180" width="1316" height="540" fill="url(#plate-fade)" opacity="0.94" />
-              <rect x="198" y="220" width="1204" height="460" fill="#ffffff" opacity="0.18" />
-
-              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
-                <path d="M 214 252 H 1386" />
+              <g id="ambient-grid" opacity="0.08" stroke="#cfcfcf" stroke-width="1">
                 <path d="M 214 450 H 1386" />
-                <path d="M 214 648 H 1386" />
                 <path d="M 370 220 V 680" />
                 <path d="M 800 220 V 680" />
                 <path d="M 1230 220 V 680" />
@@ -123,7 +99,7 @@
                   <rect x="-62" y="-12" width="26" height="68" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
                   <rect x="36" y="-12" width="26" height="68" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
                   <rect x="-78" y="-48" width="156" height="30" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-                  <path d="M -18 4 H 18" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                  <path d="M -18 4 H 18" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="round" />
                 </g>
 
                 <g id="candidate-gable" opacity="0">
@@ -135,7 +111,7 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
-                  <path d="M -20 6 H 20" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                  <path d="M -20 6 H 20" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="round" />
                 </g>
 
                 <g id="candidate-arch" opacity="0">
@@ -147,7 +123,7 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
-                  <path d="M -16 8 H 16" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                  <path d="M -16 8 H 16" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="round" />
                 </g>
 
                 <path
@@ -257,7 +233,7 @@
                 <g id="pier-left" opacity="0">
                   <rect x="-34" y="-74" width="68" height="148" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
                   <rect x="-44" y="-96" width="88" height="26" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-                  <path d="M -18 -10 H 18" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                  <path d="M -18 -10 H 18" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="round" />
                 </g>
                 <g id="crown-left" opacity="0">
                   <path
@@ -267,7 +243,7 @@
                     stroke-width="5"
                     stroke-linejoin="round"
                   />
-                  <path d="M -12 2 H 20" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                  <path d="M -12 2 H 20" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="round" />
                 </g>
                 <g id="crown-right" opacity="0">
                   <path
@@ -277,12 +253,12 @@
                     stroke-width="5"
                     stroke-linejoin="round"
                   />
-                  <path d="M 12 2 H -20" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                  <path d="M 12 2 H -20" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="round" />
                 </g>
                 <g id="pier-right" opacity="0">
                   <rect x="-34" y="-74" width="68" height="148" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
                   <rect x="-44" y="-96" width="88" height="26" fill="#ffffff" stroke="#4f4f4f" stroke-width="5" />
-                  <path d="M 18 -10 H -18" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                  <path d="M 18 -10 H -18" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="round" />
                 </g>
 
                 <g id="anchor-grid" opacity="0" stroke="#cfcfcf" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="10 12">
@@ -292,10 +268,10 @@
                 </g>
                 <circle id="resolution-halo" cx="820" cy="450" r="170" fill="url(#halo-gradient)" opacity="0" />
                 <g id="resolution-frame" opacity="0" stroke="#9e1b32" stroke-width="5" stroke-linecap="round" fill="none">
-                  <path d="M 682 332 H 722 M 682 332 V 372" />
-                  <path d="M 958 332 H 918 M 958 332 V 372" />
-                  <path d="M 682 568 H 722 M 682 568 V 528" />
-                  <path d="M 958 568 H 918 M 958 568 V 528" />
+                  <path d="M 624 260 H 674 M 600 284 V 334" />
+                  <path d="M 1016 260 H 966 M 1040 284 V 334" />
+                  <path d="M 624 640 H 674 M 600 616 V 566" />
+                  <path d="M 1016 640 H 966 M 1040 616 V 566" />
                 </g>
 
                 <circle id="dot-halo" cx="304" cy="450" r="76" fill="url(#halo-gradient)" opacity="0" />

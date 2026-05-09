@@ -131,6 +131,7 @@ Use `browser-native SVG narrative` when a spike records an HTML/SVG visual syste
 - For content-first browser-native recordings, remove fixed local matte plates once the full viewport can be the review surface. If the actor enters from one side, pull the entry anchor inward and make the pending receiver strong enough at frame zero instead of balancing the frame with decorative chrome.
 - Keep candidate internals neutral during search beats. Red rules inside candidate dominoes, cards, or slots become secondary actors and can create strict crowding with the moving point; let the single red actor own the search and fade active guides before they sit under it.
 - Treat strict crowding findings on card internals, selected-card brackets, or intentional hub rings as full-size review prompts. Patch them only when the frame actually reads as collision or obscures the mechanism.
+- For browser-native terminal brackets, split corner marks into separated strokes with real clearance and verify the mobile proof frame. Desktop-safe brackets can still clip under portrait `preserveAspectRatio="slice"`, so scale or reposition terminal cues per layout instead of trusting the landscape hold.
 - Keep durable browser-native refinements in [references/video-quality-lessons.md](references/video-quality-lessons.md).
 
 # Time Rail Scenes
