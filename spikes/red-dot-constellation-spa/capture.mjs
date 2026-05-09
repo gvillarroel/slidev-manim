@@ -61,6 +61,16 @@ const context = await browser.newContext({
     size: { width: args.width, height: args.height },
   },
 });
+await context.addInitScript(() => {
+  const hide = () => {
+    document.documentElement.style.visibility = "hidden";
+  };
+  if (document.documentElement) {
+    hide();
+  } else {
+    window.addEventListener("DOMContentLoaded", hide, { once: true });
+  }
+});
 
 const consoleMessages = [];
 const pageErrors = [];
@@ -83,26 +93,31 @@ page.on("pageerror", (error) => {
 await page.goto(args.url, { waitUntil: "domcontentloaded" });
 await page.waitForFunction(() => Boolean(window.__RED_DOT_READY));
 await page.evaluate(() => window.__RED_DOT_APP?.reset?.());
-await page.waitForTimeout(80);
+await page.evaluate(() => {
+  document.documentElement.style.visibility = "visible";
+});
+await page.waitForTimeout(args.durationMs);
+const finalState = await page.evaluate(() => window.__RED_DOT_APP?.getState?.() ?? null);
+await context.close();
 
-let lastCapture = 0;
+const proofContext = await browser.newContext({
+  viewport: { width: args.width, height: args.height },
+  deviceScaleFactor: 1,
+});
+const proofPage = await proofContext.newPage();
+await proofPage.goto(args.url, { waitUntil: "domcontentloaded" });
+await proofPage.waitForFunction(() => Boolean(window.__RED_DOT_READY));
 for (const capture of captures) {
-  const delay = Math.max(0, capture.at - lastCapture);
-  if (delay > 0) {
-    await page.waitForTimeout(delay);
-  }
-  lastCapture = capture.at;
-  await page.screenshot({
+  await proofPage.evaluate((at) => {
+    window.__RED_DOT_APP?.pause?.();
+    window.__RED_DOT_APP?.seek?.(at);
+  }, capture.at);
+  await proofPage.waitForTimeout(80);
+  await proofPage.screenshot({
     path: join(args.screenshotDir, capture.file),
   });
 }
-
-if (args.durationMs > lastCapture) {
-  await page.waitForTimeout(args.durationMs - lastCapture);
-}
-
-const finalState = await page.evaluate(() => window.__RED_DOT_APP?.getState?.() ?? null);
-await context.close();
+await proofContext.close();
 
 const mobileContext = await browser.newContext({
   viewport: { width: mobileCapture.width, height: mobileCapture.height },

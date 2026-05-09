@@ -123,6 +123,8 @@ Use `browser-native SVG narrative` when a spike records an HTML/SVG visual syste
 - Generate dense 0.3-second review frames and a contact sheet from the promoted recording, not only named proof screenshots.
 - Make the first frame audit-visible: show the destination hub, slots, route hints, or receiver scaffold before any side-entering actor starts moving.
 - If Playwright recording starts with a blank browser frame, trim the promoted recording after capture and preserve explicit output frame timestamps. A frame-count-valid WebM with broken duration metadata will make cadence audits miss the real scene.
+- Separate Playwright recording from named proof screenshots when possible. Screenshot capture overhead inside the recorded session can push the exported WebM into the next loop even when the app timeline and screenshot timestamps are correct.
+- Do not assume app-wall-clock proof timestamps equal encoded WebM timestamps after browser recording and transcode. Use the dense contact sheet to choose video-specific audit times and trim to one clean promoted pass.
 - Fade old ingress trails once the hub, fan-out, or selected card owns the mechanism; long red history rails can pull sampled frames off center after the story has moved on.
 - Keep associated chips and callouts in a side pocket outside the selected card's rotation or swing lane. If they sit below the card, they can read as a crowded second body.
 - Use a clean white stage and subtle gray grid by default. Decorative glows, broad plates, and soft browser backgrounds often weaken sparse red/gray hierarchy.

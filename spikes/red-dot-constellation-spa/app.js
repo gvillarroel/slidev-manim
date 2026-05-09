@@ -1,10 +1,10 @@
 const TOTAL_DURATION = 30_000;
 const PHASES = [
-  { id: "appearance", label: "appearance", duration: 5_000 },
+  { id: "appearance", label: "appearance", duration: 4_000 },
   { id: "search", label: "search for form", duration: 6_500 },
   { id: "tension", label: "tension", duration: 5_500 },
   { id: "transformation", label: "transformation", duration: 6_000 },
-  { id: "resolution", label: "resolution", duration: 7_000 },
+  { id: "resolution", label: "resolution", duration: 8_000 },
 ];
 
 const svg = document.getElementById("stage");
@@ -84,7 +84,7 @@ const COLORS = {
 };
 
 const points = {
-  start: { x: 360, y: 450 },
+  start: { x: 430, y: 450 },
   searchTop: { x: 520, y: 300 },
   searchMid: { x: 660, y: 420 },
   searchBottom: { x: 560, y: 612 },
@@ -92,7 +92,7 @@ const points = {
   gateCenter: { x: 860, y: 470 },
   gateExit: { x: 960, y: 470 },
   hubCenter: { x: 1060, y: 450 },
-  finalCenter: { x: 820, y: 450 },
+  finalCenter: { x: 760, y: 450 },
 };
 
 const state = {
@@ -302,6 +302,8 @@ function resetScene() {
 
   setRectY(shutterTop, 216, 156);
   setRectY(shutterBottom, 568, 156);
+  shutterTop.setAttribute("opacity", "0.16");
+  shutterBottom.setAttribute("opacity", "0.16");
   setRectX(gateFrame, 804, 108);
   pressureRing.setAttribute("r", "32");
   setOpacity(pressureRing, 0.22);
@@ -329,23 +331,24 @@ function resetScene() {
 
 function renderAppearance(progress) {
   const eased = easeOut(progress);
-  const dotOpacity = clamp(progress * 1.9, 0, 1);
+  const dotOpacity = 1;
   const haloPulse = 0.22 + pulseWave(progress, 1.3) * 0.18;
 
-  applyDot(points.start, lerp(4, 19, eased), lerp(18, 82, eased), dotOpacity, haloPulse * dotOpacity);
-  setOpacity(narrativeSpine, clamp((progress - 0.08) * 0.42, 0, 0.22));
+  applyDot(points.start, lerp(15, 19, eased), lerp(52, 82, eased), dotOpacity, haloPulse * 0.8);
+  setOpacity(narrativeSpine, 0.12 + clamp(progress * 0.32, 0, 0.1));
   setTrailProgress(0, 0);
 
-  setOpacity(searchRing, clamp((progress - 0.20) * 0.58, 0, 0.26));
-  setOpacity(searchDiamond, clamp((progress - 0.32) * 0.52, 0, 0.22));
-  setOpacity(searchPanel, clamp((progress - 0.46) * 0.46, 0, 0.19));
-  setOpacity(searchArcTop, clamp((progress - 0.28) * 0.4, 0, 0.15));
-  setOpacity(searchArcMid, clamp((progress - 0.40) * 0.38, 0, 0.12));
-  setOpacity(searchArcBottom, clamp((progress - 0.52) * 0.34, 0, 0.1));
+  setOpacity(searchRing, 0.18 + clamp(progress * 0.16, 0, 0.12));
+  setOpacity(searchDiamond, 0.16 + clamp(progress * 0.14, 0, 0.1));
+  setOpacity(searchPanel, 0.14 + clamp(progress * 0.12, 0, 0.08));
+  setOpacity(searchArcTop, 0.14 + clamp(progress * 0.12, 0, 0.08));
+  setOpacity(searchArcMid, 0.11 + clamp(progress * 0.1, 0, 0.07));
+  setOpacity(searchArcBottom, 0.09 + clamp(progress * 0.08, 0, 0.05));
 
-  setOpacity(futureGroup, clamp((progress - 0.18) * 0.16, 0, 0.08));
+  setOpacity(tensionGroup, 0.12 + clamp(progress * 0.12, 0, 0.08));
+  setOpacity(futureGroup, 0.2 + clamp(progress * 0.12, 0, 0.1));
   cards.forEach(({ slot }, index) => {
-    setOpacity(slot, 0.05 + progress * 0.02 - index * 0.004);
+    setOpacity(slot, 0.18 + progress * 0.05 - index * 0.006);
   });
 }
 
@@ -450,6 +453,8 @@ function renderTension(progress) {
   setRectY(shutterTop, topY, 156);
   setRectY(shutterBottom, bottomY, 156);
   setRectX(gateFrame, 858 - gateWidth / 2, gateWidth);
+  shutterTop.setAttribute("opacity", (0.18 + squeezeStrength * 0.16).toFixed(3));
+  shutterBottom.setAttribute("opacity", (0.18 + squeezeStrength * 0.16).toFixed(3));
   pressureRing.setAttribute("r", lerp(30, 42, squeezeStrength).toFixed(2));
   setOpacity(pressureRing, 0.2 + squeezeStrength * 0.22);
 
@@ -461,7 +466,7 @@ function renderTransformation(progress) {
   const entryMove = progress < 0.22
     ? mixPoint(points.gateExit, points.hubCenter, easeOut(progress / 0.22))
     : points.hubCenter;
-  const systemShift = lerp(0, -126, easeOut(clamp((progress - 0.18) / 0.72, 0, 1)));
+  const systemShift = lerp(0, -190, easeOut(clamp((progress - 0.18) / 0.72, 0, 1)));
   const slotReveal = clamp((progress - 0.04) / 0.28, 0, 1);
   const ringGrow = clamp((progress - 0.12) / 0.26, 0, 1);
   const connectorGrow = clamp((progress - 0.24) / 0.42, 0, 1);
@@ -514,7 +519,7 @@ function renderTransformation(progress) {
 
 function renderResolution(progress) {
   const settle = easeInOut(progress);
-  const shift = lerp(-126, points.finalCenter.x - points.hubCenter.x, settle);
+  const shift = lerp(-190, points.finalCenter.x - points.hubCenter.x, settle);
   const haloPulse = 0.2 + pulseWave(progress, 1.7) * 0.08;
 
   applyDot(

@@ -1647,6 +1647,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the final render is 38.120 seconds at 1600x900 with 127 extracted 0.3-second review frames; browser capture reported no console errors or page errors, the built-in proof-frame composition audit sampled 5 frames with zero blocking frames, dense composition audit sampled 128 frames with zero blocking frames and one notice-only route proof, strict crowding audit was reduced to one full-size-inspected dot-on-route transformation prompt, and the skill self-containment audit passed.
 
+## Red Dot Constellation SPA
+
+- **Hypothesis**: A browser-native constellation narrative reads better when the recording starts on real story geometry, the browser viewport supplies the review surface, and proof screenshots are separated from video capture so screenshot overhead cannot push the WebM into the next loop.
+- **Result**: Confirmed on `spikes/red-dot-constellation-spa/` after removing the local matte card and decorative page glows, making the red dot and destination scaffolds visible from frame zero, demoting the pressure gate from heavy dark slabs to pale rails, recentering the transformation hub/cards, and trimming the promoted recording before loop-back frames.
+- **What worked**:
+  - separating Playwright video recording from seek-and-pause proof screenshots, because taking screenshots inside the recorded session changed the effective video timing and caused the final WebM to include the next appearance beat,
+  - buffering the browser recording and trimming the promoted artifact to one clean pass, then auditing video-specific proof timestamps instead of assuming wall-clock app timestamps map exactly to encoded WebM timestamps,
+  - removing the broad local stage plate once the full white viewport could be the review surface, then balancing the opening with actual future destination scaffolds rather than decorative chrome,
+  - shifting the hub/card system left during transformation and final settle so the resolved constellation owns the center after the search and gate devices retire.
+- **Validation note**:
+  - the final render is 28.200 seconds at 1600x900 with 94 dense review frames at 0.3-second cadence; browser capture reported no console errors or page errors, the built-in proof-frame composition audit sampled 5 frames with zero blocking frames, dense composition audit left 4 full-size-inspected transient right-weight prompts, and strict crowding left expected dot-on-ring, dot-on-route, gate, and hub-ring proof contacts.
+
 ## Manim Camera Focus Lab
 
 - **Hypothesis**: A camera-led tour reads better when long travel frames fully include both origin and destination panels, while local focus stops use one uncluttered red guide dot and open receiver brackets instead of a halo inside closed boxes.

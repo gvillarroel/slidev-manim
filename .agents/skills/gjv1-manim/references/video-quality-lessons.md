@@ -261,6 +261,9 @@ This is the skill-local accumulation point for durable GJV1 Manim quality lesson
 - For browser-native threshold resolutions on portrait screenshots, `preserveAspectRatio="slice"` crops horizontally unless the viewBox ratio is close to the handset ratio. A wide desktop crop can cut terminal brackets into edge fragments even when the desktop final hold is centered.
 - For content-first browser-native recordings, a full white viewport can replace broad local matte plates. After removing the plate, rebalance with real story geometry: move side-entry anchors inward, strengthen frame-zero receiver scaffolds, and enlarge the resolved cluster instead of reintroducing decorative chrome.
 - In browser-native domino, card, or slot search beats, keep candidate internals neutral and retire active search guides once the actor is on that leg. Small red internal rules and guide strokes under the point can produce both visual ambiguity and strict crowding findings; the moving point should remain the only red actor.
+- For browser-native Playwright videos, separate recording from proof screenshots. Screenshots taken inside the recorded session can add enough wall-clock overhead that the WebM includes the next loop even when the app timeline is correct.
+- Browser-native app timestamps and encoded WebM timestamps may not map one-to-one after Playwright recording and transcode. Buffer the capture, trim the promoted artifact to one clean pass, and run audits on video-specific proof times drawn from the dense contact sheet.
+- When a content-first browser narrative removes its local matte plate, use real future scaffolds to balance frame zero. A faint destination system that will later receive the actor is better than decorative page chrome, but it must be strong enough to count in still-frame review.
 
 ## Maintenance Rule
 
