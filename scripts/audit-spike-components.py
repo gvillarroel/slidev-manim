@@ -15,8 +15,13 @@ SKIP_DIRS = {"_common", "__pycache__", "component-library-demos"}
 
 COMPONENT_KEYWORDS = {
     "aperture": "aperture_shutters",
+    "arc": "arc_handoff",
     "bridge": "bridge_lane",
+    "bumper": "bumper_stop",
     "clamp": "clamp_pair",
+    "compression": "compression_channel",
+    "corridor": "corridor_rails",
+    "cradle": "cradle_catch",
     "fork": "fork_guides",
     "funnel": "merge_funnel",
     "fan": "fan_guides",

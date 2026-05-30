@@ -17,10 +17,10 @@ Decision meanings:
 
 Summary:
 
-- candidate: 99
-- componentized: 26
+- candidate: 90
+- componentized: 36
 - no-component: 36
-- shared-runner: 26
+- shared-runner: 25
 
 ## Review Matrix
 
@@ -49,7 +49,7 @@ Summary:
 | `manim-semantic-transform-lab` | manim lab | no-component | workflow, API, layout, or reference experiment | README, main.py |
 | `manim-table-options` | manim lab | no-component | workflow, API, layout, or reference experiment | README, main.py |
 | `mermaid-all-diagram-types` | mermaid | no-component | workflow, API, layout, or reference experiment | README, main.py |
-| `mermaid-architecture-svg-unfold` | mermaid | shared-runner | mermaid_svg_unfold_engine | README, main.py |
+| `mermaid-architecture-svg-unfold` | mermaid | componentized | arc_handoff | README, main.py |
 | `mermaid-auth-sequence` | mermaid | no-component | workflow, API, layout, or reference experiment | README, main.py |
 | `mermaid-block-svg-unfold` | mermaid | shared-runner | mermaid_svg_unfold_engine | README, main.py |
 | `mermaid-c4-svg-unfold` | mermaid | shared-runner | mermaid_svg_unfold_engine | README, main.py |
@@ -91,15 +91,15 @@ Summary:
 | `quadrant-arrow-drop` | presentation/spike | no-component | workflow, API, layout, or reference experiment | README, main.py |
 | `quality-anchored-orbit` | quality mechanism | componentized | orbit_guides | README, main.py |
 | `quality-aperture-open` | quality mechanism | componentized | aperture_shutters | README, main.py |
-| `quality-arc-handoff` | quality mechanism | candidate | arc handoff guide | README, main.py |
+| `quality-arc-handoff` | quality mechanism | componentized | arc_handoff | README, main.py |
 | `quality-bridge-span` | quality mechanism | componentized | bridge_lane | README, main.py |
-| `quality-bumper-deflect` | quality mechanism | candidate | bumper deflection stop | README, main.py |
+| `quality-bumper-deflect` | quality mechanism | componentized | bumper_stop | README, main.py |
 | `quality-clamp-close` | quality mechanism | componentized | clamp_pair | README, main.py |
-| `quality-compression-release` | quality mechanism | candidate | compression channel | README, main.py |
-| `quality-corridor-squeeze` | quality mechanism | candidate | corridor rails | README, main.py |
+| `quality-compression-release` | quality mechanism | componentized | compression_channel | README, main.py |
+| `quality-corridor-squeeze` | quality mechanism | componentized | corridor_rails | README, main.py |
 | `quality-counterlift-balance` | quality mechanism | candidate | counterlift balance | README, main.py |
 | `quality-counterweight-balance` | quality mechanism | candidate | counterweight balance | README, main.py |
-| `quality-cradle-catch` | quality mechanism | candidate | cradle catch | README, main.py |
+| `quality-cradle-catch` | quality mechanism | componentized | cradle_catch | README, main.py |
 | `quality-deformation-flow` | quality mechanism | candidate | deformation flow | README, main.py |
 | `quality-echo-settle` | quality mechanism | candidate | settle echo | README, main.py |
 | `quality-edge-tension` | quality mechanism | candidate | edge tension marker | README, main.py |
@@ -119,7 +119,7 @@ Summary:
 | `quality-ramp-lift` | quality mechanism | componentized | ramp_plane | README, main.py |
 | `quality-relay-handoff` | quality mechanism | candidate | relay handoff nodes | README, main.py |
 | `quality-rhythm-gating` | quality mechanism | candidate | rhythm gating | README, main.py |
-| `quality-scale-hierarchy` | quality mechanism | candidate | scale hierarchy slots | README, main.py |
+| `quality-scale-hierarchy` | quality mechanism | componentized | arc_handoff | README, main.py |
 | `quality-shear-resolve` | quality mechanism | candidate | shear resolve rails | README, main.py |
 | `quality-sleeve-reveal` | quality mechanism | componentized | sleeve_channel | README, main.py |
 | `quality-sling-release` | quality mechanism | candidate | sling release | README, main.py |
@@ -130,19 +130,19 @@ Summary:
 | `quality-weave-crossing` | quality mechanism | candidate | weave crossing | README, main.py |
 | `red-dot-alignment-spa` | browser-native red-dot | candidate | alignment guides | README, main.py, browser files |
 | `red-dot-anchor-spa` | browser-native red-dot | candidate | anchor marker | README, main.py, browser files |
-| `red-dot-arch-spa` | browser-native red-dot | candidate | arch guide | README, main.py, browser files |
+| `red-dot-arch-spa` | browser-native red-dot | componentized | arc_handoff | README, main.py, browser files |
 | `red-dot-balance-spa` | browser-native red-dot | candidate | balance beam | README, main.py, browser files |
 | `red-dot-beacon-spa` | browser-native red-dot | candidate | beacon pulse | README, main.py, browser files |
 | `red-dot-bloom-spa` | browser-native red-dot | candidate | bloom field | README, main.py, browser files |
 | `red-dot-bridge-spa` | browser-native red-dot | componentized | bridge_lane | README, main.py, browser files |
-| `red-dot-bumper-spa` | browser-native red-dot | candidate | bumper stop | README, main.py, browser files |
+| `red-dot-bumper-spa` | browser-native red-dot | componentized | bumper_stop | README, main.py, browser files |
 | `red-dot-caliper-spa` | browser-native red-dot | candidate | caliper gauge | README, main.py, browser files |
 | `red-dot-circuit-spa` | browser-native red-dot | candidate | circuit route | README, main.py, browser files |
 | `red-dot-clamp-spa` | browser-native red-dot | componentized | clamp_pair | README, main.py, browser files |
 | `red-dot-coil-spa` | browser-native red-dot | candidate | coil guide | README, main.py, browser files |
 | `red-dot-compass-spa` | browser-native red-dot | candidate | compass sweep | README, main.py, browser files |
 | `red-dot-constellation-spa` | browser-native red-dot | candidate | constellation nodes | README, main.py, browser files |
-| `red-dot-cradle-spa` | browser-native red-dot | candidate | cradle catch | README, main.py, browser files |
+| `red-dot-cradle-spa` | browser-native red-dot | componentized | cradle_catch | README, main.py, browser files |
 | `red-dot-crank-spa` | browser-native red-dot | candidate | crank pivot | README, main.py, browser files |
 | `red-dot-crown-spa` | browser-native red-dot | candidate | crown terminal | README, main.py, browser files |
 | `red-dot-domino-spa` | browser-native red-dot | candidate | domino row | README, main.py, browser files |

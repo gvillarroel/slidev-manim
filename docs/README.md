@@ -40,6 +40,11 @@ Source demos live in `spikes/component-library-demos/`. Full render outputs live
 | `ramp_plane` | ![ramp_plane](../.specs/assets/component-demos/ramp-plane.gif) | Inclined support plane for lift, ramp, and assisted-transfer scenes. |
 | `fan_guides` | ![fan_guides](../.specs/assets/component-demos/fan-guides.gif) | Radial guide set for fan-out, splay, and multi-target distribution scenes. |
 | `hinge_pivot` | ![hinge_pivot](../.specs/assets/component-demos/hinge-pivot.gif) | Pivot, arm, and arc guide for hinge or swing-motion explanations. |
+| `arc_handoff` | ![arc_handoff](../.specs/assets/component-demos/arc-handoff.gif) | Curved route with source and target points for arced handoff scenes. |
+| `bumper_stop` | ![bumper_stop](../.specs/assets/component-demos/bumper-stop.gif) | Angled stop and wall for deflecting an active actor away from a boundary. |
+| `compression_channel` | ![compression_channel](../.specs/assets/component-demos/compression-channel.gif) | Narrow parallel rails for squeezing or releasing a payload. |
+| `corridor_rails` | ![corridor_rails](../.specs/assets/component-demos/corridor-rails.gif) | Long guide rails with a central squeeze point for corridor passages. |
+| `cradle_catch` | ![cradle_catch](../.specs/assets/component-demos/cradle-catch.gif) | Lower catch basin and support pads for landing or settling scenes. |
 | `receiver_slot` | ![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif) | Composite receiver-slot pattern with pending outline, moving payload, and terminal mark. |
 | `rhythm_gate` | ![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif) | Composite cadence pattern using several gate columns along a rail. |
 
@@ -174,6 +179,36 @@ Radial guide set for fan-out, splay, and multi-target distribution scenes.
 Pivot, arm, and arc guide for hinge or swing-motion explanations.
 
 ![hinge_pivot](../.specs/assets/component-demos/hinge-pivot.gif)
+
+## `arc_handoff`
+
+Curved route with source and target points for arced handoff scenes.
+
+![arc_handoff](../.specs/assets/component-demos/arc-handoff.gif)
+
+## `bumper_stop`
+
+Angled stop and wall for deflecting an active actor away from a boundary.
+
+![bumper_stop](../.specs/assets/component-demos/bumper-stop.gif)
+
+## `compression_channel`
+
+Narrow parallel rails for squeezing or releasing a payload.
+
+![compression_channel](../.specs/assets/component-demos/compression-channel.gif)
+
+## `corridor_rails`
+
+Long guide rails with a central squeeze point for corridor passages.
+
+![corridor_rails](../.specs/assets/component-demos/corridor-rails.gif)
+
+## `cradle_catch`
+
+Lower catch basin and support pads for landing or settling scenes.
+
+![cradle_catch](../.specs/assets/component-demos/cradle-catch.gif)
 
 ## `receiver_slot`
 

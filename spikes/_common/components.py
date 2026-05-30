@@ -208,3 +208,44 @@ def hinge_pivot(arm_length: float = 1.75, arc_radius: float = 0.74, color: str =
     arm = Line(ORIGIN, RIGHT * arm_length, color=color, stroke_width=5.0, stroke_opacity=opacity)
     arc = Arc(radius=arc_radius, start_angle=0, angle=PI / 2, stroke_color=color, stroke_width=3.2, stroke_opacity=opacity * 0.72)
     return VGroup(pivot, arm, arc)
+
+
+def arc_handoff(radius: float = 1.42, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    arc = Arc(radius=radius, start_angle=PI * 0.9, angle=-PI * 0.8, stroke_color=color, stroke_width=4.2, stroke_opacity=opacity)
+    source = Circle(radius=0.1, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(LEFT * radius * 0.82 + UP * radius * 0.42)
+    target = Circle(radius=0.1, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(RIGHT * radius * 0.82 + UP * radius * 0.42)
+    return VGroup(arc, source, target)
+
+
+def bumper_stop(width: float = 0.28, height: float = 1.78, color: str = GRAY_300, opacity: float = 0.68) -> VGroup:
+    wall = slab(color, width, height, opacity)
+    deflector = Line(LEFT * 0.62 + DOWN * 0.46, RIGHT * 0.16 + UP * 0.46, color=color, stroke_width=4.2, stroke_opacity=opacity)
+    deflector.next_to(wall, LEFT, buff=0.18)
+    return VGroup(wall, deflector)
+
+
+def compression_channel(width: float = 3.0, gap: float = 0.76, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    top = Line(LEFT * width / 2 + UP * gap / 2, RIGHT * width / 2 + UP * gap / 2)
+    bottom = Line(LEFT * width / 2 + DOWN * gap / 2, RIGHT * width / 2 + DOWN * gap / 2)
+    entry = open_slot(0.72, gap * 1.6, color=color, opacity=opacity * 0.74, stroke_width=2.4).move_to(LEFT * width / 2)
+    channel = VGroup(top, bottom, entry)
+    channel.set_stroke(color=color, width=4.0, opacity=opacity)
+    return channel
+
+
+def corridor_rails(width: float = 3.5, gap: float = 1.05, color: str = GRAY_300, opacity: float = 0.58) -> VGroup:
+    top = slab(color, width, 0.08, opacity).move_to(UP * gap / 2)
+    bottom = slab(color, width, 0.08, opacity).move_to(DOWN * gap / 2)
+    squeeze = VGroup(
+        slab(color, 0.1, gap * 0.46, opacity * 0.86).move_to(LEFT * width * 0.12),
+        slab(color, 0.1, gap * 0.46, opacity * 0.86).move_to(RIGHT * width * 0.12),
+    )
+    return VGroup(top, bottom, squeeze)
+
+
+def cradle_catch(width: float = 2.05, height: float = 1.0, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    left_pad = slab(color, 0.5, 0.14, opacity).rotate(PI / 8).move_to(LEFT * width / 4 + DOWN * height / 3)
+    right_pad = slab(color, 0.5, 0.14, opacity).rotate(-PI / 8).move_to(RIGHT * width / 4 + DOWN * height / 3)
+    basin = Arc(radius=width / 2, start_angle=PI * 1.05, angle=PI * 0.9, stroke_color=color, stroke_width=3.6, stroke_opacity=opacity)
+    basin.shift(DOWN * height * 0.22)
+    return VGroup(basin, left_pad, right_pad)

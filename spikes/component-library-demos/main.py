@@ -25,8 +25,13 @@ if str(SPIKES_DIR) not in sys.path:
 
 from _common.components import (
     aperture_shutters,
+    arc_handoff,
     bridge_lane,
+    bumper_stop,
     clamp_pair,
+    compression_channel,
+    corridor_rails,
+    cradle_catch,
     fan_guides,
     fork_guides,
     gate_column,
@@ -314,6 +319,75 @@ class HingePivotDemo(Scene):
         self.wait(1.35)
 
 
+class ArcHandoffDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "arc_handoff")
+        guide = arc_handoff()
+        actor = pulse(0.16).move_to(LEFT * 1.18 + UP * 0.62)
+        self.add(guide, actor)
+        self.wait(0.55)
+        self.play(guide[0].animate.set_stroke(color=PRIMARY_RED, opacity=0.78), actor.animate.move_to(UP * 1.45), run_time=0.55, rate_func=smooth)
+        self.play(actor.animate.move_to(RIGHT * 1.18 + UP * 0.62), run_time=0.55, rate_func=smooth)
+        self.play(guide.animate.set_opacity(0.38), actor.animate.scale(1.14), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class BumperStopDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "bumper_stop")
+        bumper = bumper_stop().move_to(RIGHT * 1.25)
+        actor = pulse(0.18).move_to(LEFT * 2.25)
+        self.add(bumper, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(RIGHT * 0.82), run_time=0.75, rate_func=smooth)
+        self.play(bumper.animate.set_color(PRIMARY_RED), actor.animate.move_to(LEFT * 0.28 + UP * 0.8), run_time=0.48, rate_func=smooth)
+        self.play(bumper.animate.set_opacity(0.42), actor.animate.scale(1.14), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.3)
+
+
+class CompressionChannelDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "compression_channel")
+        channel = compression_channel()
+        actor = slab(GRAY_600, 1.15, 0.52).move_to(LEFT * 2.25)
+        self.add(channel, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(LEFT * 0.25).stretch(0.58, dim=1), channel.animate.set_stroke(color=PRIMARY_RED, opacity=0.76), run_time=0.85, rate_func=smooth)
+        self.play(actor.animate.move_to(RIGHT * 1.55).stretch(1.72, dim=1), channel.animate.set_stroke(color=GRAY_300, opacity=0.42), run_time=0.55, rate_func=smooth)
+        self.play(FadeOut(channel), actor.animate.scale(1.08), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class CorridorRailsDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "corridor_rails")
+        rails = corridor_rails()
+        actor = pulse(0.16).move_to(LEFT * 2.25)
+        self.add(rails, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN), rails[2].animate.set_color(PRIMARY_RED), run_time=0.75, rate_func=smooth)
+        self.play(actor.animate.scale(0.78), rails[2][0].animate.shift(RIGHT * 0.22), rails[2][1].animate.shift(LEFT * 0.22), run_time=0.38, rate_func=there_and_back)
+        self.play(actor.animate.move_to(RIGHT * 2.25), rails.animate.set_opacity(0.36), run_time=0.65, rate_func=smooth)
+        self.wait(1.25)
+
+
+class CradleCatchDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "cradle_catch")
+        cradle = cradle_catch()
+        actor = pulse(0.18).move_to(LEFT * 1.85 + UP * 1.0)
+        self.add(cradle, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN + DOWN * 0.38), cradle.animate.set_color(PRIMARY_RED), run_time=0.78, rate_func=smooth)
+        self.play(cradle.animate.set_opacity(0.42), actor.animate.scale(1.16), run_time=0.38, rate_func=there_and_back)
+        self.wait(1.35)
+
+
 class ReceiverSlotDemo(Scene):
     def construct(self) -> None:
         configure_transparent_scene(self)
@@ -453,6 +527,11 @@ COMPONENTS = [
     ComponentDemo("ramp-plane", "ramp_plane", RampPlaneDemo, "Inclined support plane for lift, ramp, and assisted-transfer scenes."),
     ComponentDemo("fan-guides", "fan_guides", FanGuidesDemo, "Radial guide set for fan-out, splay, and multi-target distribution scenes."),
     ComponentDemo("hinge-pivot", "hinge_pivot", HingePivotDemo, "Pivot, arm, and arc guide for hinge or swing-motion explanations."),
+    ComponentDemo("arc-handoff", "arc_handoff", ArcHandoffDemo, "Curved route with source and target points for arced handoff scenes."),
+    ComponentDemo("bumper-stop", "bumper_stop", BumperStopDemo, "Angled stop and wall for deflecting an active actor away from a boundary."),
+    ComponentDemo("compression-channel", "compression_channel", CompressionChannelDemo, "Narrow parallel rails for squeezing or releasing a payload."),
+    ComponentDemo("corridor-rails", "corridor_rails", CorridorRailsDemo, "Long guide rails with a central squeeze point for corridor passages."),
+    ComponentDemo("cradle-catch", "cradle_catch", CradleCatchDemo, "Lower catch basin and support pads for landing or settling scenes."),
     ComponentDemo("receiver-slot", "receiver_slot", ReceiverSlotDemo, "Composite receiver-slot pattern with pending outline, moving payload, and terminal mark."),
     ComponentDemo("rhythm-gate", "rhythm_gate", RhythmGateDemo, "Composite cadence pattern using several gate columns along a rail."),
 ]
