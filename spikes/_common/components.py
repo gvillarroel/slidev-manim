@@ -400,3 +400,105 @@ def weave_crossing(width: float = 2.4, color: str = GRAY_300, opacity: float = 0
     lower_right = Line(RIGHT * 0.18 + UP * 0.06, RIGHT * width / 2 + UP * 0.45, color=color, stroke_width=4.0, stroke_opacity=opacity * 0.72)
     gap = Circle(radius=0.18, stroke_width=0, fill_color=GRAY_100, fill_opacity=1)
     return VGroup(upper, lower_left, lower_right, gap)
+
+
+def device_frame(width: float = 2.8, height: float = 1.7, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    shell = Rectangle(width=width, height=height, stroke_color=color, stroke_width=3.2, stroke_opacity=opacity, fill_opacity=0)
+    header = slab(color, width, 0.18, opacity * 0.72).move_to(UP * (height / 2 - 0.09))
+    viewport = open_slot(width * 0.72, height * 0.48, color=color, opacity=opacity * 0.58, stroke_width=2.2).move_to(DOWN * 0.08)
+    return VGroup(shell, header, viewport)
+
+
+def callout_panel(width: float = 2.2, height: float = 1.1, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    panel = Rectangle(width=width, height=height, stroke_color=color, stroke_width=3.0, stroke_opacity=opacity, fill_color=color, fill_opacity=opacity * 0.18)
+    pointer = VGroup(
+        Line(LEFT * width * 0.12 + DOWN * height / 2, LEFT * width * 0.38 + DOWN * (height / 2 + 0.42), color=color, stroke_width=3.0, stroke_opacity=opacity),
+        Line(LEFT * width * 0.38 + DOWN * (height / 2 + 0.42), LEFT * width * 0.48 + DOWN * height / 2, color=color, stroke_width=3.0, stroke_opacity=opacity),
+    )
+    return VGroup(panel, pointer)
+
+
+def svg_role_slots(count: int = 3, spacing: float = 1.08, color: str = GRAY_300, opacity: float = 0.58) -> VGroup:
+    slots = VGroup()
+    start = -(count - 1) * spacing / 2
+    for index in range(count):
+        slots.add(open_slot(0.76, 0.56, color=color, opacity=opacity, stroke_width=2.2).move_to(RIGHT * (start + index * spacing)))
+    connectors = VGroup(*[
+        Line(slots[index].get_right(), slots[index + 1].get_left(), color=color, stroke_width=2.2, stroke_opacity=opacity * 0.7)
+        for index in range(count - 1)
+    ])
+    return VGroup(connectors, slots)
+
+
+def mind_map_branch_guides(count: int = 5, radius: float = 1.55, color: str = GRAY_300, opacity: float = 0.58) -> VGroup:
+    hub = Circle(radius=0.2, stroke_width=0, fill_color=color, fill_opacity=opacity)
+    branches = VGroup()
+    leaves = VGroup()
+    start = -PI * 0.42
+    spread = PI * 0.84
+    for index in range(count):
+        angle = start + spread * index / max(count - 1, 1)
+        endpoint = [radius * cos(angle), radius * sin(angle), 0]
+        branches.add(Line(ORIGIN, endpoint, color=color, stroke_width=2.8, stroke_opacity=opacity))
+        leaves.add(Circle(radius=0.11, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(endpoint))
+    return VGroup(hub, branches, leaves)
+
+
+def multi_video_grid(rows: int = 2, columns: int = 2, cell_width: float = 1.15, cell_height: float = 0.72, color: str = GRAY_300, opacity: float = 0.58) -> VGroup:
+    cells = VGroup()
+    for row in range(rows):
+        for column in range(columns):
+            x = (column - (columns - 1) / 2) * (cell_width + 0.22)
+            y = ((rows - 1) / 2 - row) * (cell_height + 0.22)
+            cells.add(open_slot(cell_width, cell_height, color=color, opacity=opacity, stroke_width=2.2).move_to(RIGHT * x + UP * y))
+    return cells
+
+
+def caliper_gauge(width: float = 2.2, jaw: float = 0.62, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    rail = Line(LEFT * width / 2, RIGHT * width / 2, color=color, stroke_width=3.4, stroke_opacity=opacity)
+    left = VGroup(Line(LEFT * width / 2, LEFT * width / 2 + DOWN * jaw, color=color, stroke_width=4.0, stroke_opacity=opacity), Line(LEFT * width / 2 + DOWN * jaw, LEFT * (width / 2 - 0.32) + DOWN * jaw, color=color, stroke_width=4.0, stroke_opacity=opacity))
+    right = VGroup(Line(RIGHT * width / 2, RIGHT * width / 2 + DOWN * jaw, color=color, stroke_width=4.0, stroke_opacity=opacity), Line(RIGHT * width / 2 + DOWN * jaw, RIGHT * (width / 2 - 0.32) + DOWN * jaw, color=color, stroke_width=4.0, stroke_opacity=opacity))
+    return VGroup(rail, left, right)
+
+
+def circuit_route(color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    path = VGroup(
+        Line(LEFT * 1.45, LEFT * 0.45, color=color, stroke_width=3.2, stroke_opacity=opacity),
+        Line(LEFT * 0.45, LEFT * 0.45 + UP * 0.62, color=color, stroke_width=3.2, stroke_opacity=opacity),
+        Line(LEFT * 0.45 + UP * 0.62, RIGHT * 0.55 + UP * 0.62, color=color, stroke_width=3.2, stroke_opacity=opacity),
+        Line(RIGHT * 0.55 + UP * 0.62, RIGHT * 0.55 + DOWN * 0.42, color=color, stroke_width=3.2, stroke_opacity=opacity),
+        Line(RIGHT * 0.55 + DOWN * 0.42, RIGHT * 1.45 + DOWN * 0.42, color=color, stroke_width=3.2, stroke_opacity=opacity),
+    )
+    nodes = VGroup(*[Circle(radius=0.1, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(point) for point in (LEFT * 1.45, LEFT * 0.45 + UP * 0.62, RIGHT * 0.55 + DOWN * 0.42, RIGHT * 1.45 + DOWN * 0.42)])
+    return VGroup(path, nodes)
+
+
+def coil_guide(turns: int = 4, radius: float = 0.34, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    coils = VGroup()
+    for index in range(turns):
+        arc = Arc(radius=radius, start_angle=PI, angle=-PI, stroke_color=color, stroke_width=3.4, stroke_opacity=opacity)
+        arc.move_to(RIGHT * (index - (turns - 1) / 2) * radius * 1.18)
+        if index % 2:
+            arc.flip(UP)
+        coils.add(arc)
+    return coils
+
+
+def lattice_grid(rows: int = 3, columns: int = 4, cell: float = 0.42, color: str = GRAY_300, opacity: float = 0.5) -> VGroup:
+    grid = VGroup()
+    width = columns * cell
+    height = rows * cell
+    for column in range(columns + 1):
+        x = -width / 2 + column * cell
+        grid.add(Line(RIGHT * x + DOWN * height / 2, RIGHT * x + UP * height / 2, color=color, stroke_width=2.0, stroke_opacity=opacity))
+    for row in range(rows + 1):
+        y = -height / 2 + row * cell
+        grid.add(Line(LEFT * width / 2 + UP * y, RIGHT * width / 2 + UP * y, color=color, stroke_width=2.0, stroke_opacity=opacity))
+    return grid
+
+
+def narrative_stage(width: float = 3.2, color: str = GRAY_300, opacity: float = 0.56) -> VGroup:
+    rail = Line(LEFT * width / 2 + DOWN * 0.78, RIGHT * width / 2 + DOWN * 0.78, color=color, stroke_width=3.0, stroke_opacity=opacity)
+    beats = VGroup(*[Circle(radius=0.09, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(LEFT * width / 2 + RIGHT * (index * width / 3) + DOWN * 0.78) for index in range(4)])
+    frame = open_slot(width * 0.68, 1.1, color=color, opacity=opacity, stroke_width=2.4).move_to(UP * 0.16)
+    return VGroup(frame, rail, beats)

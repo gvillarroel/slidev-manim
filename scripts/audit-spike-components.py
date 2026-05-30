@@ -14,48 +14,108 @@ OUTPUT_PATH = REPO_ROOT / ".specs" / "knowledge" / "spike-component-review.md"
 SKIP_DIRS = {"_common", "__pycache__", "component-library-demos"}
 
 COMPONENT_KEYWORDS = {
+    "alignment": "open_slot",
     "aperture": "aperture_shutters",
     "arc": "arc_handoff",
+    "anchor": "latch_anchor",
+    "arch": "arc_handoff",
+    "balance": "balance_beam",
+    "beacon": "pulse",
+    "bloom": "settle_echo",
     "bridge": "bridge_lane",
     "bumper": "bumper_stop",
+    "caliper": "caliper_gauge",
+    "callout": "callout_panel",
+    "circuit": "circuit_route",
     "clamp": "clamp_pair",
+    "coil": "coil_guide",
+    "compass": "arc_handoff",
     "compression": "compression_channel",
+    "constellation": "relay_nodes",
     "corridor": "corridor_rails",
     "cradle": "cradle_catch",
+    "crank": "hinge_pivot",
+    "crown": "terminal_brackets",
+    "domino": "rhythm_gate_marks",
+    "dovetail": "keystone_lock",
+    "eclipse": "negative_space_frame",
+    "fold": "hinge_pivot",
     "counterlift": "balance_beam",
     "counterweight": "balance_beam",
     "deformation": "deformation_wave",
+    "device": "device_frame",
+    "diagram": "svg_role_slots",
     "echo": "settle_echo",
     "edge": "edge_tension_marker",
     "fork": "fork_guides",
     "funnel": "merge_funnel",
     "fan": "fan_guides",
     "gate": "gate_column",
+    "glyph": "terminal_brackets",
+    "harbor": "open_slot",
     "hinge": "hinge_pivot",
+    "hourglass": "convergence_lane",
+    "iris": "aperture_shutters",
     "keystone": "keystone_lock",
+    "keyhole": "negative_space_frame",
+    "kite": "fork_guides",
+    "knot": "weave_crossing",
+    "labyrinth": "relay_nodes",
+    "lantern": "layered_stack",
+    "latch": "latch_anchor",
     "latched": "latch_anchor",
     "layered": "layered_stack",
+    "lattice": "lattice_grid",
+    "lens": "negative_space_frame",
+    "loom": "weave_crossing",
     "magnet": "magnet_capture",
     "mask": "mask_window",
+    "membrane": "deformation_wave",
+    "mirror": "parallax_planes",
+    "moire": "parallax_planes",
+    "mind-map": "mind_map_branch_guides",
+    "multi-video": "multi_video_grid",
+    "narrative": "narrative_stage",
     "negative": "negative_space_frame",
     "occlusion": "occlusion_peel",
     "orbit": "orbit_guides",
     "parallax": "parallax_planes",
     "pressure": "pressure_wall",
     "pulse": "pulse",
+    "peel": "occlusion_peel",
+    "pendulum": "arc_handoff",
+    "piston": "compression_channel",
+    "prism": "fork_guides",
+    "pulley": "arc_handoff",
+    "radial": "fan_guides",
     "ramp": "ramp_plane",
+    "ratchet": "rhythm_gate_marks",
     "receiver": "receiver_slot",
     "relay": "relay_nodes",
     "rhythm": "rhythm_gate_marks",
+    "resonance": "settle_echo",
+    "rivet": "latch_anchor",
+    "rosette": "orbit_guides",
+    "semaphore": "fork_guides",
     "shear": "shear_rails",
     "sleeve": "sleeve_channel",
     "sling": "sling_arc",
     "snap": "snap_recoil_stop",
+    "splice": "convergence_lane",
+    "spring": "snap_recoil_stop",
     "staged": "convergence_lane",
+    "switchback": "relay_nodes",
     "slot": "open_slot",
+    "svg": "svg_role_slots",
     "terminal": "terminal_brackets",
+    "thread": "sling_arc",
+    "threshold": "gate_column",
     "time-rail": "time_rail",
+    "tuning": "balance_beam",
+    "turbine": "orbit_guides",
+    "vault": "aperture_shutters",
     "weave": "weave_crossing",
+    "zipper": "rhythm_gate_marks",
 }
 
 QUALITY_CANDIDATES = {
@@ -212,6 +272,9 @@ def review_spike(spike_dir: Path, components: set[str]) -> SpikeReview:
     family = family_for(name)
     evidence = text_evidence(spike_dir)
 
+    if name.startswith("mermaid-") and name.endswith("-svg-unfold"):
+        return SpikeReview(name, family, "shared-runner", "mermaid_svg_unfold_engine", evidence)
+
     existing = component_from_keywords(name, components)
     if existing:
         return SpikeReview(name, family, "componentized", existing, evidence)
@@ -227,9 +290,6 @@ def review_spike(spike_dir: Path, components: set[str]) -> SpikeReview:
         key = motif.split("-", 1)[0]
         surface = RED_DOT_CANDIDATES.get(key, motif.replace("-", " "))
         return SpikeReview(name, family, "candidate", surface, evidence)
-
-    if name.startswith("mermaid-") and name.endswith("-svg-unfold"):
-        return SpikeReview(name, family, "shared-runner", "mermaid_svg_unfold_engine", evidence)
 
     if name in {"mermaid-svg-component-remap", "mermaid-svg-direct-insert", "svg-subelement-transform", "diagram-svg-video-manipulation"}:
         return SpikeReview(name, family, "candidate", "svg role remap helpers", evidence)

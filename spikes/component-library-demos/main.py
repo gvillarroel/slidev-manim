@@ -29,11 +29,16 @@ from _common.components import (
     balance_beam,
     bridge_lane,
     bumper_stop,
+    caliper_gauge,
+    callout_panel,
+    circuit_route,
     clamp_pair,
+    coil_guide,
     compression_channel,
     corridor_rails,
     cradle_catch,
     deformation_wave,
+    device_frame,
     edge_tension_marker,
     fan_guides,
     fork_guides,
@@ -42,10 +47,12 @@ from _common.components import (
     keystone_lock,
     latch_anchor,
     layered_stack,
+    lattice_grid,
     magnet_capture,
     mask_window,
     merge_funnel,
     negative_space_frame,
+    narrative_stage,
     neutral_cluster,
     occlusion_peel,
     open_slot,
@@ -60,6 +67,7 @@ from _common.components import (
     shear_rails,
     sling_arc,
     snap_recoil_stop,
+    svg_role_slots,
     source_slot,
     sleeve_channel,
     convergence_lane,
@@ -69,6 +77,8 @@ from _common.components import (
     terminal_brackets_around,
     time_rail,
     weave_crossing,
+    mind_map_branch_guides,
+    multi_video_grid,
 )
 from _common.runner import convert_video_to_gif, render_scene
 from _common.visual import GRAY_100, GRAY_200, GRAY_300, GRAY_400, GRAY_500, GRAY_600, GRAY_800, PRIMARY_RED, WHITE_HEX, configure_transparent_scene
@@ -648,6 +658,138 @@ class WeaveCrossingDemo(Scene):
         self.wait(1.25)
 
 
+class DeviceFrameDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "device_frame")
+        frame = device_frame()
+        actor = pulse(0.12).move_to(LEFT * 0.65 + DOWN * 0.08)
+        self.add(frame, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(RIGHT * 0.65 + DOWN * 0.08), frame[2].animate.set_stroke(color=PRIMARY_RED, opacity=0.78), run_time=0.75, rate_func=smooth)
+        self.play(frame.animate.set_opacity(0.42), actor.animate.scale(1.16), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class CalloutPanelDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "callout_panel")
+        panel = callout_panel()
+        actor = pulse(0.14).move_to(LEFT * 1.7 + DOWN * 1.0)
+        self.add(panel, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(LEFT * 0.7 + DOWN * 0.85), panel.animate.set_color(PRIMARY_RED), run_time=0.7, rate_func=smooth)
+        self.play(panel.animate.set_opacity(0.42), actor.animate.scale(1.16), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class SvgRoleSlotsDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "svg_role_slots")
+        roles = svg_role_slots()
+        actor = pulse(0.12).move_to(LEFT * 1.08)
+        self.add(roles, actor)
+        self.wait(0.55)
+        for x in (-1.08, 0, 1.08):
+            self.play(actor.animate.move_to(RIGHT * x), run_time=0.28, rate_func=smooth)
+        self.play(roles[1].animate.set_stroke(color=PRIMARY_RED, opacity=0.76), actor.animate.scale(1.12), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class MindMapBranchGuidesDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "mind_map_branch_guides")
+        map_guides = mind_map_branch_guides()
+        self.add(map_guides)
+        self.wait(0.55)
+        self.play(map_guides[1].animate.set_stroke(color=PRIMARY_RED, opacity=0.72), map_guides[2].animate.set_fill(PRIMARY_RED, opacity=0.72), run_time=0.75, rate_func=smooth)
+        self.play(map_guides.animate.scale(1.06), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class MultiVideoGridDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "multi_video_grid")
+        grid = multi_video_grid()
+        self.add(grid)
+        self.wait(0.55)
+        for index in range(len(grid)):
+            self.play(grid[index].animate.set_stroke(color=PRIMARY_RED, opacity=0.72), run_time=0.18)
+        self.play(grid.animate.set_opacity(0.46), run_time=0.35)
+        self.wait(1.25)
+
+
+class CaliperGaugeDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "caliper_gauge")
+        gauge = caliper_gauge()
+        actor = slab(GRAY_600, 0.62, 0.28).move_to(DOWN * 0.72)
+        self.add(gauge, actor)
+        self.wait(0.55)
+        self.play(gauge[1].animate.shift(RIGHT * 0.35), gauge[2].animate.shift(LEFT * 0.35), gauge.animate.set_color(PRIMARY_RED), run_time=0.7, rate_func=smooth)
+        self.play(actor.animate.scale(1.12), gauge.animate.set_opacity(0.42), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class CircuitRouteDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "circuit_route")
+        route = circuit_route()
+        actor = pulse(0.12).move_to(LEFT * 1.45)
+        self.add(route, actor)
+        self.wait(0.55)
+        for point in [LEFT * 0.45 + UP * 0.62, RIGHT * 0.55 + UP * 0.62, RIGHT * 0.55 + DOWN * 0.42, RIGHT * 1.45 + DOWN * 0.42]:
+            self.play(actor.animate.move_to(point), run_time=0.22, rate_func=smooth)
+        self.play(route.animate.set_color(PRIMARY_RED).set_opacity(0.6), actor.animate.scale(1.12), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class CoilGuideDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "coil_guide")
+        coil = coil_guide()
+        actor = pulse(0.12).move_to(LEFT * 0.75)
+        self.add(coil, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(RIGHT * 0.75), coil.animate.set_stroke(color=PRIMARY_RED, opacity=0.72), run_time=0.85, rate_func=smooth)
+        self.play(coil.animate.set_opacity(0.42), actor.animate.scale(1.14), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class LatticeGridDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "lattice_grid")
+        grid = lattice_grid()
+        actor = pulse(0.12).move_to(ORIGIN)
+        self.add(grid, actor)
+        self.wait(0.55)
+        self.play(grid.animate.set_stroke(color=PRIMARY_RED, opacity=0.62), actor.animate.scale(1.18), run_time=0.55, rate_func=there_and_back)
+        self.play(grid.animate.set_opacity(0.38), run_time=0.4)
+        self.wait(1.25)
+
+
+class NarrativeStageDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "narrative_stage")
+        stage = narrative_stage()
+        actor = pulse(0.12).move_to(LEFT * 1.6 + DOWN * 0.78)
+        self.add(stage, actor)
+        self.wait(0.55)
+        for x in (-1.6, -0.53, 0.53, 1.6):
+            self.play(actor.animate.move_to(RIGHT * x + DOWN * 0.78), run_time=0.22, rate_func=smooth)
+        self.play(stage[0].animate.set_stroke(color=PRIMARY_RED, opacity=0.72), actor.animate.scale(1.12), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
 class ReceiverSlotDemo(Scene):
     def construct(self) -> None:
         configure_transparent_scene(self)
@@ -810,6 +952,16 @@ COMPONENTS = [
     ComponentDemo("snap-recoil-stop", "snap_recoil_stop", SnapRecoilStopDemo, "Spring-like recoil cue with a pressure stop for snap-back scenes."),
     ComponentDemo("convergence-lane", "convergence_lane", ConvergenceLaneDemo, "Narrowing lane for staged convergence and compression proofs."),
     ComponentDemo("weave-crossing", "weave_crossing", WeaveCrossingDemo, "Separated crossing strokes for over-under weave explanations."),
+    ComponentDemo("device-frame", "device_frame", DeviceFrameDemo, "Minimal device viewport frame for embedded content-region motion."),
+    ComponentDemo("callout-panel", "callout_panel", CalloutPanelDemo, "Rectangular annotation panel with pointer for local callout scenes."),
+    ComponentDemo("svg-role-slots", "svg_role_slots", SvgRoleSlotsDemo, "Inspectable role slots and connectors for SVG component remap flows."),
+    ComponentDemo("mind-map-branch-guides", "mind_map_branch_guides", MindMapBranchGuidesDemo, "Hub, branches, and leaves for mind-map expansion patterns."),
+    ComponentDemo("multi-video-grid", "multi_video_grid", MultiVideoGridDemo, "Repeated open slots for multi-video grid and gallery layouts."),
+    ComponentDemo("caliper-gauge", "caliper_gauge", CaliperGaugeDemo, "Opposing jaws on a rail for measuring, alignment, and caliper motifs."),
+    ComponentDemo("circuit-route", "circuit_route", CircuitRouteDemo, "Orthogonal route with nodes for circuit and browser-native path motifs."),
+    ComponentDemo("coil-guide", "coil_guide", CoilGuideDemo, "Alternating arc coils for spring, coil, and stored-energy cues."),
+    ComponentDemo("lattice-grid", "lattice_grid", LatticeGridDemo, "Lightweight repeated grid for lattice and structured-field scenes."),
+    ComponentDemo("narrative-stage", "narrative_stage", NarrativeStageDemo, "Frame plus beat rail for narrative-stage and progression scenes."),
     ComponentDemo("receiver-slot", "receiver_slot", ReceiverSlotDemo, "Composite receiver-slot pattern with pending outline, moving payload, and terminal mark."),
     ComponentDemo("rhythm-gate", "rhythm_gate", RhythmGateDemo, "Composite cadence pattern using several gate columns along a rail."),
 ]

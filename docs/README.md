@@ -63,6 +63,16 @@ Source demos live in `spikes/component-library-demos/`. Full render outputs live
 | `snap_recoil_stop` | ![snap_recoil_stop](../.specs/assets/component-demos/snap-recoil-stop.gif) | Spring-like recoil cue with a pressure stop for snap-back scenes. |
 | `convergence_lane` | ![convergence_lane](../.specs/assets/component-demos/convergence-lane.gif) | Narrowing lane for staged convergence and compression proofs. |
 | `weave_crossing` | ![weave_crossing](../.specs/assets/component-demos/weave-crossing.gif) | Separated crossing strokes for over-under weave explanations. |
+| `device_frame` | ![device_frame](../.specs/assets/component-demos/device-frame.gif) | Minimal device viewport frame for embedded content-region motion. |
+| `callout_panel` | ![callout_panel](../.specs/assets/component-demos/callout-panel.gif) | Rectangular annotation panel with pointer for local callout scenes. |
+| `svg_role_slots` | ![svg_role_slots](../.specs/assets/component-demos/svg-role-slots.gif) | Inspectable role slots and connectors for SVG component remap flows. |
+| `mind_map_branch_guides` | ![mind_map_branch_guides](../.specs/assets/component-demos/mind-map-branch-guides.gif) | Hub, branches, and leaves for mind-map expansion patterns. |
+| `multi_video_grid` | ![multi_video_grid](../.specs/assets/component-demos/multi-video-grid.gif) | Repeated open slots for multi-video grid and gallery layouts. |
+| `caliper_gauge` | ![caliper_gauge](../.specs/assets/component-demos/caliper-gauge.gif) | Opposing jaws on a rail for measuring, alignment, and caliper motifs. |
+| `circuit_route` | ![circuit_route](../.specs/assets/component-demos/circuit-route.gif) | Orthogonal route with nodes for circuit and browser-native path motifs. |
+| `coil_guide` | ![coil_guide](../.specs/assets/component-demos/coil-guide.gif) | Alternating arc coils for spring, coil, and stored-energy cues. |
+| `lattice_grid` | ![lattice_grid](../.specs/assets/component-demos/lattice-grid.gif) | Lightweight repeated grid for lattice and structured-field scenes. |
+| `narrative_stage` | ![narrative_stage](../.specs/assets/component-demos/narrative-stage.gif) | Frame plus beat rail for narrative-stage and progression scenes. |
 | `receiver_slot` | ![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif) | Composite receiver-slot pattern with pending outline, moving payload, and terminal mark. |
 | `rhythm_gate` | ![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif) | Composite cadence pattern using several gate columns along a rail. |
 
@@ -335,6 +345,66 @@ Narrowing lane for staged convergence and compression proofs.
 Separated crossing strokes for over-under weave explanations.
 
 ![weave_crossing](../.specs/assets/component-demos/weave-crossing.gif)
+
+## `device_frame`
+
+Minimal device viewport frame for embedded content-region motion.
+
+![device_frame](../.specs/assets/component-demos/device-frame.gif)
+
+## `callout_panel`
+
+Rectangular annotation panel with pointer for local callout scenes.
+
+![callout_panel](../.specs/assets/component-demos/callout-panel.gif)
+
+## `svg_role_slots`
+
+Inspectable role slots and connectors for SVG component remap flows.
+
+![svg_role_slots](../.specs/assets/component-demos/svg-role-slots.gif)
+
+## `mind_map_branch_guides`
+
+Hub, branches, and leaves for mind-map expansion patterns.
+
+![mind_map_branch_guides](../.specs/assets/component-demos/mind-map-branch-guides.gif)
+
+## `multi_video_grid`
+
+Repeated open slots for multi-video grid and gallery layouts.
+
+![multi_video_grid](../.specs/assets/component-demos/multi-video-grid.gif)
+
+## `caliper_gauge`
+
+Opposing jaws on a rail for measuring, alignment, and caliper motifs.
+
+![caliper_gauge](../.specs/assets/component-demos/caliper-gauge.gif)
+
+## `circuit_route`
+
+Orthogonal route with nodes for circuit and browser-native path motifs.
+
+![circuit_route](../.specs/assets/component-demos/circuit-route.gif)
+
+## `coil_guide`
+
+Alternating arc coils for spring, coil, and stored-energy cues.
+
+![coil_guide](../.specs/assets/component-demos/coil-guide.gif)
+
+## `lattice_grid`
+
+Lightweight repeated grid for lattice and structured-field scenes.
+
+![lattice_grid](../.specs/assets/component-demos/lattice-grid.gif)
+
+## `narrative_stage`
+
+Frame plus beat rail for narrative-stage and progression scenes.
+
+![narrative_stage](../.specs/assets/component-demos/narrative-stage.gif)
 
 ## `receiver_slot`
 
