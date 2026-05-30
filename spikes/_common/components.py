@@ -249,3 +249,87 @@ def cradle_catch(width: float = 2.05, height: float = 1.0, color: str = GRAY_300
     basin = Arc(radius=width / 2, start_angle=PI * 1.05, angle=PI * 0.9, stroke_color=color, stroke_width=3.6, stroke_opacity=opacity)
     basin.shift(DOWN * height * 0.22)
     return VGroup(basin, left_pad, right_pad)
+
+
+def balance_beam(width: float = 3.0, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    beam = Line(LEFT * width / 2, RIGHT * width / 2, color=color, stroke_width=5.0, stroke_opacity=opacity)
+    fulcrum = VGroup(
+        Line(ORIGIN, LEFT * 0.34 + DOWN * 0.62, color=color, stroke_width=3.4, stroke_opacity=opacity),
+        Line(ORIGIN, RIGHT * 0.34 + DOWN * 0.62, color=color, stroke_width=3.4, stroke_opacity=opacity),
+    )
+    return VGroup(beam, fulcrum)
+
+
+def deformation_wave(width: float = 3.2, amplitude: float = 0.32, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    segments = VGroup()
+    step = width / 4
+    for index in range(4):
+        start_x = -width / 2 + step * index
+        arc = Arc(radius=step / 2, start_angle=PI, angle=-PI, stroke_color=color, stroke_width=3.8, stroke_opacity=opacity)
+        arc.stretch_to_fit_height(amplitude * 2)
+        arc.move_to(LEFT * (-(start_x + step / 2)))
+        if index % 2:
+            arc.flip(UP)
+        segments.add(arc)
+    return segments
+
+
+def settle_echo(count: int = 3, radius: float = 0.55, color: str = GRAY_300, opacity: float = 0.54) -> VGroup:
+    echoes = VGroup()
+    for index in range(count):
+        echoes.add(Circle(radius=radius + index * 0.22, stroke_color=color, stroke_width=2.8, stroke_opacity=opacity * (1 - index * 0.2), fill_opacity=0))
+    return echoes
+
+
+def edge_tension_marker(height: float = 2.4, tether: float = 1.25, color: str = GRAY_300, opacity: float = 0.66) -> VGroup:
+    wall = slab(color, 0.12, height, opacity).move_to(RIGHT * tether / 2)
+    line = Line(LEFT * tether / 2, RIGHT * tether / 2, color=color, stroke_width=3.8, stroke_opacity=opacity)
+    notch = Line(RIGHT * tether / 2 + UP * 0.24, RIGHT * tether / 2 + DOWN * 0.24, color=color, stroke_width=3.0, stroke_opacity=opacity)
+    return VGroup(line, wall, notch)
+
+
+def keystone_lock(width: float = 1.65, color: str = GRAY_300, opacity: float = 0.64) -> VGroup:
+    cap = slab(color, width, 0.26, opacity).move_to(UP * 0.58)
+    center = slab(color, width * 0.42, 0.88, opacity).move_to(ORIGIN)
+    left = slab(color, width * 0.24, 0.58, opacity * 0.8).rotate(-PI / 12).move_to(LEFT * width * 0.34 + DOWN * 0.12)
+    right = slab(color, width * 0.24, 0.58, opacity * 0.8).rotate(PI / 12).move_to(RIGHT * width * 0.34 + DOWN * 0.12)
+    return VGroup(cap, left, center, right)
+
+
+def latch_anchor(width: float = 1.9, color: str = GRAY_300, opacity: float = 0.66) -> VGroup:
+    anchor = Circle(radius=0.2, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(LEFT * width / 2)
+    hook = VGroup(
+        Line(LEFT * width / 2, RIGHT * width / 2, color=color, stroke_width=4.0, stroke_opacity=opacity),
+        Line(RIGHT * width / 2, RIGHT * width / 2 + DOWN * 0.48, color=color, stroke_width=4.0, stroke_opacity=opacity),
+        Line(RIGHT * width / 2 + DOWN * 0.48, RIGHT * width / 2 + LEFT * 0.38 + DOWN * 0.48, color=color, stroke_width=4.0, stroke_opacity=opacity),
+    )
+    return VGroup(anchor, hook)
+
+
+def layered_stack(count: int = 3, width: float = 1.8, height: float = 0.52, color: str = GRAY_300, opacity: float = 0.54) -> VGroup:
+    layers = VGroup()
+    for index in range(count):
+        layers.add(slab(color, width, height, opacity + index * 0.08).move_to(RIGHT * index * 0.18 + DOWN * index * 0.18))
+    return layers
+
+
+def magnet_capture(radius: float = 1.0, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    left = Arc(radius=radius, start_angle=PI / 2, angle=PI, stroke_color=color, stroke_width=4.0, stroke_opacity=opacity).shift(LEFT * 0.24)
+    right = Arc(radius=radius, start_angle=-PI / 2, angle=PI, stroke_color=color, stroke_width=4.0, stroke_opacity=opacity).shift(RIGHT * 0.24)
+    poles = VGroup(slab(color, 0.18, 0.46, opacity).move_to(LEFT * 0.6), slab(color, 0.18, 0.46, opacity).move_to(RIGHT * 0.6))
+    return VGroup(left, right, poles)
+
+
+def negative_space_frame(width: float = 3.0, height: float = 2.0, opening: float = 0.82, color: str = GRAY_200, opacity: float = 0.58) -> VGroup:
+    top = slab(color, width, (height - opening) / 2, opacity).move_to(UP * (opening / 2 + (height - opening) / 4))
+    bottom = slab(color, width, (height - opening) / 2, opacity).move_to(DOWN * (opening / 2 + (height - opening) / 4))
+    left = slab(color, (width - opening) / 2, opening, opacity).move_to(LEFT * (opening / 2 + (width - opening) / 4))
+    right = slab(color, (width - opening) / 2, opening, opacity).move_to(RIGHT * (opening / 2 + (width - opening) / 4))
+    return VGroup(top, bottom, left, right)
+
+
+def parallax_planes(width: float = 2.2, height: float = 0.62, color: str = GRAY_300, opacity: float = 0.52) -> VGroup:
+    back = slab(color, width, height, opacity * 0.72).move_to(LEFT * 0.36 + UP * 0.34)
+    mid = slab(color, width, height, opacity).move_to(ORIGIN)
+    front = slab(color, width, height, min(opacity * 1.18, 1)).move_to(RIGHT * 0.36 + DOWN * 0.34)
+    return VGroup(back, mid, front)

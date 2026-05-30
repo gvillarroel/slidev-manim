@@ -45,6 +45,16 @@ Source demos live in `spikes/component-library-demos/`. Full render outputs live
 | `compression_channel` | ![compression_channel](../.specs/assets/component-demos/compression-channel.gif) | Narrow parallel rails for squeezing or releasing a payload. |
 | `corridor_rails` | ![corridor_rails](../.specs/assets/component-demos/corridor-rails.gif) | Long guide rails with a central squeeze point for corridor passages. |
 | `cradle_catch` | ![cradle_catch](../.specs/assets/component-demos/cradle-catch.gif) | Lower catch basin and support pads for landing or settling scenes. |
+| `balance_beam` | ![balance_beam](../.specs/assets/component-demos/balance-beam.gif) | Fulcrum and beam primitive for counterweight and counterlift balance scenes. |
+| `deformation_wave` | ![deformation_wave](../.specs/assets/component-demos/deformation-wave.gif) | Elastic wave guide for deformation, flex, and shape-change proof beats. |
+| `settle_echo` | ![settle_echo](../.specs/assets/component-demos/settle-echo.gif) | Concentric settling rings for echo, impact, and delayed-resolution scenes. |
+| `edge_tension_marker` | ![edge_tension_marker](../.specs/assets/component-demos/edge-tension-marker.gif) | Boundary wall and tether marker for edge-pressure compositions. |
+| `keystone_lock` | ![keystone_lock](../.specs/assets/component-demos/keystone-lock.gif) | Central locking block with side supports for keystone-style closures. |
+| `latch_anchor` | ![latch_anchor](../.specs/assets/component-demos/latch-anchor.gif) | Anchor dot and hook path for latched handoff scenes. |
+| `layered_stack` | ![layered_stack](../.specs/assets/component-demos/layered-stack.gif) | Offset layer stack for progressive reveal and peel-style compositions. |
+| `magnet_capture` | ![magnet_capture](../.specs/assets/component-demos/magnet-capture.gif) | Opposing capture arcs and poles for magnetic attraction scenes. |
+| `negative_space_frame` | ![negative_space_frame](../.specs/assets/component-demos/negative-space-frame.gif) | Four-part frame that leaves an intentional central opening. |
+| `parallax_planes` | ![parallax_planes](../.specs/assets/component-demos/parallax-planes.gif) | Offset depth planes for parallax transfer and layered motion scenes. |
 | `receiver_slot` | ![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif) | Composite receiver-slot pattern with pending outline, moving payload, and terminal mark. |
 | `rhythm_gate` | ![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif) | Composite cadence pattern using several gate columns along a rail. |
 
@@ -209,6 +219,66 @@ Long guide rails with a central squeeze point for corridor passages.
 Lower catch basin and support pads for landing or settling scenes.
 
 ![cradle_catch](../.specs/assets/component-demos/cradle-catch.gif)
+
+## `balance_beam`
+
+Fulcrum and beam primitive for counterweight and counterlift balance scenes.
+
+![balance_beam](../.specs/assets/component-demos/balance-beam.gif)
+
+## `deformation_wave`
+
+Elastic wave guide for deformation, flex, and shape-change proof beats.
+
+![deformation_wave](../.specs/assets/component-demos/deformation-wave.gif)
+
+## `settle_echo`
+
+Concentric settling rings for echo, impact, and delayed-resolution scenes.
+
+![settle_echo](../.specs/assets/component-demos/settle-echo.gif)
+
+## `edge_tension_marker`
+
+Boundary wall and tether marker for edge-pressure compositions.
+
+![edge_tension_marker](../.specs/assets/component-demos/edge-tension-marker.gif)
+
+## `keystone_lock`
+
+Central locking block with side supports for keystone-style closures.
+
+![keystone_lock](../.specs/assets/component-demos/keystone-lock.gif)
+
+## `latch_anchor`
+
+Anchor dot and hook path for latched handoff scenes.
+
+![latch_anchor](../.specs/assets/component-demos/latch-anchor.gif)
+
+## `layered_stack`
+
+Offset layer stack for progressive reveal and peel-style compositions.
+
+![layered_stack](../.specs/assets/component-demos/layered-stack.gif)
+
+## `magnet_capture`
+
+Opposing capture arcs and poles for magnetic attraction scenes.
+
+![magnet_capture](../.specs/assets/component-demos/magnet-capture.gif)
+
+## `negative_space_frame`
+
+Four-part frame that leaves an intentional central opening.
+
+![negative_space_frame](../.specs/assets/component-demos/negative-space-frame.gif)
+
+## `parallax_planes`
+
+Offset depth planes for parallax transfer and layered motion scenes.
+
+![parallax_planes](../.specs/assets/component-demos/parallax-planes.gif)
 
 ## `receiver_slot`
 

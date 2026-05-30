@@ -17,8 +17,8 @@ Decision meanings:
 
 Summary:
 
-- candidate: 90
-- componentized: 36
+- candidate: 77
+- componentized: 49
 - no-component: 36
 - shared-runner: 25
 
@@ -97,24 +97,24 @@ Summary:
 | `quality-clamp-close` | quality mechanism | componentized | clamp_pair | README, main.py |
 | `quality-compression-release` | quality mechanism | componentized | compression_channel | README, main.py |
 | `quality-corridor-squeeze` | quality mechanism | componentized | corridor_rails | README, main.py |
-| `quality-counterlift-balance` | quality mechanism | candidate | counterlift balance | README, main.py |
-| `quality-counterweight-balance` | quality mechanism | candidate | counterweight balance | README, main.py |
+| `quality-counterlift-balance` | quality mechanism | componentized | balance_beam | README, main.py |
+| `quality-counterweight-balance` | quality mechanism | componentized | balance_beam | README, main.py |
 | `quality-cradle-catch` | quality mechanism | componentized | cradle_catch | README, main.py |
-| `quality-deformation-flow` | quality mechanism | candidate | deformation flow | README, main.py |
-| `quality-echo-settle` | quality mechanism | candidate | settle echo | README, main.py |
-| `quality-edge-tension` | quality mechanism | candidate | edge tension marker | README, main.py |
+| `quality-deformation-flow` | quality mechanism | componentized | deformation_wave | README, main.py |
+| `quality-echo-settle` | quality mechanism | componentized | settle_echo | README, main.py |
+| `quality-edge-tension` | quality mechanism | componentized | edge_tension_marker | README, main.py |
 | `quality-fan-splay` | quality mechanism | componentized | fan_guides | README, main.py |
 | `quality-fork-diverge` | quality mechanism | componentized | fork_guides | README, main.py |
 | `quality-hinge-pivot` | quality mechanism | componentized | hinge_pivot | README, main.py |
-| `quality-keystone-lock` | quality mechanism | candidate | keystone lock | README, main.py |
-| `quality-latched-anchor` | quality mechanism | candidate | latch anchor | README, main.py |
-| `quality-layered-reveal` | quality mechanism | candidate | layered reveal stack | README, main.py |
-| `quality-magnet-capture` | quality mechanism | candidate | magnet capture | README, main.py |
+| `quality-keystone-lock` | quality mechanism | componentized | keystone_lock | README, main.py |
+| `quality-latched-anchor` | quality mechanism | componentized | latch_anchor | README, main.py |
+| `quality-layered-reveal` | quality mechanism | componentized | layered_stack | README, main.py |
+| `quality-magnet-capture` | quality mechanism | componentized | magnet_capture | README, main.py |
 | `quality-mask-transfer` | quality mechanism | componentized | mask_window | README, main.py |
 | `quality-merge-funnel` | quality mechanism | componentized | merge_funnel | README, main.py |
-| `quality-negative-space-focus` | quality mechanism | candidate | negative-space focus frame | README, main.py |
+| `quality-negative-space-focus` | quality mechanism | componentized | negative_space_frame | README, main.py |
 | `quality-occlusion-peel` | quality mechanism | candidate | occlusion peel | README, main.py |
-| `quality-parallax-transfer` | quality mechanism | candidate | parallax planes | README, main.py |
+| `quality-parallax-transfer` | quality mechanism | componentized | parallax_planes | README, main.py |
 | `quality-pulse-routing` | quality mechanism | componentized | pulse | README, main.py |
 | `quality-ramp-lift` | quality mechanism | componentized | ramp_plane | README, main.py |
 | `quality-relay-handoff` | quality mechanism | candidate | relay handoff nodes | README, main.py |
@@ -157,7 +157,7 @@ Summary:
 | `red-dot-hourglass-spa` | browser-native red-dot | candidate | hourglass choke | README, main.py, browser files |
 | `red-dot-iris-spa` | browser-native red-dot | candidate | iris aperture | README, main.py, browser files |
 | `red-dot-keyhole-spa` | browser-native red-dot | candidate | keyhole mask | README, main.py, browser files |
-| `red-dot-keystone-spa` | browser-native red-dot | candidate | keystone | README, main.py, browser files |
+| `red-dot-keystone-spa` | browser-native red-dot | componentized | keystone_lock | README, main.py, browser files |
 | `red-dot-kite-spa` | browser-native red-dot | candidate | kite guide | README, main.py, browser files |
 | `red-dot-knot-spa` | browser-native red-dot | candidate | knot path | README, main.py, browser files |
 | `red-dot-labyrinth-spa` | browser-native red-dot | candidate | labyrinth route | README, main.py, browser files |
@@ -166,7 +166,7 @@ Summary:
 | `red-dot-lattice-spa` | browser-native red-dot | candidate | lattice grid | README, main.py, browser files |
 | `red-dot-lens-spa` | browser-native red-dot | candidate | lens focus | README, main.py, browser files |
 | `red-dot-loom-spa` | browser-native red-dot | candidate | loom weave | README, main.py, browser files |
-| `red-dot-magnet-spa` | browser-native red-dot | candidate | magnet | README, main.py, browser files |
+| `red-dot-magnet-spa` | browser-native red-dot | componentized | magnet_capture | README, main.py, browser files |
 | `red-dot-membrane-spa` | browser-native red-dot | candidate | membrane flex | README, main.py, browser files |
 | `red-dot-mirror-spa` | browser-native red-dot | candidate | mirror plane | README, main.py, browser files |
 | `red-dot-moire-spa` | browser-native red-dot | candidate | moire overlay | README, main.py, browser files |

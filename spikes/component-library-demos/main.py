@@ -26,27 +26,37 @@ if str(SPIKES_DIR) not in sys.path:
 from _common.components import (
     aperture_shutters,
     arc_handoff,
+    balance_beam,
     bridge_lane,
     bumper_stop,
     clamp_pair,
     compression_channel,
     corridor_rails,
     cradle_catch,
+    deformation_wave,
+    edge_tension_marker,
     fan_guides,
     fork_guides,
     gate_column,
     hinge_pivot,
+    keystone_lock,
+    latch_anchor,
+    layered_stack,
+    magnet_capture,
     mask_window,
     merge_funnel,
+    negative_space_frame,
     neutral_cluster,
     open_slot,
     orbit_guides,
+    parallax_planes,
     pressure_wall,
     pulse,
     ramp_plane,
     slab,
     source_slot,
     sleeve_channel,
+    settle_echo,
     target_slot,
     terminal_brackets,
     terminal_brackets_around,
@@ -388,6 +398,139 @@ class CradleCatchDemo(Scene):
         self.wait(1.35)
 
 
+class BalanceBeamDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "balance_beam")
+        beam = balance_beam()
+        left_load = pulse(0.16, GRAY_500).move_to(LEFT * 1.2 + UP * 0.28)
+        right_load = pulse(0.16, PRIMARY_RED).move_to(RIGHT * 1.2 + UP * 0.28)
+        self.add(beam, left_load, right_load)
+        self.wait(0.55)
+        self.play(Rotate(beam[0], angle=-0.18, about_point=ORIGIN), right_load.animate.shift(DOWN * 0.32), left_load.animate.shift(UP * 0.2), run_time=0.65, rate_func=smooth)
+        self.play(Rotate(beam[0], angle=0.18, about_point=ORIGIN), right_load.animate.shift(UP * 0.32), left_load.animate.shift(DOWN * 0.2), run_time=0.55, rate_func=smooth)
+        self.play(right_load.animate.scale(1.14), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class DeformationWaveDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "deformation_wave")
+        wave = deformation_wave()
+        actor = slab(GRAY_600, 0.54, 0.54).move_to(LEFT * 2.15)
+        self.add(wave, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN).stretch(1.45, dim=0), wave.animate.set_stroke(color=PRIMARY_RED, opacity=0.78), run_time=0.85, rate_func=smooth)
+        self.play(actor.animate.move_to(RIGHT * 2.1).stretch(0.7, dim=0), wave.animate.set_opacity(0.38), run_time=0.65, rate_func=smooth)
+        self.wait(1.3)
+
+
+class SettleEchoDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "settle_echo")
+        echoes = settle_echo()
+        actor = pulse(0.18).move_to(LEFT * 1.7 + UP * 0.6)
+        self.add(echoes, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN), run_time=0.65, rate_func=smooth)
+        self.play(echoes.animate.set_stroke(color=PRIMARY_RED, opacity=0.72), actor.animate.scale(1.18), run_time=0.45, rate_func=there_and_back)
+        self.play(echoes.animate.scale(1.12).set_opacity(0.28), run_time=0.45)
+        self.wait(1.25)
+
+
+class EdgeTensionMarkerDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "edge_tension_marker")
+        marker = edge_tension_marker().move_to(RIGHT * 0.85)
+        actor = pulse(0.18).move_to(LEFT * 1.9)
+        self.add(marker, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(RIGHT * 0.65), marker.animate.set_color(PRIMARY_RED), run_time=0.85, rate_func=smooth)
+        self.play(actor.animate.shift(LEFT * 0.28), marker.animate.set_opacity(0.44), run_time=0.42, rate_func=smooth)
+        self.play(actor.animate.scale(1.14), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class KeystoneLockDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "keystone_lock")
+        lock = keystone_lock()
+        key = slab(PRIMARY_RED, 0.42, 0.74).move_to(UP * 1.75)
+        self.add(lock, key)
+        self.wait(0.55)
+        self.play(key.animate.move_to(ORIGIN), lock[2].animate.set_fill(PRIMARY_RED, opacity=0.85), run_time=0.75, rate_func=smooth)
+        self.play(lock.animate.scale(1.08), key.animate.scale(0.72), run_time=0.36, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class LatchAnchorDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "latch_anchor")
+        latch = latch_anchor()
+        actor = pulse(0.16).move_to(LEFT * 2.1 + UP * 0.75)
+        self.add(latch, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(RIGHT * 0.72 + DOWN * 0.48), latch.animate.set_color(PRIMARY_RED), run_time=0.8, rate_func=smooth)
+        self.play(actor.animate.scale(1.16), latch.animate.set_opacity(0.46), run_time=0.36, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class LayeredStackDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "layered_stack")
+        stack = layered_stack().move_to(ORIGIN)
+        self.add(stack)
+        self.wait(0.55)
+        self.play(stack[0].animate.shift(LEFT * 0.42 + UP * 0.24), stack[1].animate.set_fill(PRIMARY_RED, opacity=0.78), stack[2].animate.shift(RIGHT * 0.42 + DOWN * 0.24), run_time=0.75, rate_func=smooth)
+        self.play(stack.animate.arrange(DOWN, buff=0.16).move_to(ORIGIN), run_time=0.55, rate_func=smooth)
+        self.wait(1.35)
+
+
+class MagnetCaptureDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "magnet_capture")
+        magnet = magnet_capture()
+        actor = pulse(0.16).move_to(LEFT * 2.15)
+        self.add(magnet, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN), magnet.animate.set_color(PRIMARY_RED), run_time=0.8, rate_func=smooth)
+        self.play(magnet.animate.set_opacity(0.38), actor.animate.scale(1.18), run_time=0.38, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class NegativeSpaceFrameDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "negative_space_frame")
+        frame = negative_space_frame()
+        actor = pulse(0.16).move_to(LEFT * 2.15)
+        self.add(frame, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN), frame.animate.set_opacity(0.74), run_time=0.8, rate_func=smooth)
+        self.play(frame.animate.set_fill(GRAY_200, opacity=0.32), actor.animate.scale(1.18), run_time=0.4, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class ParallaxPlanesDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "parallax_planes")
+        planes = parallax_planes()
+        actor = pulse(0.14).move_to(LEFT * 2.15 + UP * 0.55)
+        self.add(planes, actor)
+        self.wait(0.55)
+        self.play(planes[0].animate.shift(LEFT * 0.35), planes[2].animate.shift(RIGHT * 0.45), actor.animate.move_to(RIGHT * 0.65 + DOWN * 0.34), run_time=0.85, rate_func=smooth)
+        self.play(planes[2].animate.set_fill(PRIMARY_RED, opacity=0.72), actor.animate.scale(1.16), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.35)
+
+
 class ReceiverSlotDemo(Scene):
     def construct(self) -> None:
         configure_transparent_scene(self)
@@ -532,6 +675,16 @@ COMPONENTS = [
     ComponentDemo("compression-channel", "compression_channel", CompressionChannelDemo, "Narrow parallel rails for squeezing or releasing a payload."),
     ComponentDemo("corridor-rails", "corridor_rails", CorridorRailsDemo, "Long guide rails with a central squeeze point for corridor passages."),
     ComponentDemo("cradle-catch", "cradle_catch", CradleCatchDemo, "Lower catch basin and support pads for landing or settling scenes."),
+    ComponentDemo("balance-beam", "balance_beam", BalanceBeamDemo, "Fulcrum and beam primitive for counterweight and counterlift balance scenes."),
+    ComponentDemo("deformation-wave", "deformation_wave", DeformationWaveDemo, "Elastic wave guide for deformation, flex, and shape-change proof beats."),
+    ComponentDemo("settle-echo", "settle_echo", SettleEchoDemo, "Concentric settling rings for echo, impact, and delayed-resolution scenes."),
+    ComponentDemo("edge-tension-marker", "edge_tension_marker", EdgeTensionMarkerDemo, "Boundary wall and tether marker for edge-pressure compositions."),
+    ComponentDemo("keystone-lock", "keystone_lock", KeystoneLockDemo, "Central locking block with side supports for keystone-style closures."),
+    ComponentDemo("latch-anchor", "latch_anchor", LatchAnchorDemo, "Anchor dot and hook path for latched handoff scenes."),
+    ComponentDemo("layered-stack", "layered_stack", LayeredStackDemo, "Offset layer stack for progressive reveal and peel-style compositions."),
+    ComponentDemo("magnet-capture", "magnet_capture", MagnetCaptureDemo, "Opposing capture arcs and poles for magnetic attraction scenes."),
+    ComponentDemo("negative-space-frame", "negative_space_frame", NegativeSpaceFrameDemo, "Four-part frame that leaves an intentional central opening."),
+    ComponentDemo("parallax-planes", "parallax_planes", ParallaxPlanesDemo, "Offset depth planes for parallax transfer and layered motion scenes."),
     ComponentDemo("receiver-slot", "receiver_slot", ReceiverSlotDemo, "Composite receiver-slot pattern with pending outline, moving payload, and terminal mark."),
     ComponentDemo("rhythm-gate", "rhythm_gate", RhythmGateDemo, "Composite cadence pattern using several gate columns along a rail."),
 ]
