@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Latch SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot latch visual narrative">
+        <div class="stage-frame" tabindex="0">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot latch narrative</title>
+            <desc id="stage-desc">
+              A single red point enters a quiet field, tests three latch grammars, gets squeezed between a moving arm
+              and a keeper, then resolves into a centered latch-like mark that holds the chosen closure in place.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fcfcfc" />
+                <stop offset="100%" stop-color="#f2f2f2" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="50%" cy="48%" r="56%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+                <stop offset="82%" stop-color="#ffffff" stop-opacity="0.18" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.92" />
+                <stop offset="68%" stop-color="#ffccd5" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="tension-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="60%" stop-color="#ffccd5" stop-opacity="0.24" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="818" cy="450" rx="736" ry="310" fill="url(#field-glow)" opacity="0.98" />
+            <ellipse cx="1148" cy="252" rx="206" ry="126" fill="#ffccd5" opacity="0.07" />
+            <ellipse cx="412" cy="684" rx="266" ry="144" fill="#ffffff" opacity="0.44" />
+
+            <g id="layout-root">
+              <rect x="194" y="214" width="1212" height="420" fill="#ffffff" opacity="0.14" />
+              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 234 286 H 1366" />
+                <path d="M 234 450 H 1366" />
+                <path d="M 234 614 H 1366" />
+                <path d="M 548 232 V 674" />
+                <path d="M 822 232 V 674" />
+                <path d="M 1096 232 V 674" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="narrative-spine"
+                  d="M 302 450 C 438 450, 540 450, 598 450"
+                  fill="none"
+                  stroke="#d8d8d8"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+
+                <path
+                  id="search-guide-a"
+                  d="M 630 450 C 690 420, 726 392, 756 362"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-b"
+                  d="M 756 362 C 734 434, 738 492, 762 538"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-c"
+                  d="M 762 538 C 792 496, 826 464, 850 434"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+
+                <g id="candidate-a" opacity="0">
+                  <path
+                    d="M -54 18 H -10 V -42 H 54 V 6"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <circle cx="-10" cy="18" r="10" fill="#9e1b32" opacity="0.92" />
+                </g>
+
+                <g id="candidate-b" opacity="0">
+                  <path
+                    d="M -54 -12 H 10 V 44 H 56"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M -54 -12 V 22"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="10" cy="-12" r="10" fill="#9e1b32" opacity="0.92" />
+                </g>
+
+                <g id="candidate-c" opacity="0">
+                  <path
+                    d="M -52 -40 V 20 H 4 M 18 -18 H 58 V 40"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <circle cx="8" cy="10" r="10" fill="#9e1b32" opacity="0.92" />
+                </g>
+
+                <ellipse id="tension-halo" cx="822" cy="450" rx="178" ry="132" fill="url(#tension-glow)" opacity="0" />
+
+                <g id="left-jaw" opacity="0">
+                  <path
+                    d="M 0 -58 V 58 M 0 -58 H 46 M 0 58 H 46"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <g id="right-keeper" opacity="0">
+                  <path
+                    d="M 0 -58 V 58 M 0 -58 H -52 M -52 0 H -18 M 0 58 H -52"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <line id="top-rail" x1="744" y1="406" x2="916" y2="406" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" opacity="0" />
+                <line id="bottom-rail" x1="744" y1="494" x2="916" y2="494" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" opacity="0" />
+
+                <path
+                  id="latch-base"
+                  d="M 822 450
+                     L 752 450
+                     L 752 362
+                     L 906 362
+                     L 906 426
+                     L 844 426
+                     L 844 538
+                     L 730 538
+                     L 730 450
+                     L 792 450
+                     L 822 450"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="latch-active"
+                  d="M 822 450
+                     L 752 450
+                     L 752 362
+                     L 906 362
+                     L 906 426
+                     L 844 426
+                     L 844 538
+                     L 730 538
+                     L 730 450
+                     L 792 450
+                     L 822 450"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+
+                <path
+                  id="latch-tick"
+                  d="M 776 580 H 868"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+
+                <ellipse id="resolution-halo" cx="822" cy="450" rx="164" ry="166" fill="url(#tension-glow)" opacity="0" />
+                <g id="resolution-frame" opacity="0" fill="none" stroke="#9e1b32" stroke-width="4" stroke-linecap="round">
+                  <path d="M 700 344 H 732 M 700 344 V 376" />
+                  <path d="M 942 344 H 910 M 942 344 V 376" />
+                  <path d="M 942 556 H 910 M 942 556 V 524" />
+                  <path d="M 700 556 H 732 M 700 556 V 524" />
+                </g>
+
+                <circle id="dot-halo" cx="302" cy="450" r="72" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="302" cy="450" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
