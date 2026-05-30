@@ -47,20 +47,28 @@ from _common.components import (
     merge_funnel,
     negative_space_frame,
     neutral_cluster,
+    occlusion_peel,
     open_slot,
     orbit_guides,
     parallax_planes,
     pressure_wall,
     pulse,
     ramp_plane,
+    relay_nodes,
+    rhythm_gate_marks,
     slab,
+    shear_rails,
+    sling_arc,
+    snap_recoil_stop,
     source_slot,
     sleeve_channel,
+    convergence_lane,
     settle_echo,
     target_slot,
     terminal_brackets,
     terminal_brackets_around,
     time_rail,
+    weave_crossing,
 )
 from _common.runner import convert_video_to_gif, render_scene
 from _common.visual import GRAY_100, GRAY_200, GRAY_300, GRAY_400, GRAY_500, GRAY_600, GRAY_800, PRIMARY_RED, WHITE_HEX, configure_transparent_scene
@@ -531,6 +539,115 @@ class ParallaxPlanesDemo(Scene):
         self.wait(1.35)
 
 
+class OcclusionPeelDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "occlusion_peel")
+        peel = occlusion_peel()
+        actor = pulse(0.16).move_to(LEFT * 1.2)
+        self.add(peel, actor)
+        self.wait(0.55)
+        self.play(peel[1].animate.shift(RIGHT * 0.72).set_fill(PRIMARY_RED, opacity=0.68), actor.animate.move_to(ORIGIN), run_time=0.8, rate_func=smooth)
+        self.play(peel.animate.set_opacity(0.38), actor.animate.scale(1.16), run_time=0.38, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class RelayNodesDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "relay_nodes")
+        relay = relay_nodes()
+        actor = pulse(0.13).move_to(LEFT * 1.15)
+        self.add(relay, actor)
+        self.wait(0.55)
+        for x in (-1.15, 0, 1.15):
+            self.play(actor.animate.move_to(RIGHT * x), run_time=0.32, rate_func=smooth)
+        self.play(relay[1].animate.set_fill(PRIMARY_RED, opacity=0.82), actor.animate.scale(1.16), run_time=0.38, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class RhythmGateMarksDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "rhythm_gate_marks")
+        marks = rhythm_gate_marks()
+        actor = pulse(0.14).move_to(LEFT * 2.05)
+        self.add(marks, actor)
+        self.wait(0.55)
+        for index, x in enumerate([-1.08, -0.36, 0.36, 1.08]):
+            self.play(actor.animate.move_to(RIGHT * x), marks[1][index].animate.set_fill(PRIMARY_RED, opacity=0.82), run_time=0.25, rate_func=smooth)
+        self.play(marks.animate.set_opacity(0.42), actor.animate.scale(1.12), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class ShearRailsDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "shear_rails")
+        rails = shear_rails()
+        actor = slab(GRAY_600, 0.72, 0.46).move_to(ORIGIN)
+        self.add(rails, actor)
+        self.wait(0.55)
+        self.play(rails[0].animate.shift(RIGHT * 0.42).set_color(PRIMARY_RED), rails[1].animate.shift(LEFT * 0.42), actor.animate.rotate(0.2), run_time=0.75, rate_func=smooth)
+        self.play(actor.animate.scale(1.1), rails.animate.set_opacity(0.42), run_time=0.38, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class SlingArcDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "sling_arc")
+        sling = sling_arc()
+        actor = pulse(0.16).move_to(DOWN * 0.62)
+        self.add(sling, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(UP * 1.1 + RIGHT * 1.15), sling[0].animate.set_stroke(color=PRIMARY_RED, opacity=0.78), run_time=0.82, rate_func=smooth)
+        self.play(sling.animate.set_opacity(0.38), actor.animate.scale(1.16), run_time=0.38, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class SnapRecoilStopDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "snap_recoil_stop")
+        stop = snap_recoil_stop().move_to(RIGHT * 0.88)
+        actor = pulse(0.16).move_to(LEFT * 2.0)
+        self.add(stop, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(RIGHT * 0.62), stop.animate.set_color(PRIMARY_RED), run_time=0.62, rate_func=smooth)
+        self.play(actor.animate.move_to(LEFT * 0.35), stop.animate.set_opacity(0.42), run_time=0.42, rate_func=smooth)
+        self.play(actor.animate.scale(1.16), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class ConvergenceLaneDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "convergence_lane")
+        lane = convergence_lane()
+        top = pulse(0.12).move_to(LEFT * 1.65 + UP * 0.88)
+        bottom = pulse(0.12).move_to(LEFT * 1.65 + DOWN * 0.88)
+        self.add(lane, top, bottom)
+        self.wait(0.55)
+        self.play(top.animate.move_to(RIGHT * 1.48 + UP * 0.22), bottom.animate.move_to(RIGHT * 1.48 + DOWN * 0.22), lane.animate.set_stroke(color=PRIMARY_RED, opacity=0.78), run_time=0.9, rate_func=smooth)
+        self.play(FadeOut(top), bottom.animate.move_to(RIGHT * 1.8).scale(1.3), lane.animate.set_opacity(0.36), run_time=0.45)
+        self.wait(1.35)
+
+
+class WeaveCrossingDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "weave_crossing")
+        weave = weave_crossing()
+        actor = pulse(0.13).move_to(LEFT * 1.45 + UP * 0.45)
+        self.add(weave, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN), weave[0].animate.set_color(PRIMARY_RED), run_time=0.55, rate_func=smooth)
+        self.play(actor.animate.move_to(RIGHT * 1.45 + DOWN * 0.45), run_time=0.55, rate_func=smooth)
+        self.play(weave.animate.set_opacity(0.42), actor.animate.scale(1.16), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
 class ReceiverSlotDemo(Scene):
     def construct(self) -> None:
         configure_transparent_scene(self)
@@ -685,6 +802,14 @@ COMPONENTS = [
     ComponentDemo("magnet-capture", "magnet_capture", MagnetCaptureDemo, "Opposing capture arcs and poles for magnetic attraction scenes."),
     ComponentDemo("negative-space-frame", "negative_space_frame", NegativeSpaceFrameDemo, "Four-part frame that leaves an intentional central opening."),
     ComponentDemo("parallax-planes", "parallax_planes", ParallaxPlanesDemo, "Offset depth planes for parallax transfer and layered motion scenes."),
+    ComponentDemo("occlusion-peel", "occlusion_peel", OcclusionPeelDemo, "Cover panel and reveal lip for occlusion and peel-away scenes."),
+    ComponentDemo("relay-nodes", "relay_nodes", RelayNodesDemo, "Evenly spaced handoff nodes for relay and ownership transfer scenes."),
+    ComponentDemo("rhythm-gate-marks", "rhythm_gate_marks", RhythmGateMarksDemo, "Cadence marks on a rail for rhythm and gated timing scenes."),
+    ComponentDemo("shear-rails", "shear_rails", ShearRailsDemo, "Offset rails and body marker for shear and lateral-resolve scenes."),
+    ComponentDemo("sling-arc", "sling_arc", SlingArcDemo, "Anchored release arc for sling and launch-motion scenes."),
+    ComponentDemo("snap-recoil-stop", "snap_recoil_stop", SnapRecoilStopDemo, "Spring-like recoil cue with a pressure stop for snap-back scenes."),
+    ComponentDemo("convergence-lane", "convergence_lane", ConvergenceLaneDemo, "Narrowing lane for staged convergence and compression proofs."),
+    ComponentDemo("weave-crossing", "weave_crossing", WeaveCrossingDemo, "Separated crossing strokes for over-under weave explanations."),
     ComponentDemo("receiver-slot", "receiver_slot", ReceiverSlotDemo, "Composite receiver-slot pattern with pending outline, moving payload, and terminal mark."),
     ComponentDemo("rhythm-gate", "rhythm_gate", RhythmGateDemo, "Composite cadence pattern using several gate columns along a rail."),
 ]

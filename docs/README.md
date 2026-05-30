@@ -55,6 +55,14 @@ Source demos live in `spikes/component-library-demos/`. Full render outputs live
 | `magnet_capture` | ![magnet_capture](../.specs/assets/component-demos/magnet-capture.gif) | Opposing capture arcs and poles for magnetic attraction scenes. |
 | `negative_space_frame` | ![negative_space_frame](../.specs/assets/component-demos/negative-space-frame.gif) | Four-part frame that leaves an intentional central opening. |
 | `parallax_planes` | ![parallax_planes](../.specs/assets/component-demos/parallax-planes.gif) | Offset depth planes for parallax transfer and layered motion scenes. |
+| `occlusion_peel` | ![occlusion_peel](../.specs/assets/component-demos/occlusion-peel.gif) | Cover panel and reveal lip for occlusion and peel-away scenes. |
+| `relay_nodes` | ![relay_nodes](../.specs/assets/component-demos/relay-nodes.gif) | Evenly spaced handoff nodes for relay and ownership transfer scenes. |
+| `rhythm_gate_marks` | ![rhythm_gate_marks](../.specs/assets/component-demos/rhythm-gate-marks.gif) | Cadence marks on a rail for rhythm and gated timing scenes. |
+| `shear_rails` | ![shear_rails](../.specs/assets/component-demos/shear-rails.gif) | Offset rails and body marker for shear and lateral-resolve scenes. |
+| `sling_arc` | ![sling_arc](../.specs/assets/component-demos/sling-arc.gif) | Anchored release arc for sling and launch-motion scenes. |
+| `snap_recoil_stop` | ![snap_recoil_stop](../.specs/assets/component-demos/snap-recoil-stop.gif) | Spring-like recoil cue with a pressure stop for snap-back scenes. |
+| `convergence_lane` | ![convergence_lane](../.specs/assets/component-demos/convergence-lane.gif) | Narrowing lane for staged convergence and compression proofs. |
+| `weave_crossing` | ![weave_crossing](../.specs/assets/component-demos/weave-crossing.gif) | Separated crossing strokes for over-under weave explanations. |
 | `receiver_slot` | ![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif) | Composite receiver-slot pattern with pending outline, moving payload, and terminal mark. |
 | `rhythm_gate` | ![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif) | Composite cadence pattern using several gate columns along a rail. |
 
@@ -279,6 +287,54 @@ Four-part frame that leaves an intentional central opening.
 Offset depth planes for parallax transfer and layered motion scenes.
 
 ![parallax_planes](../.specs/assets/component-demos/parallax-planes.gif)
+
+## `occlusion_peel`
+
+Cover panel and reveal lip for occlusion and peel-away scenes.
+
+![occlusion_peel](../.specs/assets/component-demos/occlusion-peel.gif)
+
+## `relay_nodes`
+
+Evenly spaced handoff nodes for relay and ownership transfer scenes.
+
+![relay_nodes](../.specs/assets/component-demos/relay-nodes.gif)
+
+## `rhythm_gate_marks`
+
+Cadence marks on a rail for rhythm and gated timing scenes.
+
+![rhythm_gate_marks](../.specs/assets/component-demos/rhythm-gate-marks.gif)
+
+## `shear_rails`
+
+Offset rails and body marker for shear and lateral-resolve scenes.
+
+![shear_rails](../.specs/assets/component-demos/shear-rails.gif)
+
+## `sling_arc`
+
+Anchored release arc for sling and launch-motion scenes.
+
+![sling_arc](../.specs/assets/component-demos/sling-arc.gif)
+
+## `snap_recoil_stop`
+
+Spring-like recoil cue with a pressure stop for snap-back scenes.
+
+![snap_recoil_stop](../.specs/assets/component-demos/snap-recoil-stop.gif)
+
+## `convergence_lane`
+
+Narrowing lane for staged convergence and compression proofs.
+
+![convergence_lane](../.specs/assets/component-demos/convergence-lane.gif)
+
+## `weave_crossing`
+
+Separated crossing strokes for over-under weave explanations.
+
+![weave_crossing](../.specs/assets/component-demos/weave-crossing.gif)
 
 ## `receiver_slot`
 

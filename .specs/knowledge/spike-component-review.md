@@ -17,8 +17,8 @@ Decision meanings:
 
 Summary:
 
-- candidate: 77
-- componentized: 49
+- candidate: 65
+- componentized: 61
 - no-component: 36
 - shared-runner: 25
 
@@ -113,21 +113,21 @@ Summary:
 | `quality-mask-transfer` | quality mechanism | componentized | mask_window | README, main.py |
 | `quality-merge-funnel` | quality mechanism | componentized | merge_funnel | README, main.py |
 | `quality-negative-space-focus` | quality mechanism | componentized | negative_space_frame | README, main.py |
-| `quality-occlusion-peel` | quality mechanism | candidate | occlusion peel | README, main.py |
+| `quality-occlusion-peel` | quality mechanism | componentized | occlusion_peel | README, main.py |
 | `quality-parallax-transfer` | quality mechanism | componentized | parallax_planes | README, main.py |
 | `quality-pulse-routing` | quality mechanism | componentized | pulse | README, main.py |
 | `quality-ramp-lift` | quality mechanism | componentized | ramp_plane | README, main.py |
-| `quality-relay-handoff` | quality mechanism | candidate | relay handoff nodes | README, main.py |
-| `quality-rhythm-gating` | quality mechanism | candidate | rhythm gating | README, main.py |
+| `quality-relay-handoff` | quality mechanism | componentized | relay_nodes | README, main.py |
+| `quality-rhythm-gating` | quality mechanism | componentized | rhythm_gate_marks | README, main.py |
 | `quality-scale-hierarchy` | quality mechanism | componentized | arc_handoff | README, main.py |
-| `quality-shear-resolve` | quality mechanism | candidate | shear resolve rails | README, main.py |
+| `quality-shear-resolve` | quality mechanism | componentized | shear_rails | README, main.py |
 | `quality-sleeve-reveal` | quality mechanism | componentized | sleeve_channel | README, main.py |
-| `quality-sling-release` | quality mechanism | candidate | sling release | README, main.py |
+| `quality-sling-release` | quality mechanism | componentized | sling_arc | README, main.py |
 | `quality-slot-docking` | quality mechanism | componentized | open_slot | README, main.py |
-| `quality-snap-recoil` | quality mechanism | candidate | snap recoil stop | README, main.py |
-| `quality-staged-convergence` | quality mechanism | candidate | staged convergence lane | README, main.py |
+| `quality-snap-recoil` | quality mechanism | componentized | snap_recoil_stop | README, main.py |
+| `quality-staged-convergence` | quality mechanism | componentized | convergence_lane | README, main.py |
 | `quality-throat-gate` | quality mechanism | componentized | gate_column | README, main.py |
-| `quality-weave-crossing` | quality mechanism | candidate | weave crossing | README, main.py |
+| `quality-weave-crossing` | quality mechanism | componentized | weave_crossing | README, main.py |
 | `red-dot-alignment-spa` | browser-native red-dot | candidate | alignment guides | README, main.py, browser files |
 | `red-dot-anchor-spa` | browser-native red-dot | candidate | anchor marker | README, main.py, browser files |
 | `red-dot-arch-spa` | browser-native red-dot | componentized | arc_handoff | README, main.py, browser files |
@@ -180,14 +180,14 @@ Summary:
 | `red-dot-radial-focus-spa` | browser-native red-dot | candidate | radial focus | README, main.py, browser files |
 | `red-dot-ramp-spa` | browser-native red-dot | componentized | ramp_plane | README, main.py, browser files |
 | `red-dot-ratchet-spa` | browser-native red-dot | candidate | ratchet steps | README, main.py, browser files |
-| `red-dot-relay-spa` | browser-native red-dot | candidate | relay nodes | README, main.py, browser files |
+| `red-dot-relay-spa` | browser-native red-dot | componentized | relay_nodes | README, main.py, browser files |
 | `red-dot-resonance-spa` | browser-native red-dot | candidate | resonance rings | README, main.py, browser files |
 | `red-dot-rhythm-gate-spa` | browser-native red-dot | componentized | gate_column | README, main.py, browser files |
 | `red-dot-rivet-spa` | browser-native red-dot | candidate | rivet pin | README, main.py, browser files |
 | `red-dot-rosette-spa` | browser-native red-dot | candidate | rosette guide | README, main.py, browser files |
 | `red-dot-semaphore-spa` | browser-native red-dot | candidate | semaphore arms | README, main.py, browser files |
-| `red-dot-shear-spa` | browser-native red-dot | candidate | shear rails | README, main.py, browser files |
-| `red-dot-sling-spa` | browser-native red-dot | candidate | sling release | README, main.py, browser files |
+| `red-dot-shear-spa` | browser-native red-dot | componentized | shear_rails | README, main.py, browser files |
+| `red-dot-sling-spa` | browser-native red-dot | componentized | sling_arc | README, main.py, browser files |
 | `red-dot-splice-spa` | browser-native red-dot | candidate | splice join | README, main.py, browser files |
 | `red-dot-spring-spa` | browser-native red-dot | candidate | spring recoil | README, main.py, browser files |
 | `red-dot-switchback-spa` | browser-native red-dot | candidate | switchback route | README, main.py, browser files |
@@ -196,7 +196,7 @@ Summary:
 | `red-dot-tuning-spa` | browser-native red-dot | candidate | tuning fork | README, main.py, browser files |
 | `red-dot-turbine-spa` | browser-native red-dot | candidate | turbine rotor | README, main.py, browser files |
 | `red-dot-vault-spa` | browser-native red-dot | candidate | vault door | README, main.py, browser files |
-| `red-dot-weave-spa` | browser-native red-dot | candidate | weave crossing | README, main.py, browser files |
+| `red-dot-weave-spa` | browser-native red-dot | componentized | weave_crossing | README, main.py, browser files |
 | `red-dot-zipper-spa` | browser-native red-dot | candidate | zipper track | README, main.py, browser files |
 | `red-guide-detail-tour` | presentation/spike | no-component | workflow, API, layout, or reference experiment | README, main.py |
 | `red-point-narrative-spa` | browser-native red-dot | no-component | workflow, API, layout, or reference experiment | README, main.py, browser files |

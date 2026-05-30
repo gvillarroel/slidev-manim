@@ -333,3 +333,70 @@ def parallax_planes(width: float = 2.2, height: float = 0.62, color: str = GRAY_
     mid = slab(color, width, height, opacity).move_to(ORIGIN)
     front = slab(color, width, height, min(opacity * 1.18, 1)).move_to(RIGHT * 0.36 + DOWN * 0.34)
     return VGroup(back, mid, front)
+
+
+def occlusion_peel(width: float = 2.2, height: float = 1.35, color: str = GRAY_300, opacity: float = 0.58) -> VGroup:
+    base = open_slot(width, height, color=color, opacity=opacity * 0.72)
+    cover = slab(color, width * 0.58, height, opacity).move_to(RIGHT * width * 0.18)
+    lip = Line(cover.get_left() + UP * height / 2, cover.get_left() + DOWN * height / 2, color=color, stroke_width=3.4, stroke_opacity=opacity)
+    return VGroup(base, cover, lip)
+
+
+def relay_nodes(count: int = 3, spacing: float = 1.15, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    nodes = VGroup()
+    connectors = VGroup()
+    start = -(count - 1) * spacing / 2
+    for index in range(count):
+        nodes.add(Circle(radius=0.16, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(RIGHT * (start + index * spacing)))
+        if index:
+            connectors.add(Line(RIGHT * (start + (index - 1) * spacing), RIGHT * (start + index * spacing), color=color, stroke_width=3.2, stroke_opacity=opacity * 0.72))
+    return VGroup(connectors, nodes)
+
+
+def rhythm_gate_marks(count: int = 4, spacing: float = 0.72, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    marks = VGroup()
+    start = -(count - 1) * spacing / 2
+    for index in range(count):
+        marks.add(slab(color, 0.14, 0.72 if index % 2 == 0 else 0.46, opacity).move_to(RIGHT * (start + index * spacing)))
+    rail = Line(LEFT * (count * spacing / 2), RIGHT * (count * spacing / 2), color=color, stroke_width=2.6, stroke_opacity=opacity * 0.52)
+    rail.shift(DOWN * 0.56)
+    return VGroup(rail, marks)
+
+
+def shear_rails(width: float = 2.55, offset: float = 0.42, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    top = Line(LEFT * width / 2 + UP * 0.48, RIGHT * width / 2 + UP * 0.48 + RIGHT * offset, color=color, stroke_width=4.0, stroke_opacity=opacity)
+    bottom = Line(LEFT * width / 2 + DOWN * 0.48 + LEFT * offset, RIGHT * width / 2 + DOWN * 0.48, color=color, stroke_width=4.0, stroke_opacity=opacity)
+    body = slab(color, width * 0.58, 0.46, opacity * 0.56)
+    return VGroup(top, bottom, body)
+
+
+def sling_arc(radius: float = 1.25, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    band = Arc(radius=radius, start_angle=PI * 1.08, angle=PI * 0.86, stroke_color=color, stroke_width=4.2, stroke_opacity=opacity)
+    left_anchor = Circle(radius=0.12, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(LEFT * radius * 0.92 + DOWN * 0.34)
+    right_anchor = Circle(radius=0.12, stroke_width=0, fill_color=color, fill_opacity=opacity).move_to(RIGHT * radius * 0.92 + DOWN * 0.34)
+    return VGroup(band, left_anchor, right_anchor)
+
+
+def snap_recoil_stop(height: float = 1.9, color: str = GRAY_300, opacity: float = 0.66) -> VGroup:
+    stop = pressure_wall(height=height, color=color, opacity=opacity)
+    spring = VGroup(
+        Line(LEFT * 1.0 + UP * 0.24, LEFT * 0.72 + DOWN * 0.24, color=color, stroke_width=3.2, stroke_opacity=opacity),
+        Line(LEFT * 0.72 + DOWN * 0.24, LEFT * 0.44 + UP * 0.24, color=color, stroke_width=3.2, stroke_opacity=opacity),
+        Line(LEFT * 0.44 + UP * 0.24, LEFT * 0.16 + DOWN * 0.24, color=color, stroke_width=3.2, stroke_opacity=opacity),
+    )
+    return VGroup(spring, stop)
+
+
+def convergence_lane(width: float = 3.0, neck: float = 0.54, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    top = Line(LEFT * width / 2 + UP * 0.88, RIGHT * width / 2 + UP * neck / 2, color=color, stroke_width=4.0, stroke_opacity=opacity)
+    bottom = Line(LEFT * width / 2 + DOWN * 0.88, RIGHT * width / 2 + DOWN * neck / 2, color=color, stroke_width=4.0, stroke_opacity=opacity)
+    throat = Line(RIGHT * width / 2 + UP * neck / 2, RIGHT * width / 2 + DOWN * neck / 2, color=color, stroke_width=4.0, stroke_opacity=opacity)
+    return VGroup(top, bottom, throat)
+
+
+def weave_crossing(width: float = 2.4, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    upper = Line(LEFT * width / 2 + UP * 0.45, RIGHT * width / 2 + DOWN * 0.45, color=color, stroke_width=4.0, stroke_opacity=opacity)
+    lower_left = Line(LEFT * width / 2 + DOWN * 0.45, LEFT * 0.18 + DOWN * 0.06, color=color, stroke_width=4.0, stroke_opacity=opacity * 0.72)
+    lower_right = Line(RIGHT * 0.18 + UP * 0.06, RIGHT * width / 2 + UP * 0.45, color=color, stroke_width=4.0, stroke_opacity=opacity * 0.72)
+    gap = Circle(radius=0.18, stroke_width=0, fill_color=GRAY_100, fill_opacity=1)
+    return VGroup(upper, lower_left, lower_right, gap)
