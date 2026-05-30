@@ -30,6 +30,11 @@ Source demos live in `spikes/component-library-demos/`. Full render outputs live
 | `terminal_brackets` | ![terminal_brackets](../.specs/assets/component-demos/terminal-brackets.gif) | Separated corner marks used as a terminal resolved-state cue. |
 | `terminal_brackets_around` | ![terminal_brackets_around](../.specs/assets/component-demos/terminal-brackets-around.gif) | Convenience wrapper that sizes terminal brackets around a target cluster. |
 | `neutral_cluster` | ![neutral_cluster](../.specs/assets/component-demos/neutral-cluster.gif) | Reusable quiet gray payload cluster for transfer and resolve demos. |
+| `aperture_shutters` | ![aperture_shutters](../.specs/assets/component-demos/aperture-shutters.gif) | Reusable opening shutters extracted from aperture-style transition spikes. |
+| `merge_funnel` | ![merge_funnel](../.specs/assets/component-demos/merge-funnel.gif) | Converging guide rails for combining two inputs into one output. |
+| `orbit_guides` | ![orbit_guides](../.specs/assets/component-demos/orbit-guides.gif) | Circular guide marks for anchored orbit and return-motion explanations. |
+| `fork_guides` | ![fork_guides](../.specs/assets/component-demos/fork-guides.gif) | Branching guide rails for diverging one active actor into parallel outcomes. |
+| `pressure_wall` | ![pressure_wall](../.specs/assets/component-demos/pressure-wall.gif) | Compact resistance marker for pressure, constraint, and boundary-contact scenes. |
 | `receiver_slot` | ![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif) | Composite receiver-slot pattern with pending outline, moving payload, and terminal mark. |
 | `rhythm_gate` | ![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif) | Composite cadence pattern using several gate columns along a rail. |
 
@@ -104,6 +109,36 @@ Convenience wrapper that sizes terminal brackets around a target cluster.
 Reusable quiet gray payload cluster for transfer and resolve demos.
 
 ![neutral_cluster](../.specs/assets/component-demos/neutral-cluster.gif)
+
+## `aperture_shutters`
+
+Reusable opening shutters extracted from aperture-style transition spikes.
+
+![aperture_shutters](../.specs/assets/component-demos/aperture-shutters.gif)
+
+## `merge_funnel`
+
+Converging guide rails for combining two inputs into one output.
+
+![merge_funnel](../.specs/assets/component-demos/merge-funnel.gif)
+
+## `orbit_guides`
+
+Circular guide marks for anchored orbit and return-motion explanations.
+
+![orbit_guides](../.specs/assets/component-demos/orbit-guides.gif)
+
+## `fork_guides`
+
+Branching guide rails for diverging one active actor into parallel outcomes.
+
+![fork_guides](../.specs/assets/component-demos/fork-guides.gif)
+
+## `pressure_wall`
+
+Compact resistance marker for pressure, constraint, and boundary-contact scenes.
+
+![pressure_wall](../.specs/assets/component-demos/pressure-wall.gif)
 
 ## `receiver_slot`
 

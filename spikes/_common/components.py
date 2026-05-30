@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from manim import DOWN, LEFT, RIGHT, UP, Circle, Line, Rectangle, VGroup
+from manim import DOWN, LEFT, ORIGIN, PI, RIGHT, UP, Arc, Circle, Line, Rectangle, VGroup
 from manim.mobject.mobject import Mobject
 
 from _common.visual import GRAY_100, GRAY_200, GRAY_300, GRAY_400, GRAY_500, GRAY_600, GRAY_800, PRIMARY_RED
@@ -119,3 +119,44 @@ def neutral_cluster() -> VGroup:
         slab(GRAY_500, 0.66, 0.32).move_to(LEFT * 0.2 + DOWN * 0.66),
     )
 
+
+def aperture_shutters(width: float = 3.75, height: float = 1.32, gap: float = 1.24, color: str = GRAY_200, opacity: float = 0.78) -> VGroup:
+    top = slab(color, width, height, opacity).move_to(UP * gap / 2)
+    bottom = slab(color, width, height, opacity).move_to(DOWN * gap / 2)
+    return VGroup(top, bottom)
+
+
+def merge_funnel(width: float = 3.2, height: float = 2.2, outlet_height: float = 0.46, color: str = GRAY_400, opacity: float = 0.72) -> VGroup:
+    top = Line(LEFT * width / 2 + UP * height / 2, RIGHT * width / 2 + UP * outlet_height / 2)
+    bottom = Line(LEFT * width / 2 + DOWN * height / 2, RIGHT * width / 2 + DOWN * outlet_height / 2)
+    outlet = Line(RIGHT * width / 2 + DOWN * outlet_height / 2, RIGHT * width / 2 + UP * outlet_height / 2)
+    funnel = VGroup(top, bottom, outlet)
+    funnel.set_stroke(color=color, width=5, opacity=opacity)
+    return funnel
+
+
+def orbit_guides(radius: float = 1.55, color: str = GRAY_200, opacity: float = 0.48) -> VGroup:
+    zone = Circle(radius=radius, stroke_color=color, stroke_width=3.0, stroke_opacity=opacity, fill_opacity=0)
+    outer = Arc(radius=radius * 1.08, start_angle=PI * 0.86, angle=-PI * 1.08)
+    inner = Arc(radius=radius * 0.58, start_angle=-PI * 0.18, angle=PI * 0.62)
+    guides = VGroup(zone, outer, inner)
+    guides.set_stroke(color=color, width=3.2, opacity=opacity)
+    return guides
+
+
+def fork_guides(width: float = 3.4, spread: float = 1.45, color: str = GRAY_300, opacity: float = 0.62) -> VGroup:
+    trunk = Line(LEFT * width / 2, ORIGIN)
+    upper = Line(ORIGIN, RIGHT * width / 2 + UP * spread / 2)
+    lower = Line(ORIGIN, RIGHT * width / 2 + DOWN * spread / 2)
+    fork = VGroup(trunk, upper, lower)
+    fork.set_stroke(color=color, width=4.2, opacity=opacity)
+    return fork
+
+
+def pressure_wall(height: float = 2.85, color: str = GRAY_300, opacity: float = 0.72) -> VGroup:
+    wall = slab(color, 0.16, height, opacity)
+    ticks = VGroup(*[
+        Line(LEFT * 0.34 + UP * y, LEFT * 0.08 + UP * y, color=color, stroke_width=2.4, stroke_opacity=opacity * 0.76)
+        for y in (-height * 0.34, 0, height * 0.34)
+    ])
+    return VGroup(wall, ticks)

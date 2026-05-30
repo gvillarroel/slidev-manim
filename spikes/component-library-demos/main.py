@@ -23,7 +23,25 @@ SPIKES_DIR = SPIKE_DIR.parent
 if str(SPIKES_DIR) not in sys.path:
     sys.path.insert(0, str(SPIKES_DIR))
 
-from _common.components import bridge_lane, gate_column, mask_window, neutral_cluster, open_slot, pulse, slab, source_slot, target_slot, terminal_brackets, terminal_brackets_around, time_rail
+from _common.components import (
+    aperture_shutters,
+    bridge_lane,
+    fork_guides,
+    gate_column,
+    mask_window,
+    merge_funnel,
+    neutral_cluster,
+    open_slot,
+    orbit_guides,
+    pressure_wall,
+    pulse,
+    slab,
+    source_slot,
+    target_slot,
+    terminal_brackets,
+    terminal_brackets_around,
+    time_rail,
+)
 from _common.runner import convert_video_to_gif, render_scene
 from _common.visual import GRAY_100, GRAY_200, GRAY_300, GRAY_400, GRAY_500, GRAY_600, GRAY_800, PRIMARY_RED, WHITE_HEX, configure_transparent_scene
 
@@ -141,6 +159,83 @@ class NeutralClusterDemo(Scene):
         self.play(FadeIn(cluster), run_time=0.55)
         self.play(cluster.animate.scale(1.06), run_time=0.35, rate_func=there_and_back)
         self.wait(1.5)
+
+
+class ApertureShuttersDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "aperture_shutters")
+        shutters = aperture_shutters()
+        actor = pulse(0.17).move_to(LEFT * 2.65)
+        self.add(shutters, actor)
+        self.wait(0.55)
+        self.play(shutters[0].animate.shift(UP * 0.5), shutters[1].animate.shift(DOWN * 0.5), run_time=0.5, rate_func=smooth)
+        self.play(actor.animate.move_to(RIGHT * 2.65), run_time=1.0, rate_func=smooth)
+        self.play(shutters[0].animate.shift(DOWN * 0.5), shutters[1].animate.shift(UP * 0.5), actor.animate.scale(1.16), run_time=0.42, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class MergeFunnelDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "merge_funnel")
+        funnel = merge_funnel()
+        top = pulse(0.14).move_to(LEFT * 2.45 + UP * 1.15)
+        bottom = pulse(0.14).move_to(LEFT * 2.45 + DOWN * 1.15)
+        output = pulse(0.22).move_to(RIGHT * 1.9)
+        self.add(funnel, top, bottom)
+        self.wait(0.55)
+        self.play(funnel.animate.set_stroke(color=PRIMARY_RED, opacity=0.82), top.animate.move_to(RIGHT * 1.45 + UP * 0.18), bottom.animate.move_to(RIGHT * 1.45 + DOWN * 0.18), run_time=0.9, rate_func=smooth)
+        self.play(FadeOut(top), FadeOut(bottom), FadeIn(output), funnel.animate.set_stroke(color=GRAY_300, opacity=0.46), run_time=0.45)
+        self.play(output.animate.scale(1.14), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class OrbitGuidesDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "orbit_guides")
+        guides = orbit_guides()
+        anchor = pulse(0.2).move_to(ORIGIN)
+        satellite = pulse(0.12).move_to(LEFT * 1.65 + UP * 0.55)
+        self.add(guides, anchor, satellite)
+        self.wait(0.55)
+        self.play(satellite.animate.move_to(UP * 1.65 + RIGHT * 0.2), run_time=0.42, rate_func=smooth)
+        self.play(satellite.animate.move_to(RIGHT * 1.55 + DOWN * 0.35), guides.animate.set_stroke(color=PRIMARY_RED, opacity=0.68), run_time=0.48, rate_func=smooth)
+        self.play(satellite.animate.move_to(LEFT * 0.35 + DOWN * 1.35), guides.animate.set_stroke(color=GRAY_200, opacity=0.46), run_time=0.45, rate_func=smooth)
+        self.play(anchor.animate.scale(1.12), satellite.animate.scale(1.14), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.25)
+
+
+class ForkGuidesDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "fork_guides")
+        fork = fork_guides()
+        actor = pulse(0.17).move_to(LEFT * 2.2)
+        upper = pulse(0.13).move_to(RIGHT * 2.05 + UP * 0.72)
+        lower = pulse(0.13).move_to(RIGHT * 2.05 + DOWN * 0.72)
+        self.add(fork, actor)
+        self.wait(0.6)
+        self.play(actor.animate.move_to(ORIGIN), fork.animate.set_stroke(color=PRIMARY_RED, opacity=0.82), run_time=0.7, rate_func=smooth)
+        self.play(FadeOut(actor), FadeIn(upper), FadeIn(lower), fork.animate.set_stroke(color=GRAY_300, opacity=0.58), run_time=0.48)
+        self.play(upper.animate.scale(1.16), lower.animate.scale(1.16), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.3)
+
+
+class PressureWallDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "pressure_wall")
+        wall = pressure_wall().move_to(RIGHT * 1.0)
+        actor = pulse(0.18).move_to(LEFT * 2.45)
+        lane = Line(LEFT * 2.8, RIGHT * 1.0, color=GRAY_200, stroke_width=3.4).set_opacity(0.32)
+        self.add(lane, wall, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(RIGHT * 0.62), lane.animate.set_opacity(0.56), run_time=0.9, rate_func=smooth)
+        self.play(wall.animate.shift(RIGHT * 0.18).set_opacity(0.86), actor.animate.scale(1.24), run_time=0.36, rate_func=there_and_back)
+        self.play(wall.animate.shift(LEFT * 0.18).set_opacity(0.72), actor.animate.move_to(LEFT * 0.05), run_time=0.45, rate_func=smooth)
+        self.wait(1.35)
 
 
 class ReceiverSlotDemo(Scene):
@@ -272,6 +367,11 @@ COMPONENTS = [
     ComponentDemo("terminal-brackets", "terminal_brackets", TerminalBracketsOnlyDemo, "Separated corner marks used as a terminal resolved-state cue."),
     ComponentDemo("terminal-brackets-around", "terminal_brackets_around", TerminalBracketsDemo, "Convenience wrapper that sizes terminal brackets around a target cluster."),
     ComponentDemo("neutral-cluster", "neutral_cluster", NeutralClusterDemo, "Reusable quiet gray payload cluster for transfer and resolve demos."),
+    ComponentDemo("aperture-shutters", "aperture_shutters", ApertureShuttersDemo, "Reusable opening shutters extracted from aperture-style transition spikes."),
+    ComponentDemo("merge-funnel", "merge_funnel", MergeFunnelDemo, "Converging guide rails for combining two inputs into one output."),
+    ComponentDemo("orbit-guides", "orbit_guides", OrbitGuidesDemo, "Circular guide marks for anchored orbit and return-motion explanations."),
+    ComponentDemo("fork-guides", "fork_guides", ForkGuidesDemo, "Branching guide rails for diverging one active actor into parallel outcomes."),
+    ComponentDemo("pressure-wall", "pressure_wall", PressureWallDemo, "Compact resistance marker for pressure, constraint, and boundary-contact scenes."),
     ComponentDemo("receiver-slot", "receiver_slot", ReceiverSlotDemo, "Composite receiver-slot pattern with pending outline, moving payload, and terminal mark."),
     ComponentDemo("rhythm-gate", "rhythm_gate", RhythmGateDemo, "Composite cadence pattern using several gate columns along a rail."),
 ]
