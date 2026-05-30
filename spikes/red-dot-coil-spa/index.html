@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Coil SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot coil visual narrative">
+        <div class="stage-frame" tabindex="0">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot coil narrative</title>
+            <desc id="stage-desc">
+              A single red point enters a quiet field, tests several curl structures, compresses between vertical
+              shutters, then uncoils into a calm centered coil-like emblem.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fcfcfc" />
+                <stop offset="100%" stop-color="#f2f2f2" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="50%" cy="48%" r="48%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="78%" stop-color="#ffffff" stop-opacity="0.34" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.88" />
+                <stop offset="72%" stop-color="#ffccd5" stop-opacity="0.18" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="plate-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+                <stop offset="14%" stop-color="#ffffff" stop-opacity="0.94" />
+                <stop offset="86%" stop-color="#ffffff" stop-opacity="0.94" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08" />
+              </linearGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="808" cy="448" rx="716" ry="320" fill="url(#field-glow)" opacity="0.96" />
+            <ellipse cx="1128" cy="282" rx="236" ry="154" fill="#ffccd5" opacity="0.08" />
+            <ellipse cx="454" cy="648" rx="266" ry="158" fill="#ffffff" opacity="0.38" />
+
+            <g id="layout-root">
+              <rect x="108" y="110" width="1384" height="680" fill="#ffffff" opacity="0.56" />
+              <rect x="144" y="180" width="1312" height="540" fill="url(#plate-fade)" opacity="0.94" />
+              <rect x="204" y="220" width="1192" height="460" fill="#ffffff" opacity="0.18" />
+
+              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 220 252 H 1380" />
+                <path d="M 220 450 H 1380" />
+                <path d="M 220 648 H 1380" />
+                <path d="M 372 220 V 680" />
+                <path d="M 800 220 V 680" />
+                <path d="M 1228 220 V 680" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="narrative-spine"
+                  d="M 304 450 C 434 450, 588 450, 760 450"
+                  fill="none"
+                  stroke="#d8d8d8"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+                <path
+                  id="active-trail"
+                  d="M 304 450 C 434 450, 588 450, 760 450"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="9"
+                  stroke-linecap="round"
+                  stroke-dasharray="0 1200"
+                  opacity="0"
+                />
+
+                <path
+                  id="search-guide-a"
+                  d="M 560 450 C 592 420, 620 394, 648 368"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-b"
+                  d="M 648 368 C 724 322, 782 304, 836 332"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-c"
+                  d="M 836 332 C 914 342, 968 362, 1002 392"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+
+                <g id="candidate-curl" opacity="0">
+                  <path
+                    d="M -42 28 C -56 -6, -28 -44, 12 -42 C 42 -40, 58 -14, 48 10 C 38 32, 10 38, -10 24 C -22 16, -20 0, -10 -6"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M -16 40 H 34" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -4 8 C 6 -4, 18 -8, 26 -2" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-sway" opacity="0">
+                  <path
+                    d="M -66 10 C -38 -38, -4 -38, 24 8 C 42 38, 68 38, 90 0"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M -44 34 H 72" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -8 12 C 8 -10, 24 -10, 40 10" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-coil" opacity="0">
+                  <path
+                    d="M -82 4 C -66 -30, -38 -30, -22 4 C -6 38, 22 38, 38 4 C 54 -30, 82 -30, 96 0"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M -58 36 H 78" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                  <path d="M -18 8 C -4 -8, 12 -8, 26 8 C 40 24, 56 24, 70 8" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                </g>
+
+                <path
+                  id="throat-guide"
+                  d="M 820 302 V 598"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="10 14"
+                  opacity="0"
+                />
+                <path id="brace-left" d="M 734 450 H 782" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <path id="brace-right" d="M 858 450 H 906" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0" />
+
+                <g id="clamp-top" opacity="0">
+                  <path d="M -96 -94 H 96" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path
+                    d="M -82 -76 H 82 L 48 -18 H -48 Z"
+                    fill="#ffffff"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M -22 -44 L 0 -14 L 22 -44" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+
+                <g id="clamp-bottom" opacity="0">
+                  <path d="M -96 94 H 96" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path
+                    d="M -82 76 H 82 L 48 18 H -48 Z"
+                    fill="#ffffff"
+                    stroke="#4f4f4f"
+                    stroke-width="5"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M -22 44 L 0 14 L 22 44" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+
+                <path id="rail-top" d="M 742 354 H 898" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" opacity="0" />
+                <path id="rail-bottom" d="M 742 546 H 898" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" opacity="0" />
+                <circle id="pressure-halo" cx="820" cy="450" r="118" fill="url(#halo-gradient)" opacity="0" />
+
+                <path
+                  id="coil-shell"
+                  d="M 820 450
+                     C 848 450, 854 428, 846 408
+                     C 834 378, 792 378, 776 410
+                     C 752 456, 766 512, 814 534
+                     C 880 564, 944 518, 952 450
+                     C 962 352, 890 294, 810 296
+                     C 706 298, 636 386, 648 494
+                     C 660 606, 778 668, 894 642"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="coil-base"
+                  d="M 820 450
+                     C 848 450, 854 428, 846 408
+                     C 834 378, 792 378, 776 410
+                     C 752 456, 766 512, 814 534
+                     C 880 564, 944 518, 952 450
+                     C 962 352, 890 294, 810 296
+                     C 706 298, 636 386, 648 494
+                     C 660 606, 778 668, 894 642"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-dasharray="10 14"
+                  opacity="0"
+                />
+                <path
+                  id="coil-trace"
+                  d="M 820 450
+                     C 848 450, 854 428, 846 408
+                     C 834 378, 792 378, 776 410
+                     C 752 456, 766 512, 814 534
+                     C 880 564, 944 518, 952 450
+                     C 962 352, 890 294, 810 296
+                     C 706 298, 636 386, 648 494
+                     C 660 606, 778 668, 894 642"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-dasharray="0 2600"
+                  opacity="0"
+                />
+
+                <circle id="core-ring" cx="820" cy="450" r="42" fill="none" stroke="#cfcfcf" stroke-width="4" opacity="0" />
+
+                <g id="slot-north" opacity="0">
+                  <path d="M -34 10 H -8 M 8 10 H 34 M 0 -18 V 2" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" />
+                </g>
+                <g id="slot-east" opacity="0">
+                  <path d="M -10 -34 V -8 M -10 8 V 34 M 18 0 H -2" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" />
+                </g>
+                <g id="slot-south" opacity="0">
+                  <path d="M -34 -10 H -8 M 8 -10 H 34 M 0 18 V -2" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" />
+                </g>
+                <g id="slot-west" opacity="0">
+                  <path d="M 10 -34 V -8 M 10 8 V 34 M -18 0 H 2" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" />
+                </g>
+
+                <g id="stability-frame" opacity="0" stroke="#9e1b32" stroke-width="5" stroke-linecap="round" fill="none">
+                  <path d="M 666 306 H 708 M 666 306 V 348" />
+                  <path d="M 1006 306 H 964 M 1006 306 V 348" />
+                  <path d="M 666 630 H 708 M 666 630 V 588" />
+                  <path d="M 1006 630 H 964 M 1006 630 V 588" />
+                </g>
+                <circle id="resolution-halo" cx="820" cy="450" r="160" fill="url(#halo-gradient)" opacity="0" />
+
+                <circle id="dot-halo" cx="304" cy="450" r="76" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="304" cy="450" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
