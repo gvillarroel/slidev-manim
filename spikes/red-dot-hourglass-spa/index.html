@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Hourglass SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot hourglass visual narrative">
+        <div class="stage-frame" tabindex="0">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot hourglass narrative</title>
+            <desc id="stage-desc">
+              A single red point arrives through a quiet lane, tests three vessel grammars in the upper field,
+              compresses through a narrow hourglass waist, and resolves into a calm centered hourglass emblem.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fcfcfc" />
+                <stop offset="100%" stop-color="#f1f1f1" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="50%" cy="48%" r="56%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="78%" stop-color="#ffffff" stop-opacity="0.3" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.86" />
+                <stop offset="72%" stop-color="#ffccd5" stop-opacity="0.16" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="panel-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06" />
+                <stop offset="14%" stop-color="#ffffff" stop-opacity="0.96" />
+                <stop offset="86%" stop-color="#ffffff" stop-opacity="0.96" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06" />
+              </linearGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="810" cy="450" rx="736" ry="332" fill="url(#field-glow)" opacity="0.96" />
+            <ellipse cx="1124" cy="268" rx="248" ry="154" fill="#ffccd5" opacity="0.06" />
+            <ellipse cx="458" cy="664" rx="264" ry="158" fill="#ffffff" opacity="0.4" />
+
+            <g id="layout-root">
+              <rect x="108" y="104" width="1384" height="692" fill="#ffffff" opacity="0.58" />
+              <rect x="146" y="174" width="1308" height="552" fill="url(#panel-fade)" opacity="0.94" />
+              <rect x="214" y="212" width="1172" height="476" fill="#ffffff" opacity="0.16" />
+
+              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 230 252 H 1370" />
+                <path d="M 230 450 H 1370" />
+                <path d="M 230 648 H 1370" />
+                <path d="M 360 212 V 688" />
+                <path d="M 800 212 V 688" />
+                <path d="M 1240 212 V 688" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="entry-lane"
+                  d="M 290 450 C 404 450, 514 450, 644 450"
+                  fill="none"
+                  stroke="#d6d6d6"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+                <path
+                  id="active-trail"
+                  d="M 290 450 C 404 450, 514 450, 644 450"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="9"
+                  stroke-linecap="round"
+                  stroke-dasharray="0 1200"
+                  opacity="0"
+                />
+
+                <path
+                  id="glass-left-guide"
+                  d="M 748 250 C 672 300, 688 372, 826 448 C 688 528, 672 598, 748 650"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="10 14"
+                  opacity="0"
+                />
+                <path
+                  id="glass-right-guide"
+                  d="M 952 250 C 1028 300, 1012 372, 874 448 C 1012 528, 1028 598, 952 650"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="10 14"
+                  opacity="0"
+                />
+                <path id="axis-guide" d="M 850 240 V 660" fill="none" stroke="#dddddd" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 14" opacity="0" />
+                <path id="top-slot" d="M 760 286 Q 850 254 940 286" fill="none" stroke="#d7d7d7" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <path id="bottom-slot" d="M 776 614 Q 850 642 924 614" fill="none" stroke="#d7d7d7" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <path id="waist-guide" d="M 814 450 H 886" fill="none" stroke="#d1d1d1" stroke-width="5" stroke-linecap="round" opacity="0" />
+
+                <path id="search-arc-left" d="M 626 450 C 662 400, 682 364, 706 330" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 12" opacity="0" />
+                <path id="search-arc-mid" d="M 652 450 C 736 398, 790 338, 850 300" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 12" opacity="0" />
+                <path id="search-arc-right" d="M 678 450 C 792 448, 884 430, 956 372" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 12" opacity="0" />
+                <path id="search-arc-return" d="M 956 372 C 938 404, 900 428, 804 388" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 12" opacity="0" />
+
+                <g id="candidate-left" opacity="0">
+                  <path d="M -64 44 Q -22 -56 36 -22 Q 52 2 52 36" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M -24 10 Q 2 -30 30 -18" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                  <path d="M -74 58 H 38" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-mid" opacity="0">
+                  <path d="M -54 18 Q 0 -72 54 18" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path d="M -42 54 Q 0 12 42 54" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path d="M 0 -10 V 54" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                </g>
+
+                <g id="candidate-right" opacity="0">
+                  <path d="M -44 -22 Q 10 -58 54 24 Q 64 48 48 70" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M -8 -10 Q 22 18 36 56" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" />
+                  <path d="M -50 82 H 54" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" />
+                </g>
+
+                <circle id="echo-left" cx="706" cy="330" r="48" fill="none" stroke="#cfcfcf" stroke-width="3" opacity="0" />
+                <circle id="echo-mid" cx="850" cy="300" r="42" fill="none" stroke="#cfcfcf" stroke-width="3" opacity="0" />
+                <circle id="echo-right" cx="956" cy="372" r="50" fill="none" stroke="#cfcfcf" stroke-width="3" opacity="0" />
+
+                <g id="waist-left" opacity="0">
+                  <path d="M -162 -6 H -50" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path d="M -120 -112 C -46 -74, -30 -22, -20 0 C -30 22, -46 74, -120 112" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path d="M -84 -46 C -46 -26, -34 -8, -24 0" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                </g>
+                <g id="waist-right" opacity="0">
+                  <path d="M 162 6 H 50" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path d="M 120 -112 C 46 -74, 30 -22, 20 0 C 30 22, 46 74, 120 112" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="round" />
+                  <path d="M 84 46 C 46 26, 34 8, 24 0" fill="none" stroke="#9e1b32" stroke-width="7" stroke-linecap="round" />
+                </g>
+                <path id="waist-cap-top" d="M 794 344 H 906" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <path id="waist-cap-bottom" d="M 794 556 H 906" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <circle id="pressure-halo" cx="850" cy="450" r="122" fill="url(#halo-gradient)" opacity="0" />
+
+                <g id="hourglass-group" opacity="0">
+                  <path id="trace-upper-left" d="M 850 450 C 804 420, 756 370, 748 250" fill="none" stroke="#9e1b32" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 1200" opacity="0" />
+                  <path id="trace-upper-right" d="M 850 450 C 896 420, 944 370, 952 250" fill="none" stroke="#9e1b32" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 1200" opacity="0" />
+                  <path id="trace-lower-left" d="M 850 450 C 804 488, 760 554, 776 628" fill="none" stroke="#9e1b32" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 1200" opacity="0" />
+                  <path id="trace-lower-right" d="M 850 450 C 896 488, 940 554, 924 628" fill="none" stroke="#9e1b32" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 1200" opacity="0" />
+
+                  <path id="glass-left" d="M 748 250 C 672 300, 688 372, 826 448 C 688 528, 672 598, 776 628" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
+                  <path id="glass-right" d="M 952 250 C 1028 300, 1012 372, 874 448 C 1012 528, 1028 598, 924 628" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
+                  <path id="rim-top" d="M 748 250 Q 850 220 952 250" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+                  <path id="rim-bottom" d="M 776 628 Q 850 654 924 628" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+                  <path id="pocket-top" d="M 786 312 Q 850 284 914 312" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" opacity="0" />
+                  <path id="pocket-bottom" d="M 798 574 Q 850 596 902 574" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" opacity="0" />
+                  <path id="grain-stream" d="M 850 354 V 452" fill="none" stroke="#9e1b32" stroke-width="6" stroke-linecap="round" opacity="0" />
+                  <path id="grain-bed" d="M 818 560 Q 850 576 882 560" fill="none" stroke="#9e1b32" stroke-width="6" stroke-linecap="round" opacity="0" />
+                  <circle id="waist-ring" cx="850" cy="450" r="30" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-dasharray="10 12" opacity="0" />
+                  <g id="resolution-brackets" opacity="0" stroke="#9e1b32" stroke-width="5" stroke-linecap="round" fill="none">
+                    <path d="M 704 232 H 748 M 704 232 V 276" />
+                    <path d="M 996 232 H 952 M 996 232 V 276" />
+                    <path d="M 734 652 H 690 M 690 652 V 608" />
+                  </g>
+                  <circle id="resolution-halo" cx="850" cy="450" r="176" fill="url(#halo-gradient)" opacity="0" />
+                </g>
+
+                <circle id="dot-halo" cx="290" cy="450" r="80" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="290" cy="450" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
