@@ -15,7 +15,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from manim import DOWN, LEFT, ORIGIN, RIGHT, UP, AnimationGroup, Create, FadeIn, FadeOut, Line, Rectangle, Scene, Text, Transform, VGroup, smooth, there_and_back
+from manim import DOWN, LEFT, ORIGIN, RIGHT, UP, AnimationGroup, Create, FadeIn, FadeOut, Line, Rectangle, Rotate, Scene, Text, Transform, VGroup, smooth, there_and_back
 
 SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parent.parent
@@ -26,8 +26,11 @@ if str(SPIKES_DIR) not in sys.path:
 from _common.components import (
     aperture_shutters,
     bridge_lane,
+    clamp_pair,
+    fan_guides,
     fork_guides,
     gate_column,
+    hinge_pivot,
     mask_window,
     merge_funnel,
     neutral_cluster,
@@ -35,8 +38,10 @@ from _common.components import (
     orbit_guides,
     pressure_wall,
     pulse,
+    ramp_plane,
     slab,
     source_slot,
+    sleeve_channel,
     target_slot,
     terminal_brackets,
     terminal_brackets_around,
@@ -238,6 +243,77 @@ class PressureWallDemo(Scene):
         self.wait(1.35)
 
 
+class ClampPairDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "clamp_pair")
+        clamp = clamp_pair()
+        actor = slab(GRAY_600, 1.55, 0.42).move_to(LEFT * 2.4)
+        self.add(clamp, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN), run_time=0.75, rate_func=smooth)
+        self.play(clamp[0].animate.shift(RIGHT * 0.25).set_opacity(0.92), clamp[1].animate.shift(LEFT * 0.25).set_opacity(0.92), actor.animate.scale(0.78), run_time=0.45, rate_func=smooth)
+        self.play(clamp.animate.set_color(PRIMARY_RED), actor.animate.scale(1.12), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.3)
+
+
+class SleeveChannelDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "sleeve_channel")
+        sleeve = sleeve_channel()
+        actor = slab(GRAY_600, 1.25, 0.38).move_to(LEFT * 2.35)
+        revealed = neutral_cluster().scale(0.72).move_to(RIGHT * 1.45)
+        self.add(sleeve, actor)
+        self.wait(0.55)
+        self.play(actor.animate.move_to(ORIGIN), sleeve.animate.set_stroke(color=PRIMARY_RED, opacity=0.76), run_time=0.75, rate_func=smooth)
+        self.play(Transform(actor, revealed), sleeve.animate.set_stroke(color=GRAY_300, opacity=0.4), run_time=0.85, rate_func=smooth)
+        self.play(FadeOut(sleeve), actor.animate.scale(1.05), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class RampPlaneDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "ramp_plane")
+        ramp = ramp_plane()
+        actor = pulse(0.18).move_to(LEFT * 1.75 + DOWN * 0.72)
+        target = open_slot(0.82, 0.82, opacity=0.38).move_to(RIGHT * 1.75 + UP * 0.72)
+        self.add(ramp, target, actor)
+        self.wait(0.55)
+        self.play(ramp.animate.set_stroke(color=PRIMARY_RED, opacity=0.74), actor.animate.move_to(RIGHT * 1.55 + UP * 0.62), run_time=1.05, rate_func=smooth)
+        self.play(FadeOut(ramp), target.animate.set_opacity(0.0), actor.animate.scale(1.14), run_time=0.4, rate_func=there_and_back)
+        self.wait(1.35)
+
+
+class FanGuidesDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "fan_guides")
+        fan = fan_guides()
+        actor = pulse(0.18).move_to(ORIGIN)
+        outputs = VGroup(*[pulse(0.1, GRAY_500).move_to(point) for point in [RIGHT * 1.8, RIGHT * 1.45 + UP * 0.9, RIGHT * 1.45 + DOWN * 0.9]])
+        self.add(fan, actor)
+        self.wait(0.55)
+        self.play(fan.animate.set_stroke(color=PRIMARY_RED, opacity=0.72), run_time=0.45)
+        self.play(FadeIn(outputs), actor.animate.scale(1.18), run_time=0.55, rate_func=there_and_back)
+        self.play(fan.animate.set_stroke(color=GRAY_300, opacity=0.42), outputs.animate.set_fill(PRIMARY_RED, opacity=1), run_time=0.45)
+        self.wait(1.35)
+
+
+class HingePivotDemo(Scene):
+    def construct(self) -> None:
+        configure_transparent_scene(self)
+        add_name(self, "hinge_pivot")
+        hinge = hinge_pivot()
+        actor = pulse(0.14).move_to(RIGHT * 1.75)
+        self.add(hinge, actor)
+        self.wait(0.55)
+        self.play(Rotate(hinge[1], angle=0.85, about_point=ORIGIN), actor.animate.move_to(RIGHT * 1.14 + UP * 1.3), hinge[2].animate.set_stroke(color=PRIMARY_RED, opacity=0.8), run_time=0.9, rate_func=smooth)
+        self.play(hinge[0].animate.set_fill(PRIMARY_RED, opacity=1), actor.animate.scale(1.16), run_time=0.35, rate_func=there_and_back)
+        self.wait(1.35)
+
+
 class ReceiverSlotDemo(Scene):
     def construct(self) -> None:
         configure_transparent_scene(self)
@@ -372,6 +448,11 @@ COMPONENTS = [
     ComponentDemo("orbit-guides", "orbit_guides", OrbitGuidesDemo, "Circular guide marks for anchored orbit and return-motion explanations."),
     ComponentDemo("fork-guides", "fork_guides", ForkGuidesDemo, "Branching guide rails for diverging one active actor into parallel outcomes."),
     ComponentDemo("pressure-wall", "pressure_wall", PressureWallDemo, "Compact resistance marker for pressure, constraint, and boundary-contact scenes."),
+    ComponentDemo("clamp-pair", "clamp_pair", ClampPairDemo, "Opposing vertical clamp bars extracted from compression and clamp-close spikes."),
+    ComponentDemo("sleeve-channel", "sleeve_channel", SleeveChannelDemo, "Three-sided reveal sleeve for contained payload transitions."),
+    ComponentDemo("ramp-plane", "ramp_plane", RampPlaneDemo, "Inclined support plane for lift, ramp, and assisted-transfer scenes."),
+    ComponentDemo("fan-guides", "fan_guides", FanGuidesDemo, "Radial guide set for fan-out, splay, and multi-target distribution scenes."),
+    ComponentDemo("hinge-pivot", "hinge_pivot", HingePivotDemo, "Pivot, arm, and arc guide for hinge or swing-motion explanations."),
     ComponentDemo("receiver-slot", "receiver_slot", ReceiverSlotDemo, "Composite receiver-slot pattern with pending outline, moving payload, and terminal mark."),
     ComponentDemo("rhythm-gate", "rhythm_gate", RhythmGateDemo, "Composite cadence pattern using several gate columns along a rail."),
 ]

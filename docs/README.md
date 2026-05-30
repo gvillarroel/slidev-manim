@@ -35,6 +35,11 @@ Source demos live in `spikes/component-library-demos/`. Full render outputs live
 | `orbit_guides` | ![orbit_guides](../.specs/assets/component-demos/orbit-guides.gif) | Circular guide marks for anchored orbit and return-motion explanations. |
 | `fork_guides` | ![fork_guides](../.specs/assets/component-demos/fork-guides.gif) | Branching guide rails for diverging one active actor into parallel outcomes. |
 | `pressure_wall` | ![pressure_wall](../.specs/assets/component-demos/pressure-wall.gif) | Compact resistance marker for pressure, constraint, and boundary-contact scenes. |
+| `clamp_pair` | ![clamp_pair](../.specs/assets/component-demos/clamp-pair.gif) | Opposing vertical clamp bars extracted from compression and clamp-close spikes. |
+| `sleeve_channel` | ![sleeve_channel](../.specs/assets/component-demos/sleeve-channel.gif) | Three-sided reveal sleeve for contained payload transitions. |
+| `ramp_plane` | ![ramp_plane](../.specs/assets/component-demos/ramp-plane.gif) | Inclined support plane for lift, ramp, and assisted-transfer scenes. |
+| `fan_guides` | ![fan_guides](../.specs/assets/component-demos/fan-guides.gif) | Radial guide set for fan-out, splay, and multi-target distribution scenes. |
+| `hinge_pivot` | ![hinge_pivot](../.specs/assets/component-demos/hinge-pivot.gif) | Pivot, arm, and arc guide for hinge or swing-motion explanations. |
 | `receiver_slot` | ![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif) | Composite receiver-slot pattern with pending outline, moving payload, and terminal mark. |
 | `rhythm_gate` | ![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif) | Composite cadence pattern using several gate columns along a rail. |
 
@@ -139,6 +144,36 @@ Branching guide rails for diverging one active actor into parallel outcomes.
 Compact resistance marker for pressure, constraint, and boundary-contact scenes.
 
 ![pressure_wall](../.specs/assets/component-demos/pressure-wall.gif)
+
+## `clamp_pair`
+
+Opposing vertical clamp bars extracted from compression and clamp-close spikes.
+
+![clamp_pair](../.specs/assets/component-demos/clamp-pair.gif)
+
+## `sleeve_channel`
+
+Three-sided reveal sleeve for contained payload transitions.
+
+![sleeve_channel](../.specs/assets/component-demos/sleeve-channel.gif)
+
+## `ramp_plane`
+
+Inclined support plane for lift, ramp, and assisted-transfer scenes.
+
+![ramp_plane](../.specs/assets/component-demos/ramp-plane.gif)
+
+## `fan_guides`
+
+Radial guide set for fan-out, splay, and multi-target distribution scenes.
+
+![fan_guides](../.specs/assets/component-demos/fan-guides.gif)
+
+## `hinge_pivot`
+
+Pivot, arm, and arc guide for hinge or swing-motion explanations.
+
+![hinge_pivot](../.specs/assets/component-demos/hinge-pivot.gif)
 
 ## `receiver_slot`
 

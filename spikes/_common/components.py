@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from math import cos, sin
+
 from manim import DOWN, LEFT, ORIGIN, PI, RIGHT, UP, Arc, Circle, Line, Rectangle, VGroup
 from manim.mobject.mobject import Mobject
 
@@ -160,3 +162,49 @@ def pressure_wall(height: float = 2.85, color: str = GRAY_300, opacity: float = 
         for y in (-height * 0.34, 0, height * 0.34)
     ])
     return VGroup(wall, ticks)
+
+
+def clamp_pair(height: float = 2.25, gap: float = 1.28, width: float = 0.24, color: str = GRAY_400, opacity: float = 0.7) -> VGroup:
+    left = slab(color, width, height, opacity).move_to(LEFT * gap / 2)
+    right = slab(color, width, height, opacity).move_to(RIGHT * gap / 2)
+    return VGroup(left, right)
+
+
+def sleeve_channel(width: float = 1.7, height: float = 1.5, color: str = GRAY_300, opacity: float = 0.68) -> VGroup:
+    left = Line(LEFT * width / 2 + UP * height / 2, LEFT * width / 2 + DOWN * height / 2)
+    top = Line(LEFT * width / 2 + UP * height / 2, RIGHT * width / 2 + UP * height / 2)
+    bottom = Line(LEFT * width / 2 + DOWN * height / 2, RIGHT * width / 2 + DOWN * height / 2)
+    sleeve = VGroup(left, top, bottom)
+    sleeve.set_stroke(color=color, width=5.0, opacity=opacity)
+    return sleeve
+
+
+def ramp_plane(width: float = 2.75, rise: float = 1.05, color: str = GRAY_300, opacity: float = 0.64) -> VGroup:
+    plane = Line(LEFT * width / 2 + DOWN * rise / 2, RIGHT * width / 2 + UP * rise / 2)
+    floor = Line(LEFT * width / 2 + DOWN * rise / 2, RIGHT * width / 2 + DOWN * rise / 2)
+    brace = Line(RIGHT * width / 2 + DOWN * rise / 2, RIGHT * width / 2 + UP * rise / 2)
+    ramp = VGroup(plane, floor, brace)
+    ramp.set_stroke(color=color, width=4.2, opacity=opacity)
+    return ramp
+
+
+def fan_guides(count: int = 5, radius: float = 1.75, spread: float = PI * 0.72, color: str = GRAY_300, opacity: float = 0.56) -> VGroup:
+    guides = VGroup()
+    if count <= 1:
+        guides.add(Line(ORIGIN, RIGHT * radius))
+    else:
+        start = -spread / 2
+        step = spread / (count - 1)
+        for index in range(count):
+            angle = start + step * index
+            endpoint = [radius * cos(angle), radius * sin(angle), 0]
+            guides.add(Line(ORIGIN, endpoint))
+    guides.set_stroke(color=color, width=3.4, opacity=opacity)
+    return guides
+
+
+def hinge_pivot(arm_length: float = 1.75, arc_radius: float = 0.74, color: str = GRAY_300, opacity: float = 0.68) -> VGroup:
+    pivot = Circle(radius=0.16, stroke_width=0, fill_color=color, fill_opacity=opacity)
+    arm = Line(ORIGIN, RIGHT * arm_length, color=color, stroke_width=5.0, stroke_opacity=opacity)
+    arc = Arc(radius=arc_radius, start_angle=0, angle=PI / 2, stroke_color=color, stroke_width=3.2, stroke_opacity=opacity * 0.72)
+    return VGroup(pivot, arm, arc)
