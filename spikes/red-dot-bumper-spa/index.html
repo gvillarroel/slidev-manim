@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Bumper SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot bumper visual narrative">
+        <div class="stage-frame" tabindex="0" aria-describedby="keyboard-help">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot bumper narrative</title>
+            <desc id="stage-desc">
+              A single red point enters a quiet field, tests three deflection shapes, compresses into a slanted bumper,
+              then traces that impact into a calm elbow-like chamber that holds the point in balance.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fdfdfd" />
+                <stop offset="100%" stop-color="#f1f1f1" />
+              </linearGradient>
+              <radialGradient id="field-glow" cx="52%" cy="48%" r="58%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+                <stop offset="78%" stop-color="#ffffff" stop-opacity="0.24" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.94" />
+                <stop offset="64%" stop-color="#ffccd5" stop-opacity="0.24" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="tension-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+                <stop offset="54%" stop-color="#ffccd5" stop-opacity="0.3" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <ellipse cx="824" cy="448" rx="752" ry="320" fill="url(#field-glow)" opacity="0.98" />
+            <ellipse cx="1180" cy="254" rx="212" ry="126" fill="#ffccd5" opacity="0.07" />
+            <ellipse cx="420" cy="696" rx="280" ry="152" fill="#ffffff" opacity="0.48" />
+
+            <g id="layout-root">
+              <rect x="196" y="212" width="1210" height="426" fill="#ffffff" opacity="0.14" />
+              <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+                <path d="M 236 286 H 1364" />
+                <path d="M 236 450 H 1364" />
+                <path d="M 236 614 H 1364" />
+                <path d="M 520 232 V 674" />
+                <path d="M 846 232 V 674" />
+                <path d="M 1094 232 V 674" />
+              </g>
+
+              <g id="scene-root">
+                <path
+                  id="approach-spine"
+                  d="M 296 450 C 432 450, 540 450, 612 450"
+                  fill="none"
+                  stroke="#d8d8d8"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 14"
+                  opacity="0"
+                />
+
+                <g id="pending-shell" opacity="0">
+                  <path
+                    id="shell-base"
+                    d="M 904 384 H 1084 V 548 H 938 L 974 468"
+                    fill="none"
+                    stroke="#b5b5b5"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    id="shell-inner"
+                    d="M 932 418 H 1032 V 514 H 974"
+                    fill="none"
+                    stroke="#cfcfcf"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="8 10"
+                  />
+                </g>
+
+                <path
+                  id="search-guide-a"
+                  d="M 612 450 C 666 406, 704 370, 746 338"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-b"
+                  d="M 746 338 C 714 432, 722 506, 770 562"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+                <path
+                  id="search-guide-c"
+                  d="M 770 562 C 800 512, 824 474, 846 448"
+                  fill="none"
+                  stroke="#cfcfcf"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="8 12"
+                  opacity="0"
+                />
+
+                <g id="candidate-a" opacity="0">
+                  <path
+                    d="M -54 26 L 6 -32 H 58"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M 6 -32 V 14"
+                    fill="none"
+                    stroke="#b5b5b5"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="candidate-b" opacity="0">
+                  <path
+                    d="M -54 -26 L 6 32 H 58"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M 6 32 V -14"
+                    fill="none"
+                    stroke="#b5b5b5"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="candidate-c" opacity="0">
+                  <path
+                    d="M -52 10 L 14 -54 L 50 -18"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M 14 -54 H 70"
+                    fill="none"
+                    stroke="#b5b5b5"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <ellipse id="tension-halo" cx="872" cy="450" rx="194" ry="136" fill="url(#tension-glow)" opacity="0" />
+
+                <g id="impact-bumper" opacity="0">
+                  <path
+                    d="M 806 492 L 878 420"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M 878 420 H 930"
+                    fill="none"
+                    stroke="#b5b5b5"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                  />
+                </g>
+
+                <g id="impact-keeper" opacity="0">
+                  <path
+                    d="M 948 382 V 548 M 948 382 H 1000 M 948 548 H 1000"
+                    fill="none"
+                    stroke="#4f4f4f"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+
+                <line id="top-guide" x1="782" y1="404" x2="1006" y2="404" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" opacity="0" />
+                <line id="bottom-guide" x1="782" y1="496" x2="1006" y2="496" stroke="#cfcfcf" stroke-width="6" stroke-linecap="round" opacity="0" />
+
+                <path
+                  id="deflect-route-base"
+                  d="M 836 450 L 904 384 H 1080 V 548 H 938 L 972 468"
+                  fill="none"
+                  stroke="#4f4f4f"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+                <path
+                  id="deflect-route-active"
+                  d="M 836 450 L 904 384 H 1080 V 548 H 938 L 972 468"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0"
+                />
+
+                <path
+                  id="resolution-rule"
+                  d="M 908 592 H 1042"
+                  fill="none"
+                  stroke="#9e1b32"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  opacity="0"
+                />
+                <g id="resolution-frame" opacity="0" fill="none" stroke="#9e1b32" stroke-width="4" stroke-linecap="round">
+                  <path d="M 878 352 H 910 M 878 352 V 384" />
+                  <path d="M 1112 352 H 1080 M 1112 352 V 384" />
+                  <path d="M 1112 582 H 1080 M 1112 582 V 550" />
+                  <path d="M 878 582 H 910 M 878 582 V 550" />
+                </g>
+                <circle id="resolution-halo" cx="974" cy="468" r="148" fill="url(#tension-glow)" opacity="0" />
+
+                <circle id="dot-halo" cx="296" cy="450" r="72" fill="url(#halo-gradient)" opacity="0" />
+                <circle id="dot-core" cx="296" cy="450" r="18" fill="#9e1b32" opacity="0" />
+              </g>
+            </g>
+          </svg>
+
+          <div class="sr-only" aria-live="polite" aria-atomic="true">
+            <p id="phase-label">appearance</p>
+          </div>
+          <p class="sr-only" id="keyboard-help">
+            Press Space to pause or resume the narrative. Press R to restart it.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
