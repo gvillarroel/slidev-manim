@@ -1,60 +1,118 @@
 # Component GIF Catalog
 
-This catalog collects every component GIF generated so far for the shared
-Manim component library. Regenerate the current set with:
+This catalog collects every component GIF generated so far for the shared Manim component library.
+Every entry is generated from the component demo manifest in `spikes/component-library-demos/main.py`,
+so each component has a matching GIF and visible component name.
+
+Regenerate the current set with:
 
 ```powershell
 uv run --script spikes/component-library-demos/main.py --quality low
 ```
 
-Source demos live in `spikes/component-library-demos/`. Full render outputs
-live in `videos/component-library-demos/components/`. Doc-ready GIFs live in
+Source demos live in `spikes/component-library-demos/`. Full render outputs live in
+`videos/component-library-demos/components/`. Doc-ready GIFs live in
 `.specs/assets/component-demos/`.
 
 ## Current Components
 
 | Component | Demo | Notes |
 | --- | --- | --- |
-| Receiver Slot | ![Receiver slot](../.specs/assets/component-demos/receiver-slot.gif) | Reusable receiver slot with a pending outline, moving payload, and resolved terminal mark. |
-| Terminal Brackets | ![Terminal brackets](../.specs/assets/component-demos/terminal-brackets.gif) | Separated corner marks used as a terminal resolved-state cue. |
-| Bridge Lane | ![Bridge lane](../.specs/assets/component-demos/bridge-lane.gif) | Guided transfer lane between source and destination zones. |
-| Rhythm Gate | ![Rhythm gate](../.specs/assets/component-demos/rhythm-gate.gif) | Prepared gates that open in sequence to make cadence visible. |
-| Time Rail | ![Time rail](../.specs/assets/component-demos/time-rail.gif) | Left-side timeline rail that narrates progressive card activation. |
-| Mask Window | ![Mask window](../.specs/assets/component-demos/mask-window.gif) | Moving mask window that reveals transferred outputs. |
+| `slab` | ![slab](../.specs/assets/component-demos/slab.gif) | Solid rectangular block used for bars, rails, cards, and resolved payloads. |
+| `pulse` | ![pulse](../.specs/assets/component-demos/pulse.gif) | Primary-red active actor used to carry handoffs, routes, and proof beats. |
+| `open_slot` | ![open_slot](../.specs/assets/component-demos/open-slot.gif) | Open receiver outline that reserves a destination without enclosing the actor. |
+| `source_slot` | ![source_slot](../.specs/assets/component-demos/source-slot.gif) | Bracketed launch slot for a source-side active actor. |
+| `target_slot` | ![target_slot](../.specs/assets/component-demos/target-slot.gif) | Mirrored bracketed landing slot for a receiver-side active actor. |
+| `bridge_lane` | ![bridge_lane](../.specs/assets/component-demos/bridge-lane.gif) | Guided transfer lane between source and destination zones. |
+| `gate_column` | ![gate_column](../.specs/assets/component-demos/gate-column.gif) | Prepared vertical gate that opens around the active actor. |
+| `time_rail` | ![time_rail](../.specs/assets/component-demos/time-rail.gif) | Left-side timeline rail that narrates progressive card activation. |
+| `mask_window` | ![mask_window](../.specs/assets/component-demos/mask-window.gif) | Moving mask window that reveals transferred outputs. |
+| `terminal_brackets` | ![terminal_brackets](../.specs/assets/component-demos/terminal-brackets.gif) | Separated corner marks used as a terminal resolved-state cue. |
+| `terminal_brackets_around` | ![terminal_brackets_around](../.specs/assets/component-demos/terminal-brackets-around.gif) | Convenience wrapper that sizes terminal brackets around a target cluster. |
+| `neutral_cluster` | ![neutral_cluster](../.specs/assets/component-demos/neutral-cluster.gif) | Reusable quiet gray payload cluster for transfer and resolve demos. |
+| `receiver_slot` | ![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif) | Composite receiver-slot pattern with pending outline, moving payload, and terminal mark. |
+| `rhythm_gate` | ![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif) | Composite cadence pattern using several gate columns along a rail. |
 
-## Receiver Slot
+## `slab`
 
-Reusable receiver slot with a pending outline, moving payload, and resolved
-terminal mark.
+Solid rectangular block used for bars, rails, cards, and resolved payloads.
 
-![Receiver slot](../.specs/assets/component-demos/receiver-slot.gif)
+![slab](../.specs/assets/component-demos/slab.gif)
 
-## Terminal Brackets
+## `pulse`
 
-Separated corner marks used as a terminal resolved-state cue.
+Primary-red active actor used to carry handoffs, routes, and proof beats.
 
-![Terminal brackets](../.specs/assets/component-demos/terminal-brackets.gif)
+![pulse](../.specs/assets/component-demos/pulse.gif)
 
-## Bridge Lane
+## `open_slot`
+
+Open receiver outline that reserves a destination without enclosing the actor.
+
+![open_slot](../.specs/assets/component-demos/open-slot.gif)
+
+## `source_slot`
+
+Bracketed launch slot for a source-side active actor.
+
+![source_slot](../.specs/assets/component-demos/source-slot.gif)
+
+## `target_slot`
+
+Mirrored bracketed landing slot for a receiver-side active actor.
+
+![target_slot](../.specs/assets/component-demos/target-slot.gif)
+
+## `bridge_lane`
 
 Guided transfer lane between source and destination zones.
 
-![Bridge lane](../.specs/assets/component-demos/bridge-lane.gif)
+![bridge_lane](../.specs/assets/component-demos/bridge-lane.gif)
 
-## Rhythm Gate
+## `gate_column`
 
-Prepared gates that open in sequence to make cadence visible.
+Prepared vertical gate that opens around the active actor.
 
-![Rhythm gate](../.specs/assets/component-demos/rhythm-gate.gif)
+![gate_column](../.specs/assets/component-demos/gate-column.gif)
 
-## Time Rail
+## `time_rail`
 
 Left-side timeline rail that narrates progressive card activation.
 
-![Time rail](../.specs/assets/component-demos/time-rail.gif)
+![time_rail](../.specs/assets/component-demos/time-rail.gif)
 
-## Mask Window
+## `mask_window`
 
 Moving mask window that reveals transferred outputs.
 
-![Mask window](../.specs/assets/component-demos/mask-window.gif)
+![mask_window](../.specs/assets/component-demos/mask-window.gif)
+
+## `terminal_brackets`
+
+Separated corner marks used as a terminal resolved-state cue.
+
+![terminal_brackets](../.specs/assets/component-demos/terminal-brackets.gif)
+
+## `terminal_brackets_around`
+
+Convenience wrapper that sizes terminal brackets around a target cluster.
+
+![terminal_brackets_around](../.specs/assets/component-demos/terminal-brackets-around.gif)
+
+## `neutral_cluster`
+
+Reusable quiet gray payload cluster for transfer and resolve demos.
+
+![neutral_cluster](../.specs/assets/component-demos/neutral-cluster.gif)
+
+## `receiver_slot`
+
+Composite receiver-slot pattern with pending outline, moving payload, and terminal mark.
+
+![receiver_slot](../.specs/assets/component-demos/receiver-slot.gif)
+
+## `rhythm_gate`
+
+Composite cadence pattern using several gate columns along a rail.
+
+![rhythm_gate](../.specs/assets/component-demos/rhythm-gate.gif)
