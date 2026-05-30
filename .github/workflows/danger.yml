@@ -27,4 +27,4 @@ jobs:
       - name: Run DangerJS
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx --yes danger@13 ci --dangerfile dangerfile.js
+        run: npx --yes danger@13 ci --dangerfile .github/dangerfile.js
