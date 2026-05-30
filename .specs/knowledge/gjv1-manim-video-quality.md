@@ -1693,6 +1693,18 @@ Higher-quality Manim videos in this repository come from hypothesis-driven itera
 - **Validation note**:
   - the refined render is 36.56 seconds at 1600x900 with 122 alpha-on-white review frames at 0.3-second cadence; frame composition audit sampled 123 frames with 0 blocking frames, resting-mobject audit reported 0 blocking snapshots across 6 rest states, decoded VP9 alpha extrema were `0..255`, and strict crowding left 23 full-size-inspected guide-on-route, guide-near-bracket, and transformed-stack proof prompts.
 
+## Quality Keystone Lock
+
+- **Hypothesis**: A keystone-lock scene reads better when the support forms assemble the receiving pocket before the red leader arrives, then the cleanup recenters the constrained cluster before the final hold.
+- **Result**: Confirmed on `spikes/quality-keystone-lock/` after replacing a 3.2-second multi-color draft with a 27.3-second transparent red/gray slide-integration render.
+- **What worked**:
+  - showing the source form, faint route, and prepared pocket slots during the opening breath so frame zero already explains the pending lock,
+  - using gray supports to build the pocket first, then letting the primary-red keystone stretch and seat inside it,
+  - keeping quiet source/target plates visible through the recentering transition so sampled cleanup frames stay balanced,
+  - fading the plates only after the locked cluster is centered, then holding a cleaner red/gray terminal arrangement with the rear support clear of the keystone tip.
+- **Validation note**:
+  - the final render was reviewed with 91 extracted 0.3-second white-background frames and full-size opening, pocket, lock, cleanup, and final-hold frames; composition audit sampled 92 frames with zero blocking frames, crowding audit sampled 92 frames with zero blocking frames, resting-mobject audit reported zero blocking snapshots, and VP9/libvpx alpha decoded with range `0..255`.
+
 # Reusable Process
 
 1. State the missing hypothesis.
