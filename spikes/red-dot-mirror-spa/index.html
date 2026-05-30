@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Dot Mirror SPA</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-panel" aria-label="Red dot mirror narrative">
+        <div class="stage-frame">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="stage-title stage-desc"
+          >
+            <title id="stage-title">Red dot mirror narrative</title>
+            <desc id="stage-desc">
+              A single red point appears, tests three reflection grammars, compresses into a mirror seam,
+              then resolves into a centered symmetrical frame.
+            </desc>
+
+            <defs>
+              <linearGradient id="stage-wash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fcfcfc" />
+                <stop offset="100%" stop-color="#f2f2f2" />
+              </linearGradient>
+              <radialGradient id="stage-glow" cx="64%" cy="50%" r="40%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98" />
+                <stop offset="62%" stop-color="#ffffff" stop-opacity="0.34" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="dot-halo-gradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffccd5" stop-opacity="0.8" />
+                <stop offset="72%" stop-color="#ffccd5" stop-opacity="0.16" />
+                <stop offset="100%" stop-color="#ffccd5" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="shutter-gloss" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2c343c" />
+                <stop offset="100%" stop-color="#424d57" />
+              </linearGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1600" height="900" fill="url(#stage-wash)" />
+            <rect x="96" y="96" width="1408" height="708" fill="#ffffff" opacity="0.72" stroke="#b5b5b5" stroke-width="2" />
+            <ellipse cx="984" cy="450" rx="584" ry="288" fill="url(#stage-glow)" opacity="0.92" />
+            <rect x="184" y="208" width="1232" height="484" fill="#ffffff" opacity="0.24" />
+
+            <g id="ambient-grid" opacity="0.1" stroke="#cfcfcf" stroke-width="1">
+              <path d="M 184 226 H 1416" />
+              <path d="M 184 450 H 1416" />
+              <path d="M 184 674 H 1416" />
+              <path d="M 412 190 V 710" />
+              <path d="M 860 190 V 710" />
+              <path d="M 1228 190 V 710" />
+            </g>
+
+            <g id="scene-root">
+              <path
+                id="travel-spine"
+                d="M 280 450 C 392 450, 454 416, 560 322 S 626 382, 656 450 S 626 518, 560 578 S 692 514, 760 450 S 820 450, 860 450"
+                fill="none"
+                stroke="#cfcfcf"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-dasharray="10 14"
+                opacity="0"
+              />
+              <path
+                id="active-trail"
+                d="M 280 450 C 392 450, 454 416, 560 322 S 626 382, 656 450 S 626 518, 560 578 S 692 514, 760 450 S 820 450, 860 450"
+                fill="none"
+                stroke="#9e1b32"
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-dasharray="0 1600"
+                opacity="0"
+              />
+
+              <g id="destination-group" opacity="0">
+                <path id="mirror-axis" d="M 860 246 V 654" fill="none" stroke="#b5b5b5" stroke-width="5" stroke-linecap="round" />
+                <path id="receiver-corner-tl" d="M 788 294 h38 M 788 294 v38" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="square" />
+                <path id="receiver-corner-tr" d="M 932 294 h-38 M 932 294 v38" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="square" />
+                <path id="receiver-corner-bl" d="M 788 606 h38 M 788 606 v-38" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="square" />
+                <path id="receiver-corner-br" d="M 932 606 h-38 M 932 606 v-38" fill="none" stroke="#cfcfcf" stroke-width="5" stroke-linecap="square" />
+                <path id="receiver-rule-top" d="M 808 336 H 912" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" />
+                <path id="receiver-rule-bottom" d="M 808 564 H 912" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" />
+              </g>
+
+              <g id="search-group">
+                <path id="candidate-top" d="M 504 278 h56 M 560 278 v88 M 560 366 h-56" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="square" opacity="0" />
+                <path id="candidate-mid" d="M 612 400 h52 M 612 400 v100 M 664 400 v100" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="square" opacity="0" />
+                <path id="candidate-bottom" d="M 500 624 l58 -54 M 500 534 l58 54 M 558 570 h38" fill="none" stroke="#b5b5b5" stroke-width="6" stroke-linecap="square" opacity="0" />
+                <circle id="echo-top" cx="742" cy="322" r="12" fill="#ffffff" stroke="#b5b5b5" stroke-width="4" opacity="0" />
+                <circle id="echo-mid" cx="760" cy="450" r="12" fill="#ffffff" stroke="#b5b5b5" stroke-width="4" opacity="0" />
+                <circle id="echo-bottom" cx="742" cy="578" r="12" fill="#ffffff" stroke="#b5b5b5" stroke-width="4" opacity="0" />
+                <path id="search-arc-top" d="M 422 440 C 466 410, 500 364, 560 322" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
+                <path id="search-arc-mid" d="M 560 322 C 622 346, 648 392, 656 450" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
+                <path id="search-arc-bottom" d="M 656 450 C 636 518, 598 554, 560 578" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-dasharray="8 12" opacity="0" />
+              </g>
+
+              <g id="tension-group" opacity="0">
+                <rect id="shutter-left" x="724" y="236" width="102" height="428" fill="url(#shutter-gloss)" opacity="0.96" />
+                <rect id="shutter-right" x="894" y="236" width="102" height="428" fill="url(#shutter-gloss)" opacity="0.96" />
+                <rect id="slit-guide" x="844" y="286" width="32" height="328" fill="none" stroke="#9c9c9c" stroke-width="3" opacity="0.56" />
+                <path id="pressure-top" d="M 860 246 V 278" fill="none" stroke="#9e1b32" stroke-width="5" stroke-linecap="square" opacity="0.82" />
+                <path id="pressure-bottom" d="M 860 622 V 654" fill="none" stroke="#9e1b32" stroke-width="5" stroke-linecap="square" opacity="0.82" />
+                <path id="seam-rule" d="M 760 450 H 960" fill="none" stroke="#cfcfcf" stroke-width="4" stroke-linecap="round" opacity="0.62" />
+              </g>
+
+              <g id="transform-group" opacity="0">
+                <circle id="focus-ring" cx="940" cy="450" r="62" fill="none" stroke="#9e1b32" stroke-width="10" opacity="0" />
+                <circle id="focus-ring-secondary" cx="940" cy="450" r="104" fill="none" stroke="#ffccd5" stroke-width="6" opacity="0" />
+                <path id="frame-corner-tl" d="M 820 286 h44 M 820 286 v44" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="square" opacity="0" />
+                <path id="frame-corner-tr" d="M 1060 286 h-44 M 1060 286 v44" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="square" opacity="0" />
+                <path id="frame-corner-bl" d="M 820 614 h44 M 820 614 v-44" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="square" opacity="0" />
+                <path id="frame-corner-br" d="M 1060 614 h-44 M 1060 614 v-44" fill="none" stroke="#4f4f4f" stroke-width="6" stroke-linecap="square" opacity="0" />
+                <path id="frame-rule-top" d="M 872 330 H 1008" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" opacity="0" />
+                <path id="frame-rule-bottom" d="M 872 570 H 1008" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" opacity="0" />
+                <path id="mirror-core" d="M 940 334 V 566" fill="none" stroke="#4f4f4f" stroke-width="5" stroke-linecap="round" opacity="0" />
+                <path id="focus-line" d="M 872 450 H 1008" fill="none" stroke="#9e1b32" stroke-width="8" stroke-linecap="round" opacity="0" />
+                <path id="echo-link-left" d="M 898 404 L 844 344" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" opacity="0" />
+                <path id="echo-link-right" d="M 982 496 L 1036 556" fill="none" stroke="#4f4f4f" stroke-width="4" stroke-linecap="round" opacity="0" />
+                <circle id="echo-node-left" cx="844" cy="344" r="8" fill="#4f4f4f" opacity="0" />
+                <circle id="echo-node-right" cx="1036" cy="556" r="8" fill="#4f4f4f" opacity="0" />
+              </g>
+
+              <g id="resolution-group" opacity="0">
+                <circle id="resolution-halo" cx="860" cy="450" r="136" fill="none" stroke="#ffccd5" stroke-width="4" opacity="0" />
+                <path id="resolution-rule" d="M 734 648 H 986" fill="none" stroke="#cfcfcf" stroke-width="3" stroke-linecap="round" opacity="0" />
+              </g>
+
+              <circle id="dot-halo" cx="280" cy="450" r="72" fill="url(#dot-halo-gradient)" opacity="0" />
+              <circle id="dot-core" cx="280" cy="450" r="18" fill="#9e1b32" opacity="0" />
+            </g>
+          </svg>
+
+          <div class="phase-chip" aria-live="polite">
+            <p class="eyebrow">Red point mirror</p>
+            <p id="phase-label" class="phase-label">appearance</p>
+          </div>
+
+          <div class="timeline-overlay" aria-hidden="true">
+            <div class="timeline-track">
+              <div id="timeline-fill" class="timeline-fill"></div>
+            </div>
+            <div class="timeline-dots">
+              <span class="timeline-dot" data-phase-dot="appearance"></span>
+              <span class="timeline-dot" data-phase-dot="search"></span>
+              <span class="timeline-dot" data-phase-dot="tension"></span>
+              <span class="timeline-dot" data-phase-dot="transformation"></span>
+              <span class="timeline-dot" data-phase-dot="resolution"></span>
+            </div>
+          </div>
+
+          <div class="control-cluster" aria-label="Narrative controls">
+            <button id="toggle-button" class="hud-button" type="button" aria-label="Pause narrative">pause</button>
+            <button id="replay-button" class="hud-button" type="button" aria-label="Replay narrative">replay</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
