@@ -73,6 +73,7 @@
     "dev:red-dot-dovetail-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-dovetail-spa",
     "video:red-dot-dovetail-spa": "uv run --script spikes/red-dot-dovetail-spa/main.py",
     "dev:red-dot-fold-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-fold-spa",
+    "dev:red-dot-fork-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-fork-spa",
     "video:red-dot-fold-spa": "uv run --script spikes/red-dot-fold-spa/main.py",
     "dev:red-dot-funnel-spa": "python -m http.server 4173 --bind 127.0.0.1 --directory spikes/red-dot-funnel-spa",
     "video:red-dot-funnel-spa": "uv run --script spikes/red-dot-funnel-spa/main.py",
