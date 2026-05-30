@@ -16,6 +16,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import imageio_ffmpeg
 from manim import (
     DOWN,
     LEFT,
@@ -36,6 +37,7 @@ from manim import (
     smooth,
     there_and_back,
 )
+from PIL import Image, ImageDraw
 
 SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parent.parent
